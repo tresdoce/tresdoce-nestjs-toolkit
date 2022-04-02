@@ -1,11 +1,11 @@
 <div align="center">
-    <img alt="tresdoce-nestjs-toolkit" width="250" height="auto" src="https://camo.githubusercontent.com/c704e8013883cc3a04c7657e656fe30be5b188145d759a6aaff441658c5ffae0/68747470733a2f2f6e6573746a732e636f6d2f696d672f6c6f676f5f746578742e737667" />
+    <img alt="nestjs-logo" width="250" height="auto" src="https://camo.githubusercontent.com/c704e8013883cc3a04c7657e656fe30be5b188145d759a6aaff441658c5ffae0/68747470733a2f2f6e6573746a732e636f6d2f696d672f6c6f676f5f746578742e737667" />
     <h1>Tresdoce NestJs Toolkit</h1>
 </div>
 
 <p align="center">
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=Node&message=v14.15.4&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="Node.js"/>
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=Npm&message=v6.14.10&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="Npm"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=Node&message=v14.17.0&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="Node.js"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=Npm&message=v6.14.13&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="Npm"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJs&message=v8.2.6&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJs"/>
     <img alt="GitHub license" src="https://img.shields.io/github/license/tresdoce/tresdoce-nestjs-toolkit?style=flat">
     <br/>
@@ -23,6 +23,7 @@ cualquier proyecto que utilice una configuración centralizada, siguiendo la mis
 
 - [🥳 Demo](https://rudemex-nestjs-starter.herokuapp.com/docs)
 - [📝 Requerimientos básicos](#basic-requirements)
+- [🧰 Toolkit](#toolkit)
 - [📤 Commits](#commits)
 - [📜 License MIT](license.md)
 
@@ -33,9 +34,20 @@ cualquier proyecto que utilice una configuración centralizada, siguiendo la mis
 ## 📝 Requerimientos básicos
 
 - [NestJs Starter](https://github.com/rudemex/nestjs-starter)
-- Node.js v14.15.4 or higher ([Download](https://nodejs.org/es/download/))
-- NPM v6.14.10 or higher
-- NestJS v8.2.0 or higher ([Documentación](https://nestjs.com/))
+- Node.js v14.17.0 or higher ([Download](https://nodejs.org/es/download/))
+- NPM v6.14.13 or higher
+- NestJS v8.2.6 or higher ([Documentación](https://nestjs.com/))
+
+<a name="toolkit"></a>
+
+## 🧰 Toolkit
+
+Los módulos de la siguiente lista, están pensados para ser consumidos para la arquitectura de este starter, o
+arquitectura similar siguiendo los lineamientos de `schematics`.
+
+| Package                                                                                                   | Descripción | Versión                                                                                                                                     | Changelog                                                                                                |
+|-----------------------------------------------------------------------------------------------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| [`@tresdoce-nestjs-toolkit/<pkg>`](https://github.com/tresdoce-nestjs-toolkit/tree/master/packages/<pkg>) | Módulo de   | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/<pkg>.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/<pkg>) | [changelog](https://github.com/tresdoce/tresdoce-nestjs-toolkit/blob/master/packages/<pkg>/CHANGELOG.md) |
 
 <a name="commits"></a>
 
