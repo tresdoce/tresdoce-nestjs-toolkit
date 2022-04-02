@@ -1,0 +1,22 @@
+{
+  "extends": "@tresdoce-nestjs-toolkit/config",
+  "include": [
+    "packages/**/src/**/*.ts",
+    "packages/**/src/**/*.tsx",
+    "global.d.ts",
+    "packages/tresdoce-types/index.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test",
+    "__test__",
+    "**/__test__/**/*",
+    "**/*spec.ts",
+    "**/*it.ts",
+    "**/*test.ts",
+    "**/*e2e.ts",
+    "**/*e2e-spec.ts",
+    "coverage"
+  ]
+}

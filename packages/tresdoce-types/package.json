@@ -1,0 +1,11 @@
+{
+  "name": "@types/tresdoce-nestjs-toolkit",
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "",
+  "types": "index",
+  "dependencies": {
+    "jest-extended": "^1.2.0"
+  },
+  "private": true
+}

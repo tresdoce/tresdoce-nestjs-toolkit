@@ -1,0 +1,90 @@
+name: "Publish PKG to NPM"
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        type: choice
+        description: "Select version to publish"
+        required: true
+        options:
+          - pre-release
+          - release
+
+env:
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+  GITHUB_EMAIL: ${{ secrets.GH_EMAIL }}
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    name: "Setup"
+    steps:
+      - name: "⚙ Set up Node.js"
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+
+      - name: "✅ Checkout repository"
+        uses: actions/checkout@v2
+
+  publish:
+    runs-on: ubuntu-latest
+    name: "Publish"
+    needs: setup
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: "💾 Restore Dependencies from cache"
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: "📦 Install Dependencies"
+        run: yarn install
+
+      - name: "🔦 Lint & Format"
+        run: yarn lint && yarn format
+
+      - name: "🔨 Build"
+        run: yarn build && node sonar-args.js
+
+      - name: "👨‍💻 Run Test"
+        run: yarn test
+        env:
+          NODE_ENV: 'test'
+
+      - name: "📊 Upload coverage report to Codecov"
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: "📊 SonarCloud Scan"
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: "🏷 Version packages as ${{ github.event.inputs.release }}"
+        run: |
+          # GIT and NPM config
+          git config --global user.name "GitHub CI/CD bot"
+          git config --global user.email "${GITHUB_EMAIL}"
+          
+          if ${{github.event.inputs.release == 'pre-release'}}; then
+            yarn version-packages --conventional-prerelease --preid=beta -m "ci(version): version packages as pre-release"
+          else
+            yarn version-packages --conventional-graduate -m "ci(version): version packages as release"
+          fi
+
+      - name: "🚀 Publish packages to npm 🎉"
+        run: |
+          npm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
+          npm run publish:pkgs
