@@ -47,8 +47,8 @@ body:
   - type: input
     id: pkg
     attributes:
-      label: Which package are you using?
-      description: If this problem occurs in more than one package, write them separated with a comma.
+      label: Which module are you using?
+      description: If this problem occurs in more than one module, write them separated with a comma.
       placeholder: core,commons
     validations:
       required: true
@@ -56,8 +56,8 @@ body:
   - type: input
     id: versions
     attributes:
-      label: Which version of the package are you using?
-      description: If this problem occurs in more than one version of the package, write them separated with a comma.
+      label: Which version of the module are you using?
+      description: If this problem occurs in more than one version of the module, write them separated with a comma.
       placeholder: 1.0.0,1.1.0
     validations:
       required: true
