@@ -1,7 +1,7 @@
 {
-  "name": "@tresdoce-nestjs-toolkit/{{kebabCase packageName}}",
+  "name": "@tresdoce-nestjs-toolkit/core",
   "version": "0.0.0",
-  "description": "Tresdoce NestJS Toolkit - {{kebabCase packageName}}",
+  "description": "Tresdoce NestJS Toolkit - core",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
     "email": "mdelgado@tresdoce.com.ar",
@@ -13,7 +13,7 @@
   },
   "keywords": [
     "nestjs",
-    "{{kebabCase packageName}}"
+    "core"
   ],
   "repository": {
     "type": "git",
@@ -27,12 +27,12 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "shx rm -rf pkg",
-    "build": "pika build --out ../../dist/{{kebabCase packageName}}",
+    "build": "pika build --out ../../dist/core",
     "test": "jest --runInBand --detectOpenHandles --coverage"
   },
   "publishConfig": {
     "access": "public",
-    "directory": "../../dist/{{kebabCase packageName}}"
+    "directory": "../../dist/core"
   },
   "peerDependencies": {
     "@nestjs/common": "^8.2.0",
@@ -55,10 +55,12 @@
   "@pika/pack": {
     "pipeline": [
       [
-        "@pika/plugin-ts-standard-pkg",
+        "@pika/plugin-standard-pkg",
         {
           "exclude": [
-            "**/__test__/*"
+            "**/__test__/*",
+            "**/__test__/**/*.crt",
+            "**/__test__/**/*.key"
           ]
         }
       ],
@@ -66,7 +68,9 @@
         "@pika/plugin-build-node",
         {
           "exclude": [
-            "**/__test__/*"
+            "**/__test__/*",
+            "**/__test__/**/*.crt",
+            "**/__test__/**/*.key"
           ]
         }
       ],
@@ -74,7 +78,9 @@
         "@pika/plugin-build-types",
         {
           "exclude": [
-            "**/__test__/*"
+            "**/__test__/*",
+            "**/__test__/**/*.crt",
+            "**/__test__/**/*.key"
           ]
         }
       ]

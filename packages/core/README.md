@@ -1,6 +1,6 @@
 <div align="center">
     <img alt="nestjs-logo" width="250" height="auto" src="https://camo.githubusercontent.com/c704e8013883cc3a04c7657e656fe30be5b188145d759a6aaff441658c5ffae0/68747470733a2f2f6e6573746a732e636f6d2f696d672f6c6f676f5f746578742e737667" />
-    <h1>Tresdoce NestJs Toolkit<br/>{{titleCase packageName}}</h1>
+    <h1>Tresdoce NestJs Toolkit<br/>Core</h1>
 </div>
 
 <div align="center">
@@ -8,7 +8,7 @@
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=Npm&message=v6.14.13&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="Npm"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJs&message=v8.2.6&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJs"/><br/>
     <img alt="GitHub license" src="https://img.shields.io/github/license/tresdoce/tresdoce-nestjs-toolkit?style=flat">
-    <img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/tresdoce/tresdoce-nestjs-toolkit?filename=packages%2F{{kebabCase packageName}}%2Fpackage.json">
+    <img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/tresdoce/tresdoce-nestjs-toolkit?filename=packages%2Fcore%2Fpackage.json">
     <br/>
 </div>
 <br/>
@@ -41,11 +41,11 @@ Esta dependencia está pensada para ser utilizada en [NestJs Starter](https://gi
 ## 🛠️ Instalar dependencia
 
 ```
-npm install @tresdoce-nestjs-toolkit/{{kebabCase packageName}}
+npm install @tresdoce-nestjs-toolkit/core
 ```
 
 ```
-yarn install @tresdoce-nestjs-toolkit/{{kebabCase packageName}}
+yarn install @tresdoce-nestjs-toolkit/core
 ```
 
 <a name="configurations"></a>
