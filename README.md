@@ -36,6 +36,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 
 - [NestJs Starter](https://github.com/rudemex/nestjs-starter)
 - Node.js v14.17.0 or higher ([Download](https://nodejs.org/es/download/))
+- YARN v1.22.17 or higher
 - NPM v6.14.13 or higher
 - NestJS v8.2.6 or higher ([Documentación](https://nestjs.com/))
 - Lerna
@@ -44,8 +45,8 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 
 ## 🧰 Toolkit
 
-Los módulos de la siguiente lista, están pensados para ser consumidos para la arquitectura de este starter, o
-arquitectura similar siguiendo los lineamientos de `schematics`.
+Los módulos de la siguiente lista, están pensados para ser consumidos por
+el [NestJs Starter](https://github.com/rudemex/nestjs-starter), siguiendo los lineamientos de `schematics`.
 
 | Package                                            | Descripción                            | Versión                                                                                                                                   | Changelog                                 |
 |----------------------------------------------------|----------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
