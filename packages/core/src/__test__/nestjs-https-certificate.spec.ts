@@ -1,6 +1,6 @@
 import { readHttpsCertificate } from '../index';
 import * as path from 'path';
-describe('nestjs-https-certificate', () => {
+describe('https-certificate', () => {
   it('should be return https certificate config', () => {
     const crtPath = path.resolve(__dirname, './utils/localhost.crt');
     const keyPath = path.resolve(__dirname, './utils/localhost.key');
