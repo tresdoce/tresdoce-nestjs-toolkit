@@ -3,7 +3,7 @@
     <h1>Tresdoce NestJs Toolkit</h1>
 </div>
 
-<p align="center">
+<div align="center">
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=Node&message=v14.17.0&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="Node.js"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=Npm&message=v6.14.13&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="Npm"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJs&message=v8.2.6&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJs"/>
@@ -14,10 +14,11 @@
     <img src="https://sonarcloud.io/api/project_badges/measure?project=tresdoce_tresdoce-nestjs-toolkit&metric=alert_status" alt="sonarcloud">
     <img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg" alt="lerna">
     <br/> 
-</p>
+</div>
+<br>
 
-Este toolkit está pensada para ser utilizado en [NestJs Starter](https://github.com/rudemex/nestjs-starter), o
-cualquier proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
+Este toolkit está pensada para ser utilizado en [NestJs Starter](https://github.com/rudemex/nestjs-starter), o cualquier
+proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
 
 ## Glosario
 
@@ -37,6 +38,7 @@ cualquier proyecto que utilice una configuración centralizada, siguiendo la mis
 - Node.js v14.17.0 or higher ([Download](https://nodejs.org/es/download/))
 - NPM v6.14.13 or higher
 - NestJS v8.2.6 or higher ([Documentación](https://nestjs.com/))
+- Lerna
 
 <a name="toolkit"></a>
 
@@ -45,16 +47,16 @@ cualquier proyecto que utilice una configuración centralizada, siguiendo la mis
 Los módulos de la siguiente lista, están pensados para ser consumidos para la arquitectura de este starter, o
 arquitectura similar siguiendo los lineamientos de `schematics`.
 
-| Package                                                                                                          | Descripción                            | Versión                                                                                                                                   | Changelog                                                                                               |
-|------------------------------------------------------------------------------------------------------------------|----------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
-| [`@tresdoce-nestjs-toolkit/core`](https://github.com/tresdoce/tresdoce-nestjs-toolkit/tree/master/packages/core) | Módulo de funcionalidades a nivel core | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/core.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/core) | [Changelog](https://github.com/tresdoce/tresdoce-nestjs-toolkit/blob/master/packages/core/CHANGELOG.md) |
+| Package                                            | Descripción                            | Versión                                                                                                                                   | Changelog                                 |
+|----------------------------------------------------|----------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
+| [`@tresdoce-nestjs-toolkit/core`](./packages/core) | Módulo de funcionalidades a nivel core | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/core.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/core) | [Changelog](./packages/core/CHANGELOG.md) |
 
 <a name="commits"></a>
 
 ## 📤 Commits
 
 Para los mensajes de commits se toma como
-referencia [`conventional commits`](https://www.conventionalcommits.org/en/v1.0.0-beta.4/#summary).
+referencia [`conventional commits`](https://www.conventionalcommits.org/es/v1.0.0/#resumen).
 
 ```
 <type>[optional scope]: <description>
