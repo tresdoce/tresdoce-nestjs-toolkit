@@ -13,7 +13,8 @@
 </div>
 <br/>
 
-Esta dependencia está pensada para ser utilizada en [NestJs Starter](https://github.com/rudemex/nestjs-starter), o cualquier proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
+Este módulo está pensada para ser utilizada en [NestJs Starter](https://github.com/rudemex/nestjs-starter), o cualquier
+proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
 
 ## Glosario
 
@@ -33,6 +34,7 @@ Esta dependencia está pensada para ser utilizada en [NestJs Starter](https://gi
 
 - [NestJs Starter](https://github.com/rudemex/nestjs-starter)
 - Node.js v14.17.0 or higher ([Download](https://nodejs.org/es/download/))
+- YARN v1.22.17 or higher
 - NPM v6.14.13 or higher
 - NestJS v8.2.6 or higher ([Documentación](https://nestjs.com/))
 
