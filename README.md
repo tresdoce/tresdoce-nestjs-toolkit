@@ -67,7 +67,7 @@ referencia [`conventional commits`](https://www.conventionalcommits.org/es/v1.0.
 [optional footer]
 ```
 
-- **type:** chore, docs, feat, fix, refactor (más comunes)
+- **type:** chore, docs, feat, fix, refactor, test (más comunes)
 - **scope:** indica la página, componente, funcionalidad
 - **description:** comienza en minúsculas y no debe superar los 72 caracteres.
 
