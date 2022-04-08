@@ -21,7 +21,6 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [🥳 Demo](https://rudemex-nestjs-starter.herokuapp.com/docs)
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
-- [⚙️ Configuración](#configurations)
 - [👨‍💻 Uso](#use)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
@@ -43,27 +42,59 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 ## 🛠️ Instalar dependencia
 
 ```
-npm install @tresdoce-nestjs-toolkit/core
+npm install -S @tresdoce-nestjs-toolkit/core
 ```
 
 ```
-yarn install @tresdoce-nestjs-toolkit/core
-```
-
-<a name="configurations"></a>
-
-## ⚙️ Configuración
-
-```typescript
-
+yarn add @tresdoce-nestjs-toolkit/core
 ```
 
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-```typescript
+> ⚠️ Es importante tener en cuenta que este módulo se encuentra implementado en el package `@tresdoce-nestjs-toolkit/paas`, ya que son funcionalidades core para el starter.
 
+### corePathsExcludes
+
+Es una variable que contiene una lista de `paths` con sus `methods` con el fin de ser excluidos tanto del `prefix` de la
+app, como asi también de otras funcionalidades para que no generen registros innecesarios, como puede ser el caso de
+los `logs`con los endpoints del `helath`.
+
+```typescript
+// ./src/main.ts
+import { corePathsExcludes } from '@tresdoce-nestjs-toolkit/core';
+
+async function bootstrap() {
+  //...
+  app.setGlobalPrefix(`${server.context}`, {
+    exclude: [...corePathsExcludes],
+  });
+  //...
+}
+```
+
+### setHttpsOptions
+
+Para implementar `SSL` en la app, se requiere tener la ruta del `cert`y la `privKey` para poder instanciarlo en los
+options.
+
+```typescript
+// ./src/main.ts
+import { setHttpsOptions } from '@tresdoce-nestjs-toolkit/core';
+
+const certPath = './path/to/secrets/public-certificate.pem';
+const pkeyPath = './path/to/secrets/private-key.pem';
+
+async function bootstrap() {
+  //...
+  async function bootstrap() {
+    const app = await NestFactory.create(AppModule, {
+      httpsOptions: setHttpsOptions(certPath, pkeyPath),
+    });
+  }
+  //...
+}
 ```
 
 ## 📄 Changelog

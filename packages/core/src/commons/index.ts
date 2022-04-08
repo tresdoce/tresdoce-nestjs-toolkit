@@ -1,6 +1,6 @@
 import { RequestMethod } from '@nestjs/common';
 
-export const commonsControllersExcludes = [
+export const corePathsExcludes = [
   {
     path: '/health/live',
     method: RequestMethod.GET,

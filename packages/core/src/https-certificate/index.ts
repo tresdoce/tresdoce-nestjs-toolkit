@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-export const readHttpsCertificate = (crPath, pkPath) => {
+export const setHttpsOptions = (crPath, pkPath) => {
   if (fs.existsSync(crPath) && fs.existsSync(pkPath)) {
     return {
       cert: fs.readFileSync(crPath),
