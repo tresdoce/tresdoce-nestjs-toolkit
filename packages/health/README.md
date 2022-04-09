@@ -21,7 +21,6 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [🥳 Demo](https://rudemex-nestjs-starter.herokuapp.com/docs)
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
-- [⚙️ Configuración](#configurations)
 - [👨‍💻 Uso](#use)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
@@ -50,20 +49,29 @@ npm install -S @tresdoce-nestjs-toolkit/health
 yarn add @tresdoce-nestjs-toolkit/health
 ```
 
-<a name="configurations"></a>
-
-## ⚙️ Configuración
-
-```typescript
-
-```
-
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-```typescript
+> ⚠️ Es importante tener en cuenta que este módulo se encuentra implementado en el package `@tresdoce-nestjs-toolkit/paas`, ya que son funcionalidades core para el starter.
 
+El módulo `healthModule` tiene la capacidad de utilizar ciertas capacidades de la configuración centralizada para poder
+realizar los health checks correspondientes.
+
+```typescript
+//./src/app.module.ts
+import { HealthModule } from '@tiimiit-nestjs-toolkit/health';
+import { config } from './config';
+
+@Module({
+  imports: [
+    //...
+    HealthModule.register(config()),
+    //...
+  ],
+  //...
+})
+export class AppModule {}
 ```
 
 ## 📄 Changelog

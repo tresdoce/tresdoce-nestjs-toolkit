@@ -1,14 +1,8 @@
 import { RequestMethod } from '@nestjs/common';
+import { controllersExcludes } from '@tresdoce-nestjs-toolkit/health';
 
 export const corePathsExcludes = [
-  {
-    path: '/health/live',
-    method: RequestMethod.GET,
-  },
-  {
-    path: '/health/ready',
-    method: RequestMethod.GET,
-  },
+  ...controllersExcludes,
   {
     path: '/manifest',
     method: RequestMethod.GET,
