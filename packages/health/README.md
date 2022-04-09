@@ -61,12 +61,11 @@ realizar los health checks correspondientes.
 ```typescript
 //./src/app.module.ts
 import { HealthModule } from '@tiimiit-nestjs-toolkit/health';
-import { config } from './config';
 
 @Module({
   imports: [
     //...
-    HealthModule.register(config()),
+    HealthModule,
     //...
   ],
   //...
