@@ -1,0 +1,76 @@
+{
+  "name": "@tresdoce-nestjs-toolkit/commons",
+  "version": "0.0.0",
+  "description": "Tresdoce NestJS Toolkit - commons",
+  "author": {
+    "name": "Maximiliano \"Mex\" Delgado",
+    "email": "mdelgado@tresdoce.com.ar",
+    "url": "https://rudemex.github.io/"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "keywords": [
+    "nestjs",
+    "commons"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tresdoce/tresdoce-nestjs-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tresdoce/tresdoce-nestjs-toolkit/issues"
+  },
+  "homepage": "https://github.com/tresdoce/tresdoce-nestjs-toolkit#readme",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "shx rm -rf pkg",
+    "build": "pika build --out ../../dist/commons",
+    "test": "jest --runInBand --detectOpenHandles --coverage"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "../../dist/commons"
+  },
+  "devDependencies": {
+    "@tresdoce-nestjs-toolkit/config": "^0.0.0",
+    "@types/tresdoce-nestjs-toolkit": "^0.0.0"
+  },
+  "prettier": {
+    "semi": true,
+    "tabWidth": 2,
+    "singleQuote": true,
+    "printWidth": 100,
+    "trailingComma": "all"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-standard-pkg",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-node",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-types",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ]
+    ]
+  }
+}

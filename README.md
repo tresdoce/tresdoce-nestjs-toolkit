@@ -48,9 +48,10 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 Los módulos de la siguiente lista, están pensados para ser consumidos por
 el [NestJs Starter](https://github.com/rudemex/nestjs-starter), siguiendo los lineamientos de `schematics`.
 
-| Package                                            | Descripción                            | Versión                                                                                                                                   | Changelog                                 |
-|----------------------------------------------------|----------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
-| [`@tresdoce-nestjs-toolkit/core`](./packages/core) | Módulo de funcionalidades a nivel core | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/core.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/core) | [Changelog](./packages/core/CHANGELOG.md) |
+| Package                                                  | Descripción                       | Versión                                                                                                                                         | Changelog                                    |
+|----------------------------------------------------------|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
+| [`@tresdoce-nestjs-toolkit/core`](./packages/core)       | Funcionalidades a nivel core      | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/core.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/core)       | [Changelog](./packages/core/CHANGELOG.md)    |
+| [`@tresdoce-nestjs-toolkit/commons`](./packages/commons) | Centralización de configuraciones | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/commons.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/commons) | [Changelog](./packages/commons/CHANGELOG.md) |
 
 <a name="commits"></a>
 
