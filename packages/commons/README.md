@@ -21,7 +21,6 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [🥳 Demo](https://rudemex-nestjs-starter.herokuapp.com/docs)
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
-- [⚙️ Configuración](#configurations)
 - [👨‍💻 Uso](#use)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
@@ -50,20 +49,34 @@ npm install -D @tresdoce-nestjs-toolkit/commons
 yarn add -D @tresdoce-nestjs-toolkit/commons
 ```
 
-<a name="configurations"></a>
-
-## ⚙️ Configuración
-
-```typescript
-
-```
-
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-```typescript
+### Eslint config
 
+```typescript
+// .eslintrc.js
+
+const config = require('@tresdoce-nestjs-toolkit/commons');
+module.exports = config.eslintConfig();
+```
+
+### Jest config
+
+```typescript
+// jest.config.ts
+
+import { jestConfig } from '@tresdoce-nestjs-toolkit/commons';
+import * as dotenv from 'dotenv';
+
+process.env.NODE_ENV = 'test';
+
+dotenv.config({
+  path: '.env.test',
+});
+
+module.exports = jestConfig;
 ```
 
 ## 📄 Changelog
