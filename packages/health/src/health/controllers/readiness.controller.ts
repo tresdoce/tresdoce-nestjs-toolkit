@@ -1,15 +1,16 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { HealthCheck, HealthCheckService, HttpHealthIndicator } from '@nestjs/terminus';
 import { ApiExcludeEndpoint } from '@nestjs/swagger';
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { URL } from 'url';
-import * as _ from 'lodash';
+//import * as _ from 'lodash';
 
 import { CONFIG_OPTIONS } from '../constants';
 
 @Controller('health')
 export class ReadinessController {
   constructor(
-    @Inject(CONFIG_OPTIONS) private readonly appConfig: any,
+    @Inject(CONFIG_OPTIONS) private readonly appConfig: Typings.AppConfig,
     private health: HealthCheckService,
     private http: HttpHealthIndicator,
   ) {}
@@ -25,6 +26,6 @@ export class ReadinessController {
       return () => this.http.pingCheck(`${key}`, `${urlService.origin}`, { timeout });
     });
 
-    return await this.health.check([...servicesPingCheckList]);
+    return this.health.check([...servicesPingCheckList]);
   }
 }

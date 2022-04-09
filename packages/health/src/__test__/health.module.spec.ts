@@ -1,8 +1,9 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { HealthModule } from '../health/health.module';
+import { ConfigModule } from '@nestjs/config';
 
-const config = {
+const mockedConfig = {
   services: {
     rickAndMortyAPI: {
       url: 'https://rickandmortyapi.com/api/character/1',
@@ -16,7 +17,13 @@ describe('HealthModule', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [HealthModule.register(config)],
+      imports: [
+        ConfigModule.forRoot({
+          isGlobal: true,
+          load: [jest.fn().mockImplementation(() => mockedConfig)],
+        }),
+        HealthModule,
+      ],
     }).compile();
 
     app = module.createNestApplication();

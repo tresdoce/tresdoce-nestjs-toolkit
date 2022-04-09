@@ -4,7 +4,7 @@ import { HealthCheckService, HttpHealthIndicator, TerminusModule } from '@nestjs
 import { ReadinessController } from '../health/controllers/readiness.controller';
 import { CONFIG_OPTIONS } from '../health/constants';
 
-const extendConfig = {
+const mockedConfig = {
   services: {
     myService: {
       url: 'http://localhost:8082',
@@ -47,7 +47,7 @@ describe('Health - Ready controller - extend config', () => {
       providers: [
         {
           provide: CONFIG_OPTIONS,
-          useValue: extendConfig,
+          useValue: mockedConfig,
         },
       ],
     }).compile();
