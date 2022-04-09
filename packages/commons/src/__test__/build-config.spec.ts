@@ -1,5 +1,5 @@
 import { buildConfig } from '../index';
-describe('nestjs-build-config', () => {
+describe('build-config', () => {
   it('should be return jest config is build', () => {
     const config = buildConfig({ output: {}, optimization: {} });
     expect(config).not.toBe(null);
