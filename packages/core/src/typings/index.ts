@@ -46,6 +46,7 @@ export interface IParamsConfig {
 }
 
 export interface IServicesConfig extends AxiosRequestConfig {
+  healthPath?: string;
   [key: string]: any;
 }
 

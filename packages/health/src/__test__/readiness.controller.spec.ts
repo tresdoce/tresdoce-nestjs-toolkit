@@ -10,6 +10,11 @@ const mockedConfig = {
       url: 'http://localhost:8082',
       timeout: 3000,
     },
+    demoApi: {
+      url: 'https://rudemex-nestjs-starter.herokuapp.com',
+      timeout: 3000,
+      healthPath: '/liveness',
+    },
   },
 };
 

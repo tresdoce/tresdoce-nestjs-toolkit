@@ -20,12 +20,11 @@ export class ReadinessController {
   @HealthCheck()
   async check() {
     const servicesPingCheckList = Object.keys(this.appConfig.services).map((key) => {
-      const { url, timeout = 0 } = this.appConfig.services[key];
+      const { url, timeout = 0, healthPath = '' } = this.appConfig.services[key];
       const urlService = new URL(url);
       /* istanbul ignore next */
-      return () => this.http.pingCheck(`${key}`, `${urlService.origin}`, { timeout });
+      return () => this.http.pingCheck(`${key}`, `${urlService.origin}${healthPath}`, { timeout });
     });
-
     return this.health.check([...servicesPingCheckList]);
   }
 }
