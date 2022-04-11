@@ -60,7 +60,7 @@ realizar los health checks correspondientes.
 
 ```typescript
 //./src/app.module.ts
-import { HealthModule } from '@tiimiit-nestjs-toolkit/health';
+import { HealthModule } from '@tresdoce-nestjs-toolkit/health';
 
 @Module({
   imports: [

@@ -35,11 +35,21 @@
     "directory": "../../dist/health"
   },
   "peerDependencies": {
+    "@nestjs/axios": "0.0.7",
     "@nestjs/common": "^8.2.0",
     "@nestjs/core": "^8.2.0",
     "@nestjs/platform-express": "^8.2.0",
+    "@nestjs/swagger": "^5.2.0",
+    "@nestjs/terminus": "^8.0.4",
+    "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
+  },
+  "dependencies": {
+    "@nestjs/axios": "0.0.7",
+    "@nestjs/swagger": "^5.2.0",
+    "@nestjs/terminus": "^8.0.4",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.0.0",
