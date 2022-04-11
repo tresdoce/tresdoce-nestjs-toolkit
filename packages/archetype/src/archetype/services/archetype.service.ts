@@ -31,11 +31,11 @@ export class ArchetypeService {
 
     const dependenciesList = _.pickBy(
       dependencies,
-      (value, key) => key.startsWith('@tresdoce-nestjs-toolkit') || key.startsWith('@nestjs'),
+      (_value, _key) => _key.startsWith('@tresdoce-nestjs-toolkit') || _key.startsWith('@nestjs'),
     );
     const devDependenciesList = _.pickBy(
       devDependencies,
-      (value, key) => key.startsWith('@tresdoce-nestjs-toolkit') || key.startsWith('@nestjs'),
+      (_value, _key) => _key.startsWith('@tresdoce-nestjs-toolkit') || _key.startsWith('@nestjs'),
     );
 
     return {
