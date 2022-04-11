@@ -13,6 +13,8 @@
 </div>
 <br/>
 
+> ⚠️ Es importante tener en cuenta que este módulo se encuentra implementado en el package `@tresdoce-nestjs-toolkit/paas`, ya que es una funcionalidad core para el starter.
+
 Este módulo está pensada para ser utilizada en [NestJs Starter](https://github.com/rudemex/nestjs-starter), o cualquier
 proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
 
@@ -21,7 +23,6 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [🥳 Demo](https://rudemex-nestjs-starter.herokuapp.com/docs)
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
-- [⚙️ Configuración](#configurations)
 - [👨‍💻 Uso](#use)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
@@ -50,21 +51,34 @@ npm install -S @tresdoce-nestjs-toolkit/archetype
 yarn add @tresdoce-nestjs-toolkit/archetype
 ```
 
-<a name="configurations"></a>
-
-## ⚙️ Configuración
-
-```typescript
-
-```
-
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-```typescript
+Él `ArchetypeModule` es un módulo pensado para el retorno de la información básica de la aplicación para poder
+realizarle un seguimiento.
 
+```typescript
+//./src/app.module.ts
+import { ArchetypeModule } from '@tresdoce-nestjs-toolkit/archetype';
+
+@Module({
+  imports: [
+    //...
+    ArchetypeModule,
+    //...
+  ],
+  //...
+})
+export class AppModule {}
 ```
+
+Para visualizar la respuesta del endpoint, basta con navegar a `/manifest`.
+
+### Manifest
+
+**Schema:** `<http|https>://<server_url><:port>/manifest`<br/>
+**Example:** `http://localhost:8080/manifest`
 
 ## 📄 Changelog
 
