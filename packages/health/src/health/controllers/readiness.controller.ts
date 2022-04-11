@@ -3,7 +3,6 @@ import { HealthCheck, HealthCheckService, HttpHealthIndicator } from '@nestjs/te
 import { ApiExcludeEndpoint } from '@nestjs/swagger';
 import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { URL } from 'url';
-//import * as _ from 'lodash';
 
 import { CONFIG_OPTIONS } from '../constants';
 
