@@ -13,6 +13,8 @@
 </div>
 <br/>
 
+> ⚠️ Es importante tener en cuenta que este módulo se encuentra implementado en el package `@tresdoce-nestjs-toolkit/paas`, ya que es una funcionalidad core para el starter.
+
 Este módulo está pensada para ser utilizada en [NestJs Starter](https://github.com/rudemex/nestjs-starter), o cualquier
 proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
 
@@ -21,6 +23,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [🥳 Demo](https://rudemex-nestjs-starter.herokuapp.com/docs)
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
+- [⚙️ Configuración](#configurations)
 - [👨‍💻 Uso](#use)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
@@ -49,14 +52,48 @@ npm install -S @tresdoce-nestjs-toolkit/health
 yarn add @tresdoce-nestjs-toolkit/health
 ```
 
+<a name="configurations"></a>
+
+## ⚙️ Configuración
+
+El módulo tiene la capacidad de utilizar la configuración centralizada para poder realizar los health checks
+correspondientes a los servicios configurados.
+
+Siguiendo la arquitectura del [NestJs Starter](https://github.com/rudemex/nestjs-starter), la información que se agrega
+en la configuración de los `services` impacta en los health checks para él `readiness`.
+
+Utilizando la propiedad `timeout` para configurar el tiempo de respuesta del servicio, como también la
+propiedad `healthPath` para configurar la `url` a la cual realizar el ping check, si no se completa este campo, por
+defecto realiza el ping al dominio de la url.
+
+```typescript
+//./src/config/configuration.ts
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import { registerAs } from '@nestjs/config';
+
+export default registerAs('config', (): Typings.AppConfig => {
+  return {
+    //...
+    services: {
+      myApi: {
+        url: process.env.MY_API_URL,
+      },
+      myApiTwo: {
+        url: process.env.MY_API_TWO_URL,
+        timeout: 5000,
+        healthPath: '/health/endpoint/of/api',
+      },
+    },
+    //...
+  };
+});
+```
+
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-> ⚠️ Es importante tener en cuenta que este módulo se encuentra implementado en el package `@tresdoce-nestjs-toolkit/paas`, ya que son funcionalidades core para el starter.
-
-El módulo `healthModule` tiene la capacidad de utilizar ciertas capacidades de la configuración centralizada para poder
-realizar los health checks correspondientes.
+Solamente hay que instanciar él `healthModule` en módulo principal de nuestra aplicación.
 
 ```typescript
 //./src/app.module.ts
@@ -72,6 +109,18 @@ import { HealthModule } from '@tresdoce-nestjs-toolkit/health';
 })
 export class AppModule {}
 ```
+
+Para visualizar las respuestas de los endpoints, basta con navegar a `/health/live` y `/health/ready`.
+
+### Liveness
+
+**Schema:** `<http|https>://<server_url><:port>/health/live`<br/>
+**Example:** `http://localhost:8080/health/live`
+
+### Readiness
+
+**Schema:** `<http|https>://<server_url><:port>/health/ready`<br/>
+**Example:** `http://localhost:8080/health/ready`
 
 ## 📄 Changelog
 
