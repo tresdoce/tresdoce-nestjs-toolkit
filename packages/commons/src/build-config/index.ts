@@ -1,6 +1,4 @@
-const isBuild = process.env.NODE_ENV === 'build';
-
-export const buildConfig = (options) => ({
+export const buildConfig = (options, isBuild = process.env.NODE_ENV === 'build') => ({
   ...options,
   mode: isBuild ? 'production' : 'none',
   output: {
