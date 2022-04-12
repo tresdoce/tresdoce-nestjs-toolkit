@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/archetype",
-  "version": "0.0.0",
+  "version": "0.1.0-beta.0",
   "description": "Tresdoce NestJS Toolkit - archetype",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -42,8 +42,8 @@
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.0.0",
-    "@types/tresdoce-nestjs-toolkit": "^0.0.0"
+    "@tresdoce-nestjs-toolkit/config": "^0.1.0-beta.0",
+    "@types/tresdoce-nestjs-toolkit": "^0.0.1-beta.0"
   },
   "prettier": {
     "semi": true,
