@@ -8,7 +8,7 @@ export class HttpClientService {
   private ip: string;
   private headers: any;
 
-  constructor(@Inject(AXIOS_INSTANCE_TOKEN) private readonly instance: AxiosInstance = Axios) {
+  constructor(@Inject(AXIOS_INSTANCE_TOKEN) private readonly _instance: AxiosInstance = Axios) {
     this.axiosRef.interceptors.request.use((config: AxiosRequestConfig) => config);
     this.axiosRef.interceptors.response.use(
       (response: AxiosResponse) => response,
@@ -17,7 +17,7 @@ export class HttpClientService {
   }
 
   get axiosRef(): AxiosInstance {
-    return this.instance;
+    return this._instance;
   }
 
   public initAxios(headers: any, ip: any): void {
