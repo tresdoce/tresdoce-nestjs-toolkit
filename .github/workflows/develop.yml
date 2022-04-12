@@ -40,7 +40,7 @@ jobs:
         run: yarn install
 
       - name: "🔦 Lint & Format"
-        run: yarn lint && yarn format
+        run: yarn lint
 
       - name: "🔨 Build"
         run: yarn build && node sonar-args.js
