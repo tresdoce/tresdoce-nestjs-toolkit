@@ -39,7 +39,7 @@ jobs:
       - name: "📦 Install Dependencies"
         run: yarn install
 
-      - name: "🔦 Lint & Format"
+      - name: "🔦 Lint"
         run: yarn lint
 
       - name: "🔨 Build"
