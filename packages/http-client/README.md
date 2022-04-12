@@ -58,7 +58,7 @@ Importar `HttpClientModule` en el módulo que requiera utilizarlo, o bien se pue
 el `app.module.ts`.
 
 ```typescript
-// .src/app.module.ts
+// ./src/app.module.ts
 import { HttpClientModule } from '@tresdoce-nestjs-toolkit/http-client';
 
 @Module({
