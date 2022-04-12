@@ -39,14 +39,14 @@
     "@nestjs/config": "^1.1.6",
     "@nestjs/core": "^8.2.0",
     "@nestjs/platform-express": "^8.2.0",
-    "axios": "^0.24.0",
+    "axios": "^0.26.0",
     "axios-retry": "^3.2.4",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },
   "dependencies": {
-    "axios": "^0.25.0",
+    "axios": "^0.26.0",
     "axios-retry": "^3.2.4",
     "lodash": "^4.17.21"
   },
