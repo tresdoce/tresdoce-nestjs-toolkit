@@ -1,0 +1,94 @@
+{
+  "name": "@tresdoce-nestjs-toolkit/logging",
+  "version": "0.0.0",
+  "description": "Tresdoce NestJS Toolkit - logging",
+  "author": {
+    "name": "Maximiliano \"Mex\" Delgado",
+    "email": "mdelgado@tresdoce.com.ar",
+    "url": "https://rudemex.github.io/"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "keywords": [
+    "nestjs",
+    "logging"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tresdoce/tresdoce-nestjs-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tresdoce/tresdoce-nestjs-toolkit/issues"
+  },
+  "homepage": "https://github.com/tresdoce/tresdoce-nestjs-toolkit#readme",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "shx rm -rf pkg",
+    "build": "pika build --out ../../dist/logging",
+    "test": "jest --runInBand --detectOpenHandles --coverage"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "../../dist/logging"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^8.4.3",
+    "@nestjs/core": "^8.4.3",
+    "@nestjs/platform-express": "^8.4.3",
+    "pino": "^7.9.2",
+    "pino-multi-stream": "^6.0.0",
+    "pino-pretty": "^7.6.0",
+    "pino-elasticsearch": "^6.2.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.5.5"
+  },
+  "dependencies": {
+    "pino": "^7.9.2",
+    "pino-multi-stream": "^6.0.0",
+    "pino-pretty": "^7.6.0",
+    "pino-elasticsearch": "^6.2.0"
+  },
+  "devDependencies": {
+    "@tresdoce-nestjs-toolkit/config": "^0.0.0",
+    "@tresdoce-nestjs-toolkit/core": "^0.0.0",
+    "@types/tresdoce-nestjs-toolkit": "^0.0.0"
+  },
+  "prettier": {
+    "semi": true,
+    "tabWidth": 2,
+    "singleQuote": true,
+    "printWidth": 100,
+    "trailingComma": "all"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-ts-standard-pkg",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-node",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-types",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ]
+    ]
+  }
+}
