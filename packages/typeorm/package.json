@@ -1,7 +1,7 @@
 {
-  "name": "@tresdoce-nestjs-toolkit/{{kebabCase packageName}}",
+  "name": "@tresdoce-nestjs-toolkit/typeorm",
   "version": "0.0.0",
-  "description": "Tresdoce NestJS Toolkit - {{kebabCase packageName}}",
+  "description": "Tresdoce NestJS Toolkit - typeorm",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
     "email": "mdelgado@tresdoce.com.ar",
@@ -13,7 +13,7 @@
   },
   "keywords": [
     "nestjs",
-    "{{kebabCase packageName}}"
+    "typeorm"
   ],
   "repository": {
     "type": "git",
@@ -27,23 +27,37 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "shx rm -rf pkg",
-    "build": "pika build --out ../../dist/{{kebabCase packageName}}",
+    "build": "pika build --out ../../dist/typeorm",
     "test": "jest --runInBand --detectOpenHandles --coverage"
   },
   "publishConfig": {
     "access": "public",
-    "directory": "../../dist/{{kebabCase packageName}}"
+    "directory": "../../dist/typeorm"
   },
   "peerDependencies": {
     "@nestjs/common": "^8.2.0",
     "@nestjs/core": "^8.2.0",
     "@nestjs/platform-express": "^8.2.0",
+    "@nestjs/typeorm": "^8.0.3",
+    "mongodb": "^3.6.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "pg": "^8.5.1",
+    "typeorm": "^0.2.45",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.0.0",
-    "@types/tresdoce-nestjs-toolkit": "^0.0.0"
+    "@tresdoce-nestjs-toolkit/config": "^0.1.0-beta.0",
+    "@types/tresdoce-nestjs-toolkit": "^0.0.1-beta.0"
+  },
+  "dependencies": {
+    "@nestjs/typeorm": "^8.0.3",
+    "mongodb": "^3.6.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "pg": "^8.5.1",
+    "typeorm": "^0.2.45"
   },
   "prettier": {
     "semi": true,

@@ -57,24 +57,24 @@ module.exports = {
       },
       {
         type: 'add',
-        path: 'packages/{{kebabCase packageName}}/src/greeting/greeting.module.ts',
-        templateFile: 'plops-templates/packages/basic/src/greeting/greeting.module.ts.hbs',
+        path: 'packages/{{kebabCase packageName}}/src/typeorm/typeorm.module.ts',
+        templateFile: 'plops-templates/packages/basic/src/typeorm/typeorm.module.ts.hbs',
       },
       {
         type: 'add',
-        path: 'packages/{{kebabCase packageName}}/src/greeting/services/greeting.service.ts',
+        path: 'packages/{{kebabCase packageName}}/src/typeorm/services/typeorm.service.ts',
         templateFile:
-          'plops-templates/packages/basic/src/greeting/services/greeting.service.ts.hbs',
+          'plops-templates/packages/basic/src/typeorm/services/typeorm.service.ts.hbs',
       },
       {
         type: 'add',
-        path: 'packages/{{kebabCase packageName}}/src/__test__/greeting.module.spec.ts',
-        templateFile: 'plops-templates/packages/basic/src/__test__/greeting.module.spec.ts.hbs',
+        path: 'packages/{{kebabCase packageName}}/src/__test__/typeorm.module.spec.ts',
+        templateFile: 'plops-templates/packages/basic/src/__test__/typeorm.module.spec.ts.hbs',
       },
       {
         type: 'add',
-        path: 'packages/{{kebabCase packageName}}/src/__test__/greeting.service.spec.ts',
-        templateFile: 'plops-templates/packages/basic/src/__test__/greeting.service.spec.ts.hbs',
+        path: 'packages/{{kebabCase packageName}}/src/__test__/typeorm.service.spec.ts',
+        templateFile: 'plops-templates/packages/basic/src/__test__/typeorm.service.spec.ts.hbs',
       },
     );
     return actions;
