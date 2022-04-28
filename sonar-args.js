@@ -6,7 +6,7 @@ const projectName = 'tresdoce-nestjs-toolkit';
 const sonarProjectKey = `${organizationName}_${projectName}`;
 const sonarPropertiesFilename = 'sonar-project.properties';
 
-const blacklist = ['.DS_Store', 'config', 'tresdoce-types'];
+const blacklist = ['.DS_Store', 'config', 'test-utils', 'tresdoce-types'];
 const directoryPath = path.join(__dirname, 'packages');
 
 fs.readdir(directoryPath, (err, files) => {

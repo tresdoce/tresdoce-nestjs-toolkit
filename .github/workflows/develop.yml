@@ -2,9 +2,9 @@ name: "CI/CD Develop"
 
 on:
   push:
-    branches: [ "feat/*" ]
+    branches: [ develop ]
   pull_request:
-    branches: [ "feat/*" ]
+    branches: [ develop ]
 
 jobs:
   setup:
