@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
 
+import { config, manifest } from '@tresdoce-nestjs-toolkit/test-utils';
+
 import { ArchetypeModule } from '../archetype/archetype.module';
 import { ArchetypeController } from '../archetype/controllers/archetype.controller';
 import { ArchetypeService } from '../archetype/services/archetype.service';
 
-import { config, mockManifest } from './utils';
-
 describe('ArchetypeController', () => {
   let controller: ArchetypeController;
   const archetypeService = {
-    generateManifest: () => mockManifest,
+    generateManifest: () => manifest,
   };
 
   beforeEach(async () => {
@@ -38,6 +38,6 @@ describe('ArchetypeController', () => {
 
   it('should be return manifest json', async () => {
     expect(await controller.getArchetypeInfo()).toBeDefined();
-    expect(await controller.getArchetypeInfo()).toEqual(mockManifest);
+    expect(await controller.getArchetypeInfo()).toEqual(manifest);
   });
 });

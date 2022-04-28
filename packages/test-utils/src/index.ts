@@ -1,5 +1,3 @@
-// export public api from here
-// for example:
-// export * from './decorators';
-export * from './greeting/greeting.module';
-export * from './greeting/services/greeting.service';
+export * from './fixtures/index';
+export * from './config/index';
+export * as JestFN from './__mocks__/index';

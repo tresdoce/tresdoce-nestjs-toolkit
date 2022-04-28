@@ -1,16 +1,9 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { HealthModule } from '../health/health.module';
 import { ConfigModule } from '@nestjs/config';
+import { config } from '@tresdoce-nestjs-toolkit/test-utils';
 
-const mockedConfig = {
-  services: {
-    rickAndMortyAPI: {
-      url: 'https://rickandmortyapi.com/api/character/1',
-      timeout: 3000,
-    },
-  },
-};
+import { HealthModule } from '../health/health.module';
 
 describe('HealthModule', () => {
   let app: INestApplication;
@@ -20,7 +13,7 @@ describe('HealthModule', () => {
       imports: [
         ConfigModule.forRoot({
           isGlobal: true,
-          load: [jest.fn().mockImplementation(() => mockedConfig)],
+          load: [config],
         }),
         HealthModule,
       ],
