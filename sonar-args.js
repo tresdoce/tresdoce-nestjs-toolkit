@@ -14,7 +14,8 @@ fs.readdir(directoryPath, (err, files) => {
     const listOfPackages = files.filter((file) => !blacklist.includes(file));
 
     const packages = listOfPackages.map((pkgName) => `${pkgName}`);
-    console.log('Packages: ', packages);
+    console.log('• Packages: ', packages.join(', '));
+    console.log(`• Total packages: ${packages.length}`)
 
     const sonarSources = listOfPackages.map((pkgName) => `./packages/${pkgName}/src`);
     const sonarTestExecutionReportPaths = listOfPackages.map(
