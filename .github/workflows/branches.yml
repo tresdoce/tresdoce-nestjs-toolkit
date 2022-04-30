@@ -1,10 +1,10 @@
-name: "CI/CD Develop"
+name: "Branches"
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ "feat/*", "fix/*", "refactor/*" ]
   pull_request:
-    branches: [ develop ]
+    branches: [ "feat/*", "fix/*", "refactor/*" ]
 
 #env:
 #  DOCKER_HOST: tcp://docker:2375
@@ -55,13 +55,4 @@ jobs:
         env:
           NODE_ENV: 'test'
 
-      - name: "📊 Upload coverage report to Codecov"
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
 
-      - name: "📊 SonarCloud Scan"
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

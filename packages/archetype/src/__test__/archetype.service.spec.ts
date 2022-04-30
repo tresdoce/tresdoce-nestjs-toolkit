@@ -1,27 +1,27 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
 
+import { config, manifest } from '@tresdoce-nestjs-toolkit/test-utils';
+
 import { ArchetypeModule } from '../archetype/archetype.module';
 import { ArchetypeService } from '../archetype/services/archetype.service';
-
-import { config, mockManifest } from './utils';
 
 describe('ArchetypeService', () => {
   let service: ArchetypeService;
   /*const archetypeService = {
-      readFile: jest.fn(() => mockManifest),
-      getArchetypeVersion: jest.fn(() => ({ archetypeVersion: mockManifest.archetypeVersion })),
+      readFile: jest.fn(() => manifest),
+      getArchetypeVersion: jest.fn(() => ({ archetypeVersion: manifest.archetypeVersion })),
       getApplicationInfo: jest.fn(() => ({
-        name: mockManifest.name,
-        version: mockManifest.version,
-        description: mockManifest.description,
-        author: mockManifest.author,
-        repository: mockManifest.repository,
-        homepage: mockManifest.homepage,
-        dependencies: mockManifest.dependencies,
-        devDependencies: mockManifest.devDependencies,
+        name: manifest.name,
+        version: manifest.version,
+        description: manifest.description,
+        author: manifest.author,
+        repository: manifest.repository,
+        homepage: manifest.homepage,
+        dependencies: manifest.dependencies,
+        devDependencies: manifest.devDependencies,
       })),
-      generateManifest: jest.fn(() => mockManifest),
+      generateManifest: jest.fn(() => manifest),
     };*/
 
   beforeEach(async () => {
@@ -50,40 +50,38 @@ describe('ArchetypeService', () => {
   });
 
   it('should be return archetype version', async () => {
-    service.readFile = jest
-      .fn()
-      .mockImplementation(() => ({ version: mockManifest.archetypeVersion }));
+    service.readFile = jest.fn().mockImplementation(() => ({ version: manifest.archetypeVersion }));
 
     expect(await service.getArchetypeVersion()).toEqual({
-      archetypeVersion: mockManifest.archetypeVersion,
+      archetypeVersion: manifest.archetypeVersion,
     });
   });
 
   it('should be return application info', async () => {
     service.readFile = jest.fn().mockImplementation(() => ({
-      apiPrefix: mockManifest.apiPrefix,
-      name: mockManifest.name,
-      version: mockManifest.version,
-      description: mockManifest.description,
-      author: mockManifest.author,
-      repository: mockManifest.repository,
-      homepage: mockManifest.homepage,
-      dependencies: mockManifest.dependencies,
-      devDependencies: mockManifest.devDependencies,
+      apiPrefix: manifest.apiPrefix,
+      name: manifest.name,
+      version: manifest.version,
+      description: manifest.description,
+      author: manifest.author,
+      repository: manifest.repository,
+      homepage: manifest.homepage,
+      dependencies: manifest.dependencies,
+      devDependencies: manifest.devDependencies,
     }));
 
     expect(await service.getApplicationInfo()).toEqual({
-      apiPrefix: mockManifest.apiPrefix,
-      name: mockManifest.name,
-      version: mockManifest.version,
-      description: mockManifest.description,
-      author: mockManifest.author,
-      repository: mockManifest.repository,
-      homepage: mockManifest.homepage,
+      apiPrefix: manifest.apiPrefix,
+      name: manifest.name,
+      version: manifest.version,
+      description: manifest.description,
+      author: manifest.author,
+      repository: manifest.repository,
+      homepage: manifest.homepage,
       dependencies: {
         '@tresdoce-nestjs-toolkit/archetype': '0.0.1',
         '@tresdoce-nestjs-toolkit/health': '0.0.1',
-        '@tresdoce-nestjs-toolkit/httpclient': '0.0.1',
+        '@tresdoce-nestjs-toolkit/http-client': '0.0.1',
         '@nestjs/class-transformer': '^0.4.0',
         '@nestjs/class-validator': '^0.13.3',
         '@nestjs/common': '^8.2.5',
@@ -103,21 +101,21 @@ describe('ArchetypeService', () => {
 
   it('should be return manifest', async () => {
     service.getArchetypeVersion = jest.fn().mockImplementation(() => ({
-      archetypeVersion: mockManifest.archetypeVersion,
+      archetypeVersion: manifest.archetypeVersion,
     }));
 
     service.getApplicationInfo = jest.fn().mockImplementation(() => ({
-      apiPrefix: mockManifest.apiPrefix,
-      name: mockManifest.name,
-      version: mockManifest.version,
-      description: mockManifest.description,
-      author: mockManifest.author,
-      repository: mockManifest.repository,
-      homepage: mockManifest.homepage,
-      dependencies: mockManifest.dependencies,
-      devDependencies: mockManifest.devDependencies,
+      apiPrefix: manifest.apiPrefix,
+      name: manifest.name,
+      version: manifest.version,
+      description: manifest.description,
+      author: manifest.author,
+      repository: manifest.repository,
+      homepage: manifest.homepage,
+      dependencies: manifest.dependencies,
+      devDependencies: manifest.devDependencies,
     }));
 
-    expect(await service.generateManifest()).toEqual({ ...mockManifest });
+    expect(await service.generateManifest()).toEqual({ ...manifest });
   });
 });

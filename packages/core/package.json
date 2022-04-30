@@ -26,7 +26,7 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "prebuild": "shx rm -rf pkg",
+    "prebuild": "shx rm -rf ../../dist/core",
     "build": "pika build --out ../../dist/core",
     "test": "jest --runInBand --detectOpenHandles --coverage"
   },

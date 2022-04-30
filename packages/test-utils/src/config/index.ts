@@ -1,2 +1,2 @@
 export { default as config } from './configuration';
-export * from './mocks';
+export * from './dynamic-configuration';
