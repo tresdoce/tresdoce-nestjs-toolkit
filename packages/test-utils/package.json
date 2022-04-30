@@ -1,19 +1,20 @@
 {
-  "name": "@tresdoce-nestjs-toolkit/archetype",
-  "version": "0.1.0-beta.0",
-  "description": "Tresdoce NestJS Toolkit - archetype",
+  "name": "@tresdoce-nestjs-toolkit/test-utils",
+  "version": "0.0.0",
+  "description": "Tresdoce NestJS Toolkit - test-utils",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
     "email": "mdelgado@tresdoce.com.ar",
     "url": "https://rudemex.github.io/"
   },
+  "private": true,
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
   "keywords": [
     "nestjs",
-    "archetype"
+    "test-utils"
   ],
   "repository": {
     "type": "git",
@@ -26,13 +27,13 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "prebuild": "shx rm -rf ../../dist/archetype",
-    "build": "pika build --out ../../dist/archetype",
+    "prebuild": "shx rm -rf ../../dist/test-utils",
+    "build": "pika build --out ../../dist/test-utils",
     "test": "jest --runInBand --detectOpenHandles --coverage"
   },
   "publishConfig": {
     "access": "public",
-    "directory": "../../dist/archetype"
+    "directory": "../../dist/test-utils"
   },
   "peerDependencies": {
     "@nestjs/common": "^8.2.0",

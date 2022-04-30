@@ -6,6 +6,7 @@
   "command": {
     "version": {
       "conventionalCommits": true,
+      "allowBranch": ["master"],
       "changelogPreset": {
         "name": "conventionalcommits",
         "header": "<div align=\"center\"><h1>\uD83D\uDCDD Changelog</h1><p>All changes of this package will be documented in this file.</p></div>\n\n---\n",
