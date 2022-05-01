@@ -20,6 +20,8 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "lint": "lint-staged",
+    "pre-test": "echo 'pre test'",
+    "post-test": "echo 'post test'",
     "prepublishOnly": "yarn build",
     "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,md,json}\"",
     "version-packages": "lerna version --conventional-commits --force-git-tag --create-release github --yes",

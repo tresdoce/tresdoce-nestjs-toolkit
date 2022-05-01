@@ -1,4 +1,17 @@
+//const {setupContainers} = require("@tresdoce-nestjs-toolkit/test-utils")
+//const container = new setupContainers();
+
 jest.setTimeout(30000);
+
+/*beforeAll(async () => {
+    console.log("BEFORE ALL")
+    await container.start()
+})
+
+afterAll(async () => {
+    console.log("AFTER ALL")
+    await container.stop();
+})*/
 
 expect.extend({
   toContainObject(received, argument) {
