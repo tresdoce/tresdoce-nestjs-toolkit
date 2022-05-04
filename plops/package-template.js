@@ -6,6 +6,12 @@ module.exports = {
             name: 'packageName',
             message: 'Package name please',
         },
+        {
+            type: 'input',
+            name: 'packageDescription',
+            message: 'Package description please',
+        },
+
     ],
     actions: () => {
         let actions = [];
@@ -76,6 +82,12 @@ module.exports = {
                 path: 'packages/{{kebabCase packageName}}/src/__test__/greeting.service.spec.ts',
                 templateFile: 'plops-templates/packages/basic/src/__test__/greeting.service.spec.ts.hbs',
             },
+            {
+                type: 'modify',
+                path: 'README.md',
+                template: '| [`@tresdoce-nestjs-toolkit/{{kebabCase packageName}}`](./packages/{{kebabCase packageName}}) | {{packageDescription}} | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/{{kebabCase packageName}}.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/{{kebabCase packageName}}) | [Changelog](./packages/{{kebabCase packageName}}/CHANGELOG.md) |\n$1',
+                pattern: /(<!---PLOP-TOOLKIT-TABLE-->)/g,
+            }
         );
         return actions;
     },
