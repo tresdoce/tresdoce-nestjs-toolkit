@@ -24,6 +24,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 
 - [🥳 Demo](https://rudemex-nestjs-starter.herokuapp.com/docs)
 - [📝 Requerimientos básicos](#basic-requirements)
+- [💻 Scripts](#scripts)
 - [🧰 Toolkit](#toolkit)
 - [📤 Commits](#commits)
 - [📜 License MIT](license.md)
@@ -40,6 +41,40 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - NPM v6.14.13 or higher
 - NestJS v8.2.6 or higher ([Documentación](https://nestjs.com/))
 - Lerna
+
+<a name="scripts"></a>
+
+## 💻 Scripts
+
+Instalar Lerna
+
+```
+npm i -g lerna
+```
+
+Instalar dependencias del monorepo
+
+```
+yarn install
+```
+
+Crear paquetes
+
+```
+yarn plop
+```
+
+Transpilar paquetes
+
+```
+yarn build
+```
+
+Test paquetes
+
+```
+yarn test
+```
 
 <a name="toolkit"></a>
 
