@@ -14,6 +14,7 @@ export const initMongoDBContainer = async () => {
         host: 27017,
       })
       .withStartupTimeout(1000000)
+      .withReuse()
       .start();
 
     global.hostContainer = container.getHost();
@@ -36,6 +37,7 @@ export const initPostgresDBContainer = async () => {
         container: 5432,
         host: 5432,
       })
+      .withReuse()
       .start();
 
     global.hostContainer = container.getHost();
@@ -59,6 +61,7 @@ export const initMySqlDBContainer = async () => {
         container: 3306,
         host: 3306,
       })
+      .withReuse()
       .start();
 
     global.hostContainer = container.getHost();
