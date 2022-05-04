@@ -55,6 +55,7 @@ el [NestJs Starter](https://github.com/rudemex/nestjs-starter), siguiendo los li
 | [`@tresdoce-nestjs-toolkit/core`](./packages/core)               | Funcionalidades a nivel core        | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/core.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/core)               | [Changelog](./packages/core/CHANGELOG.md)        |
 | [`@tresdoce-nestjs-toolkit/health`](./packages/health)           | Módulo health checks                | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/health.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/health)           | [Changelog](./packages/health/CHANGELOG.md)      |
 | [`@tresdoce-nestjs-toolkit/http-client`](./packages/http-client) | Módulo http con axios y axios-retry | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/http-client.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/http-client) | [Changelog](./packages/http-client/CHANGELOG.md) |
+<!---PLOP-TOOLKIT-TABLE-->
 
 <a name="commits"></a>
 
