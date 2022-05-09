@@ -4,7 +4,7 @@ let container;
 
 export const initMongoDBContainer = async () => {
   try {
-    container = await new GenericContainer('mongo:5')
+    container = await new GenericContainer('mongo:5.0')
       .withEnv('MONGO_INITDB_ROOT_USERNAME', 'root')
       .withEnv('MONGO_INITDB_ROOT_PASSWORD', '123456')
       .withEnv('MONGO_INITDB_DATABASE', 'test_db')

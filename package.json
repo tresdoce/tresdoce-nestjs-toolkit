@@ -109,7 +109,7 @@
     "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
     "supertest": "^6.2.2",
-    "testcontainers": "^8.8.0",
+    "testcontainers": "^8.10.0",
     "ts-jest": "^27.1.2",
     "ts-loader": "^9.2.6",
     "ts-node": "^10.4.0",

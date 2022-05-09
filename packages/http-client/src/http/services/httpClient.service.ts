@@ -8,6 +8,7 @@ export class HttpClientService {
   private ip: string;
   private headers: any;
 
+  /* istanbul ignore next */
   constructor(@Inject(AXIOS_INSTANCE_TOKEN) private readonly _instance: AxiosInstance = Axios) {
     this.axiosRef.interceptors.request.use((config: AxiosRequestConfig) => config);
     this.axiosRef.interceptors.response.use(
@@ -41,6 +42,7 @@ export class HttpClientService {
         ...config,
       });
     } catch (error) {
+      /* istanbul ignore next */
       return error;
     }
   }

@@ -59,6 +59,17 @@ lerna-debug.log*
 
 # DATA
 mongo_data
+./*/mongo_data
+./packages/**/*/mongo_data
+./packages/test-utils/src/testcontainers/mongo_data
+postgres_data
+./*/postgres_data
+./packages/**/*/postgres_data
+./packages/test-utils/src/testcontainers/postgres_data
+.mysql-data
+./*/.mysql-data
+./packages/**/*/.mysql-data
+./packages/test-utils/src/testcontainers/.mysql-data
 
 # local env files
 ./*.env
