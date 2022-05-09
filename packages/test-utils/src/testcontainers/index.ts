@@ -1,1 +1,2 @@
-export { default as setupContainers } from './testContainers';
+export { default as testContainers } from './testContainers';
+export * from './types';
