@@ -2,18 +2,18 @@ import * as _ from 'lodash';
 import { testContainers, ITestContainerOptions } from '../testcontainers';
 import { StartedGenericContainer } from 'testcontainers/dist/generic-container/started-generic-container';
 
-const imageContainer: string = 'postgres:13';
+const imageContainer: string = 'redis:latest';
 const testContainerOptions: ITestContainerOptions = {
   ports: {
-    container: 5432,
-    host: 5432,
+    container: 6379,
+    host: 6379,
   },
   envs: {
-    POSTGRES_USER: 'root',
-    POSTGRES_PASSWORD: '123456',
-    POSTGRES_DB: 'test_db',
+    REDIS_USERNAME: 'root',
+    REDIS_PASSWORD: '123456',
+    REDIS_HOST: 'cache',
   },
-  containerName: `tresdoce-test-container-postgres`,
+  containerName: `tresdoce-test-container-redis`,
   reuse: true,
 };
 
