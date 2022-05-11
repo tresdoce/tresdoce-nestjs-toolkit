@@ -1,6 +1,6 @@
 import { GenericContainer, StartedTestContainer, TestContainer } from 'testcontainers';
 import * as _ from 'lodash';
-
+import { RandomUuid } from 'testcontainers/dist/uuid';
 import { StopOptions } from 'testcontainers/dist/test-container';
 import { ContainerName, Env, Host } from 'testcontainers/dist/docker/types';
 import { ITestContainerOptions } from './types';
@@ -9,6 +9,7 @@ export default class testContainers {
   private static _instance?: testContainers;
   private _container;
 
+  /* istanbul ignore next */
   constructor(private _image: string = 'postgres:13', private _options?: ITestContainerOptions) {
     if (testContainers._instance)
       throw new Error('Use testContainers.getInstance() instead of new.');
@@ -18,37 +19,45 @@ export default class testContainers {
   /**
    * Get instance
    */
-  public static getInstance(): testContainers {
-    return testContainers._instance ?? (testContainers._instance = new testContainers());
+  /* istanbul ignore next */
+  public static getInstance(_image?: string, _options?: ITestContainerOptions): testContainers {
+    return (
+      testContainers._instance ?? (testContainers._instance = new testContainers(_image, _options))
+    );
   }
 
-  private prepareContainer(): TestContainer {
+  private prepareContainer(options: ITestContainerOptions): TestContainer {
     const genericContainer = new GenericContainer(`${this._image}`);
 
     /* Add container name*/
-    if (_.has(this._options, 'containerName') && !_.isEmpty(this._options.containerName)) {
-      genericContainer.withName(this._options.containerName);
+    /* istanbul ignore next */
+    if (_.has(options, 'containerName') && !_.isEmpty(options.containerName)) {
+      genericContainer.withName(options.containerName);
+    } else {
+      /* istanbul ignore next */
+      genericContainer.withName(`test-container-${new RandomUuid().nextUuid()}`);
     }
 
     /* Add container ports */
-    if (_.has(this._options, 'ports') && !_.isEmpty(this._options.ports)) {
+    if (_.has(options, 'ports') && !_.isEmpty(options.ports)) {
       genericContainer.withExposedPorts(this._options.ports);
     }
 
     /* Add container envs */
-    if (_.has(this._options, 'envs') && !_.isEmpty(this._options.envs)) {
-      Object.keys(this._options.envs).map((key) => {
-        genericContainer.withEnv(`${key}`, `${this._options.envs[key]}`);
+    if (_.has(options, 'envs') && !_.isEmpty(options.envs)) {
+      Object.keys(options.envs).map((key) => {
+        genericContainer.withEnv(`${key}`, `${options.envs[key]}`);
       });
     }
 
     /* Add startup timeout container */
-    if (_.has(this._options, 'startupTimeout')) {
-      genericContainer.withStartupTimeout(this._options.startupTimeout);
+    /* istanbul ignore next */
+    if (_.has(options, 'startupTimeout')) {
+      genericContainer.withStartupTimeout(options.startupTimeout);
     }
 
     /* Add container reuse*/
-    if (_.has(this._options, 'reuse') && this._options.reuse) {
+    if (_.has(options, 'reuse') && options.reuse) {
       genericContainer.withReuse();
     }
 
@@ -60,7 +69,8 @@ export default class testContainers {
    */
   public async start(): Promise<void> {
     try {
-      this._container = await this.prepareContainer().start();
+      this._container = await this.prepareContainer(this._options).start();
+      console.info('Container initialized');
     } catch (e) {
       /* istanbul ignore next */
       console.error(`Error initializing container: ${e}`);
@@ -76,6 +86,7 @@ export default class testContainers {
       await this._container.stop(options);
       console.info('Container stopped successfully');
     } catch (e) {
+      /* istanbul ignore next */
       console.error('Container not initialized');
     }
   }
@@ -85,8 +96,9 @@ export default class testContainers {
   /**
    * Get envs
    */
+  /* istanbul ignore next */
   public getEnvs(): Env {
-    return _.has(this._options, 'envs') ? this._options.envs : {};
+    return _.has(this._options, 'envs') ? this._options.envs : null;
   }
 
   /**
