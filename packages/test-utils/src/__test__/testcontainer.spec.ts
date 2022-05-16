@@ -30,7 +30,6 @@ describe('testContainers', () => {
   });
 
   it('should be defined', () => {
-    console.log('CONTAINER: ', container);
     expect(container).toBeDefined();
     expect(container).toBeInstanceOf(testContainers);
   });
@@ -100,7 +99,6 @@ describe('testContainers 2', () => {
   });
 
   it('should be defined', () => {
-    console.log('CONTAINER: ', container);
     expect(container).toBeDefined();
     expect(container).toBeInstanceOf(testContainers);
   });
