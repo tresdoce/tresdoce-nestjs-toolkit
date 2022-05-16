@@ -1,27 +1,14 @@
-import { testContainers, ITestContainerOptions } from '../testcontainers';
+import { testContainers } from '../testcontainers';
 import { StartedGenericContainer } from 'testcontainers/dist/generic-container/started-generic-container';
 
-const imageContainer: string = 'redis:latest';
-const testContainerOptions: ITestContainerOptions = {
-  ports: {
-    container: 6379,
-    host: 6379,
-  },
-  envs: {
-    REDIS_USERNAME: 'root',
-    REDIS_PASSWORD: '123456',
-    REDIS_HOST: 'cache',
-  },
-  containerName: `tresdoce-test-container-redis`,
-  reuse: true,
-};
+import { TCRedisOptions, TCMongoOptions, TCMySqlOptions, TCPostgresOptions } from '../fixtures';
 
 jest.setTimeout(60000);
 describe('testContainers', () => {
   let container: testContainers;
 
   beforeAll(async () => {
-    container = await new testContainers(imageContainer, testContainerOptions);
+    container = await new testContainers('redis:latest', TCRedisOptions);
     await container.start();
   });
 
@@ -36,7 +23,7 @@ describe('testContainers', () => {
 
   it('should be return exception of instance', async () => {
     try {
-      await new testContainers('postgres:13', testContainerOptions);
+      await new testContainers('postgres:13', TCRedisOptions);
     } catch (error) {
       expect(error.message).toBe('Use testContainers.getInstance() instead of new.');
     }
@@ -49,7 +36,7 @@ describe('testContainers', () => {
 
   it('should be return envs of instance', () => {
     const instanceEnvs = container.getEnvs();
-    expect(instanceEnvs).toEqual(testContainerOptions.envs);
+    expect(instanceEnvs).toEqual(TCRedisOptions.envs);
   });
 
   it('should be return container instance', () => {
@@ -67,30 +54,51 @@ describe('testContainers', () => {
   it('should be return name of container instance', () => {
     const instanceContainerName = container.getName();
     expect(instanceContainerName).toBeDefined();
-    expect(instanceContainerName).toContain(testContainerOptions.containerName);
+    expect(instanceContainerName).toContain(TCRedisOptions.containerName);
   });
 });
 
-const imageContainer2: string = 'mongo:5.0';
-const testContainerOptions2: ITestContainerOptions = {
-  ports: {
-    container: 27017,
-    host: 27017,
-  },
-  envs: {
-    MONGO_INITDB_ROOT_USERNAME: 'root',
-    MONGO_INITDB_ROOT_PASSWORD: '123456',
-    MONGO_INITDB_DATABASE: 'test_db',
-  },
-  containerName: `tresdoce-test-container-mongo`,
-  reuse: true,
-};
-
-describe('testContainers 2', () => {
+describe('testContainers - MongoDB', () => {
   let container: testContainers;
 
   beforeAll(async () => {
-    container = await new testContainers(imageContainer2, testContainerOptions2);
+    container = await new testContainers('mongo:5.0', TCMongoOptions);
+    await container.start();
+  });
+
+  afterAll(async () => {
+    await container.stop({ removeVolumes: true });
+  });
+
+  it('should be defined', () => {
+    expect(container).toBeDefined();
+    expect(container).toBeInstanceOf(testContainers);
+  });
+});
+
+describe('testContainers - MySql', () => {
+  let container: testContainers;
+
+  beforeAll(async () => {
+    container = await new testContainers('mysql:5.7', TCMySqlOptions);
+    await container.start();
+  });
+
+  afterAll(async () => {
+    await container.stop({ removeVolumes: true });
+  });
+
+  it('should be defined', () => {
+    expect(container).toBeDefined();
+    expect(container).toBeInstanceOf(testContainers);
+  });
+});
+
+describe('testContainers - Postgres', () => {
+  let container: testContainers;
+
+  beforeAll(async () => {
+    container = await new testContainers('postgres:13', TCPostgresOptions);
     await container.start();
   });
 
