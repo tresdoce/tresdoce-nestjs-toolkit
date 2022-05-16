@@ -2,11 +2,11 @@ import { RequestMethod } from '@nestjs/common';
 
 export const corePathsExcludes = [
   {
-    path: '/health/live',
+    path: '/health/liveness',
     method: RequestMethod.GET,
   },
   {
-    path: '/health/ready',
+    path: '/health/readiness',
     method: RequestMethod.GET,
   },
   {

@@ -3,11 +3,11 @@ import { RequestMethod } from '@nestjs/common';
 export const CONFIG_OPTIONS = 'CONFIG_OPTIONS';
 export const controllersExcludes = [
   {
-    path: '/health/live',
+    path: '/health/liveness',
     method: RequestMethod.GET,
   },
   {
-    path: '/health/ready',
+    path: '/health/readiness',
     method: RequestMethod.GET,
   },
 ];

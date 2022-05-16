@@ -8,12 +8,12 @@ describe('commons', () => {
     expect(corePathsExcludes).toBeInstanceOf(Array);
 
     expect(corePathsExcludes).toContainObject({
-      path: '/health/live',
+      path: '/health/liveness',
       method: RequestMethod.GET,
     });
 
     expect(corePathsExcludes).toContainObject({
-      path: '/health/ready',
+      path: '/health/readiness',
       method: RequestMethod.GET,
     });
 

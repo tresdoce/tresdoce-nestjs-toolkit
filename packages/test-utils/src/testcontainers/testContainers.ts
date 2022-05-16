@@ -1,17 +1,22 @@
 import { GenericContainer, StartedTestContainer, TestContainer } from 'testcontainers';
-import * as _ from 'lodash';
 import { RandomUuid } from 'testcontainers/dist/uuid';
 import { StopOptions } from 'testcontainers/dist/test-container';
 import { ContainerName, Env, Host } from 'testcontainers/dist/docker/types';
+import * as _ from 'lodash';
+
 import { ITestContainerOptions } from './types';
 
 export default class testContainers {
   private static _instance?: testContainers;
-  private _container;
+  private _container: StartedTestContainer;
 
   /* istanbul ignore next */
-  constructor(private _image: string = 'postgres:13', private _options?: ITestContainerOptions) {
-    if (testContainers._instance)
+  constructor(
+    private _image: string = 'postgres:13',
+    private _options?: ITestContainerOptions,
+    private _isSingleton: boolean = false,
+  ) {
+    if (_isSingleton && testContainers._instance)
       throw new Error('Use testContainers.getInstance() instead of new.');
     testContainers._instance = this;
   }

@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { testContainers, ITestContainerOptions } from '../testcontainers';
 import { StartedGenericContainer } from 'testcontainers/dist/generic-container/started-generic-container';
 
@@ -18,12 +17,11 @@ const testContainerOptions: ITestContainerOptions = {
 };
 
 jest.setTimeout(60000);
-describe('testContainers with configuration', () => {
+describe('testContainers', () => {
   let container: testContainers;
 
   beforeAll(async () => {
     container = await new testContainers(imageContainer, testContainerOptions);
-    //console.log(container);
     await container.start();
   });
 
@@ -32,6 +30,7 @@ describe('testContainers with configuration', () => {
   });
 
   it('should be defined', () => {
+    console.log('CONTAINER: ', container);
     expect(container).toBeDefined();
     expect(container).toBeInstanceOf(testContainers);
   });
@@ -70,5 +69,39 @@ describe('testContainers with configuration', () => {
     const instanceContainerName = container.getName();
     expect(instanceContainerName).toBeDefined();
     expect(instanceContainerName).toContain(testContainerOptions.containerName);
+  });
+});
+
+const imageContainer2: string = 'mongo:5.0';
+const testContainerOptions2: ITestContainerOptions = {
+  ports: {
+    container: 27017,
+    host: 27017,
+  },
+  envs: {
+    MONGO_INITDB_ROOT_USERNAME: 'root',
+    MONGO_INITDB_ROOT_PASSWORD: '123456',
+    MONGO_INITDB_DATABASE: 'test_db',
+  },
+  containerName: `tresdoce-test-container-mongo`,
+  reuse: true,
+};
+
+describe('testContainers 2', () => {
+  let container: testContainers;
+
+  beforeAll(async () => {
+    container = await new testContainers(imageContainer2, testContainerOptions2);
+    await container.start();
+  });
+
+  afterAll(async () => {
+    await container.stop({ removeVolumes: true });
+  });
+
+  it('should be defined', () => {
+    console.log('CONTAINER: ', container);
+    expect(container).toBeDefined();
+    expect(container).toBeInstanceOf(testContainers);
   });
 });

@@ -6,11 +6,11 @@ describe('healthConstants', () => {
     expect(controllersExcludes).toEqual(expect.any(Array));
     expect(controllersExcludes).toMatchObject([
       {
-        path: '/health/live',
+        path: '/health/liveness',
         method: RequestMethod.GET,
       },
       {
-        path: '/health/ready',
+        path: '/health/readiness',
         method: RequestMethod.GET,
       },
     ]);

@@ -3,8 +3,8 @@ import { ApiExcludeEndpoint } from '@nestjs/swagger';
 
 @Controller('health')
 export class LivenessController {
-  @Get('live')
-  @ApiExcludeEndpoint()
+  @Get('liveness')
+  //@ApiExcludeEndpoint()
   getLiveness() {
     return { status: 'up' };
   }
