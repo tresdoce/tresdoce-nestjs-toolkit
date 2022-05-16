@@ -5,7 +5,7 @@ export default registerAs('config', () => {
     database: {
       typeorm: {
         type: 'postgres',
-        host: global.hostContainer,
+        host: 'localhost',
         port: parseInt('5432', 10),
         username: encodeURIComponent('root'),
         password: encodeURIComponent('123456'),

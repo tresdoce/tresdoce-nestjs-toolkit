@@ -5,7 +5,7 @@ export default registerAs('config', () => {
     database: {
       typeorm: {
         type: 'mongodb',
-        host: global.hostContainer,
+        host: 'localhost',
         port: parseInt('27017', 10),
         username: encodeURIComponent('root'),
         password: encodeURIComponent('123456'),

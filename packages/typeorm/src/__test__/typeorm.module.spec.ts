@@ -4,11 +4,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { configPostgres, configMySql, configMongo } from './utils';
 import {
-  initPostgresDBContainer,
-  initMySqlDBContainer,
-  initMongoDBContainer,
-  stopContainer,
-} from './utils/setupDBContainers';
+  TCMongoOptions,
+  TCMySqlOptions,
+  TCPostgresOptions,
+  testContainers,
+} from '@tresdoce-nestjs-toolkit/test-utils';
 
 import { TypeOrmClientModule } from '../typeorm/typeorm.module';
 import { Post } from './utils/post.entity';
@@ -17,13 +17,15 @@ import { User } from './utils/user.entity';
 jest.setTimeout(70000);
 describe('TypeOrm - Postgres', () => {
   let app: INestApplication;
+  let container: testContainers;
 
   beforeAll(async () => {
-    await initPostgresDBContainer();
+    container = await new testContainers('postgres:13', TCPostgresOptions);
+    await container.start();
   });
 
   afterAll(async () => {
-    await stopContainer();
+    await container.stop({ removeVolumes: true });
   });
 
   beforeEach(async () => {
@@ -52,13 +54,15 @@ describe('TypeOrm - Postgres', () => {
 
 describe('TypeOrm - MySql', () => {
   let app: INestApplication;
+  let container: testContainers;
 
   beforeAll(async () => {
-    await initMySqlDBContainer();
+    container = await new testContainers('mysql:5.7', TCMySqlOptions);
+    await container.start();
   });
 
   afterAll(async () => {
-    await stopContainer();
+    await container.stop({ removeVolumes: true });
   });
 
   beforeEach(async () => {
@@ -87,13 +91,15 @@ describe('TypeOrm - MySql', () => {
 
 describe('TypeOrm - Mongo', () => {
   let app: INestApplication;
+  let container: testContainers;
 
   beforeAll(async () => {
-    await initMongoDBContainer();
+    container = await new testContainers('mongo:5.0', TCMongoOptions);
+    await container.start();
   });
 
   afterAll(async () => {
-    await stopContainer();
+    await container.stop({ removeVolumes: true });
   });
 
   beforeEach(async () => {

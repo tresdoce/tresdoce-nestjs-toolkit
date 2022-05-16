@@ -23,7 +23,7 @@ describe('testContainers', () => {
 
   it('should be return exception of instance', async () => {
     try {
-      await new testContainers('postgres:13', TCRedisOptions);
+      await new testContainers('postgres:13', TCPostgresOptions);
     } catch (error) {
       expect(error.message).toBe('Use testContainers.getInstance() instead of new.');
     }
