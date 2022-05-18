@@ -19,10 +19,10 @@ fs.readdir(directoryPath, (err, files) => {
 
     const sonarSources = listOfPackages.map((pkgName) => `./packages/${pkgName}/src`);
     const sonarTestExecutionReportPaths = listOfPackages.map(
-      (pkgName) => `packages/${pkgName}/test-report.xml`,
+      (pkgName) => `./packages/${pkgName}/test-report.xml`,
     );
     const sonarLcovReportPath = listOfPackages.map(
-      (pkgName) => `packages/${pkgName}/coverage/lcov.info`,
+      (pkgName) => `./packages/${pkgName}/coverage/lcov.info`,
     );
 
     const sonarCloudProperties = `sonar.organization=${organizationName}
@@ -34,7 +34,6 @@ sonar.sources=${sonarSources.join() || '.'}
 sonar.exclusions=**/*.bin,node_modules/**,test/**,**/__test__/**,**/__mocks__/**,src/index.ts
 sonar.coverage.exclusions=node_modules/**,test/**,**/__test__/**,**/__mocks__/**,src/index.ts
 sonar.testExecutionReportPaths=${sonarTestExecutionReportPaths.join()}
-sonar.typescript.lcov.reportPaths=${sonarLcovReportPath.join()}
 sonar.javascript.lcov.reportPaths=${sonarLcovReportPath.join()}`;
 
     fs.writeFile(
