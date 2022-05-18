@@ -6,7 +6,7 @@ const projectName = 'tresdoce-nestjs-toolkit';
 const sonarProjectKey = `${organizationName}_${projectName}`;
 const sonarPropertiesFilename = 'sonar-project.properties';
 
-const blacklist = ['.DS_Store', 'config', 'tresdoce-types'];
+const blacklist = ['.DS_Store', 'config', 'test-utils', 'tresdoce-types'];
 const directoryPath = path.join(__dirname, 'packages');
 
 fs.readdir(directoryPath, (err, files) => {
@@ -19,10 +19,10 @@ fs.readdir(directoryPath, (err, files) => {
 
     const sonarSources = listOfPackages.map((pkgName) => `./packages/${pkgName}/src`);
     const sonarTestExecutionReportPaths = listOfPackages.map(
-      (pkgName) => `./packages/${pkgName}/test-report.xml`,
+      (pkgName) => `packages/${pkgName}/test-report.xml`,
     );
     const sonarLcovReportPath = listOfPackages.map(
-      (pkgName) => `./packages/${pkgName}/coverage/lcov.info`,
+      (pkgName) => `packages/${pkgName}/coverage/lcov.info`,
     );
 
     const sonarCloudProperties = `sonar.organization=${organizationName}

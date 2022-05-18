@@ -57,7 +57,10 @@ describe('TypeOrm - MySql', () => {
   let container: testContainers;
 
   beforeAll(async () => {
-    container = await new testContainers('mysql:5.7', TCMySqlOptions);
+    container = await new testContainers('mysql:5.7', {
+      ...TCMySqlOptions,
+      startupTimeout: 10000000,
+    });
     await container.start();
   });
 
