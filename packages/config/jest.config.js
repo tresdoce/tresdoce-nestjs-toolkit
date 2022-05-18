@@ -12,7 +12,7 @@ module.exports = {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
   roots: ['<rootDir>/src/'],
-  //collectCoverage: true,
+  collectCoverage: true,
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: './coverage',
   coveragePathIgnorePatterns: ['node_modules', 'node_modules/*', 'dist', 'dist/*', 'src/index.ts'],

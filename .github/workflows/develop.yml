@@ -47,7 +47,7 @@ jobs:
 
       - name: "👨‍💻 Run Test"
         run: |
-          yarn test
+          yarn test --force
           ls -R ./packages
         env:
           NODE_ENV: 'test'
