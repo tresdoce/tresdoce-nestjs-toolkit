@@ -46,7 +46,9 @@ jobs:
         run: yarn build && node sonar-args.js
 
       - name: "👨‍💻 Run Test"
-        run: yarn test
+        run: |
+          yarn test
+          ls -R ./packages
         env:
           NODE_ENV: 'test'
 
