@@ -43,11 +43,11 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 ## 🛠️ Instalar dependencia
 
 ```
-npm install -S @tresdoce-nestjs-toolkit/test-utils
+npm install -D @tresdoce-nestjs-toolkit/test-utils
 ```
 
 ```
-yarn add @tresdoce-nestjs-toolkit/test-utils
+yarn add -D @tresdoce-nestjs-toolkit/test-utils
 ```
 
 <a name="configurations"></a>

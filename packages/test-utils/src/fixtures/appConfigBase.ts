@@ -40,6 +40,7 @@ export const appConfigBase: Typings.AppConfig = {
     rickAndMortyAPI: {
       url: 'https://rickandmortyapi.com/api',
       timeout: 3000,
+      healthPath: '/api/character/1',
     },
   },
 };

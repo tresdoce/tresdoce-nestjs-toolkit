@@ -1,8 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-
-import { configPostgres, configMySql, configMongo } from './utils';
 import {
   TCMongoOptions,
   TCMySqlOptions,
@@ -13,6 +11,8 @@ import {
 import { TypeOrmClientModule } from '../typeorm/typeorm.module';
 import { Post } from './utils/post.entity';
 import { User } from './utils/user.entity';
+
+import { configPostgres, configMySql, configMongo } from './utils';
 
 jest.setTimeout(70000);
 describe('TypeOrm - Postgres', () => {
