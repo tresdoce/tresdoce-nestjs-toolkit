@@ -21,12 +21,12 @@ module.exports = {
   moduleDirectories: ['node_modules'],
   preset: 'ts-jest',
   testResultsProcessor: 'jest-sonar-reporter',
-  coverageThreshold: {
+  /*coverageThreshold: {
     global: {
       branches: 80,
       functions: 80,
       lines: 80,
       statements: 80,
     },
-  },
+  },*/
 };
