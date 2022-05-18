@@ -20,6 +20,7 @@
 Este toolkit está pensada para ser utilizado en [NestJs Starter](https://github.com/rudemex/nestjs-starter), o cualquier
 proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
 
+
 ## Glosario
 
 - [🥳 Demo](https://rudemex-nestjs-starter.herokuapp.com/docs)
