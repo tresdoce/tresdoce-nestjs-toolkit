@@ -28,7 +28,7 @@ export default class TestContainersTD {
   public static getInstance(_image?: string, _options?: ITestContainerOptions): TestContainersTD {
     return (
       TestContainersTD._instance ??
-      (TestContainersTD._instance = new TestContainersTD(_image, _options))
+      (TestContainersTD._instance = new TestContainersTD(_image, _options, true))
     );
   }
 
