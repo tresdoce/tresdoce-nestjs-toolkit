@@ -55,7 +55,7 @@
   "@pika/pack": {
     "pipeline": [
       [
-        "@pika/plugin-ts-standard-pkg",
+        "@pika/plugin-standard-pkg",
         {
           "exclude": [
             "**/__test__/*"
