@@ -6,8 +6,8 @@ import * as _ from 'lodash';
 
 import { ITestContainerOptions } from './types';
 
-export default class testContainers {
-  private static _instance?: testContainers;
+export default class TestContainersTD {
+  private static _instance?: TestContainersTD;
   private _container: StartedTestContainer;
 
   /* istanbul ignore next */
@@ -16,18 +16,19 @@ export default class testContainers {
     private _options?: ITestContainerOptions,
     private _isSingleton: boolean = false,
   ) {
-    if (_isSingleton && testContainers._instance)
+    if (_isSingleton && TestContainersTD._instance)
       throw new Error('Use testContainers.getInstance() instead of new.');
-    testContainers._instance = this;
+    TestContainersTD._instance = this;
   }
 
   /**
    * Get instance
    */
   /* istanbul ignore next */
-  public static getInstance(_image?: string, _options?: ITestContainerOptions): testContainers {
+  public static getInstance(_image?: string, _options?: ITestContainerOptions): TestContainersTD {
     return (
-      testContainers._instance ?? (testContainers._instance = new testContainers(_image, _options))
+      TestContainersTD._instance ??
+      (TestContainersTD._instance = new TestContainersTD(_image, _options))
     );
   }
 
@@ -84,7 +85,7 @@ export default class testContainers {
 
   /**
    * Stop container
-   * @param options optional stop options of testcontainers.
+   * @param options optional stop options of test containers.
    */
   public async stop(options?: Partial<StopOptions>): Promise<void> {
     try {
