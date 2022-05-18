@@ -5,6 +5,7 @@ import {
   TCMongoOptions,
   TCMySqlOptions,
   TCPostgresOptions,
+  tcName,
   testContainers,
 } from '@tresdoce-nestjs-toolkit/test-utils';
 
@@ -20,7 +21,10 @@ describe('TypeOrm - Postgres', () => {
   let container: testContainers;
 
   beforeAll(async () => {
-    container = await new testContainers('postgres:13', TCPostgresOptions);
+    container = await new testContainers('postgres:13', {
+      ...TCPostgresOptions,
+      containerName: `${tcName}-typeorm-postgres`,
+    });
     await container.start();
   });
 
@@ -57,7 +61,10 @@ describe('TypeOrm - MySql', () => {
   let container: testContainers;
 
   beforeAll(async () => {
-    container = await new testContainers('mysql:5.7', TCMySqlOptions);
+    container = await new testContainers('mysql:5.7', {
+      ...TCMySqlOptions,
+      containerName: `${tcName}-typeorm-mysql`,
+    });
     await container.start();
   });
 
@@ -94,7 +101,10 @@ describe('TypeOrm - Mongo', () => {
   let container: testContainers;
 
   beforeAll(async () => {
-    container = await new testContainers('mongo:5.0', TCMongoOptions);
+    container = await new testContainers('mongo:5.0', {
+      ...TCMongoOptions,
+      containerName: `${tcName}-typeorm-mongo`,
+    });
     await container.start();
   });
 

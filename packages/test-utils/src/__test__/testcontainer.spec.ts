@@ -3,7 +3,7 @@ import { StartedGenericContainer } from 'testcontainers/dist/generic-container/s
 
 import { TCRedisOptions, TCMongoOptions, TCMySqlOptions, TCPostgresOptions } from '../fixtures';
 
-jest.setTimeout(60000);
+jest.setTimeout(70000);
 describe('testContainers', () => {
   let container: testContainers;
 
@@ -80,7 +80,13 @@ describe('testContainers - MySql', () => {
   let container: testContainers;
 
   beforeAll(async () => {
-    container = await new testContainers('mysql:5.7', TCMySqlOptions);
+    container = await new testContainers('mysql:5.7', {
+      ...TCMySqlOptions,
+      ports: {
+        container: 3306,
+        host: 52000,
+      },
+    });
     await container.start();
   });
 
