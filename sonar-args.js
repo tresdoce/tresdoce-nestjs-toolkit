@@ -33,8 +33,8 @@ sonar.sourceEncoding=UTF-8
 sonar.sources=${sonarSources.join() || '.'}
 sonar.exclusions=**/*.bin,node_modules/**,test/**,**/__test__/**,**/__mocks__/**,src/index.ts
 sonar.coverage.exclusions=node_modules/**,test/**,**/__test__/**,**/__mocks__/**,src/index.ts
+sonar.testExecutionReportPaths=${sonarTestExecutionReportPaths.join()}
 sonar.javascript.lcov.reportPaths=${sonarLcovReportPath.join()}`;
-//sonar.testExecutionReportPaths=${sonarTestExecutionReportPaths.join()}
 
     fs.writeFile(
       path.resolve(__dirname, sonarPropertiesFilename),
