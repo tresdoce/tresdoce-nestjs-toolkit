@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@0.1.0-beta.0...@tresdoce-nestjs-toolkit/commons@0.1.0-beta.1) (2022-05-18)
+
+### 📝 Docs
+
+- **readme:** edit badge of version ([e82e040](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/e82e040cd43fb756ca36b8cb88fe1daf3a8c4f4c))
+
+### 👨‍💻 Chores
+
+- add limit of coverage ([a9905e7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a9905e7a14f69be246f2ef93ec106137b8acc844))
+- **commons:** edit function to build webpack ([42bd4db](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/42bd4db86698bc79ee400b7e123a5559a3348db5))
+- **commons:** remove logs of test build config ([39b94de](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/39b94de0a837ef0239aeeed5d54e6665ea89b88d))
+- edit package json ([576cdc6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/576cdc6b97b15437639f3debfb5bc96687c41be8))
+
 ## 0.1.0-beta.0 (2022-04-12)
 
 ### ✨ Features

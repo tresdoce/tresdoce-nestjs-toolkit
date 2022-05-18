@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.1.0-beta.0...@tresdoce-nestjs-toolkit/core@0.1.0-beta.1) (2022-05-18)
+
+### 📝 Docs
+
+- **readme:** edit badge of version ([e82e040](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/e82e040cd43fb756ca36b8cb88fe1daf3a8c4f4c))
+
+### 👨‍💻 Chores
+
+- edit package json ([576cdc6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/576cdc6b97b15437639f3debfb5bc96687c41be8))
+- **test-utils:** add configuration is singleton or not ([f3dd5ef](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/f3dd5ef1f0c2ef2be966acbd2513e72448934ff4))
+
 ## 0.1.0-beta.0 (2022-04-12)
 
 ### ✨ Features

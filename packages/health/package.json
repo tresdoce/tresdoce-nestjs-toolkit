@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/health",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0-beta.1",
   "description": "Tresdoce NestJS Toolkit - health",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -52,7 +52,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.1.0-beta.0",
+    "@tresdoce-nestjs-toolkit/config": "^0.1.0-beta.1",
     "@types/tresdoce-nestjs-toolkit": "^0.0.1-beta.0"
   },
   "prettier": {
