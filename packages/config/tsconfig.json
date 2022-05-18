@@ -21,5 +21,19 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "strict": false
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test",
+    "__test__",
+    "**/__test__/**/*",
+    "**/*spec.ts",
+    "**/*it.ts",
+    "**/*test.ts",
+    "**/*e2e.ts",
+    "**/*e2e-spec.ts",
+    "coverage"
+  ]
 }
