@@ -50,7 +50,7 @@ export default class testContainers {
 
     /* Add container envs */
     if (_.has(options, 'envs') && !_.isEmpty(options.envs)) {
-      Object.keys(options.envs).map((key) => {
+      Object.keys(options.envs).forEach((key) => {
         genericContainer.withEnv(`${key}`, `${options.envs[key]}`);
       });
     }
