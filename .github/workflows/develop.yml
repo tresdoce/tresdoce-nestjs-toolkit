@@ -43,10 +43,10 @@ jobs:
         run: yarn lint
 
       - name: "🔨 Build"
-        run: yarn build --force && node sonar-args.js
+        run: yarn build && node sonar-args.js
 
       - name: "👨‍💻 Run Test"
-        run: yarn test --force
+        run: yarn test
         env:
           NODE_ENV: 'test'
 
