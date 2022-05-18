@@ -34,7 +34,6 @@ sonar.sources=${sonarSources.join() || '.'}
 sonar.exclusions=**/*.bin,node_modules/**,test/**,**/__test__/**,**/__mocks__/**,src/index.ts
 sonar.coverage.exclusions=node_modules/**,test/**,**/__test__/**,**/__mocks__/**,src/index.ts
 sonar.testExecutionReportPaths=${sonarTestExecutionReportPaths.join()}
-sonar.typescript.lcov.reportPaths=${sonarLcovReportPath.join()}
 sonar.javascript.lcov.reportPaths=${sonarLcovReportPath.join()}`;
 
     fs.writeFile(
