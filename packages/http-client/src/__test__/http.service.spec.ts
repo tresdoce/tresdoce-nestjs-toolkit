@@ -117,9 +117,11 @@ describe('HttpService', () => {
 
   it('should be return error', async () => {
     try {
-      await service.get(`${API_NESTJS_STARTER}/postss`);
+      const { data } = await service.get(`${API_NESTJS_STARTER}/postss`);
+      expect(data).toBe(200);
     } catch (error) {
-      expect(error.statusCode).toBe(404);
+      expect(error.response.status).toBe(404);
+      expect(error.message).toBe('Request failed with status code 404');
     }
   });
 });
