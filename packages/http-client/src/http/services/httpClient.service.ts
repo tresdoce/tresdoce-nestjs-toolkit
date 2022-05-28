@@ -1,5 +1,5 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
-import Axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { AXIOS_INSTANCE_TOKEN, RequestMethod } from '../constants/http.constants';
 import * as _ from 'lodash';
 
