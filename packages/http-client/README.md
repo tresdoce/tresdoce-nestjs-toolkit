@@ -94,10 +94,16 @@ export class AppService {
 
   async getInfoFromApi() {
     try {
-      const { status, data } = await this.httpClient.get('https://api.domain.com');
+      const { status, data } = await this.httpClient.get(encodeURI('https://api.domain.com'));
       return data;
     } catch (error) {
-      return error;
+      throw new HttpException(
+        {
+          status: error.response.status,
+          error: error.message,
+        },
+        error.response.status,
+      );
     }
   }
 
