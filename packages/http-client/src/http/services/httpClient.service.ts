@@ -33,11 +33,14 @@ export class HttpClientService {
    * @param url API url for request
    * @param config AxiosRequestConfig type user configuration
    */
-  private fetch<T = any>(url: string, config: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  private fetch = async <T = any>(
+    url: string,
+    config: AxiosRequestConfig,
+  ): Promise<AxiosResponse<T>> => {
     try {
       config = _.omit(config, ['url']);
       config.headers = _.merge(this.headers, config.headers);
-      return this.axiosRef.request({
+      return await this.axiosRef.request({
         url,
         ...config,
       });
@@ -47,70 +50,86 @@ export class HttpClientService {
         error.response.errors || error.response || 'Unknown Error',
         error.status || 500,
       );
-      //throw error;
-      //return error;
     }
-  }
+  };
 
   /**
    * Make http request  based on axios using user´s config
    * @param config Contain request configuration (headers, data, url, method...) type AxiosRequestConfig
    */
-  public request<T = any>(config: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.fetch(config.url, config);
-  }
+  public request = async <T = any>(config: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
+    return await this.fetch(config.url, config);
+  };
 
   /**
    * Make get http request based on axios
    * @param url API url for request
    * @param config Contain request configuration (headers, httpAgent...) type AxiosRequestConfig
    */
-  public get<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.fetch(url, { ...config, method: RequestMethod.GET });
-  }
+  public get = async <T = any>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<T>> => {
+    return await this.fetch(url, { ...config, method: RequestMethod.GET });
+  };
 
   /**
    * Make post http request based on axios
    * @param url API url for request
    * @param config Contain request configuration (headers, data...) type AxiosRequestConfig
    */
-  public post<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.fetch(url, { ...config, method: RequestMethod.POST });
-  }
+  public post = async <T = any>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<T>> => {
+    return await this.fetch(url, { ...config, method: RequestMethod.POST });
+  };
 
   /**
    * Make put http request based on axios
    * @param url API url for request
    * @param config Contain request configuration (headers, data...) type AxiosRequestConfig
    */
-  public put<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.fetch(url, { ...config, method: RequestMethod.PUT });
-  }
+  public put = async <T = any>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<T>> => {
+    return await this.fetch(url, { ...config, method: RequestMethod.PUT });
+  };
 
   /**
    * Make patch patch request based on axios
    * @param url API url for request
    * @param config Contain request configuration (headers, data...) type AxiosRequestConfig
    */
-  public patch<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.fetch(url, { ...config, method: RequestMethod.PATCH });
-  }
+  public patch = async <T = any>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<T>> => {
+    return await this.fetch(url, { ...config, method: RequestMethod.PATCH });
+  };
 
   /**
    * Make delete http request based on axios
    * @param url API url for request
    * @param config Contain request configuration (headers, params...) type AxiosRequestConfig
    */
-  public delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.fetch(url, { ...config, method: RequestMethod.DELETE });
-  }
+  public delete = async <T = any>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<T>> => {
+    return await this.fetch(url, { ...config, method: RequestMethod.DELETE });
+  };
 
   /**
    * Make head http request based on axios
    * @param url API url for request
    * @param config Contain request configuration (params, httpAgent...) type AxiosRequestConfig
    */
-  public head<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.fetch(url, { ...config, method: RequestMethod.HEAD });
-  }
+  public head = async <T = any>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<T>> => {
+    return await this.fetch(url, { ...config, method: RequestMethod.HEAD });
+  };
 }
