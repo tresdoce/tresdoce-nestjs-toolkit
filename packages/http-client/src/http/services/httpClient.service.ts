@@ -43,11 +43,11 @@ export class HttpClientService {
       });
     } catch (error) {
       /* istanbul ignore next */
-      /*throw new HttpException(
-          error.response.errors || error.response || 'Unknown Error',
-          error.status || 500,
-      );*/
-      throw error;
+      throw new HttpException(
+        error.response.errors || error.response || 'Unknown Error',
+        error.status || 500,
+      );
+      //throw error;
       //return error;
     }
   }
