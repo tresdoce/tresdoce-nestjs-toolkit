@@ -43,7 +43,8 @@ export class HttpClientService {
       });
     } catch (error) {
       /* istanbul ignore next */
-      return error;
+      throw error;
+      //return error;
     }
   }
 
