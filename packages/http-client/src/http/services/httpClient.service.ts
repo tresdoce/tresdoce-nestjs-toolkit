@@ -58,7 +58,7 @@ export class HttpClientService {
    * @param config Contain request configuration (headers, data, url, method...) type AxiosRequestConfig
    */
   public request = async <T = any>(config: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
-    return await this.fetch(config.url, config);
+    return this.fetch(config.url, config);
   };
 
   /**
@@ -70,7 +70,7 @@ export class HttpClientService {
     url: string,
     config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> => {
-    return await this.fetch(url, { ...config, method: RequestMethod.GET });
+    return this.fetch(url, { ...config, method: RequestMethod.GET });
   };
 
   /**
@@ -82,7 +82,7 @@ export class HttpClientService {
     url: string,
     config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> => {
-    return await this.fetch(url, { ...config, method: RequestMethod.POST });
+    return this.fetch(url, { ...config, method: RequestMethod.POST });
   };
 
   /**
@@ -94,7 +94,7 @@ export class HttpClientService {
     url: string,
     config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> => {
-    return await this.fetch(url, { ...config, method: RequestMethod.PUT });
+    return this.fetch(url, { ...config, method: RequestMethod.PUT });
   };
 
   /**
@@ -106,7 +106,7 @@ export class HttpClientService {
     url: string,
     config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> => {
-    return await this.fetch(url, { ...config, method: RequestMethod.PATCH });
+    return this.fetch(url, { ...config, method: RequestMethod.PATCH });
   };
 
   /**
@@ -118,7 +118,7 @@ export class HttpClientService {
     url: string,
     config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> => {
-    return await this.fetch(url, { ...config, method: RequestMethod.DELETE });
+    return this.fetch(url, { ...config, method: RequestMethod.DELETE });
   };
 
   /**
@@ -130,6 +130,6 @@ export class HttpClientService {
     url: string,
     config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> => {
-    return await this.fetch(url, { ...config, method: RequestMethod.HEAD });
+    return this.fetch(url, { ...config, method: RequestMethod.HEAD });
   };
 }
