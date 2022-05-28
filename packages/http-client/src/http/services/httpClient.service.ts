@@ -1,5 +1,5 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
-import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import Axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { AXIOS_INSTANCE_TOKEN, RequestMethod } from '../constants/http.constants';
 import * as _ from 'lodash';
 
@@ -41,7 +41,7 @@ export class HttpClientService {
       config = _.omit(config, ['url']);
       config.headers = _.merge(this.headers, config.headers);
       return await this.axiosRef.request({
-        url,
+        url: encodeURI(url),
         ...config,
       });
     } catch (error) {
