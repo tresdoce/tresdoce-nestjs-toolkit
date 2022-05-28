@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.0.1-beta.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@0.0.1-beta.1...@tresdoce-nestjs-toolkit/http-client@0.0.1-beta.2) (2022-05-28)
+
+### 👨‍💻 Chores
+
+- **http-client:** add http exception ([b2fbef1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/b2fbef177f266afb73318c99f7aed519037371d8))
+- **http-client:** remove unsed axios type ([011ec47](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/011ec47cfe3697425022c0ff001bd0a64b09628f))
+- **http-client:** return http exception error ([685372a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/685372aa2e1cdd86364fe5be5859fda93951d8b0))
+- **http-client:** return http exception in fetch ([036b1f1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/036b1f1295b08e81f28d1a70a23a645d849eadfd))
+- **http-client:** return throw error ([eec468a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/eec468af95018c76f7cc6566880a27be8148dbb9))
+- **http-client:** return throw error ([41bab46](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/41bab46bbe22c438be5e8b375a139d8a18652a3b))
+
+### 🐛 Bug Fixes
+
+- **http-client:** resolve problem with reject request ([532ac96](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/532ac96036f6b817e3ddb8bd3b038f6515f998a9))
+- **http-client:** resolve redundant use of await on a return value methods ([ea85d6f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/ea85d6f5f9c0f0bc374920c8afc23cef5fcd0e1a))
+
+### 📝 Docs
+
+- **http-client:** edit documentation ([efff0ba](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/efff0ba04cd248d4dcb000f604b55d66864ff889))
+
 ### [0.0.1-beta.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@0.0.1-beta.0...@tresdoce-nestjs-toolkit/http-client@0.0.1-beta.1) (2022-05-18)
 
 ### 📝 Docs

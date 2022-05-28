@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.1.0-beta.0...@tresdoce-nestjs-toolkit/test-utils@0.1.0-beta.1) (2022-05-28)
+
+### 👨‍💻 Chores
+
+- **test-utils:** edit get instance parameter ([bcf36ca](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/bcf36ca9a2777aa4b808d324b8b3c24a109f86f7))
+
 ## 0.1.0-beta.0 (2022-05-18)
 
 ### ✨ Features
