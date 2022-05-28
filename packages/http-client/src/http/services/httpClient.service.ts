@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { AXIOS_INSTANCE_TOKEN, RequestMethod } from '../constants/http.constants';
 import * as _ from 'lodash';
@@ -43,6 +43,10 @@ export class HttpClientService {
       });
     } catch (error) {
       /* istanbul ignore next */
+      /*throw new HttpException(
+          error.response.errors || error.response || 'Unknown Error',
+          error.status || 500,
+      );*/
       throw error;
       //return error;
     }
