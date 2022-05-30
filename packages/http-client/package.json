@@ -1,7 +1,7 @@
 {
   "name": "@tresdoce-nestjs-toolkit/http-client",
   "version": "0.0.1-beta.1",
-  "description": "Tresdoce NestJS Toolkit - http-client",
+  "description": "Tresdoce NestJS Toolkit - Módulo http request con axios y axios-retry",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
     "email": "mdelgado@tresdoce.com.ar",
