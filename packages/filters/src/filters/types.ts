@@ -26,14 +26,32 @@ export interface IErrorDetail {
 }
 
 export interface IExceptionResponse {
-  error?: string | IErrorDetail;
   message: string;
-  type?: string;
+  status?: number;
+  code?: string;
   instance?: string;
-  status: number;
-  code: string;
+  detail?: string[];
+  error?: string | IErrorDetail;
+  statusCode?: number;
 }
 
 export interface IDefaultHTTPErrors {
   [status: number]: string;
 }
+
+/*
+    {
+      "error": {
+        "status": 404,
+        "code": "<API-PREFIX>-<HTTP-STATUS>",
+        "instance": "GET /api/characters",
+        "message": "Request failed with status code 404",
+        "detail": [
+          "firstName must be a string",
+          "lastName must be a string",
+          "email must be an email",
+          "email must be a string"
+        ]
+      }
+    }
+    */

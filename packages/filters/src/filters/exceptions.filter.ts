@@ -1,5 +1,6 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { toUpper } from 'lodash';
 import { Typings } from '@tresdoce-nestjs-toolkit/core';
 
 import { getCode } from './utils/error.utils';
@@ -14,43 +15,73 @@ export class ExceptionsFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
+
     const status: number = exception.getStatus();
     const errorResponse = exception.getResponse() as string | IExceptionResponse;
-    let title: string;
+    const apiPrefix: string = this.appConfig?.project.apiPrefix || 'API-PREFIX';
+    const instance = `${toUpper(request.method)} ${request.url}`;
+
+    let message;
     let detail;
-    const type: string = this.appConfig?.project.homepage || 'https://example.com';
-    const code: string = this.appConfig?.project.apiPrefix || 'API-PREFIX';
     let objectExtras = {};
-    const instance: string | undefined = request.url;
+    //const stack: string = 'stack' in exception ? exception.stack : '';
+
+    console.log('ERR: ', errorResponse);
 
     if (typeof errorResponse === 'string') {
-      title = errorResponse;
+      console.log('1: ', errorResponse);
+      message = errorResponse;
     } else {
-      title = errorResponse.message;
-      if (typeof errorResponse.error === 'string') {
-        detail = errorResponse.error;
+      if (errorResponse.message) {
+        console.log('2: ', errorResponse.message);
+        if (typeof errorResponse.message === 'string') {
+          message = errorResponse.message;
+          detail = errorResponse.detail;
+        } else {
+          message = errorResponse.error;
+          detail = errorResponse.message;
+        }
       } else {
-        if (errorResponse.error) {
-          objectExtras = {
-            ...errorResponse.error,
-          };
+        if (typeof errorResponse.error === 'string') {
+          console.log('3: ', errorResponse.error);
+          detail = errorResponse.error;
+        } else {
+          if (errorResponse.error) {
+            console.log('4: ', errorResponse.error);
+            objectExtras = {
+              ...errorResponse.error,
+            };
+          }
         }
       }
     }
 
     const errorInfo = {
-      ...objectExtras,
-      type,
-      title: title,
       status,
-      code: `${code}-${getCode(HttpStatus[status])}`,
-      detail,
       instance,
+      code: `${apiPrefix}-${getCode(HttpStatus[status])}`,
+      message,
+      detail,
+      ...objectExtras,
     };
 
-    response
-      .type(PROBLEM_CONTENT_TYPE)
-      .status(status)
-      .json({ errors: [errorInfo] });
+    /*
+        {
+          "error": {
+            "code": 404,
+            "status": "<API-PREFIX>-<HTTP-STATUS>",
+            "message": "Request failed with status code 404",
+            "instance": "GET /api/characters",
+            "detail": [
+              "firstName must be a string",
+              "lastName must be a string",
+              "email must be an email",
+              "email must be a string"
+            ]
+          }
+        }
+        */
+
+    response.type(PROBLEM_CONTENT_TYPE).status(status).json({ error: errorInfo });
   }
 }
