@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
-import { snakeCase, toUpper } from 'lodash';
+import _ from 'lodash';
 import { ExceptionResponse } from '../types';
 
 /**
@@ -18,7 +18,7 @@ export const getCode = (exResponse: ExceptionResponse | string): string => {
     return formatErrorCode(exResponse.error);
   }
 
-  return HttpStatus[HttpStatus.INTERNAL_SERVER_ERROR];
+  return formatErrorCode(HttpStatus[HttpStatus.INTERNAL_SERVER_ERROR]);
 };
 
 /**
@@ -28,5 +28,35 @@ export const getCode = (exResponse: ExceptionResponse | string): string => {
  * @returns - ex `Bad Request` become `BAD_REQUEST`
  */
 const formatErrorCode = (error: string): string => {
-  return toUpper(snakeCase(error));
+  return _.toUpper(_.snakeCase(error));
+};
+
+/**
+ *
+ * Extract the error messages
+ *
+ */
+export const getErrorMessage = (
+  exceptionResponse: ExceptionResponse | string,
+  httpStatus: string,
+): ExceptionResponse => {
+  let message;
+  let detail;
+
+  if (typeof exceptionResponse === 'string') {
+    message = exceptionResponse;
+  } else {
+    if (_.isArray(exceptionResponse.message)) {
+      message = exceptionResponse.error;
+      detail = exceptionResponse.message;
+    } else {
+      message = exceptionResponse.message;
+      detail = exceptionResponse.error;
+    }
+  }
+
+  return {
+    message: message || _.startCase(_.toLower(httpStatus)),
+    detail,
+  };
 };
