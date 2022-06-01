@@ -71,7 +71,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5",
     "shx": "^0.3.4",
-    "typeorm": "^0.2.45"
+    "typeorm": "^0.3.6"
   },
   "devDependencies": {
     "@babel/core": "^7.16.10",
