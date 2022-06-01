@@ -13,6 +13,9 @@
 </div>
 <br/>
 
+> ⚠️ Es importante tener en cuenta que este filtro se encuentra implementado en el
+> package `@tresdoce-nestjs-toolkit/paas`, ya que es una funcionalidad core para el starter.
+
 Este módulo está pensada para ser utilizada en [NestJs Starter](https://github.com/rudemex/nestjs-starter), o cualquier
 proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
 
@@ -55,15 +58,124 @@ yarn add @tresdoce-nestjs-toolkit/filters
 ## ⚙️ Configuración
 
 ```typescript
+//./src/main.ts
+import { ConfigService } from '@nestjs/config';
+import { ExceptionsFilter } from '@tresdoce-nestjs-toolkit/filters';
 
+//...
+
+async function bootstrap() {
+  //...
+  const appConfig = app.get<ConfigService>(ConfigService)['internalConfig']['config'];
+  app.useGlobalFilters(new ExceptionsFilter(appConfig));
+  //...
+}
+
+bootstrap();
 ```
 
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-```typescript
+Para conocer sobre todas las excepciones disponibles, ingresa a la documentación
+de [NestJs - Exception Filters](https://docs.nestjs.com/exception-filters#built-in-http-exceptions)
 
+### HttpException
+
+```typescript
+try {
+  //...
+} catch (error) {
+  throw new HttpException(error.message, error.response.status);
+}
+```
+
+```typescript
+try {
+  //...
+} catch (error) {
+  throw new HttpException(
+    {
+      message: error.message,
+    },
+    error.response.status,
+  );
+}
+```
+
+### Custom message HttpException
+
+```typescript
+try {
+  //...
+} catch (error) {
+  throw new HttpException('This is a message', error.response.status);
+}
+```
+
+```typescript
+try {
+  //...
+} catch (error) {
+  throw new HttpException(
+    {
+      message: 'This is a message',
+    },
+    error.response.status,
+  );
+}
+```
+
+### Simple exception
+
+```typescript
+try {
+  //...
+} catch {
+  throw new Error('this is an error');
+}
+```
+
+### Example response
+
+```json
+{
+  "error": {
+    "status": 404,
+    "instance": "GET /api/characters",
+    "code": "API-PREFIX-NOT_FOUND",
+    "message": "Request failed with status code 404"
+  }
+}
+```
+
+```json
+{
+  "error": {
+    "status": 404,
+    "instance": "GET /api/users/123456",
+    "code": "MY-API-NOT_FOUND",
+    "message": "User #123456 not found"
+  }
+}
+```
+
+```json
+{
+  "error": {
+    "status": 400,
+    "instance": "POST /api/users",
+    "code": "MY-API-BAD_REQUEST",
+    "message": "Bad Request",
+    "detail": [
+      "firstName must be a string",
+      "lastName must be a string",
+      "email must be an email",
+      "email must be a string"
+    ]
+  }
+}
 ```
 
 ## 📄 Changelog
