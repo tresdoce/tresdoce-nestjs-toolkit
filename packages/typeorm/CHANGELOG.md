@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.1...@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.2) (2022-06-01)
+
+### 👨‍💻 Chores
+
+- **typeorm:** update dependencie ([3291e85](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/3291e85204ac5775477bc37958ff8e97cf6e12f8))
+
 ## [0.1.0-beta.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.0...@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.1) (2022-06-01)
 
 ### 👨‍💻 Chores
