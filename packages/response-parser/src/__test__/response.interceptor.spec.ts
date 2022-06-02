@@ -1,20 +1,8 @@
 import { ResponseInterceptor } from '../response/response.interceptor';
+import { JestFN, fixtureUserResponse } from '@tresdoce-nestjs-toolkit/test-utils';
 import { of } from 'rxjs';
 
-const mockResponse: any = {
-  id: 1,
-  name: 'juan',
-  lastname: 'perez',
-};
-
-const executionContext: any = {
-  switchToHttp: jest.fn().mockReturnThis(),
-  getRequest: jest.fn(),
-  getResponse: jest.fn().mockReturnThis(),
-  getType: jest.fn().mockReturnThis(),
-  getClass: jest.fn().mockReturnThis(),
-  getHandler: jest.fn().mockReturnThis(),
-};
+const executionContext: any = JestFN.executionContext;
 
 describe('ResponseInterceptor', () => {
   let interceptor = new ResponseInterceptor();
@@ -25,7 +13,7 @@ describe('ResponseInterceptor', () => {
 
   it('should return an ResponseInterceptor instance simple entity', (done) => {
     const callHandler: any = {
-      handle: jest.fn(() => of(mockResponse)),
+      handle: jest.fn(() => of(fixtureUserResponse)),
     };
 
     const obs = interceptor.intercept(executionContext, callHandler);
@@ -33,7 +21,7 @@ describe('ResponseInterceptor', () => {
 
     obs.subscribe({
       next: (value) => {
-        expect(value).toMatchObject(mockResponse);
+        expect(value).toMatchObject(fixtureUserResponse);
       },
       error: (error) => {
         throw error;
@@ -46,14 +34,14 @@ describe('ResponseInterceptor', () => {
 
   it('should return an ResponseInterceptor instance multiple entity', (done) => {
     const callHandler: any = {
-      handle: jest.fn(() => of([mockResponse])),
+      handle: jest.fn(() => of([fixtureUserResponse])),
     };
     const obs = interceptor.intercept(executionContext, callHandler);
     expect(callHandler.handle).toBeCalledTimes(1);
 
     obs.subscribe({
       next: (value) => {
-        expect(value).toMatchObject({ data: [mockResponse] });
+        expect(value).toMatchObject({ data: [fixtureUserResponse] });
       },
       error: (error) => {
         throw error;

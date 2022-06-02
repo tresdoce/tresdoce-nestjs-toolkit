@@ -1,12 +1,6 @@
 import { BadRequestException, ForbiddenException, HttpException, HttpStatus } from '@nestjs/common';
-import {
-  ExceptionsFilter,
-  PROBLEM_CONTENT_TYPE,
-  IErrorDetail,
-  IProblemDetail,
-  ExceptionResponse,
-} from '../';
 import { config } from '@tresdoce-nestjs-toolkit/test-utils';
+import { ExceptionsFilter, PROBLEM_CONTENT_TYPE, IErrorDetail, IProblemDetail } from '../';
 
 const mockJson = jest.fn();
 
