@@ -1,9 +1,11 @@
 import { ResponseInterceptor } from '../response/response.interceptor';
-import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
-import { ConfigModule } from '@nestjs/config';
-import { config } from '@tresdoce-nestjs-toolkit/test-utils';
 import { of } from 'rxjs';
+
+const mockResponse: any = {
+  id: 1,
+  name: 'juan',
+  lastname: 'perez',
+};
 
 const executionContext: any = {
   switchToHttp: jest.fn().mockReturnThis(),
@@ -14,38 +16,19 @@ const executionContext: any = {
   getHandler: jest.fn().mockReturnThis(),
 };
 
-const mockResponse = {
-  test: 'Test',
-};
-
 describe('ResponseInterceptor', () => {
-  let app: INestApplication;
+  let interceptor = new ResponseInterceptor();
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({
-          isGlobal: true,
-          load: [config],
-        }),
-      ],
-    }).compile();
-    app = module.createNestApplication();
-    app.useGlobalInterceptors(new ResponseInterceptor());
-    await app.init();
-  });
-
-  it('should return an ResponseInterceptor toBeDefined', () => {
-    expect(new ResponseInterceptor()).toBeDefined();
+  it('should be defined', () => {
+    expect(interceptor).toBeDefined();
   });
 
   it('should return an ResponseInterceptor instance simple entity', (done) => {
-    const interceptor: ResponseInterceptor = new ResponseInterceptor();
     const callHandler: any = {
       handle: jest.fn(() => of(mockResponse)),
     };
-    const obs = interceptor.intercept(executionContext, callHandler);
 
+    const obs = interceptor.intercept(executionContext, callHandler);
     expect(callHandler.handle).toBeCalledTimes(1);
 
     obs.subscribe({
@@ -62,11 +45,11 @@ describe('ResponseInterceptor', () => {
   });
 
   it('should return an ResponseInterceptor instance multiple entity', (done) => {
-    const interceptor: ResponseInterceptor = new ResponseInterceptor();
     const callHandler: any = {
       handle: jest.fn(() => of([mockResponse])),
     };
     const obs = interceptor.intercept(executionContext, callHandler);
+    expect(callHandler.handle).toBeCalledTimes(1);
 
     obs.subscribe({
       next: (value) => {
