@@ -13,6 +13,9 @@
 </div>
 <br/>
 
+> ⚠️ Es importante tener en cuenta que este interceptor se encuentra implementado en el
+> package `@tresdoce-nestjs-toolkit/paas`, ya que es una funcionalidad core para el starter.
+
 Este módulo está pensada para ser utilizada en [NestJs Starter](https://github.com/rudemex/nestjs-starter), o cualquier
 proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
 
@@ -22,7 +25,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [⚙️ Configuración](#configurations)
-- [👨‍💻 Uso](#use)
+- [🖥 Respuesta](#response)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
 
@@ -54,16 +57,55 @@ yarn add @tresdoce-nestjs-toolkit/response-parser
 
 ## ⚙️ Configuración
 
-```typescript
+Para utilizar este interceptor, es necesario instanciarlo en la creación de la `app` con su global interceptor.
+La implementación del formato de respuesta está implícito en cada respuesta de los controladores.
 
+```typescript
+//./src/main.ts
+import { ResponseInterceptor } from '@tresdoce-nestjs-toolkit/response-parser';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  //...
+  app.useGlobalInterceptors(new ResponseInterceptor());
+  //...
+}
+
+bootstrap();
 ```
 
-<a name="use"></a>
+<a name="response"></a>
 
-## 👨‍💻 Uso
+## 🖥 Respuesta
 
-```typescript
+### Single entity response
 
+```json
+{
+  "id": 1,
+  "name": "juan",
+  "lastname": "perez"
+}
+```
+
+### Multiple entity response
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "juan",
+      "lastname": "perez"
+    },
+    {
+      "id": 2,
+      "name": "jose",
+      "lastname": "gonzalez"
+    }
+    //...
+  ]
+}
 ```
 
 ## 📄 Changelog
