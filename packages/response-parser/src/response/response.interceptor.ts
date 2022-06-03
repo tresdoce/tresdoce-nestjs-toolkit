@@ -5,8 +5,8 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class ResponseInterceptor<T> implements NestInterceptor<T, any> {
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    return next.handle().pipe(
+  intercept(_context: ExecutionContext, _next: CallHandler): Observable<any> {
+    return _next.handle().pipe(
       map((res) => {
         return _.isArray(res) ? { data: res } : res;
       }),

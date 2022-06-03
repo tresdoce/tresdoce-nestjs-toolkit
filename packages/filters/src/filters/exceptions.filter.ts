@@ -10,8 +10,8 @@ import { PROBLEM_CONTENT_TYPE } from './constants/filters.constants';
 export class ExceptionsFilter<T> implements ExceptionFilter {
   constructor(private readonly appConfig: Typings.AppConfig) {}
 
-  catch(exception: T, host: ArgumentsHost): void {
-    const ctx = host.switchToHttp();
+  catch(_exception: T, _host: ArgumentsHost): void {
+    const ctx = _host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
@@ -23,13 +23,13 @@ export class ExceptionsFilter<T> implements ExceptionFilter {
     let message;
     let detail;
 
-    if (exception instanceof HttpException) {
-      status = exception.getStatus();
-      const exceptionResponse = getErrorMessage(exception.getResponse(), HttpStatus[status]);
+    if (_exception instanceof HttpException) {
+      status = _exception.getStatus();
+      const exceptionResponse = getErrorMessage(_exception.getResponse(), HttpStatus[status]);
       message = exceptionResponse.message;
       detail = exceptionResponse.detail;
     } else {
-      const error = exception as any;
+      const error = _exception as any;
       message = error.message;
     }
 
