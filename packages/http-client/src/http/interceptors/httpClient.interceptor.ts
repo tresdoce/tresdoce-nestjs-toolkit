@@ -12,15 +12,15 @@ export class HttpClientInterceptor<T> implements NestInterceptor<T, any> {
   constructor(private readonly httpService: HttpClientService) {}
 
   intercept(
-    context: ExecutionContext,
-    next: CallHandler,
+    _context: ExecutionContext,
+    _next: CallHandler,
   ): Observable<any> | Promise<Observable<any>> {
-    const ctx = context.switchToHttp();
+    const ctx = _context.switchToHttp();
     this.request = ctx.getRequest<Request>();
     this.response = ctx.getResponse<Response>();
 
     this.httpService.initAxios(this.request.headers, this.request.ip);
 
-    return next.handle();
+    return _next.handle();
   }
 }
