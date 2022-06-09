@@ -38,13 +38,13 @@
     "@nestjs/common": "^8.2.0",
     "@nestjs/core": "^8.2.0",
     "@nestjs/platform-express": "^8.2.0",
-    "ioredis": "^5.0.6",
+    "redis": "^4.1.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5",
     "uuid": "^8.3.2"
   },
   "dependencies": {
-    "ioredis": "^5.0.6",
+    "redis": "^4.1.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

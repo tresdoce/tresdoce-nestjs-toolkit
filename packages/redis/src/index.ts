@@ -1,5 +1,6 @@
-// export public api from here
-// for example:
-// export * from './decorators';
-export * from './greeting/greeting.module';
-export * from './greeting/services/greeting.service';
+// https://github.com/skunight/nestjs-redis
+// https://github.com/liaoliaots/nestjs-redis
+export * from './redis/redis.module';
+export * from './redis/constants/redis.constants';
+export * from './redis/services/redis.service';
+export * from 'redis';
