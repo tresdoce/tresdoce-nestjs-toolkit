@@ -1,7 +1,7 @@
 import { RedisClientOptions } from 'redis';
 
 export interface RedisOptions extends RedisClientOptions {
-  protocol: string;
+  protocol?: string;
   host: string;
   port: number;
 }
