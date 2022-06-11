@@ -1,13 +1,23 @@
 import { Provider } from '@nestjs/common';
-import Redis, { RedisClientOptions } from 'redis';
+import Redis from 'redis';
+import { v4 as uuidv4 } from 'uuid';
 
 import { REDIS_CLIENT, REDIS_MODULE_OPTIONS } from '../constants/redis.constants';
+import { RedisOptions } from '../interfaces/redis.interface';
 
 export const createRedisClient = (): Provider => ({
   provide: REDIS_CLIENT,
-  useFactory: async (options: RedisClientOptions) => {
+  useFactory: async (options: RedisOptions) => {
     console.log('REDIS OPTS: ', options);
-    const client = Redis.createClient(options);
+    const { protocol, host, port, username, password, database = 0, name = uuidv4() } = options;
+    const url = `${protocol || 'redis'}://${username ? `${username}:` : ''}${
+      password ? `${password}@` : ''
+    }${host}${port ? `:${port}` : ''}`;
+    const client = Redis.createClient({
+      url,
+      name,
+      database,
+    });
 
     await client.connect();
 
