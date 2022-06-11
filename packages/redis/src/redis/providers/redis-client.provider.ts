@@ -14,7 +14,6 @@ import { RedisOptions } from '../interfaces/redis.interface';
 export const createRedisClient = (): Provider => ({
   provide: REDIS_CLIENT,
   useFactory: async (options: RedisOptions) => {
-    console.log('REDIS OPTS: ', options);
     const {
       protocol = 'redis',
       host,
@@ -29,7 +28,8 @@ export const createRedisClient = (): Provider => ({
     const url = `${protocol}://${username ? `${username}` : ''}${
       password ? `:${password}@` : ''
     }${host}${port ? `:${port}` : ''}${database ? `/${database}` : ''}`;
-    const client = Redis.createClient({ url, name });
+
+    const client = Redis.createClient({ ...options, url, name });
     await client.connect();
 
     client.on('ready', () => console.log(REDIS_MSG_IS_READY));
