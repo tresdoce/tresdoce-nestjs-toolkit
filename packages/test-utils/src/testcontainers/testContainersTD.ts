@@ -56,6 +56,12 @@ export default class TestContainersTD {
       });
     }
 
+    /* Add command to container */
+    /* istanbul ignore next */
+    if (_.has(options, 'command') && !_.isEmpty(options.command)) {
+      genericContainer.withCmd(options.command);
+    }
+
     /* Add startup timeout container */
     /* istanbul ignore next */
     if (_.has(options, 'startupTimeout')) {
@@ -76,7 +82,8 @@ export default class TestContainersTD {
   public async start(): Promise<void> {
     try {
       this._container = await this.prepareContainer(this._options).start();
-      console.info('Container initialized');
+      global.hostContainer = this._container.getHost();
+      console.info(`Container initialized: ${this.getName()}`);
     } catch (e) {
       /* istanbul ignore next */
       console.error(`Error initializing container: ${e}`);
@@ -89,8 +96,9 @@ export default class TestContainersTD {
    */
   public async stop(options?: Partial<StopOptions>): Promise<void> {
     try {
+      const containerName = this.getName();
       await this._container.stop(options);
-      console.info('Container stopped successfully');
+      console.info(`Container stopped successfully: ${containerName}`);
     } catch (e) {
       /* istanbul ignore next */
       console.error('Container not initialized');

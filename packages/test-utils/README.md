@@ -135,7 +135,7 @@ tener [Docker](https://www.docker.com/) instalado.
 
 ```typescript
 //...
-import { TCPostgresOptions, testContainers } from '@tresdoce-nestjs-toolkit/test-utils';
+import { TCPostgresOptions, testContainers, delay } from '@tresdoce-nestjs-toolkit/test-utils';
 
 jest.setTimeout(70000);
 describe('TypeOrm - Postgres', () => {
@@ -144,6 +144,7 @@ describe('TypeOrm - Postgres', () => {
 
   // Instanciamos el test container
   beforeAll(async () => {
+    // await delay(30000); // delay para inicializar el container
     container = await new testContainers('postgres:13', TCPostgresOptions);
     await container.start();
   });

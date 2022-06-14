@@ -8,7 +8,10 @@ describe('testContainers', () => {
   let container: testContainers;
 
   beforeAll(async () => {
-    container = await new testContainers('redis:latest', TCRedisOptions);
+    container = await new testContainers('redis:6.2-alpine', {
+      ...TCRedisOptions,
+      command: ['redis-server', '--appendonly', 'yes', '--requirepass', '123456'],
+    });
     await container.start();
   });
 
