@@ -1,11 +1,14 @@
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import { appConfigBase } from '@tresdoce-nestjs-toolkit/test-utils';
 import { registerAs } from '@nestjs/config';
 
-export default registerAs('config', () => {
+export default registerAs('config', (): Typings.AppConfig => {
   return {
+    ...appConfigBase,
     database: {
       typeorm: {
         type: 'mysql',
-        host: 'localhost',
+        host: global.hostContainer,
         port: parseInt('3306', 10),
         username: encodeURIComponent('root'),
         password: encodeURIComponent('123456'),

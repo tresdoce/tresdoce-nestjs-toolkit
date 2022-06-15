@@ -1,11 +1,14 @@
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import { appConfigBase } from '@tresdoce-nestjs-toolkit/test-utils';
 import { registerAs } from '@nestjs/config';
 
-export default registerAs('config', () => {
+export default registerAs('config', (): Typings.AppConfig => {
   return {
+    ...appConfigBase,
     database: {
       typeorm: {
         type: 'postgres',
-        host: 'localhost',
+        host: global.hostContainer,
         port: parseInt('5432', 10),
         username: encodeURIComponent('root'),
         password: encodeURIComponent('123456'),
@@ -13,10 +16,6 @@ export default registerAs('config', () => {
         synchronize: false,
         autoLoadEntities: false,
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        options: {
-          encrypt: false,
-        },
-        useUnifiedTopology: true,
       },
     },
   };
