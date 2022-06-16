@@ -27,7 +27,7 @@ export class RedisModule implements OnModuleDestroy {
           useValue: options,
         },
       ],
-      exports: [RedisService],
+      exports: [REDIS_CLIENT, RedisService],
     };
   }
 
@@ -46,7 +46,7 @@ export class RedisModule implements OnModuleDestroy {
           inject: [ConfigService],
         },
       ],
-      exports: [RedisService],
+      exports: [REDIS_CLIENT, RedisService],
     };
   }
 

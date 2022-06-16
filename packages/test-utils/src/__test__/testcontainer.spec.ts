@@ -11,6 +11,10 @@ describe('testContainers - Redis', () => {
     container = await new testContainers('redis:6.2-alpine', {
       ...TCRedisOptions,
       command: ['redis-server', '--appendonly', 'yes', '--requirepass', '123456'],
+      ports: {
+        container: 6379,
+        host: 6370,
+      },
     });
     await container.start();
   });

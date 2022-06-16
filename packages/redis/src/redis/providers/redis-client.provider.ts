@@ -1,5 +1,5 @@
 import { Provider } from '@nestjs/common';
-import Redis from 'redis';
+import { createClient } from 'redis';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -29,7 +29,7 @@ export const createRedisClient = (): Provider => ({
       password ? `:${password}@` : ''
     }${host}${port ? `:${port}` : ''}${database ? `/${database}` : ''}`;
 
-    const client = Redis.createClient({ ...options, url, name });
+    const client = createClient({ ...options, url, name });
     await client.connect();
 
     client.on('ready', () => console.log(REDIS_MSG_IS_READY));
