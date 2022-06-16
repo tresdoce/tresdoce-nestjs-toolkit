@@ -13,9 +13,9 @@ export default registerAs('config', (): Typings.AppConfig => {
         username: encodeURIComponent('root'),
         password: encodeURIComponent('123456'),
         database: encodeURIComponent('test_db'),
-        synchronize: false,
+        synchronize: true,
         autoLoadEntities: false,
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        entities: [__dirname + '/**/post.entity{.ts,.js}'],
       },
     },
   };
