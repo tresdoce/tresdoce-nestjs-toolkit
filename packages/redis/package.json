@@ -41,6 +41,7 @@
     "redis": "^4.1.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5",
+    "testcontainers": "^8.10.0",
     "uuid": "^8.3.2"
   },
   "dependencies": {

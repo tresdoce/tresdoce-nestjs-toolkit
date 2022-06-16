@@ -39,7 +39,11 @@
     "@nestjs/core": "^8.2.0",
     "@nestjs/platform-express": "^8.2.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.5.5"
+    "rxjs": "^7.5.5",
+    "testcontainers": "^8.10.0"
+  },
+  "dependencies": {
+    "testcontainers": "^8.10.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.1.0-beta.1",
