@@ -17,7 +17,7 @@ export class RedisService {
    * @return: String
    */
   public async echo(msg: string): Promise<string> {
-    return await this.clientRef.echo(msg);
+    return this.clientRef.echo(msg);
   }
 
   /**
@@ -38,9 +38,7 @@ export class RedisService {
    */
   public async set(key: string, value: any, seconds?: number): Promise<string> {
     value = JSON.stringify(value);
-    return !seconds
-      ? await this.clientRef.set(key, value)
-      : await this.clientRef.setEx(key, seconds, value);
+    return !seconds ? this.clientRef.set(key, value) : this.clientRef.setEx(key, seconds, value);
   }
 
   /**
@@ -69,7 +67,7 @@ export class RedisService {
    * @return: true | false
    */
   public async copy(source: string, destination: string): Promise<boolean> {
-    return await this.clientRef.copy(source, destination);
+    return this.clientRef.copy(source, destination);
   }
 
   /**
@@ -79,7 +77,7 @@ export class RedisService {
    * @return: OK
    */
   public async rename(key: string, newKey: string): Promise<string> {
-    return await this.clientRef.rename(key, newKey);
+    return this.clientRef.rename(key, newKey);
   }
 
   /**
@@ -87,6 +85,6 @@ export class RedisService {
    * @return: OK
    */
   public async flushAll(): Promise<string> {
-    return await this.clientRef.flushAll();
+    return this.clientRef.flushAll();
   }
 }

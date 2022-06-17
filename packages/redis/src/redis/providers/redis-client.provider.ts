@@ -25,9 +25,11 @@ export const createRedisClient = (): Provider => ({
     } = options;
 
     // redis[s]://[[username][:password]@][host][:port][/db-number]
-    const url = `${protocol}://${username ? `${username}` : ''}${
-      password ? `:${password}@` : ''
-    }${host}:${port}${database ? `/${database}` : ''}`;
+    const redisUsername = username ? `${username}` : '';
+    const redisPassword = password ? `:${password}@` : '';
+    const db = database ? `/${database}` : '';
+
+    const url = `${protocol}://${redisUsername}${redisPassword}${host}:${port}${db}`;
 
     const client = createClient({ ...options, url, name });
     await client.connect();
