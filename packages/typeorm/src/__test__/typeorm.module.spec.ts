@@ -7,7 +7,10 @@ import {
   TCPostgresOptions,
   tcName,
   testContainers,
+  fixturePostResponse,
+  fixtureUserResponse,
 } from '@tresdoce-nestjs-toolkit/test-utils';
+import { Repository } from 'typeorm';
 
 import { TypeOrmClientModule } from '../typeorm/typeorm.module';
 import { Post } from './utils/post.entity';
@@ -19,6 +22,7 @@ jest.setTimeout(70000);
 describe('TypeOrm - Postgres', () => {
   let app: INestApplication;
   let container: testContainers;
+  let repository: Repository<Post>;
 
   beforeAll(async () => {
     container = await new testContainers('postgres:13', {
@@ -44,6 +48,7 @@ describe('TypeOrm - Postgres', () => {
       ],
     }).compile();
     app = module.createNestApplication();
+    repository = module.get('PostRepository');
     await app.init();
   });
 
@@ -54,11 +59,19 @@ describe('TypeOrm - Postgres', () => {
   it('should be defined', async () => {
     await expect(app).toBeDefined();
   }, 50000);
+
+  it('should be return an array of post', async () => {
+    await repository.save([fixturePostResponse]);
+
+    const query = await repository.find();
+    expect(query).toEqual([fixturePostResponse]);
+  });
 });
 
 describe('TypeOrm - MySql', () => {
   let app: INestApplication;
   let container: testContainers;
+  let repository: Repository<Post>;
 
   beforeAll(async () => {
     container = await new testContainers('mysql:5.7', {
@@ -84,6 +97,7 @@ describe('TypeOrm - MySql', () => {
       ],
     }).compile();
     app = module.createNestApplication();
+    repository = module.get('PostRepository');
     await app.init();
   });
 
@@ -94,11 +108,19 @@ describe('TypeOrm - MySql', () => {
   it('should be defined', async () => {
     await expect(app).toBeDefined();
   }, 50000);
+
+  it('should be return an array of post', async () => {
+    await repository.save([fixturePostResponse]);
+
+    const query = await repository.find();
+    expect(query).toEqual([fixturePostResponse]);
+  });
 });
 
 describe('TypeOrm - Mongo', () => {
   let app: INestApplication;
   let container: testContainers;
+  let repository: Repository<User>;
 
   beforeAll(async () => {
     container = await new testContainers('mongo:5.0', {
@@ -124,6 +146,7 @@ describe('TypeOrm - Mongo', () => {
       ],
     }).compile();
     app = module.createNestApplication();
+    repository = module.get('UserRepository');
     await app.init();
   });
 
@@ -134,4 +157,11 @@ describe('TypeOrm - Mongo', () => {
   it('should be defined', async () => {
     await expect(app).toBeDefined();
   }, 50000);
+
+  it('should be return an array of user', async () => {
+    await repository.save([fixtureUserResponse]);
+
+    const query = await repository.find();
+    expect(query).toEqual([fixtureUserResponse]);
+  });
 });

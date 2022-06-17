@@ -6,5 +6,6 @@ export interface ITestContainerOptions {
   envs?: Env;
   containerName?: string;
   startupTimeout?: number;
+  command?: string[];
   reuse?: boolean;
 }

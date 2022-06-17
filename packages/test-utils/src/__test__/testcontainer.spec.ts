@@ -4,11 +4,18 @@ import { StartedGenericContainer } from 'testcontainers/dist/generic-container/s
 import { TCRedisOptions, TCMongoOptions, TCMySqlOptions, TCPostgresOptions } from '../fixtures';
 
 jest.setTimeout(70000);
-describe('testContainers', () => {
+describe('testContainers - Redis', () => {
   let container: testContainers;
 
   beforeAll(async () => {
-    container = await new testContainers('redis:latest', TCRedisOptions);
+    container = await new testContainers('redis:6.2-alpine', {
+      ...TCRedisOptions,
+      command: ['redis-server', '--appendonly', 'yes', '--requirepass', '123456'],
+      ports: {
+        container: 6379,
+        host: 6370,
+      },
+    });
     await container.start();
   });
 
@@ -62,7 +69,13 @@ describe('testContainers - MongoDB', () => {
   let container: testContainers;
 
   beforeAll(async () => {
-    container = await new testContainers('mongo:5.0', TCMongoOptions);
+    container = await new testContainers('mongo:5.0', {
+      ...TCMongoOptions,
+      ports: {
+        container: 27017,
+        host: 27012,
+      },
+    });
     await container.start();
   });
 

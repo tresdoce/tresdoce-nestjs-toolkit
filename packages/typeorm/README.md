@@ -55,16 +55,125 @@ yarn add @tresdoce-nestjs-toolkit/typeorm
 
 ## ⚙️ Configuración
 
-```typescript
+Agregar los datos de conexión a la base de datos en `configuration.ts` utilizando el key `database` que contenga el
+objeto `typeorm` y asigne los datos desde las variables de entorno.
 
+Estos datos pueden variar dependiendo si te vas a conectar a una `MongoDB`, `Postgres` o `MySql`, por lo que es
+recomendable revisar la [Documentación de NestJs](https://docs.nestjs.com/techniques/database) como también
+la [Documentación de TypeORM](https://typeorm.io/) y
+el [Data Source Options](https://typeorm.io/data-source-options#common-data-source-options) de TypeORM.
+
+```typescript
+//./src/config/configuration.ts
+import { Typings } from '@tiimiit-nestjs-toolkit/core';
+import { registerAs } from '@nestjs/config';
+
+export default registerAs('config', (): Typings.AppConfig => {
+  return {
+    //...
+    database: {
+      typeorm: {
+        type: 'postgres',
+        host: process.env.DATABASE_HOST,
+        port: parseInt(process.env.PORT, 10),
+        username: encodeURIComponent(process.env.DATABASE_USERNAME),
+        password: encodeURIComponent(process.env.DATABASE_PASSWORD),
+        database: encodeURIComponent(process.env.DATABASE_DB_NAME),
+        synchronize: false,
+        autoLoadEntities: false,
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      },
+    },
+    //...
+  };
+});
 ```
+
+<details>
+<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+
+`type`: Es el tipo de base de datos a conectarse.
+
+- Type: `String`
+- Values: `mongodb | postgres | mysql | <otra>`
+
+`host`: Es el servidor para conectarse a la base de datos mongo.
+
+- Type: `String`
+- Values: `localhost | 127.0.0.1 | <host>`
+
+`port`: Es el puerto para conectarse a la base de datos mongo, no es obligatorio ponerlo.
+
+- Type: `Number`
+
+`username`: Es el nombre de usuario para conectarse a la base de datos.
+
+- Type: `String`
+
+`password`: Es la contraseña de usuario para conectarse a la base de datos.
+
+- Type: `String`
+
+`database`: Es el nombre de la base de datos.
+
+- Type: `String`
+
+`synchronize`: Indica si el esquema de la base de datos debe ser creado automáticamente en cada lanzamiento de la
+aplicación. Tenga cuidado con esta opción y no la utilice en producción - de lo contrario puede perder los datos de
+producción.
+
+- Type: `Boolean`
+
+`autoLoadEntities`: Carga automática de las entities.
+
+- Type: `Boolean`
+- Default: `false`
+
+`entities`: Es un array de strings para configurar los entities a utilizar, se puede poner un glob para que reconozca a
+todas las entidades.
+
+- Type: `Array`
+
+</details>
 
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-```typescript
+Importar el `TypeOrmClientModule` en el archivo `app.module.ts`, y el módulo se encargará de obtener la configuración
+y realizar la connexion automáticamente.
 
+```typescript
+//./src/app.module.ts
+import { TypeOrmClientModule } from '@tiimiit-nestjs-toolkit/typeorm';
+
+@Module({
+  //...
+  imports: [
+    //...
+    TypeOrmClientModule,
+    //...
+  ],
+  //...
+})
+export class AppModule {}
+```
+
+Para la inyección de `Schemas` se utiliza la propiedad `forFeature` del módulo enviando las `entity` como un array.
+
+```typescript
+import { TypeOrmClientModule } from '@tiimiit-nestjs-toolkit/typeorm';
+import { Cat } from './entities/cat.entity';
+
+@module({
+  imports: [
+    //...
+    TypeOrmClientModule.forFeature([Cat]),
+    //...
+  ],
+  //...
+})
+export class CatsModule {}
 ```
 
 ## 📄 Changelog
