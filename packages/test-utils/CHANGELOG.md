@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.1.0-beta.3...@tresdoce-nestjs-toolkit/test-utils@0.1.0-beta.4) (2022-06-17)
+
+### 👨‍💻 Chores
+
+- multiples changes ([986f60a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/986f60aee1cd2796747fc7d7fdf9a133593c543c))
+- **redis:** work with test ([5dad40a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/5dad40ad00f46a3e88d3eada080e1791d4271be9))
+- **test-utils:** add testcontainers as peer dependencie ([ed2c108](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/ed2c1082db221c3e48960b09dd29e4f28f4602b9))
+- **test-utils:** edit msg to container and add delay funcion ([6abdb34](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/6abdb34d104310c5791c5d9c1dfe362f78e2dba8))
+
+### 🧪 Tests
+
+- **redis:** add test to redis module ([7255b09](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/7255b090209977072ec00c2ec94aa622c6f8db40))
+- **typeorm:** add querys to test ([540f0ee](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/540f0ee6d8a0dcd2dd9b4a1dbbe0cdce9a05fd44))
+
+### 🐛 Bug Fixes
+
+- **codesmells:** resolve code smells in redis and test utils ([a00b5ff](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a00b5ff0b89107e23dd7024ced30b90b301cc890))
+
 ## [0.1.0-beta.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.1.0-beta.2...@tresdoce-nestjs-toolkit/test-utils@0.1.0-beta.3) (2022-06-02)
 
 ### 🧪 Tests

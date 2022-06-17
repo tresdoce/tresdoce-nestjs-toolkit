@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.2...@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.3) (2022-06-17)
+
+### 👨‍💻 Chores
+
+- multiples changes ([986f60a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/986f60aee1cd2796747fc7d7fdf9a133593c543c))
+
+### 🧪 Tests
+
+- **typeorm:** add querys to test ([540f0ee](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/540f0ee6d8a0dcd2dd9b4a1dbbe0cdce9a05fd44))
+
 ## [0.1.0-beta.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.1...@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.2) (2022-06-01)
 
 ### 👨‍💻 Chores

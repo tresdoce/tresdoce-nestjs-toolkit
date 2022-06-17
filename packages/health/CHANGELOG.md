@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@0.1.0-beta.2...@tresdoce-nestjs-toolkit/health@0.1.0-beta.3) (2022-06-17)
+
+### ✨ Features
+
+- **health:** add ping check to typeorm ([cf9559b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/cf9559b27b949d39ba47b9c6e4517987065f550b))
+
 ## [0.1.0-beta.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@0.1.0-beta.1...@tresdoce-nestjs-toolkit/health@0.1.0-beta.2) (2022-06-01)
 
 ### 👨‍💻 Chores

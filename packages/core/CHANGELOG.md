@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.1.0-beta.2...@tresdoce-nestjs-toolkit/core@0.1.0-beta.3) (2022-06-17)
+
+### 👨‍💻 Chores
+
+- **core:** add typing typeorm to typings app ([140d254](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/140d254a6247074c9c1419919657f3eead970c67))
+
+### 🧪 Tests
+
+- **redis:** add test to redis module ([7255b09](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/7255b090209977072ec00c2ec94aa622c6f8db40))
+
 ## [0.1.0-beta.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.1.0-beta.1...@tresdoce-nestjs-toolkit/core@0.1.0-beta.2) (2022-06-01)
 
 ### 👨‍💻 Chores
