@@ -32,8 +32,11 @@ export const createRedisClient = (): Provider => ({
     const client = createClient({ ...options, url, name });
     await client.connect();
 
+    /* istanbul ignore next */
     client.on('ready', () => console.log(REDIS_MSG_IS_READY));
+    /* istanbul ignore next */
     client.on('connect', () => console.log(REDIS_MSG_SUCCESSFULLY_CONNECTED));
+    /* istanbul ignore next */
     client.on('error', (error) => console.error(`${REDIS_MSG_ERROR_CONNECTED} ${error}`));
 
     return client;

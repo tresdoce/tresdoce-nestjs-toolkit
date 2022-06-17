@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { RedisOptions } from '@tresdoce-nestjs-toolkit/redis';
 
 type TApiPrefix = string;
 type TName = string;
@@ -67,5 +68,6 @@ export interface AppConfig {
   params: IParamsConfig;
   services: Record<string, IServicesConfig>;
   database?: IDatabaseConfiguration;
+  redis?: RedisOptions;
   [key: string]: any;
 }

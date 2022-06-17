@@ -32,7 +32,7 @@ describe('RedisModule - with auth', () => {
             isGlobal: true,
             load: [config],
           }),
-          RedisModule.forRootAsync(),
+          RedisModule,
         ],
       }).compile();
 
@@ -85,6 +85,7 @@ describe('RedisModule - without auth', () => {
     container = await new testContainers('redis:6.2-alpine', {
       ...TCRedisOptions,
       containerName: `${tcName}-redis-module-without-auth`,
+      envs: {},
       ports: {
         container: 6379,
         host: 6380,

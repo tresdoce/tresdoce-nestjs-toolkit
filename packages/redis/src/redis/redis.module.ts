@@ -8,7 +8,20 @@ import { createRedisClient } from './providers/redis-client.provider';
 import { RedisOptions } from './interfaces/redis.interface';
 
 @Global()
-@Module({})
+@Module({
+  imports: [ConfigModule],
+  providers: [
+    createRedisClient(),
+    RedisService,
+    {
+      provide: REDIS_MODULE_OPTIONS,
+      useFactory: async (configService: ConfigService) =>
+        configService.get<RedisOptions>('config.redis'),
+      inject: [ConfigService],
+    },
+  ],
+  exports: [REDIS_CLIENT, RedisService],
+})
 export class RedisModule implements OnModuleDestroy {
   constructor(
     @Inject(REDIS_MODULE_OPTIONS) private readonly options: RedisOptions,
@@ -25,25 +38,6 @@ export class RedisModule implements OnModuleDestroy {
         {
           provide: REDIS_MODULE_OPTIONS,
           useValue: options,
-        },
-      ],
-      exports: [REDIS_CLIENT, RedisService],
-    };
-  }
-
-  static forRootAsync(): DynamicModule {
-    return {
-      global: true,
-      module: RedisModule,
-      imports: [ConfigModule],
-      providers: [
-        createRedisClient(),
-        RedisService,
-        {
-          provide: REDIS_MODULE_OPTIONS,
-          useFactory: async (configService: ConfigService) =>
-            configService.get<RedisOptions>('config.redis'),
-          inject: [ConfigService],
         },
       ],
       exports: [REDIS_CLIENT, RedisService],
