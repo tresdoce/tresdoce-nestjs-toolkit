@@ -15,7 +15,7 @@ export default registerAs('config', (): Typings.AppConfig => {
         database: encodeURIComponent('test_db'),
         authSource: encodeURIComponent('admin'),
         synchronize: true,
-        autoLoadEntities: false,
+        autoLoadEntities: true,
         entities: [__dirname + '/**/user.entity{.ts,.js}'],
         useUnifiedTopology: true,
       },

@@ -65,8 +65,8 @@ export interface AppConfig {
   project: IProjectConfig;
   server: IServerConfig;
   swagger: ISwaggerConfig;
-  params: IParamsConfig;
-  services: Record<string, IServicesConfig>;
+  params?: IParamsConfig;
+  services?: Record<string, IServicesConfig>;
   database?: IDatabaseConfiguration;
   redis?: RedisOptions;
   [key: string]: any;
