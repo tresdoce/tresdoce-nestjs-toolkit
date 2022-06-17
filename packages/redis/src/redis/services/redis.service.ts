@@ -5,13 +5,10 @@ import { REDIS_CLIENT } from '../constants/redis.constants';
 
 @Injectable()
 export class RedisService {
-  private client: RedisClientType;
-  constructor(@Inject(REDIS_CLIENT) private readonly redisClient: RedisClientType) {
-    this.getClient();
-  }
+  constructor(@Inject(REDIS_CLIENT) private readonly redisClient: RedisClientType) {}
 
-  private getClient() {
-    this.client = this.redisClient;
+  get clientRef(): RedisClientType {
+    return this.redisClient;
   }
 
   /**
@@ -20,11 +17,7 @@ export class RedisService {
    * @return: String
    */
   public async echo(msg: string): Promise<string> {
-    if (!this.client) {
-      this.getClient();
-    }
-
-    return await this.client.echo(msg);
+    return await this.clientRef.echo(msg);
   }
 
   /**
@@ -33,11 +26,7 @@ export class RedisService {
    * @return: true | false
    */
   public async exists(key: string): Promise<boolean> {
-    if (!this.client) {
-      this.getClient();
-    }
-
-    return Boolean(await this.client.exists(key));
+    return Boolean(await this.clientRef.exists(key));
   }
 
   /**
@@ -49,16 +38,9 @@ export class RedisService {
    */
   public async set(key: string, value: any, seconds?: number): Promise<string> {
     value = JSON.stringify(value);
-
-    if (!this.client) {
-      this.getClient();
-    }
-
-    if (!seconds) {
-      return await this.client.set(key, value);
-    } else {
-      return await this.client.setEx(key, seconds, value);
-    }
+    return !seconds
+      ? await this.clientRef.set(key, value)
+      : await this.clientRef.setEx(key, seconds, value);
   }
 
   /**
@@ -67,17 +49,8 @@ export class RedisService {
    * @return:
    */
   public async get(key: string): Promise<any> {
-    if (!this.client) {
-      this.getClient();
-    }
-
-    const data = await this.client.get(key);
-
-    if (data) {
-      return JSON.parse(data);
-    } else {
-      return null;
-    }
+    const data = await this.clientRef.get(key);
+    return data ? JSON.parse(data) : null;
   }
 
   /**
@@ -86,10 +59,7 @@ export class RedisService {
    * @return: true | false
    */
   public async del(key: string): Promise<boolean> {
-    if (!this.client) {
-      this.getClient();
-    }
-    return Boolean(await this.client.del(key));
+    return Boolean(await this.clientRef.del(key));
   }
 
   /**
@@ -99,11 +69,7 @@ export class RedisService {
    * @return: true | false
    */
   public async copy(source: string, destination: string): Promise<boolean> {
-    if (!this.client) {
-      this.getClient();
-    }
-
-    return await this.client.copy(source, destination);
+    return await this.clientRef.copy(source, destination);
   }
 
   /**
@@ -113,11 +79,7 @@ export class RedisService {
    * @return: OK
    */
   public async rename(key: string, newKey: string): Promise<string> {
-    if (!this.client) {
-      this.getClient();
-    }
-
-    return await this.client.rename(key, newKey);
+    return await this.clientRef.rename(key, newKey);
   }
 
   /**
@@ -125,9 +87,6 @@ export class RedisService {
    * @return: OK
    */
   public async flushAll(): Promise<string> {
-    if (!this.client) {
-      this.getClient();
-    }
-    return await this.client.flushAll();
+    return await this.clientRef.flushAll();
   }
 }

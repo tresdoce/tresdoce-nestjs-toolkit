@@ -20,14 +20,14 @@ export const createRedisClient = (): Provider => ({
       port,
       username,
       password,
-      database = 0,
+      database,
       name = uuidv4(),
     } = options;
 
     // redis[s]://[[username][:password]@][host][:port][/db-number]
     const url = `${protocol}://${username ? `${username}` : ''}${
       password ? `:${password}@` : ''
-    }${host}${port ? `:${port}` : ''}${database ? `/${database}` : ''}`;
+    }${host}:${port}${database ? `/${database}` : ''}`;
 
     const client = createClient({ ...options, url, name });
     await client.connect();
