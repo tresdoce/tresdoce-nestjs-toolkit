@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.3...@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.4) (2022-06-17)
+
+### 👨‍💻 Chores
+
+- changes in typings, change exported typeorm and add documentation in redis module ([1a8e991](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/1a8e991990e5a59049033a68c7a820bf768560fe))
+- **typeorm:** remove comment in index ([d859c32](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d859c32763ba2d4ea1c65b3977f02a782eefaff1))
+
 ## [0.1.0-beta.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.2...@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.3) (2022-06-17)
 
 ### 👨‍💻 Chores
