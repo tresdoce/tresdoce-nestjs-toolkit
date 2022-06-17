@@ -75,7 +75,7 @@ export default registerAs('config', (): Typings.AppConfig => {
       typeorm: {
         type: 'postgres',
         host: process.env.DATABASE_HOST,
-        port: parseInt(process.env.PORT, 10),
+        port: parseInt(process.env.DATABASE_PORT, 10),
         username: encodeURIComponent(process.env.DATABASE_USERNAME),
         password: encodeURIComponent(process.env.DATABASE_PASSWORD),
         database: encodeURIComponent(process.env.DATABASE_DB_NAME),
