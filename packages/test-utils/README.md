@@ -135,7 +135,7 @@ tener [Docker](https://www.docker.com/) instalado.
 
 ```typescript
 //...
-import { TCPostgresOptions, testContainers } from '@tresdoce-nestjs-toolkit/test-utils';
+import { TCPostgresOptions, testContainers, delay } from '@tresdoce-nestjs-toolkit/test-utils';
 
 jest.setTimeout(70000);
 describe('TypeOrm - Postgres', () => {
@@ -144,6 +144,7 @@ describe('TypeOrm - Postgres', () => {
 
   // Instanciamos el test container
   beforeAll(async () => {
+    // await delay(30000); // delay para inicializar el container
     container = await new testContainers('postgres:13', TCPostgresOptions);
     await container.start();
   });
@@ -200,6 +201,30 @@ La clase `testContainers` cuenta con algunas funciones que retorna información 
 - `getHost()` retorna el host del contenedor instanciado, esto es util, ya que a veces el contenedor no se hostea en
   **localhost**
 - `getName()` retorna el nombre del contenedor.
+
+### Troubleshooting
+
+Para solucionar el problema de `failed: port is already allocated`, es recomendable cambiar el puerto del `host`,
+manteniendo el del `container` con el default.
+
+```typescript
+// Ejemplo para MongoDB
+await new testContainers('mongo:5.0', {
+  ...TCMongoOptions,
+  ports: {
+    container: 27017,
+    host: 27013,
+  },
+});
+```
+
+Limpiar los containers, images y volumes para probar en un entorno desde cero.
+
+```bash
+docker system prune --volumes
+docker system prune -a
+yarn test --force
+```
 
 ## 📄 Changelog
 

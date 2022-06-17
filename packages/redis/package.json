@@ -1,7 +1,7 @@
 {
-  "name": "@tresdoce-nestjs-toolkit/test-utils",
-  "version": "0.1.0-beta.3",
-  "description": "Tresdoce NestJS Toolkit - Utilities para testing",
+  "name": "@tresdoce-nestjs-toolkit/redis",
+  "version": "0.0.0",
+  "description": "Tresdoce NestJS Toolkit - Módulo de Redis para cache",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
     "email": "mdelgado@tresdoce.com.ar",
@@ -13,7 +13,7 @@
   },
   "keywords": [
     "nestjs",
-    "test-utils"
+    "redis"
   ],
   "repository": {
     "type": "git",
@@ -26,24 +26,26 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "prebuild": "shx rm -rf ../../dist/test-utils",
-    "build": "pika build --out ../../dist/test-utils",
+    "prebuild": "shx rm -rf ../../dist/redis",
+    "build": "pika build --out ../../dist/redis",
     "test": "jest --runInBand --detectOpenHandles --coverage"
   },
   "publishConfig": {
     "access": "public",
-    "directory": "../../dist/test-utils"
+    "directory": "../../dist/redis"
   },
   "peerDependencies": {
     "@nestjs/common": "^8.2.0",
     "@nestjs/core": "^8.2.0",
     "@nestjs/platform-express": "^8.2.0",
+    "redis": "^4.1.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5",
-    "testcontainers": "^8.10.0"
+    "uuid": "^8.3.2"
   },
   "dependencies": {
-    "testcontainers": "^8.10.0"
+    "redis": "^4.1.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.1.0-beta.1",
@@ -59,7 +61,7 @@
   "@pika/pack": {
     "pipeline": [
       [
-        "@pika/plugin-standard-pkg",
+        "@pika/plugin-ts-standard-pkg",
         {
           "exclude": [
             "**/__test__/*"

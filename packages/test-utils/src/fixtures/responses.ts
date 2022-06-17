@@ -3,3 +3,10 @@ export const fixtureUserResponse: any = {
   name: 'juan',
   lastname: 'perez',
 };
+
+export const fixturePostResponse: any = {
+  id: 1,
+  title: 'test post 1',
+  description: 'this is a description of post 1',
+  isActive: true,
+};

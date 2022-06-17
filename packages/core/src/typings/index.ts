@@ -1,4 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { RedisOptions } from '@tresdoce-nestjs-toolkit/redis';
 
 type TApiPrefix = string;
 type TName = string;
@@ -9,13 +11,16 @@ export interface IProjectConfigAuthor {
   email: string;
   url: TUrl;
 }
+
 export interface IProjectConfigRepository {
   type: string;
   url: TUrl;
 }
+
 export interface IProjectConfigBugs {
   url: TUrl;
 }
+
 export interface IProjectConfig {
   apiPrefix: TApiPrefix;
   name: TName;
@@ -37,10 +42,12 @@ export interface IServerConfig {
   corsEnabled: boolean;
   corsCredentials: boolean;
 }
+
 export interface ISwaggerConfig {
   path: string;
   enabled: boolean;
 }
+
 export interface IParamsConfig {
   [key: string]: any;
 }
@@ -50,11 +57,17 @@ export interface IServicesConfig extends AxiosRequestConfig {
   [key: string]: any;
 }
 
+export interface IDatabaseConfiguration {
+  typeorm?: TypeOrmModuleOptions;
+}
+
 export interface AppConfig {
   project: IProjectConfig;
   server: IServerConfig;
   swagger: ISwaggerConfig;
   params: IParamsConfig;
   services: Record<string, IServicesConfig>;
+  database?: IDatabaseConfiguration;
+  redis?: RedisOptions;
   [key: string]: any;
 }

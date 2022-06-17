@@ -1,6 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpModule } from '@nestjs/axios';
-import { HealthCheckService, HttpHealthIndicator, TerminusModule } from '@nestjs/terminus';
+import {
+  HealthCheckService,
+  HttpHealthIndicator,
+  TerminusModule,
+  TypeOrmHealthIndicator,
+} from '@nestjs/terminus';
 
 import { ReadinessController } from '../health/controllers/readiness.controller';
 import { CONFIG_OPTIONS } from '../health/constants';
@@ -17,6 +22,11 @@ const mockedConfig = {
       healthPath: '/liveness',
     },
   },
+  database: {
+    typeorm: {
+      type: 'postgres',
+    },
+  },
 };
 
 const mockExpectReadiness = {
@@ -25,10 +35,16 @@ const mockExpectReadiness = {
     myService: {
       status: 'up',
     },
+    typeOrm: {
+      status: 'up',
+    },
   },
   error: {},
   details: {
     myService: {
+      status: 'up',
+    },
+    typeOrm: {
       status: 'up',
     },
   },
@@ -45,6 +61,7 @@ describe('Health - Ready controller - extend config', () => {
   let controller: ReadinessController;
   let health: HealthCheckService;
   let http: HttpHealthIndicator;
+  let typeOrm: TypeOrmHealthIndicator;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -61,6 +78,7 @@ describe('Health - Ready controller - extend config', () => {
     controller = module.get<ReadinessController>(ReadinessController);
     health = await module.resolve<HealthCheckService>(HealthCheckService);
     http = await module.resolve<HttpHealthIndicator>(HttpHealthIndicator as any);
+    typeOrm = await module.resolve<TypeOrmHealthIndicator>(TypeOrmHealthIndicator);
   });
 
   it('should be defined with extend config', () => {
@@ -69,6 +87,7 @@ describe('Health - Ready controller - extend config', () => {
 
   it('should be return up services with extend config', async () => {
     http.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
+    typeOrm.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
     health.check = jest.fn().mockImplementation(() => mockExpectReadiness);
     //controller.check = jest.fn().mockImplementation(() => mockExpectReadiness)
 
@@ -87,6 +106,7 @@ describe('Health - Ready controller - simple config', () => {
   let controller: ReadinessController;
   let health: HealthCheckService;
   let http: HttpHealthIndicator;
+  let typeOrm: TypeOrmHealthIndicator;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -103,6 +123,7 @@ describe('Health - Ready controller - simple config', () => {
     controller = module.get<ReadinessController>(ReadinessController);
     health = await module.resolve<HealthCheckService>(HealthCheckService);
     http = await module.resolve<HttpHealthIndicator>(HttpHealthIndicator as any);
+    typeOrm = await module.resolve<TypeOrmHealthIndicator>(TypeOrmHealthIndicator);
   });
 
   it('should be defined with simple config', () => {
@@ -111,6 +132,7 @@ describe('Health - Ready controller - simple config', () => {
 
   it('should be return up services with simple config', async () => {
     http.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
+    typeOrm.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
     health.check = jest.fn().mockImplementation(() => mockExpectReadiness);
 
     const readinessData = await controller.check();
