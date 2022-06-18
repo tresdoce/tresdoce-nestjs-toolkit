@@ -4,19 +4,21 @@ import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import * as _ from 'lodash';
 import { URL } from 'url';
 
-import { CONFIG_OPTIONS } from '../constants';
+import { CONFIG_OPTIONS, HEALTH_MODULE_OPTIONS } from '../constants';
 
 @Controller('health')
 export class ReadinessController {
   constructor(
     @Inject(CONFIG_OPTIONS) private readonly appConfig: Typings.AppConfig,
+    @Inject(HEALTH_MODULE_OPTIONS) private readonly healthOptions,
     private health: HealthCheckService,
     private http: HttpHealthIndicator,
   ) {}
 
   @Get('readiness')
   @HealthCheck()
-  async check() {
+  async check(): Promise<any> {
+    console.log(this.healthOptions);
     const servicesPingCheckList = _.has(this.appConfig, 'services')
       ? Object.keys(this.appConfig.services).map((_key) => {
           const {
@@ -30,6 +32,13 @@ export class ReadinessController {
             this.http.pingCheck(`${_key}`, `${urlService.origin}${healthPath}`, { timeout });
         })
       : /* istanbul ignore next */ [];
+
+    /*const databaseCheckList = _.has(this.appConfig, 'database')
+      ? Object.keys(this.appConfig.database).map((_key) => {
+          /!* istanbul ignore next *!/
+          return () => this.typeOrm.pingCheck(`typeOrm - ${this.appConfig.database.typeorm.type}`);
+        })
+      : /!* istanbul ignore next *!/ [];*/
 
     return this.health.check([...servicesPingCheckList]);
   }

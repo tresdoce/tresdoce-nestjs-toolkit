@@ -1,4 +1,4 @@
-import { Global, Module } from '@nestjs/common';
+import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
 import { TerminusModule } from '@nestjs/terminus';
@@ -7,7 +7,7 @@ import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { LivenessController } from './controllers/liveness.controller';
 import { ReadinessController } from './controllers/readiness.controller';
 
-import { CONFIG_OPTIONS } from './constants';
+import { CONFIG_OPTIONS, HEALTH_MODULE_OPTIONS } from './constants';
 
 @Global()
 @Module({
@@ -25,4 +25,18 @@ import { CONFIG_OPTIONS } from './constants';
     },
   ],
 })
-export class HealthModule {}
+export class HealthModule {
+  static register(options): DynamicModule {
+    return {
+      global: true,
+      module: HealthModule,
+      providers: [
+        {
+          provide: HEALTH_MODULE_OPTIONS,
+          useValue: options,
+        },
+      ],
+      exports: [HEALTH_MODULE_OPTIONS],
+    };
+  }
+}
