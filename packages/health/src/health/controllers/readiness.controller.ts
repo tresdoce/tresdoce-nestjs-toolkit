@@ -37,13 +37,13 @@ export class ReadinessController {
         })
       : /* istanbul ignore next */ [];
 
-    const databaseCheckList = _.has(this.appConfig, 'database')
+    const typeormCheckList = _.has(this.appConfig, 'database')
       ? Object.keys(this.appConfig.database).map((_key) => {
           /* istanbul ignore next */
-          return () => this.typeOrm.pingCheck(`typeOrm - ${this.appConfig.database.typeorm.type}`);
+          return () => this.typeOrm.pingCheck(`typeorm_${this.appConfig.database.typeorm.type}`);
         })
       : /* istanbul ignore next */ [];
 
-    return this.health.check([...servicesPingCheckList, ...databaseCheckList]);
+    return this.health.check([...servicesPingCheckList, ...typeormCheckList]);
   }
 }
