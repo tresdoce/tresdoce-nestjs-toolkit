@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@0.1.0-beta.4...@tresdoce-nestjs-toolkit/health@0.1.0-beta.5) (2022-06-19)
+
+### 🐛 Bug Fixes
+
+- **health:** add peer dependencie ([daecf82](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/daecf824a09750817c966e496315d7f13ad30f1d))
+
+### 👨‍💻 Chores
+
+- **health:** edit name of ping database ([c5ee92f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c5ee92f8ce47cdcedbf0925598c90ec8b4c0f404))
+- **health:** edit test of health module ([3113d24](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/3113d243ed75657a4c5a0b35dccf09e31128c96e))
+
 ## [0.1.0-beta.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@0.1.0-beta.3...@tresdoce-nestjs-toolkit/health@0.1.0-beta.4) (2022-06-17)
 
 ### 👨‍💻 Chores
