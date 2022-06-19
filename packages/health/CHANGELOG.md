@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@0.1.0-beta.3...@tresdoce-nestjs-toolkit/health@0.1.0-beta.4) (2022-06-17)
+
+### 👨‍💻 Chores
+
+- **health:** remove readiness check in typeorm ([b1f748d](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/b1f748d2a115c0d8745b90161d96269f7ef378cb))
+
 ## [0.1.0-beta.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@0.1.0-beta.2...@tresdoce-nestjs-toolkit/health@0.1.0-beta.3) (2022-06-17)
 
 ### ✨ Features
