@@ -47,7 +47,7 @@ jobs:
       - name: "📦 Install Dependencies"
         run: yarn install
 
-      - name: "🔦 Lint"
+      - name: "💅 Lint"
         run: yarn lint
 
       - name: "🔨 Build"
