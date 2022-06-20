@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@0.1.0-beta.5...@tresdoce-nestjs-toolkit/health@0.1.0-beta.6) (2022-06-20)
+
+### 🐛 Bug Fixes
+
+- **health:** resolve code smell dynamic module ([53b90a6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/53b90a69341f474229cdd7e295d1df24a4c7e792))
+
 ## [0.1.0-beta.5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@0.1.0-beta.4...@tresdoce-nestjs-toolkit/health@0.1.0-beta.5) (2022-06-19)
 
 ### 🐛 Bug Fixes
