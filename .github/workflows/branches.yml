@@ -2,9 +2,9 @@ name: "Branches"
 
 on:
   push:
-    branches: [ "feat/*", "fix/*", "refactor/*" ]
+    branches: [ "feat/*", "fix/*", "refactor/*", "chore/*", "docs/*", "test/*", "build/*", "perf/*", "style/*", "revert/*" ]
   pull_request:
-    branches: [ "feat/*", "fix/*", "refactor/*" ]
+    branches: [ "feat/*", "fix/*", "refactor/*", "chore/*", "docs/*", "test/*", "build/*", "perf/*", "style/*", "revert/*" ]
 
 #env:
 #  DOCKER_HOST: tcp://docker:2375
@@ -53,7 +53,7 @@ jobs:
       - name: "📦 Install Dependencies"
         run: yarn install
 
-      - name: "🔦 Lint"
+      - name: "💅 Lint"
         run: yarn lint
 
       - name: "🔨 Build"
@@ -64,4 +64,14 @@ jobs:
         env:
           NODE_ENV: 'test'
 
+      - name: "📊 Upload coverage report to Codecov"
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: "📊 SonarCloud Scan"
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
