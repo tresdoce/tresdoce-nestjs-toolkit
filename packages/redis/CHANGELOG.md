@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/redis@0.1.0-beta.1...@tresdoce-nestjs-toolkit/redis@0.1.0-beta.2) (2022-06-24)
+
+### 👨‍💻 Chores
+
+- **redis:** edit limit coverage ([dcb0a2d](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/dcb0a2d3de0a91975b37afbbe3ec425cea42ef94))
+
 ## [0.1.0-beta.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/redis@0.1.0-beta.0...@tresdoce-nestjs-toolkit/redis@0.1.0-beta.1) (2022-06-17)
 
 ### 👨‍💻 Chores
