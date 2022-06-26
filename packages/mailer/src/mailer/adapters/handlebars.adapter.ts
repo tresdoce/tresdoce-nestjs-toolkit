@@ -40,7 +40,6 @@ export class HandlebarsAdapter implements TemplateAdapter {
       if (!this.precompiledTemplates[templateName]) {
         try {
           const templateEmail = fs.readFileSync(templatePath, 'utf-8');
-
           this.precompiledTemplates[templateName] = handlebars.compile(
             templateEmail,
             _.get(options, 'options', {}),
@@ -58,7 +57,7 @@ export class HandlebarsAdapter implements TemplateAdapter {
       };
     };
 
-    const { templateName } = precompile(mail.data.template, callback, mailerOptions.template);
+    const precompileTemplate = precompile(mail.data.template, callback, mailerOptions.template);
 
     const runtimeOptions = _.get(mailerOptions, 'options', {
       partials: false,
@@ -69,21 +68,20 @@ export class HandlebarsAdapter implements TemplateAdapter {
       const files = glob.sync(path.join(runtimeOptions.partials.dir, '**', '*.hbs'));
       files.forEach((file) => {
         /* istanbul ignore next */
-        const { templateName: templateNamePath, templatePath } = precompile(
-          file,
-          callback,
-          runtimeOptions.partials,
+        const partialTemplate = precompile(file, callback, runtimeOptions.partials);
+        const templateDir = path.relative(
+          runtimeOptions.partials.dir,
+          path.dirname(partialTemplate.templatePath),
         );
-        const templateDir = path.relative(runtimeOptions.partials.dir, path.dirname(templatePath));
 
         handlebars.registerPartial(
-          path.join(templateDir, templateNamePath),
-          fs.readFileSync(templatePath, 'utf-8'),
+          path.join(templateDir, partialTemplate.templateName),
+          fs.readFileSync(partialTemplate.templatePath, 'utf-8'),
         );
       });
     }
 
-    const rendered = this.precompiledTemplates[templateName](mail.data.context, {
+    const rendered = this.precompiledTemplates[precompileTemplate.templateName](mail.data.context, {
       ...runtimeOptions,
       partials: this.precompiledTemplates,
     });
