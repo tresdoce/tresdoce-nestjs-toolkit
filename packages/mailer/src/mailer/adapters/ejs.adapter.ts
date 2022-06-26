@@ -27,9 +27,9 @@ export class EjsAdapter implements TemplateAdapter {
 
     if (!this.precompiledTemplates[templateName]) {
       try {
-        const template = fs.readFileSync(templatePath, 'utf-8');
+        const templateEmail = fs.readFileSync(templatePath, 'utf-8');
 
-        this.precompiledTemplates[templateName] = compile(template, {
+        this.precompiledTemplates[templateName] = compile(templateEmail, {
           ..._.get(mailerOptions, 'template.options', {}),
           filename: templatePath,
         });
@@ -43,8 +43,8 @@ export class EjsAdapter implements TemplateAdapter {
     const render = (html: string) => {
       if (this.config.inlineCssEnabled) {
         inlineCss(html, this.config.inlineCssOptions)
-          .then((html) => {
-            mail.data.html = html;
+          .then((dataHtml) => {
+            mail.data.html = dataHtml;
             return callback();
           })
           .catch(callback);

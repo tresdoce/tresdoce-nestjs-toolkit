@@ -1,4 +1,3 @@
-import * as path from 'path';
 import * as _ from 'lodash';
 import { renderFile } from 'pug';
 import inlineCss from 'inline-css';

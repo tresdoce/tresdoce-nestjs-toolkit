@@ -35,14 +35,14 @@ export class HandlebarsAdapter implements TemplateAdapter {
       const templateDir = path.isAbsolute(template)
         ? path.dirname(template)
         : path.join(_.get(options, 'dir', ''), path.dirname(template));
-      const templatePath = path.join(templateDir, templateName + templateExt);
+      const templatePath = path.join(templateDir, `${templateName}${templateExt}`);
 
       if (!this.precompiledTemplates[templateName]) {
         try {
-          const template = fs.readFileSync(templatePath, 'utf-8');
+          const templateEmail = fs.readFileSync(templatePath, 'utf-8');
 
           this.precompiledTemplates[templateName] = handlebars.compile(
-            template,
+            templateEmail,
             _.get(options, 'options', {}),
           );
         } catch (err) {
