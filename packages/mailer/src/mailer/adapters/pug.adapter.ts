@@ -33,7 +33,7 @@ export class PugAdapter implements TemplateAdapter {
 
     renderFile(templatePath, options, (err, body) => {
       if (err) {
-        return callback(err);
+        throw new Error(err.message);
       }
 
       if (this.config.inlineCssEnabled) {

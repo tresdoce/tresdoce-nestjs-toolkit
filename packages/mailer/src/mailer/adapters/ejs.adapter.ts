@@ -40,7 +40,7 @@ export class EjsAdapter implements TemplateAdapter {
           filename: templatePath,
         });
       } catch (err) {
-        return callback(err);
+        throw new Error(err);
       }
     }
 
@@ -60,6 +60,7 @@ export class EjsAdapter implements TemplateAdapter {
       }
     };
 
+    /* istanbul ignore next */
     if (typeof rendered === 'string') {
       render(rendered);
     } else {

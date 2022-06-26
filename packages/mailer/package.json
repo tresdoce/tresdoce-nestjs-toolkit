@@ -45,7 +45,6 @@
     "inline-css": "3.0.0",
     "mjml": "^4.12.0",
     "nodemailer": "6.7.5",
-    "preview-email": "3.0.5",
     "pug": "^3.0.1",
     "rxjs": "^7.5.5"
   },
@@ -56,7 +55,6 @@
     "inline-css": "3.0.0",
     "mjml": "^4.12.0",
     "nodemailer": "6.7.5",
-    "preview-email": "3.0.5",
     "pug": "^3.0.1"
   },
   "devDependencies": {

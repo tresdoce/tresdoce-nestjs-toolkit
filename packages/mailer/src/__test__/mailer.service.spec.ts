@@ -11,7 +11,6 @@ import { MailerTransportFactory } from '../mailer/interfaces/mailer-transport-fa
 import { HandlebarsAdapter } from '../mailer/adapters/handlebars.adapter';
 import { PugAdapter } from '../mailer/adapters/pug.adapter';
 import { EjsAdapter } from '../mailer/adapters/ejs.adapter';
-import { MjmlAdapter } from '../mailer/adapters/mjml.adapter';
 
 import { MailerService } from '../mailer/services/mailer.service';
 
@@ -98,6 +97,19 @@ describe('MailerService', () => {
     expect((service as any).transporter.transporter).toBeInstanceOf(SMTPTransport);
   });
 
+  it('should accept a smtp transports string', async () => {
+    const service = await getMailerServiceForOptions({
+      transports: {
+        myDomain: 'smtps://user@domain.com:pass@smtp.domain.com',
+      },
+    });
+
+    expect(service).toBeDefined();
+    (service as any).transporters.forEach((value, key) => {
+      expect(value.transporter).toBeInstanceOf(SMTPTransport);
+    });
+  });
+
   it('should accept smtp transport options', async () => {
     const service = await getMailerServiceForOptions({
       transport: {
@@ -150,6 +162,84 @@ describe('MailerService', () => {
     expect(lastMail.data.html).toBe('This is test.');
   });
 
+  it('should send emails with nodemailer transports', async () => {
+    let lastMail: MailMessage;
+    const send = spyOnSmtpSend((mail: MailMessage) => {
+      lastMail = mail;
+    });
+
+    const service = await getMailerServiceForOptions({
+      transports: {
+        myDomain: 'smtps://user@domain.com:pass@smtp.domain.com',
+      },
+    });
+
+    await service.sendMail({
+      transporterName: 'myDomain',
+      from: 'user1@example.test',
+      to: 'user2@example.test',
+      subject: 'Test',
+      html: 'This is test.',
+    });
+
+    expect(send).toHaveBeenCalled();
+    expect(lastMail.data.from).toBe('user1@example.test');
+    expect(lastMail.data.to).toBe('user2@example.test');
+    expect(lastMail.data.subject).toBe('Test');
+    expect(lastMail.data.html).toBe('This is test.');
+  });
+
+  it('should send emails with nodemailer with different transports name', async () => {
+    try {
+      let lastMail: MailMessage;
+      const send = spyOnSmtpSend((mail: MailMessage) => {
+        lastMail = mail;
+      });
+
+      const service = await getMailerServiceForOptions({
+        transports: {
+          myDomain: 'smtps://user@domain.com:pass@smtp.domain.com',
+        },
+      });
+
+      await service.sendMail({
+        transporterName: 'testDomain',
+        from: 'user1@example.test',
+        to: 'user2@example.test',
+        subject: 'Test',
+        html: 'This is test.',
+      });
+
+      expect(send).toHaveBeenCalled();
+    } catch (error) {
+      expect(error.message).toBe("Transporters object doesn't have testDomain key");
+    }
+  });
+
+  it('should send emails with nodemailer without transports', async () => {
+    try {
+      let lastMail: MailMessage;
+      const send = spyOnSmtpSend((mail: MailMessage) => {
+        lastMail = mail;
+      });
+
+      const service = await getMailerServiceForOptions({
+        transports: {},
+      });
+
+      await service.sendMail({
+        from: 'user1@example.test',
+        to: 'user2@example.test',
+        subject: 'Test',
+        html: 'This is test.',
+      });
+
+      expect(send).toHaveBeenCalled();
+    } catch (error) {
+      expect(error.message).toBe('Transporter object undefined');
+    }
+  });
+
   it('should use mailerOptions.defaults when send emails', async () => {
     let lastMail: MailMessage;
     const send = spyOnSmtpSend((mail: MailMessage) => {
@@ -171,6 +261,19 @@ describe('MailerService', () => {
 
     expect(send).toHaveBeenCalled();
     expect(lastMail.data.from).toBe('user1@example.test');
+  });
+
+  it('should use custom transport to send mail', async () => {
+    const service = await getMailerServiceWithCustomTransport({
+      transport: 'smtps://user@domain.com:pass@smtp.domain.com',
+    });
+    await service.sendMail({
+      to: 'user2@example.test',
+      subject: 'Test',
+      html: 'This is test.',
+    });
+
+    expect(nodemailerMock.mock.getSentMail().length).toEqual(1);
   });
 
   it('should compile template with the handlebars adapter', async () => {
@@ -201,11 +304,84 @@ describe('MailerService', () => {
     expect(lastMail.data.html).toBe('<p>Handlebars test template. by Nest-modules TM</p>');
   });
 
+  it('should compile template with the handlebars adapter with relative path', async () => {
+    let lastMail: MailMessage;
+    const send = spyOnSmtpSend((mail: MailMessage) => {
+      lastMail = mail;
+    });
+
+    const service = await getMailerServiceForOptions({
+      transport: new SMTPTransport({}),
+      template: {
+        adapter: new HandlebarsAdapter(),
+        dir: template_path,
+      },
+      options: {
+        strict: true,
+        partials: {
+          dir: template_path,
+        },
+      },
+    });
+
+    await service.sendMail({
+      from: 'user1@example.test',
+      to: 'user2@example.test',
+      subject: 'Test',
+      template: `./handlebars-template`,
+      context: {
+        MAILER: 'Nest-modules TM',
+      },
+    });
+
+    expect(send).toHaveBeenCalled();
+    expect(lastMail.data.from).toBe('user1@example.test');
+    expect(lastMail.data.html).toBe('<p>Handlebars test template. by Nest-modules TM</p>');
+  });
+
+  it('should compile template with the handlebars adapter with error template path', async () => {
+    try {
+      let lastMail: MailMessage;
+      const send = spyOnSmtpSend((mail: MailMessage) => {
+        lastMail = mail;
+      });
+
+      const service = await getMailerServiceForOptions({
+        transport: new SMTPTransport({}),
+        template: {
+          adapter: new HandlebarsAdapter(),
+        },
+      });
+
+      await service.sendMail({
+        from: 'user1@example.test',
+        to: 'user2@example.test',
+        subject: 'Test',
+        template: `${template_path}/handlebars-templates`,
+        context: {
+          MAILER: 'Nest-modules TM',
+        },
+      });
+
+      expect(send).toHaveBeenCalled();
+    } catch (error) {
+      expect(error.message).toBe(
+        `Error: ENOENT: no such file or directory, open '${template_path}/handlebars-templates.hbs'`,
+      );
+    }
+  });
+
   it('should compile template with the handlebars adapter with disabled inline-css', async () => {
     let lastMail: MailMessage;
     const send = spyOnSmtpSend((mail: MailMessage) => {
       lastMail = mail;
     });
+
+    /*{
+      myHelper: (context, value) => {
+        console.log(context, value);
+      },
+    }*/
 
     const service = await getMailerServiceForOptions({
       transport: new SMTPTransport({}),
@@ -290,6 +466,97 @@ describe('MailerService', () => {
     expect(lastMail.data.html).toBe('<p>Pug test template.</p><p>Hello World!</p>');
   });
 
+  it('should compile template with the pug adapter with relative path', async () => {
+    let lastMail: MailMessage;
+    const send = spyOnSmtpSend((mail: MailMessage) => {
+      lastMail = mail;
+    });
+
+    const service = await getMailerServiceForOptions({
+      transport: new SMTPTransport({}),
+      template: {
+        adapter: new PugAdapter(),
+        dir: template_path,
+      },
+    });
+
+    await service.sendMail({
+      from: 'user1@example.test',
+      to: 'user2@example.test',
+      subject: 'Test',
+      template: `./pug-template`,
+      context: {
+        world: 'World',
+      },
+    });
+
+    expect(send).toHaveBeenCalled();
+    expect(lastMail.data.from).toBe('user1@example.test');
+    expect(lastMail.data.html).toBe('<p>Pug test template.</p><p>Hello World!</p>');
+  });
+
+  it('should compile template with the pug adapter with error to read template', async () => {
+    try {
+      let lastMail: MailMessage;
+      const send = spyOnSmtpSend((mail: MailMessage) => {
+        lastMail = mail;
+      });
+
+      const service = await getMailerServiceForOptions({
+        transport: new SMTPTransport({}),
+        template: {
+          adapter: new PugAdapter(),
+        },
+      });
+
+      await service.sendMail({
+        from: 'user1@example.test',
+        to: 'user2@example.test',
+        subject: 'Test',
+        template: `${template_path}/pug-templates`,
+        context: {
+          world: 'World',
+        },
+      });
+
+      expect(send).toHaveBeenCalled();
+    } catch (error) {
+      expect(error.message).toBe(
+        `ENOENT: no such file or directory, open '${template_path}/pug-templates.pug'`,
+      );
+    }
+  });
+
+  it('should compile template with the pug adapter without inline css', async () => {
+    let lastMail: MailMessage;
+    const send = spyOnSmtpSend((mail: MailMessage) => {
+      lastMail = mail;
+    });
+
+    const service = await getMailerServiceForOptions({
+      transport: new SMTPTransport({}),
+      template: {
+        adapter: new PugAdapter({
+          inlineCssEnabled: false,
+        }),
+      },
+    });
+
+    await service.sendMail({
+      from: 'user1@example.test',
+      to: 'user2@example.test',
+      subject: 'Test',
+      template: `${template_path}/pug-template`,
+      context: {
+        world: 'World',
+      },
+    });
+
+    expect(send).toHaveBeenCalled();
+    expect(lastMail.data.from).toBe('user1@example.test');
+    expect(lastMail.data.html).toBe('<p>Pug test template.</p><p>Hello World!</p>');
+  });
+
   it('should compile template with the ejs adapter', async () => {
     let lastMail: MailMessage;
     const send = spyOnSmtpSend((mail: MailMessage) => {
@@ -318,16 +585,94 @@ describe('MailerService', () => {
     expect(lastMail.data.html).toBe('<p>Ejs test template. by Nest-modules TM</p>');
   });
 
-  it('should use custom transport to send mail', async () => {
-    const service = await getMailerServiceWithCustomTransport({
-      transport: 'smtps://user@domain.com:pass@smtp.domain.com',
-    });
-    await service.sendMail({
-      to: 'user2@example.test',
-      subject: 'Test',
-      html: 'This is test.',
+  it('should compile template with the ejs adapter with error to read template', async () => {
+    try {
+      let lastMail: MailMessage;
+      const send = spyOnSmtpSend((mail: MailMessage) => {
+        lastMail = mail;
+      });
+
+      const service = await getMailerServiceForOptions({
+        transport: new SMTPTransport({}),
+        template: {
+          adapter: new EjsAdapter(),
+        },
+      });
+
+      await service.sendMail({
+        from: 'user1@example.test',
+        to: 'user2@example.test',
+        subject: 'Test',
+        template: `${template_path}/ejs-templates`,
+        context: {
+          MAILER: 'Nest-modules TM',
+        },
+      });
+
+      expect(send).toHaveBeenCalled();
+    } catch (error) {
+      expect(error.message).toBe(
+        `Error: ENOENT: no such file or directory, open '${template_path}/ejs-templates.ejs'`,
+      );
+    }
+  });
+
+  it('should compile template with the ejs adapter read template relative url', async () => {
+    let lastMail: MailMessage;
+    const send = spyOnSmtpSend((mail: MailMessage) => {
+      lastMail = mail;
     });
 
-    expect(nodemailerMock.mock.getSentMail().length).toEqual(1);
+    const service = await getMailerServiceForOptions({
+      transport: new SMTPTransport({}),
+      template: {
+        dir: template_path,
+        adapter: new EjsAdapter(),
+      },
+    });
+
+    await service.sendMail({
+      from: 'user1@example.test',
+      to: 'user2@example.test',
+      subject: 'Test',
+      template: `./ejs-template`,
+      context: {
+        MAILER: 'Nest-modules TM',
+      },
+    });
+
+    expect(send).toHaveBeenCalled();
+    expect(lastMail.data.from).toBe('user1@example.test');
+    expect(lastMail.data.html).toBe('<p>Ejs test template. by Nest-modules TM</p>');
+  });
+
+  it('should compile template with the ejs adapter without css inline', async () => {
+    let lastMail: MailMessage;
+    const send = spyOnSmtpSend((mail: MailMessage) => {
+      lastMail = mail;
+    });
+
+    const service = await getMailerServiceForOptions({
+      transport: new SMTPTransport({}),
+      template: {
+        adapter: new EjsAdapter({
+          inlineCssEnabled: false,
+        }),
+      },
+    });
+
+    await service.sendMail({
+      from: 'user1@example.test',
+      to: 'user2@example.test',
+      subject: 'Test',
+      template: `${template_path}/ejs-template`,
+      context: {
+        MAILER: 'Nest-modules TM',
+      },
+    });
+
+    expect(send).toHaveBeenCalled();
+    expect(lastMail.data.from).toBe('user1@example.test');
+    expect(lastMail.data.html).toBe('<p>Ejs test template. by Nest-modules TM</p>');
   });
 });

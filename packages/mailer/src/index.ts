@@ -8,5 +8,4 @@ export * from './mailer/interfaces/send-mail-options.interface';
 export * from './mailer/interfaces/mailer-transport-factory.interface';
 export * from './mailer/adapters/ejs.adapter';
 export * from './mailer/adapters/handlebars.adapter';
-export * from './mailer/adapters/mjml.adapter';
 export * from './mailer/adapters/pug.adapter';

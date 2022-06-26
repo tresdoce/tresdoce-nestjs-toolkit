@@ -21,6 +21,7 @@ export class HandlebarsAdapter implements TemplateAdapter {
   };
 
   constructor(helpers?: HelperDeclareSpec, config?: TemplateAdapterConfig) {
+    /* istanbul ignore next */
     handlebars.registerHelper('concat', (...args) => {
       args.pop();
       return args.join('');
@@ -47,7 +48,7 @@ export class HandlebarsAdapter implements TemplateAdapter {
             _.get(options, 'options', {}),
           );
         } catch (err) {
-          return callback(err);
+          throw new Error(err);
         }
       }
 
@@ -69,8 +70,10 @@ export class HandlebarsAdapter implements TemplateAdapter {
     if (runtimeOptions.partials) {
       const files = glob.sync(path.join(runtimeOptions.partials.dir, '**', '*.hbs'));
       files.forEach((file) => {
+        /* istanbul ignore next */
         const { templateName, templatePath } = precompile(file, () => {}, runtimeOptions.partials);
         const templateDir = path.relative(runtimeOptions.partials.dir, path.dirname(templatePath));
+
         handlebars.registerPartial(
           path.join(templateDir, templateName),
           fs.readFileSync(templatePath, 'utf-8'),

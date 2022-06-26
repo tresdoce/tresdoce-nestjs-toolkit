@@ -1,6 +1,5 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import { SentMessageInfo, Transporter } from 'nodemailer';
-const previewEmail = require('preview-email');
 import * as _ from 'lodash';
 
 import { MAILER_OPTIONS, MAILER_TRANSPORT_FACTORY } from '../constants/mailer.constant';
@@ -38,18 +37,6 @@ export class MailerService {
     /** Adapter setup **/
     const templateAdapter: TemplateAdapter = _.get(this.mailerOptions, 'template.adapter');
 
-    /*
-     * Preview setup
-     * THIS NEED TO RUN BEFORE ANY CALL TO `initTemplateAdapter`
-     */
-    if (this.mailerOptions.preview) {
-      const defaults = { open: { wait: false } };
-      this.mailerOptions.preview =
-        typeof this.mailerOptions.preview === 'boolean'
-          ? defaults
-          : _.defaultsDeep(this.mailerOptions.preview, defaults);
-    }
-
     /** Transporters setup **/
     if (mailerOptions.transports) {
       Object.keys(mailerOptions.transports).forEach((name) => {
@@ -71,20 +58,13 @@ export class MailerService {
   private initTemplateAdapter(templateAdapter: TemplateAdapter, transporter: Transporter): void {
     if (templateAdapter) {
       transporter.use('compile', (mail, callback) => {
+        /* istanbul ignore next */
         if (mail.data.html) {
           return callback();
         }
 
         return templateAdapter.compile(mail, callback, this.mailerOptions);
       });
-
-      if (this.mailerOptions.preview) {
-        transporter.use('stream', (mail, callback) => {
-          return previewEmail(mail.data, this.mailerOptions.preview)
-            .then(() => callback())
-            .catch(callback);
-        });
-      }
     }
   }
 
