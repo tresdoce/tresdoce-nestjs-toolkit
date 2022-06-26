@@ -10,6 +10,8 @@
     <img alt="GitHub license" src="https://img.shields.io/github/license/tresdoce/tresdoce-nestjs-toolkit?style=flat">
     <img alt="Release" src="https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/mailer.svg">
     <br/>
+<!--https://nest-modules.github.io/mailer/-->
+<!--https://progressivecoder.com/nestjs-nodemailer-example-with-handlebars-sendgrid-twilio-smtp/-->
 </div>
 <br/>
 
@@ -54,16 +56,159 @@ yarn add @tresdoce-nestjs-toolkit/mailer
 
 ## ⚙️ Configuración
 
-```typescript
+Agregar los datos de conexión **SMTP** en `configuration.ts` utilizando el key `mailer` que contenga los datos desde las
+variables de entorno.
 
+```typescript
+//./src/config/configuration.ts
+import { Typings } from '@tiimiit-nestjs-toolkit/core';
+import { registerAs } from '@nestjs/config';
+
+export default registerAs('config', (): Typings.AppConfig => {
+  return {
+    //...
+    mailer: {
+      transport: {
+        host: process.env.EMAIL_HOST,
+        port: parseInt(process.env.EMAIL_PORT, 10) || 587,
+        secure: false,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      },
+      defaults: {
+        from: process.env.EMAIL_USER,
+      },
+    },
+    //...
+  };
+});
 ```
 
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-```typescript
+Importar el `MailerModule` en el archivo `app.module.ts`, y el módulo se encargará de obtener la configuración
+y realizar la connexion automáticamente.
 
+```typescript
+//./src/app.module.ts
+import { MailerModule } from '@tiimiit-nestjs-toolkit/mailer';
+
+@Module({
+  //...
+  imports: [
+    //...
+    MailerModule,
+    //...
+  ],
+  //...
+})
+export class AppModule {}
+```
+
+Inyectar el `MailerService` para poder realizar el envío de mails.
+
+```typescript
+//./src/app.service.ts
+import { MailerService } from '@tresdoce-nestjs-toolkit/mailer';
+
+@Injectable()
+export class AppService {
+  constructor(private readonly mailerService: MailerService) {}
+
+  async sendMail() {
+    try {
+      return await this.mailerService.sendMail({
+        to: 'to <to@email.com>',
+        from: 'from <from@email.com>',
+        subject: 'Subject of mail',
+        text: 'this is a plain text',
+        html: '<b>this is a html email</b>',
+      });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+}
+```
+
+### Template (ejs, pug o handlebars)
+
+Para poder trabajar con templates de email, hay que agregarle la configuración `templates` en el `configuration.ts` y
+especificar que adaptador vas a utilizar y la ruta de donde se encuentran los templates.
+
+```typescript
+//./src/config/configuration.ts
+import { Typings } from '@tiimiit-nestjs-toolkit/core';
+import { registerAs } from '@nestjs/config';
+import { HandlebarsAdapter } from '@tresdoce-nestjs-toolkit/mailer';
+
+export default registerAs('config', (): Typings.AppConfig => {
+  return {
+    //...
+    mailer: {
+      transport: {
+        host: process.env.EMAIL_HOST,
+        port: parseInt(process.env.EMAIL_PORT, 10) || 587,
+        secure: false,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      },
+      defaults: {
+        from: process.env.EMAIL_USER,
+      },
+      template: {
+        dir: join(__dirname, './templates'),
+        adapter: new HandlebarsAdapter(),
+        options: {
+          strict: true,
+        },
+      },
+    },
+    //...
+  };
+});
+```
+
+#### Envío de mail con template
+
+```typescript
+//./src/app.service.ts
+import { MailerService } from '@tresdoce-nestjs-toolkit/mailer';
+
+@Injectable()
+export class AppService {
+  constructor(private readonly mailerService: MailerService) {}
+
+  async sendMail(email: string, name: string) {
+    try {
+      return await this.mailerService.sendMail({
+        to: email,
+        from: 'from <from@email.com>',
+        subject: 'Greeting from NestJS NodeMailer',
+        template: './email',
+        context: {
+          name: name,
+        },
+      });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+}
+```
+
+#### Email template
+
+```html
+//templates/email.hbs
+<p>Hi {{name}},</p>
+<p>Hello from NestJS NodeMailer</p>
 ```
 
 ## 📄 Changelog
