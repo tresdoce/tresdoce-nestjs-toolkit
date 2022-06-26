@@ -1,7 +1,7 @@
 {
   "name": "@tresdoce-nestjs-toolkit/mailer",
   "version": "0.0.0",
-  "description": "Tresdoce NestJS Toolkit - Módulo para envios de mail",
+  "description": "Tresdoce NestJS Toolkit - Módulo para envíos de mail",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
     "email": "mdelgado@tresdoce.com.ar",
