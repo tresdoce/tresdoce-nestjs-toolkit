@@ -7,16 +7,14 @@ import inlineCss from 'inline-css';
 import { MailerOptions } from '../interfaces/mailer-options.interface';
 import { TemplateAdapter } from '../interfaces/template-adapter.interface';
 import { TemplateAdapterConfig } from '../interfaces/template-adapter-config.interface';
+import { defaultConfigMailer, getTemplatePath } from '../utils/utils';
 
 export class EjsAdapter implements TemplateAdapter {
   private precompiledTemplates: {
     [name: string]: TemplateFunction | AsyncTemplateFunction | ClientFunction;
   } = {};
 
-  private config: TemplateAdapterConfig = {
-    inlineCssOptions: { url: ' ' },
-    inlineCssEnabled: true,
-  };
+  private config: TemplateAdapterConfig = defaultConfigMailer;
 
   constructor(config?: TemplateAdapterConfig) {
     Object.assign(this.config, config);
@@ -24,12 +22,8 @@ export class EjsAdapter implements TemplateAdapter {
 
   public compile(mail: any, callback: any, mailerOptions: MailerOptions): void {
     const { context, template } = mail.data;
-    const templateExt = path.extname(template) || '.ejs';
     const templateName = path.basename(template, path.extname(template));
-    const templateDir = path.isAbsolute(template)
-      ? path.dirname(template)
-      : path.join(_.get(mailerOptions, 'template.dir', ''), path.dirname(template));
-    const templatePath = path.join(templateDir, templateName + templateExt);
+    const templatePath = getTemplatePath(template, mailerOptions, '.ejs');
 
     if (!this.precompiledTemplates[templateName]) {
       try {

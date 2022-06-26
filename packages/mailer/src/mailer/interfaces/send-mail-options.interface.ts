@@ -6,6 +6,8 @@ export type Headers =
   | { [key: string]: string | string[] | { prepared: boolean; value: string } }
   | Array<{ key: string; value: string }>;
 
+export type EmailAddress = string | Address | Array<string | Address>;
+
 export interface Address {
   name: string;
   address: string;
@@ -16,9 +18,9 @@ export interface AttachmentLikeObject {
 }
 
 export interface ISendMailOptions extends SendMailOptions {
-  to?: string | Address | Array<string | Address>;
-  cc?: string | Address | Array<string | Address>;
-  bcc?: string | Address | Array<string | Address>;
+  to?: EmailAddress;
+  cc?: EmailAddress;
+  bcc?: EmailAddress;
   replyTo?: string | Address;
   inReplyTo?: string | Address;
   from?: string | Address;
@@ -44,7 +46,7 @@ export interface ISendMailOptions extends SendMailOptions {
     contentType?: string;
     cid?: string;
     encoding?: string;
-    contentDisposition?: 'attachment' | 'inline' | undefined;
+    contentDisposition?: 'attachment' | 'inline';
     href?: string;
   }[];
   dkim?: DKIM.Options;

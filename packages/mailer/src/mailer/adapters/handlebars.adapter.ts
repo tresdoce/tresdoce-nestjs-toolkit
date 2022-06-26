@@ -9,16 +9,14 @@ import { HelperDeclareSpec } from 'handlebars';
 import { MailerOptions } from '../interfaces/mailer-options.interface';
 import { TemplateAdapter } from '../interfaces/template-adapter.interface';
 import { TemplateAdapterConfig } from '../interfaces/template-adapter-config.interface';
+import { defaultConfigMailer } from '../utils/utils';
 
 export class HandlebarsAdapter implements TemplateAdapter {
   private precompiledTemplates: {
     [name: string]: handlebars.TemplateDelegate;
   } = {};
 
-  private config: TemplateAdapterConfig = {
-    inlineCssOptions: { url: ' ' },
-    inlineCssEnabled: true,
-  };
+  private config: TemplateAdapterConfig = defaultConfigMailer;
 
   constructor(helpers?: HelperDeclareSpec, config?: TemplateAdapterConfig) {
     /* istanbul ignore next */

@@ -1,6 +1,5 @@
 import { Inject } from '@nestjs/common';
 import { createTransport } from 'nodemailer';
-//import * as Mail from 'nodemailer/lib/mailer';
 
 import { MAILER_OPTIONS } from '../constants/mailer.constant';
 import { MailerOptions, TransportType } from '../interfaces/mailer-options.interface';

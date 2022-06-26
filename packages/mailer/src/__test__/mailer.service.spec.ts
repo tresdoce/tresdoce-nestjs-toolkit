@@ -675,4 +675,34 @@ describe('MailerService', () => {
     expect(lastMail.data.from).toBe('user1@example.test');
     expect(lastMail.data.html).toBe('<p>Ejs test template. by Nest-modules TM</p>');
   });
+
+  it('should compile template with the ejs adapter with css inline', async () => {
+    let lastMail: MailMessage;
+    const send = spyOnSmtpSend((mail: MailMessage) => {
+      lastMail = mail;
+    });
+
+    const service = await getMailerServiceForOptions({
+      transport: new SMTPTransport({}),
+      template: {
+        adapter: new EjsAdapter({
+          inlineCssEnabled: true,
+        }),
+      },
+    });
+
+    await service.sendMail({
+      from: 'user1@example.test',
+      to: 'user2@example.test',
+      subject: 'Test',
+      template: `${template_path}/ejs-template`,
+      context: {
+        MAILER: 'Nest-modules TM',
+      },
+    });
+
+    expect(send).toHaveBeenCalled();
+    expect(lastMail.data.from).toBe('user1@example.test');
+    expect(lastMail.data.html).toBe('<p>Ejs test template. by Nest-modules TM</p>');
+  });
 });
