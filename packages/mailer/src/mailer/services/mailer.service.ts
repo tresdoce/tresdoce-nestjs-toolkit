@@ -71,7 +71,7 @@ export class MailerService {
   public async sendMail(sendMailOptions: ISendMailOptions): Promise<SentMessageInfo> {
     if (sendMailOptions.transporterName) {
       if (this.transporters && this.transporters.get(sendMailOptions.transporterName)) {
-        return this.transporters.get(sendMailOptions.transporterName)!.sendMail(sendMailOptions);
+        return this.transporters.get(sendMailOptions.transporterName).sendMail(sendMailOptions);
       } else {
         throw new ReferenceError(
           `Transporters object doesn't have ${sendMailOptions.transporterName} key`,
