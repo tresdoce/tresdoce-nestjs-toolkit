@@ -107,6 +107,7 @@ el [NestJs Starter](https://github.com/rudemex/nestjs-starter), siguiendo los li
 | [`@tresdoce-nestjs-toolkit/response-parser`](./packages/response-parser) | Interceptor de formateo de respuesta              | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/response-parser.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/response-parser) | [Changelog](./packages/response-parser/CHANGELOG.md) |
 | [`@tresdoce-nestjs-toolkit/test-utils`](./packages/test-utils)           | Utilities para testing                            | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/test-utils.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/test-utils)           | [Changelog](./packages/test-utils/CHANGELOG.md)      |
 | [`@tresdoce-nestjs-toolkit/typeorm`](./packages/typeorm)                 | Módulo de ORM para base de datos                  | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/typeorm.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/typeorm)                 | [Changelog](./packages/typeorm/CHANGELOG.md)         |
+| [`@tresdoce-nestjs-toolkit/mailer`](./packages/mailer) | Módulo para envios de mail | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/mailer.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/mailer) | [Changelog](./packages/mailer/CHANGELOG.md) |
 <!---PLOP-TOOLKIT-TABLE-->
 
 <a name="commits"></a>
