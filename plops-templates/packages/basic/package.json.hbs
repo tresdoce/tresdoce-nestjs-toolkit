@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "shx rm -rf ../../dist/{{kebabCase packageName}}",
     "build": "pika build --out ../../dist/{{kebabCase packageName}}",
-    "test": "jest --runInBand --detectOpenHandles --coverage"
+    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit"
   },
   "publishConfig": {
     "access": "public",
