@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "../../dist",
+    "outDir": "./dist",
     "baseUrl": "./src",
     "module": "esnext",
     "target": "es2020",
