@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/typeorm",
-  "version": "0.1.0-beta.5",
+  "version": "0.1.0-beta.6",
   "description": "Tresdoce NestJS Toolkit - Módulo de ORM para base de datos",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -56,7 +56,7 @@
     "typeorm": "^0.3.6"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.1.0-beta.1",
+    "@tresdoce-nestjs-toolkit/config": "^0.1.0-beta.2",
     "@types/tresdoce-nestjs-toolkit": "^0.0.1-beta.0"
   },
   "prettier": {

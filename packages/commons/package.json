@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/commons",
-  "version": "0.1.0-beta.2",
+  "version": "0.1.0-beta.3",
   "description": "Tresdoce NestJS Toolkit - Centralización de configuraciones",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -35,7 +35,7 @@
     "directory": "../../dist/commons"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.1.0-beta.1",
+    "@tresdoce-nestjs-toolkit/config": "^0.1.0-beta.2",
     "@types/tresdoce-nestjs-toolkit": "^0.0.1-beta.0"
   },
   "prettier": {
