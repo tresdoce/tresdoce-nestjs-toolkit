@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "shx rm -rf ../../dist/redis",
     "build": "pika build --out ../../dist/redis",
-    "test": "jest --runInBand --detectOpenHandles --coverage"
+    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit"
   },
   "publishConfig": {
     "access": "public",

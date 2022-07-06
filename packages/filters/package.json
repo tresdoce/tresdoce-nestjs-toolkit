@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "shx rm -rf ../../dist/filters",
     "build": "pika build --out ../../dist/filters",
-    "test": "jest --runInBand --detectOpenHandles --coverage"
+    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit"
   },
   "publishConfig": {
     "access": "public",

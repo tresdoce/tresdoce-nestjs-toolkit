@@ -25,6 +25,7 @@
     "version-packages": "lerna version --conventional-commits --force-git-tag --create-release github --yes",
     "publish:pkgs": "lerna publish from-git --no-verify-access --yes",
     "postinstall": "husky install && lerna bootstrap",
+    "bs": "lerna bootstrap",
     "plop": "plop"
   },
   "workspaces": [

@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "outDir": ".",
+    "outDir": "./dist",
     "baseUrl": "./src",
     "module": "esnext",
     "target": "es2020",
+    "types": ["node", "jest"],
     "lib": ["es5", "es6", "es7", "es2017", "es2020", "esnext", "dom"],
     "sourceMap": true,
     "allowJs": true,

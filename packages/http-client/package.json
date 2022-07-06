@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "shx rm -rf ../../dist/http-client",
     "build": "pika build --out ../../dist/http-client",
-    "test": "jest --runInBand --detectOpenHandles --coverage"
+    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit"
   },
   "publishConfig": {
     "access": "public",
