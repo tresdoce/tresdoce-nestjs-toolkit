@@ -12,7 +12,7 @@ module.exports = {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
   roots: ['<rootDir>/src/'],
-  //collectCoverage: true,
+  collectCoverage: true,
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: './coverage',
   coveragePathIgnorePatterns: ['node_modules', 'node_modules/*', 'dist', 'dist/*', 'src/index.ts'],
@@ -21,4 +21,12 @@ module.exports = {
   moduleDirectories: ['node_modules'],
   preset: 'ts-jest',
   testResultsProcessor: 'jest-sonar-reporter',
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80,
+    },
+  },
 };

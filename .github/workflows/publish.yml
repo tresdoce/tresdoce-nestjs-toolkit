@@ -20,22 +20,34 @@ env:
 jobs:
   setup:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 14 ]
     name: "Setup"
     steps:
-      - name: "⚙ Set up Node.js"
+      - name: "⚙ Set up Node.js v${{ matrix.node }}"
         uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
+          node-version: ${{ matrix.node }}
 
       - name: "✅ Checkout repository"
         uses: actions/checkout@v2
 
   publish:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 14 ]
     name: "Publish"
     needs: setup
     steps:
-      - uses: actions/checkout@v2
+      - name: "⚙ Set up Node.js v${{ matrix.node }}"
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: "✅ Checkout repository"
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
@@ -47,11 +59,20 @@ jobs:
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
+      - name: "🦉 GitGuardian scan"
+        uses: GitGuardian/ggshield-action@master
+        env:
+          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
+          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
+          GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+
       - name: "📦 Install Dependencies"
         run: yarn install
 
-      - name: "🔦 Lint & Format"
-        run: yarn lint && yarn format
+      - name: "💅 Lint"
+        run: yarn lint
 
       - name: "🔨 Build"
         run: yarn build && node sonar-args.js

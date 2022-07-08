@@ -1,4 +1,4 @@
-jest.setTimeout(30000);
+jest.setTimeout(70000);
 
 expect.extend({
   toContainObject(received, argument) {
@@ -32,13 +32,13 @@ expect.extend({
     } catch (error) {
       return received === null
         ? {
-          message: () => `Ok`,
-          pass: true,
-        }
+            message: () => `Ok`,
+            pass: true,
+          }
         : {
-          message: () => `expected ${received} to be ${classTypeOrNull} type or null`,
-          pass: false,
-        };
+            message: () => `expected ${received} to be ${classTypeOrNull} type or null`,
+            pass: false,
+          };
     }
   },
 });

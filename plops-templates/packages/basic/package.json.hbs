@@ -1,7 +1,7 @@
 {
   "name": "@tresdoce-nestjs-toolkit/{{kebabCase packageName}}",
   "version": "0.0.0",
-  "description": "Tresdoce NestJS Toolkit - {{kebabCase packageName}}",
+  "description": "Tresdoce NestJS Toolkit - {{packageDescription}}",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
     "email": "mdelgado@tresdoce.com.ar",
@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "shx rm -rf ../../dist/{{kebabCase packageName}}",
     "build": "pika build --out ../../dist/{{kebabCase packageName}}",
-    "test": "jest --runInBand --detectOpenHandles --coverage"
+    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit"
   },
   "publishConfig": {
     "access": "public",
