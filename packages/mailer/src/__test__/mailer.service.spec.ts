@@ -1,7 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { pathJoin } from '@tresdoce-nestjs-toolkit/test-utils';
 import * as nodemailerMock from 'nodemailer-mock';
 import MailMessage from 'nodemailer/lib/mailer/mail-message';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
+import path from 'path';
 
 import { MAILER_OPTIONS, MAILER_TRANSPORT_FACTORY } from '../mailer/constants/mailer.constant';
 
@@ -14,7 +16,7 @@ import { EjsAdapter } from '../mailer/adapters/ejs.adapter';
 
 import { MailerService } from '../mailer/services/mailer.service';
 
-const template_path = `${__dirname}\\utils\\test-templates`;
+const template_path = pathJoin(__dirname, 'utils/test-templates');
 
 async function getMailerServiceForOptions(options: MailerOptions): Promise<MailerService> {
   const module: TestingModule = await Test.createTestingModule({
@@ -316,12 +318,12 @@ describe('MailerService', () => {
       transport: new SMTPTransport({}),
       template: {
         adapter: new HandlebarsAdapter(),
-        dir: template_path,
+        dir: `${template_path}`,
       },
       options: {
         strict: true,
         partials: {
-          dir: template_path,
+          dir: `${template_path}`,
         },
       },
     });
@@ -344,6 +346,7 @@ describe('MailerService', () => {
   });
 
   it('should compile template with the handlebars adapter with error template path', async () => {
+    let templatePath = pathJoin(template_path, '/handlebars-templates');
     try {
       let lastMail: MailMessage;
       const send = spyOnSmtpSend((mail: MailMessage) => {
@@ -361,7 +364,7 @@ describe('MailerService', () => {
         from: 'user1@example.test',
         to: 'user2@example.test',
         subject: 'Test',
-        template: `${template_path}/handlebars-templates`,
+        template: `${templatePath}`,
         context: {
           MAILER: 'Nest-modules TM',
         },
@@ -370,7 +373,7 @@ describe('MailerService', () => {
       expect(send).toHaveBeenCalled();
     } catch (error) {
       expect(error.message).toBe(
-        `Error: ENOENT: no such file or directory, open '${template_path}\\handlebars-templates.hbs'`,
+        `Error: ENOENT: no such file or directory, open '${templatePath}.hbs'`,
       );
     }
   });
@@ -504,6 +507,8 @@ describe('MailerService', () => {
   });
 
   it('should compile template with the pug adapter with error to read template', async () => {
+    let templatePath = pathJoin(template_path, '/pug-templates');
+
     try {
       let lastMail: MailMessage;
       const send = spyOnSmtpSend((mail: MailMessage) => {
@@ -521,7 +526,7 @@ describe('MailerService', () => {
         from: 'user1@example.test',
         to: 'user2@example.test',
         subject: 'Test',
-        template: `${template_path}/pug-templates`,
+        template: `${templatePath}`,
         context: {
           world: 'World',
         },
@@ -529,9 +534,7 @@ describe('MailerService', () => {
 
       expect(send).toHaveBeenCalled();
     } catch (error) {
-      expect(error.message).toBe(
-        `ENOENT: no such file or directory, open '${template_path}\\pug-templates.pug'`,
-      );
+      expect(error.message).toBe(`ENOENT: no such file or directory, open '${templatePath}.pug'`);
     }
   });
 
@@ -594,6 +597,7 @@ describe('MailerService', () => {
   });
 
   it('should compile template with the ejs adapter with error to read template', async () => {
+    let templatePath = pathJoin(template_path, '/ejs-templates');
     try {
       let lastMail: MailMessage;
       const send = spyOnSmtpSend((mail: MailMessage) => {
@@ -611,7 +615,7 @@ describe('MailerService', () => {
         from: 'user1@example.test',
         to: 'user2@example.test',
         subject: 'Test',
-        template: `${template_path}/ejs-templates`,
+        template: `${templatePath}`,
         context: {
           MAILER: 'Nest-modules TM',
         },
@@ -620,7 +624,7 @@ describe('MailerService', () => {
       expect(send).toHaveBeenCalled();
     } catch (error) {
       expect(error.message).toBe(
-        `Error: ENOENT: no such file or directory, open '${template_path}\\ejs-templates.ejs'`,
+        `Error: ENOENT: no such file or directory, open '${templatePath}.ejs'`,
       );
     }
   });
