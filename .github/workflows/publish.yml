@@ -98,7 +98,7 @@ jobs:
           # GIT and NPM config
           git config --global user.name "GitHub CI/CD bot"
           git config --global user.email "${GITHUB_EMAIL}"
-          
+                    
           if ${{github.event.inputs.release == 'pre-release'}}; then
             yarn version-packages --conventional-prerelease --preid=beta -m "ci(version): version packages as pre-release"
           else
