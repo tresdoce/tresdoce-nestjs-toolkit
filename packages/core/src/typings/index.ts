@@ -11,15 +11,18 @@ export interface IProjectConfigAuthor {
   name: TName;
   email: string;
   url: TUrl;
+  [key: string]: any;
 }
 
 export interface IProjectConfigRepository {
   type: string;
   url: TUrl;
+  [key: string]: any;
 }
 
 export interface IProjectConfigBugs {
   url: TUrl;
+  [key: string]: any;
 }
 
 export interface IProjectConfig {
@@ -31,6 +34,7 @@ export interface IProjectConfig {
   repository: IProjectConfigRepository;
   bugs: IProjectConfigBugs;
   homepage: string;
+  [key: string]: any;
 }
 
 export interface IServerConfig {
@@ -42,11 +46,13 @@ export interface IServerConfig {
   allowedMethods: string;
   corsEnabled: boolean;
   corsCredentials: boolean;
+  [key: string]: any;
 }
 
 export interface ISwaggerConfig {
   path: string;
   enabled: boolean;
+  [key: string]: any;
 }
 
 export interface IParamsConfig {

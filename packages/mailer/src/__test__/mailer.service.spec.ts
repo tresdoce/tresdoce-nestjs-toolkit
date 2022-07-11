@@ -14,7 +14,7 @@ import { EjsAdapter } from '../mailer/adapters/ejs.adapter';
 
 import { MailerService } from '../mailer/services/mailer.service';
 
-const template_path = `${__dirname}/utils/test-templates`;
+const template_path = `${__dirname}\\utils\\test-templates`;
 
 async function getMailerServiceForOptions(options: MailerOptions): Promise<MailerService> {
   const module: TestingModule = await Test.createTestingModule({
@@ -301,7 +301,9 @@ describe('MailerService', () => {
 
     expect(send).toHaveBeenCalled();
     expect(lastMail.data.from).toBe('user1@example.test');
-    expect(lastMail.data.html).toBe('<p>Handlebars test template. by Nest-modules TM</p>');
+    expect(lastMail.data.html).toBe(
+      '<html><head></head><body><p>Handlebars test template. by Nest-modules TM</p></body></html>',
+    );
   });
 
   it('should compile template with the handlebars adapter with relative path', async () => {
@@ -336,7 +338,9 @@ describe('MailerService', () => {
 
     expect(send).toHaveBeenCalled();
     expect(lastMail.data.from).toBe('user1@example.test');
-    expect(lastMail.data.html).toBe('<p>Handlebars test template. by Nest-modules TM</p>');
+    expect(lastMail.data.html).toBe(
+      '<html><head></head><body><p>Handlebars test template. by Nest-modules TM</p></body></html>',
+    );
   });
 
   it('should compile template with the handlebars adapter with error template path', async () => {
@@ -366,7 +370,7 @@ describe('MailerService', () => {
       expect(send).toHaveBeenCalled();
     } catch (error) {
       expect(error.message).toBe(
-        `Error: ENOENT: no such file or directory, open '${template_path}/handlebars-templates.hbs'`,
+        `Error: ENOENT: no such file or directory, open '${template_path}\\handlebars-templates.hbs'`,
       );
     }
   });
@@ -463,7 +467,9 @@ describe('MailerService', () => {
 
     expect(send).toHaveBeenCalled();
     expect(lastMail.data.from).toBe('user1@example.test');
-    expect(lastMail.data.html).toBe('<p>Pug test template.</p><p>Hello World!</p>');
+    expect(lastMail.data.html).toBe(
+      '<html><head></head><body><p>Pug test template.</p><p>Hello World!</p></body></html>',
+    );
   });
 
   it('should compile template with the pug adapter with relative path', async () => {
@@ -492,7 +498,9 @@ describe('MailerService', () => {
 
     expect(send).toHaveBeenCalled();
     expect(lastMail.data.from).toBe('user1@example.test');
-    expect(lastMail.data.html).toBe('<p>Pug test template.</p><p>Hello World!</p>');
+    expect(lastMail.data.html).toBe(
+      '<html><head></head><body><p>Pug test template.</p><p>Hello World!</p></body></html>',
+    );
   });
 
   it('should compile template with the pug adapter with error to read template', async () => {
@@ -522,7 +530,7 @@ describe('MailerService', () => {
       expect(send).toHaveBeenCalled();
     } catch (error) {
       expect(error.message).toBe(
-        `ENOENT: no such file or directory, open '${template_path}/pug-templates.pug'`,
+        `ENOENT: no such file or directory, open '${template_path}\\pug-templates.pug'`,
       );
     }
   });
@@ -612,7 +620,7 @@ describe('MailerService', () => {
       expect(send).toHaveBeenCalled();
     } catch (error) {
       expect(error.message).toBe(
-        `Error: ENOENT: no such file or directory, open '${template_path}/ejs-templates.ejs'`,
+        `Error: ENOENT: no such file or directory, open '${template_path}\\ejs-templates.ejs'`,
       );
     }
   });
@@ -703,6 +711,8 @@ describe('MailerService', () => {
 
     expect(send).toHaveBeenCalled();
     expect(lastMail.data.from).toBe('user1@example.test');
-    expect(lastMail.data.html).toBe('<p>Ejs test template. by Nest-modules TM</p>');
+    expect(lastMail.data.html).toBe(
+      '<html><head></head><body><p>Ejs test template. by Nest-modules TM</p></body></html>',
+    );
   });
 });
