@@ -61,7 +61,7 @@ variables de entorno.
 
 ```typescript
 //./src/config/configuration.ts
-import { Typings } from '@tiimiit-nestjs-toolkit/core';
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('config', (): Typings.AppConfig => {
@@ -95,7 +95,7 @@ y realizar la connexion automáticamente.
 
 ```typescript
 //./src/app.module.ts
-import { MailerModule } from '@tiimiit-nestjs-toolkit/mailer';
+import { MailerModule } from '@tresdoce-nestjs-toolkit/mailer';
 
 @Module({
   //...
@@ -142,7 +142,7 @@ especificar que adaptador vas a utilizar y la ruta de donde se encuentran los te
 
 ```typescript
 //./src/config/configuration.ts
-import { Typings } from '@tiimiit-nestjs-toolkit/core';
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { registerAs } from '@nestjs/config';
 import { HandlebarsAdapter } from '@tresdoce-nestjs-toolkit/mailer';
 

@@ -65,7 +65,7 @@ el [Data Source Options](https://typeorm.io/data-source-options#common-data-sour
 
 ```typescript
 //./src/config/configuration.ts
-import { Typings } from '@tiimiit-nestjs-toolkit/core';
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('config', (): Typings.AppConfig => {
@@ -145,7 +145,7 @@ y realizar la connexion automáticamente.
 
 ```typescript
 //./src/app.module.ts
-import { TypeOrmClientModule } from '@tiimiit-nestjs-toolkit/typeorm';
+import { TypeOrmClientModule } from '@tresdoce-nestjs-toolkit/typeorm';
 
 @Module({
   //...
@@ -162,7 +162,7 @@ export class AppModule {}
 Para la inyección de `Schemas` se utiliza la propiedad `forFeature` del módulo enviando las `entity` como un array.
 
 ```typescript
-import { TypeOrmClientModule } from '@tiimiit-nestjs-toolkit/typeorm';
+import { TypeOrmClientModule } from '@tresdoce-nestjs-toolkit/typeorm';
 import { Cat } from './entities/cat.entity';
 
 @module({
