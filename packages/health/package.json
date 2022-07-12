@@ -40,16 +40,16 @@
     "@nestjs/platform-express": "^9.0.1",
     "@nestjs/axios": "^0.1.0",
     "@nestjs/swagger": "^6.0.1",
-    "@nestjs/terminus": "^8.1.1",
+    "@nestjs/terminus": "^9.0.0",
     "@nestjs/typeorm": "^9.0.0",
     "typeorm": "^0.3.7",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.5.5"
+    "rxjs": "^7.5.6"
   },
   "dependencies": {
     "@nestjs/axios": "^0.1.0",
     "@nestjs/swagger": "^6.0.1",
-    "@nestjs/terminus": "^8.1.1",
+    "@nestjs/terminus": "^9.0.0",
     "@nestjs/typeorm": "^9.0.0",
     "typeorm": "^0.3.7"
   },
