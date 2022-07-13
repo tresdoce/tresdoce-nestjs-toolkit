@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0-beta.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/mailer@0.1.0-beta.1...@tresdoce-nestjs-toolkit/mailer@0.1.0-beta.2) (2022-07-13)
+
+### 👨‍💻 Chores
+
+- changes names incorrects ([40b9e8d](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/40b9e8d6c59435ee61a0c8c7a98e159cbe2bfc35))
+
 ## [0.1.0-beta.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/mailer@0.1.0-beta.0...@tresdoce-nestjs-toolkit/mailer@0.1.0-beta.1) (2022-07-06)
 
 ### 👨‍💻 Chores
