@@ -60,7 +60,7 @@ objeto con los datos conexión desde las variables de entorno.
 
 ```typescript
 //./src/config/configuration.ts
-import { Typings } from '@tiimiit-nestjs-toolkit/core';
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('config', (): Typings.AppConfig => {
@@ -136,7 +136,7 @@ y realizar la connexion automáticamente.
 
 ```typescript
 //./src/app.module.ts
-import { RedisModule } from '@tiimiit-nestjs-toolkit/redis';
+import { RedisModule } from '@tresdoce-nestjs-toolkit/redis';
 
 @Module({
   //...
