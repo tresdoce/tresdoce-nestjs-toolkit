@@ -3,5 +3,5 @@ projectKey=tresdoce_tresdoce-nestjs-toolkit
 serverUrl=https://sonarcloud.io
 serverVersion=8.0.0.30262
 dashboardUrl=https://sonarcloud.io/dashboard?id=tresdoce_tresdoce-nestjs-toolkit
-ceTaskId=AYH52aXVmSb_H3JtaU4p
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AYH52aXVmSb_H3JtaU4p
+ceTaskId=AYH55fyRSm0Ow30ROEnO
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AYH55fyRSm0Ow30ROEnO

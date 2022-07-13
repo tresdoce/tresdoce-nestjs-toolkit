@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.0.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@0.0.1-beta.5...@tresdoce-nestjs-toolkit/http-client@0.0.1) (2022-07-13)
+
+**Note:** Version bump only for package @tresdoce-nestjs-toolkit/http-client
+
 ### [0.0.1-beta.5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@0.0.1-beta.4...@tresdoce-nestjs-toolkit/http-client@0.0.1-beta.5) (2022-07-06)
 
 ### 👨‍💻 Chores
