@@ -31,6 +31,7 @@ coverage
 test-report.xml
 .sonarcloud.properties
 sonar-project.properties
+.scannerwork
 
 # next.js
 .next/
