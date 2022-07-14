@@ -66,6 +66,7 @@ export interface IServicesConfig extends AxiosRequestConfig {
 
 export interface IDatabaseConfiguration {
   typeorm?: TypeOrmModuleOptions;
+  [key: string]: any;
 }
 
 export interface AppConfig {
