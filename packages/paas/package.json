@@ -1,0 +1,94 @@
+{
+  "name": "@tresdoce-nestjs-toolkit/paas",
+  "version": "0.0.0",
+  "description": "Tresdoce NestJS Toolkit - Librería centralizada de funcionalidades cross",
+  "author": {
+    "name": "Maximiliano \"Mex\" Delgado",
+    "email": "mdelgado@tresdoce.com.ar",
+    "url": "https://rudemex.github.io/"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "keywords": [
+    "nestjs",
+    "paas",
+    "cross"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tresdoce/tresdoce-nestjs-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tresdoce/tresdoce-nestjs-toolkit/issues"
+  },
+  "homepage": "https://github.com/tresdoce/tresdoce-nestjs-toolkit#readme",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "shx rm -rf ../../dist/paas",
+    "build": "pika build --out ../../dist/paas",
+    "test": "echo \"Error: no test specified\""
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "../../dist/paas"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^8.2.0",
+    "@nestjs/core": "^8.2.0",
+    "@nestjs/platform-express": "^8.2.0",
+    "@tresdoce-nestjs-toolkit/core": "^0.1.0",
+    "@tresdoce-nestjs-toolkit/filters": "^0.1.0",
+    "@tresdoce-nestjs-toolkit/health": "^0.1.0",
+    "@tresdoce-nestjs-toolkit/response-parser": "^0.1.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.5.5"
+  },
+  "dependencies": {
+    "@tresdoce-nestjs-toolkit/core": "^0.1.0",
+    "@tresdoce-nestjs-toolkit/filters": "^0.1.0",
+    "@tresdoce-nestjs-toolkit/health": "^0.1.0",
+    "@tresdoce-nestjs-toolkit/response-parser": "^0.1.0"
+  },
+  "devDependencies": {
+    "@tresdoce-nestjs-toolkit/config": "^0.1.0",
+    "@types/tresdoce-nestjs-toolkit": "^0.0.1"
+  },
+  "prettier": {
+    "semi": true,
+    "tabWidth": 2,
+    "singleQuote": true,
+    "printWidth": 100,
+    "trailingComma": "all"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-ts-standard-pkg",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-node",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-types",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ]
+    ]
+  }
+}
