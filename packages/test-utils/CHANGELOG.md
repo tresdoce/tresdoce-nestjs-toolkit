@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.1.2-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.1.0...@tresdoce-nestjs-toolkit/test-utils@0.1.2-beta.0) (2022-07-15)
+
+### 🐛 Bug Fixes
+
+- **mailer:** resolve problem with path templantes ([96046aa](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/96046aab7aaf486f1a768c840b6069c3c538fd8f))
+
 ### [0.1.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.1.0...@tresdoce-nestjs-toolkit/test-utils@0.1.1) (2022-07-14)
 
 ### 🐛 Bug Fixes
