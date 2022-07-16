@@ -48,7 +48,7 @@ export const getErrorMessage = (
   } else {
     if (_.isArray(exceptionResponse.message)) {
       message = exceptionResponse.error;
-      detail = exceptionResponse.message;
+      detail = _.map(exceptionResponse.message, (message) => ({ message }));
     } else {
       message = exceptionResponse.message;
       detail = exceptionResponse.error;
