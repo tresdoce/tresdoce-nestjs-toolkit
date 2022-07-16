@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.1.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/filters@0.1.1...@tresdoce-nestjs-toolkit/filters@0.1.2) (2022-07-16)
+
+### ♻️Refactors
+
+- changes in format response array details ([6606cac](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/6606cacaf32a91bf1d2ec2e04fcc8f9f3b008124))
+
+### 👨‍💻 Chores
+
+- **filters:** remove unused dependencie ([b87b18b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/b87b18b9fce5181e1b053befb4e618391f7a4ad0))
+
 ### [0.1.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/filters@0.1.1-beta.0...@tresdoce-nestjs-toolkit/filters@0.1.1) (2022-07-15)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/filters
