@@ -1,6 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 import _ from 'lodash';
 import { ExceptionResponse } from '../types';
+import messages from '@pika/pack/dist-types/reporters/lang/en';
 
 /**
  *
@@ -48,7 +49,7 @@ export const getErrorMessage = (
   } else {
     if (_.isArray(exceptionResponse.message)) {
       message = exceptionResponse.error;
-      detail = exceptionResponse.message;
+      detail = _.map(exceptionResponse.message, (message) => ({ message }));
     } else {
       message = exceptionResponse.message;
       detail = exceptionResponse.error;

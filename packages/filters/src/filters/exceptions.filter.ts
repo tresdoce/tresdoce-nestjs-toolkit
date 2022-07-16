@@ -33,14 +33,17 @@ export class ExceptionsFilter<T> implements ExceptionFilter {
       message = error.message;
     }
 
-    const errorInfo = {
-      status,
-      instance,
-      code: `${apiPrefix}-${getCode(HttpStatus[status])}`,
-      message,
-      detail,
-    };
-
-    response.type(PROBLEM_CONTENT_TYPE).status(status).json({ error: errorInfo });
+    response
+      .type(PROBLEM_CONTENT_TYPE)
+      .status(status)
+      .json({
+        error: {
+          status,
+          instance,
+          code: `${apiPrefix}-${getCode(HttpStatus[status])}`,
+          message,
+          detail,
+        },
+      });
   }
 }
