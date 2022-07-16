@@ -36,15 +36,15 @@
     "directory": "../../dist/paas"
   },
   "peerDependencies": {
-    "@nestjs/common": "^8.2.0",
-    "@nestjs/core": "^8.2.0",
-    "@nestjs/platform-express": "^8.2.0",
+    "@nestjs/common": "^9.0.3",
+    "@nestjs/core": "^9.0.3",
+    "@nestjs/platform-express": "^9.0.3",
     "@tresdoce-nestjs-toolkit/core": "^0.1.0",
     "@tresdoce-nestjs-toolkit/filters": "^0.1.0",
     "@tresdoce-nestjs-toolkit/health": "^0.1.0",
     "@tresdoce-nestjs-toolkit/response-parser": "^0.1.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.5.5"
+    "rxjs": "^7.5.6"
   },
   "dependencies": {
     "@tresdoce-nestjs-toolkit/core": "^0.1.1",
