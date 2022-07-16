@@ -11,7 +11,7 @@ export interface IProblemDetail {
   instance?: string;
   code?: string;
   message: string;
-  detail?: string | string[] | ValidationError[] | object;
+  detail?: string | object | ValidationError[] | Array<string | object>;
   [key: string]: unknown;
 }
 

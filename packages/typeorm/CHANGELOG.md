@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.1.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/typeorm@0.1.1-beta.0...@tresdoce-nestjs-toolkit/typeorm@0.1.1) (2022-07-15)
+
+**Note:** Version bump only for package @tresdoce-nestjs-toolkit/typeorm
+
+### [0.1.1-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/typeorm@0.1.0...@tresdoce-nestjs-toolkit/typeorm@0.1.1-beta.0) (2022-07-15)
+
+**Note:** Version bump only for package @tresdoce-nestjs-toolkit/typeorm
+
+## [0.1.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.7...@tresdoce-nestjs-toolkit/typeorm@0.1.0) (2022-07-13)
+
+**Note:** Version bump only for package @tresdoce-nestjs-toolkit/typeorm
+
+## [0.1.0-beta.7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.6...@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.7) (2022-07-13)
+
+### 👨‍💻 Chores
+
+- changes names incorrects ([40b9e8d](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/40b9e8d6c59435ee61a0c8c7a98e159cbe2bfc35))
+
 ## [0.1.0-beta.6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.5...@tresdoce-nestjs-toolkit/typeorm@0.1.0-beta.6) (2022-07-06)
 
 ### 👨‍💻 Chores

@@ -1,11 +1,14 @@
 {
   "name": "@types/tresdoce-nestjs-toolkit",
-  "version": "0.0.1-beta.0",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "",
   "types": "index",
   "dependencies": {
     "jest-extended": "^3.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\""
   },
   "private": true
 }

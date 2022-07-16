@@ -164,7 +164,7 @@ describe('default Http exceptions', () => {
 
       const expectation: IProblemDetail = {
         message: errorObject.error,
-        detail: errorObject.message,
+        detail: [{ message: errorObject.message[0] }, { message: errorObject.message[1] }],
         status,
         code: HttpStatus[status],
       };
@@ -246,7 +246,6 @@ describe('configuration is undefined', () => {
   };
 
   filter.catch(new BadRequestException(), mockArgumentsHost);
-
   assertResponse(status, expectation);
 });
 

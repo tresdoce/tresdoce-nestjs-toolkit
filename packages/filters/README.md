@@ -169,10 +169,18 @@ try {
     "code": "MY-API-BAD_REQUEST",
     "message": "Bad Request",
     "detail": [
-      "firstName must be a string",
-      "lastName must be a string",
-      "email must be an email",
-      "email must be a string"
+      {
+        "message": "firstName must be a string"
+      },
+      {
+        "message": "lastName must be a string"
+      },
+      {
+        "message": "email must be an email"
+      },
+      {
+        "message": "email must be a string"
+      }
     ]
   }
 }
