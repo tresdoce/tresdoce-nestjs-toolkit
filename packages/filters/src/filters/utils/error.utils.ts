@@ -1,7 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
 import _ from 'lodash';
 import { ExceptionResponse } from '../types';
-import messages from '@pika/pack/dist-types/reporters/lang/en';
 
 /**
  *
