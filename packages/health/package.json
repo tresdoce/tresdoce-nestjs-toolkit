@@ -39,7 +39,7 @@
     "@nestjs/core": "^9.0.3",
     "@nestjs/platform-express": "^9.0.3",
     "@nestjs/axios": "^0.1.0",
-    "@nestjs/swagger": "^6.0.3",
+    "@nestjs/swagger": "^6.0.4",
     "@nestjs/terminus": "^9.0.0",
     "@nestjs/typeorm": "^9.0.0",
     "typeorm": "^0.3.7",
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@nestjs/axios": "^0.1.0",
-    "@nestjs/swagger": "^6.0.3",
+    "@nestjs/swagger": "^6.0.4",
     "@nestjs/terminus": "^9.0.0",
     "@nestjs/typeorm": "^9.0.0",
     "typeorm": "^0.3.7"
