@@ -18,6 +18,7 @@ export class CamundaTaskConnector extends Server implements CustomTransportStrat
     callback();
   }
 
+  /* istanbul ignore next */
   public close() {
     this.client.stop();
     Logger.log('External Task Client stopped', 'CamundaTaskConnector');
@@ -29,6 +30,7 @@ export class CamundaTaskConnector extends Server implements CustomTransportStrat
     Logger.log('External Task Client started', 'CamundaTaskConnector');
 
     const handlers = this.getHandlers();
+    /* istanbul ignore next */
     handlers.forEach((messageHandler: MessageHandler, key: string) => {
       const { topic, options } = JSON.parse(key);
 

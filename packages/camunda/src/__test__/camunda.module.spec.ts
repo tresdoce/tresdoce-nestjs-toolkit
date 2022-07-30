@@ -2,12 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CamundaModule } from '../camunda/camunda.module';
-import {
-  dynamicConfig,
-  tcName,
-  TCRedisOptions,
-  testContainers,
-} from '@tresdoce-nestjs-toolkit/test-utils';
+import { dynamicConfig, tcName, testContainers } from '@tresdoce-nestjs-toolkit/test-utils';
+import { Subscription } from '../camunda/decorators/camunda.decorator';
+import { CamundaTaskConnector } from '../camunda/providers/camunda.provider';
 
 describe('CamundaModule', () => {
   let app: INestApplication;
@@ -47,10 +44,20 @@ describe('CamundaModule', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.connectMicroservice({
+      strategy: app.get(CamundaTaskConnector),
+    });
+    await app.startAllMicroservices();
     await app.init();
   });
 
   it('should be defined', () => {
     expect(app).toBeDefined();
+  });
+
+  it('should be Subscription decorator is defined with options', async () => {
+    const decorator = Subscription('test-topic', { lockDuration: 500 });
+    console.log(decorator);
+    expect(decorator).toBeDefined();
   });
 });

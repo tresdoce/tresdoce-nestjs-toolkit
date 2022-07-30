@@ -60,6 +60,7 @@
     "@nestjs/typeorm": "^8.0.3",
     "axios": "^0.26.0",
     "axios-retry": "^3.2.4",
+    "camunda-external-task-client-js": "^2.2.0",
     "lodash": "^4.17.21",
     "mongodb": "^3.6.0",
     "mysql": "^2.18.1",
