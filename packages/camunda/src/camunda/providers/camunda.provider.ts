@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Server, CustomTransportStrategy, MessageHandler } from '@nestjs/microservices';
-import { Client } from 'camunda-external-task-client-js';
+import { Client, ClientConfig } from 'camunda-external-task-client-js';
 
 import { CONFIG_MODULE_OPTIONS } from '../constants/camunda.constants';
 
@@ -8,7 +8,7 @@ import { CONFIG_MODULE_OPTIONS } from '../constants/camunda.constants';
 export class CamundaTaskConnector extends Server implements CustomTransportStrategy {
   private client;
 
-  constructor(@Inject(CONFIG_MODULE_OPTIONS) private readonly clientConfig) {
+  constructor(@Inject(CONFIG_MODULE_OPTIONS) private readonly clientConfig: ClientConfig) {
     super();
     this.client = new Client(clientConfig);
   }

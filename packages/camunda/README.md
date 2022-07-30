@@ -54,16 +54,199 @@ yarn add @tresdoce-nestjs-toolkit/camunda
 
 ## ⚙️ Configuración
 
-```typescript
+Agregar los datos de conexión a Camunda en `configuration.ts` utilizando el key `camunda` y que contenga el
+objeto con los datos conexión desde las variables de entorno.
 
+```typescript
+//./src/config/configuration.ts
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import { registerAs } from '@nestjs/config';
+//import { logger } from '@tresdoce-nestjs-toolkit/camunda';
+
+export default registerAs('config', (): Typings.AppConfig => {
+  return {
+    //...
+    camunda: {
+      baseUrl: process.env.CAMUNDA_URL_REST || 'http://localhost:8080/engine-rest',
+      //use: logger,
+    },
+    //...
+  };
+});
 ```
+
+<details>
+<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+
+`baseUrl`: Ruta de acceso a la API de Camunda.
+
+- Type: `String`
+- Required: `true`
+
+`workerId`: Es el ID del worker en el que se obtienen las tareas, las tareas devueltas están bloqueadas para ese worker
+y solo pueden completarse si se proporciona el mismo workerId.
+
+- Type: `String`
+- Required: `false`
+- Default: `some-random-id`
+
+`maxTasks`: Es el número máximo de tareas a recuperar.
+
+- Type: `Number`
+- Required: `false`
+- Default: `10`
+
+`maxParallelExecutions`: Es el número máximo de tareas en las que se puede trabajar simultáneamente.
+
+- Type: `Number`
+- Required: `false`
+
+`interval`: Es el intervalo de tiempo para esperar antes de hacer un nuevo sondeo.
+
+- Type: `Number`
+- Required: `false`
+- Default: `300`
+
+`lockDuration`: Es la duración por defecto para bloquear las tareas externas en milisegundos.
+
+- Type: `Number`
+- Required: `false`
+- Default: `50000`
+
+`autoPoll`: Si es verdadero, el sondeo se inicia automáticamente en cuanto se crea una instancia de Cliente.
+
+- Type: `Boolean`
+- Required: `false`
+- Default: `true`
+
+`asyncResponseTimeout`: Ee el tiempo de espera del sondeo largo en milisegundos.
+
+- Type: `Number`
+- Required: `false`
+
+`usePriority`: Si es falso, la tarea será obtenida arbitrariamente en lugar de basarse en su prioridad.
+
+- Type: `Boolean`
+- Required: `false`
+- Default: `true`
+
+`interceptors`: Función(es) que será(n) llamada(s) antes de que se envíe una solicitud. Los interceptores reciben la
+configuración de la solicitud y devuelven una nueva configuración.
+
+- Type: `Funtion | [Function]`
+- Required: `false`
+
+`use`: Función(es) que tiene(n) acceso a la instancia del cliente tan pronto como se crea y antes de que ocurra
+cualquier sondeo. Consulta el [logger](https://github.com/camunda/camunda-external-task-client-js/blob/master/docs/logger.md) para entender mejor el uso de los middlewares.
+
+- Type: `Funtion | [Function]`
+- Required: `false`
+
+Para más información sobre los parámetros de conexión, puedes consultar en
+la [Documentación](https://github.com/camunda/camunda-external-task-client-js/blob/master/docs/Client.md#new-clientoptions)
+de Camunda.
+
+</details>
 
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-```typescript
+Primero hay que instanciar el `CamundaTaskConnector` como **microservice** en la inicialización de nuestra aplicación.
 
+```typescript
+//./src/main.ts
+//...
+import { CamundaTaskConnector } from '@tresdoce-nestjs-toolkit/camunda';
+
+async function bootstrap() {
+  //...
+  app.connectMicroservice({
+    strategy: app.get(CamundaTaskConnector),
+  });
+  await app.startAllMicroservices();
+  //..
+}
+bootstrap();
+```
+
+Luego hay que instanciar el módulo de camunda.
+
+```typescript
+//./src/app.module.ts
+//...
+import { CamundaModule } from '@tresdoce-nestjs-toolkit/camunda';
+
+@Module({
+  imports: [
+    //...
+    CamundaModule,
+    //...
+  ],
+  //...
+})
+export class AppModule {}
+```
+
+El siguiente fragmento de código está basado parcialmente en el proceso bpmn de los [ejemplos de Camunda](https://github.com/camunda/camunda-external-task-client-js/tree/master/examples/order).
+
+```typescript
+//./src/app.controller.ts
+//...
+import { Ctx, Payload } from '@nestjs/microservices';
+import {
+  Subscription,
+  HandleFailureOptions,
+  Task,
+  TaskService,
+  Variables,
+  logger,
+} from '@tresdoce-nestjs-toolkit/camunda';
+
+@Controller()
+export class AppController {
+  //...
+
+  @Subscription('invoiceCreator', {
+    lockDuration: 500,
+  })
+  async myExternalTask(@Payload() task: Task, @Ctx() taskService: TaskService) {
+    //console.log(task);
+
+    // Put your business logic
+    // complete the task
+    const date = new Date();
+    const minute = date.getMinutes();
+    const businessKey = task.businessKey;
+    const isBusinessKeyMissing = !businessKey;
+    const processVariables = new Variables();
+
+    processVariables.setAll({ date });
+
+    if (!isBusinessKeyMissing) {
+      // check if minute is even
+      if (minute % 2 === 0) {
+        // for even minutes, store variables in the process scope
+        await taskService.complete(task, processVariables);
+      } else {
+        // for odd minutes, store variables in the task local scope
+        await taskService.complete(task, null, processVariables);
+      }
+      logger.success(`completed task ${task.id}`, 'Camunda');
+    } else {
+      const errorMessage = 'No business key given!';
+      const options: HandleFailureOptions = {
+        errorMessage: errorMessage,
+      };
+
+      // Raise an incident
+      await taskService.handleFailure(task, options);
+
+      logger.error(errorMessage);
+    }
+  }
+  //...
+}
 ```
 
 ## 📄 Changelog
