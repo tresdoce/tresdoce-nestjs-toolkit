@@ -20,6 +20,7 @@ describe('CamundaModule', () => {
         host: 8080,
       },
       containerName: `${tcName}-camunda-bpm`,
+      reuse: true,
     });
     await container.start();
   });
