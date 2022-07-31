@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.1.1...@tresdoce-nestjs-toolkit/core@0.2.0-beta.0) (2022-07-31)
+
+### ✨ Features
+
+- **camunda:** add camunda module for the bpmn process ([aa001bc](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/aa001bcf9dcf69c7b798abea8d67d0bd5830bf94))
+
 ### [0.1.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.1.1-beta.0...@tresdoce-nestjs-toolkit/core@0.1.1) (2022-07-15)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/core
