@@ -214,12 +214,13 @@ o [acá](./.readme-static/create-user.bpmn).
 ### Docker de Camunda
 
 ```sh
-docker pull camunda/camunda-bpm-platform:latest
-docker run -d --name camunda -p 8443:8080 camunda/camunda-bpm-platform:latest
+docker run -d --name camunda -p 8443:8080 camunda/camunda-bpm-platform:run-latest
 
 # open browser with url: http://localhost:8443/camunda-welcome/index.html
+# Tasklist: http://localhost:8443/camunda/app/welcome/default/#!/login
 # user: demo
 # pass: demo
+# API Rest: http://localhost:8443/swaggerui/
 ```
 
 ```typescript
