@@ -1,0 +1,1 @@
+export const CONFIG_MODULE_OPTIONS = Symbol('CONFIG_MODULE_OPTIONS');
