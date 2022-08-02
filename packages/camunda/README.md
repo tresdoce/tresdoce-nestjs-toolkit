@@ -23,6 +23,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [⚙️ Configuración](#configurations)
 - [👨‍💻 Uso](#use)
+- [🤓 Ejemplo](#example)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
 
@@ -67,7 +68,7 @@ export default registerAs('config', (): Typings.AppConfig => {
   return {
     //...
     camunda: {
-      baseUrl: process.env.CAMUNDA_URL_REST || 'http://localhost:8080/engine-rest',
+      baseUrl: process.env.CAMUNDA_URL_REST || 'http://localhost:8443/engine-rest',
       //use: logger,
     },
     //...
@@ -137,7 +138,9 @@ configuración de la solicitud y devuelven una nueva configuración.
 - Required: `false`
 
 `use`: Función(es) que tiene(n) acceso a la instancia del cliente tan pronto como se crea y antes de que ocurra
-cualquier sondeo. Consulta el [logger](https://github.com/camunda/camunda-external-task-client-js/blob/master/docs/logger.md) para entender mejor el uso de los middlewares.
+cualquier sondeo. Consulta
+el [logger](https://github.com/camunda/camunda-external-task-client-js/blob/master/docs/logger.md) para entender mejor
+el uso de los middlewares.
 
 - Type: `Funtion | [Function]`
 - Required: `false`
@@ -167,6 +170,7 @@ async function bootstrap() {
   await app.startAllMicroservices();
   //..
 }
+
 bootstrap();
 ```
 
@@ -188,12 +192,41 @@ import { CamundaModule } from '@tresdoce-nestjs-toolkit/camunda';
 export class AppModule {}
 ```
 
-El siguiente fragmento de código está basado parcialmente en el proceso bpmn de los [ejemplos de Camunda](https://github.com/camunda/camunda-external-task-client-js/tree/master/examples/order).
+<a name="example"></a>
+
+## 🤓 Ejemplo
+
+> ⚠️ Entiéndase que el siguiente ejemplo es a modo ilustrativo de como utilizar este
+> módulo junto con Camunda, y no tiene todo el scope completo, como la integración a una BD, el envío del mail o los DTO
+> para el request de creación.
+
+Para este ejemplo, vamos a trabajar un proceso BPMN sencillo para la creación de un usuario, la cual tiene unos procesos
+para realizar del lado del código.
+
+Puedes descargarte este proceso BPMN
+haciendo [clic acá](https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/develop/packages/camunda/.readme-static/create-user.bpmn)
+o [acá](./.readme-static/create-user.bpmn).
+
+<div align="center">
+    <img src="./.readme-static/create-user-model-bpmn.png" width="515" alt="BPMN diagram" />
+</div>
+
+### Docker de Camunda
+
+```sh
+docker run -d --name camunda -p 8443:8080 camunda/camunda-bpm-platform:run-latest
+
+# open browser with url: http://localhost:8443/camunda-welcome/index.html
+# Tasklist: http://localhost:8443/camunda/app/welcome/default/#!/login
+# user: demo
+# pass: demo
+# API Rest: http://localhost:8443/swaggerui/
+```
 
 ```typescript
-//./src/app.controller.ts
 //...
 import { Ctx, Payload } from '@nestjs/microservices';
+import { HttpClientService } from '@tresdoce-nestjs-toolkit/http-client';
 import {
   Subscription,
   HandleFailureOptions,
@@ -204,48 +237,90 @@ import {
 } from '@tresdoce-nestjs-toolkit/camunda';
 
 @Controller()
-export class AppController {
-  //...
+export class MyController {
+  constructor(private readonly httpClient: HttpClientService) {}
 
-  @Subscription('invoiceCreator', {
-    lockDuration: 500,
-  })
-  async myExternalTask(@Payload() task: Task, @Ctx() taskService: TaskService) {
-    //console.log(task);
-
-    // Put your business logic
-    // complete the task
-    const date = new Date();
-    const minute = date.getMinutes();
-    const businessKey = task.businessKey;
-    const isBusinessKeyMissing = !businessKey;
-    const processVariables = new Variables();
-
-    processVariables.setAll({ date });
-
-    if (!isBusinessKeyMissing) {
-      // check if minute is even
-      if (minute % 2 === 0) {
-        // for even minutes, store variables in the process scope
-        await taskService.complete(task, processVariables);
-      } else {
-        // for odd minutes, store variables in the task local scope
-        await taskService.complete(task, null, processVariables);
-      }
-      logger.success(`completed task ${task.id}`, 'Camunda');
-    } else {
-      const errorMessage = 'No business key given!';
-      const options: HandleFailureOptions = {
-        errorMessage: errorMessage,
+  // ========================
+  // Lanzar instancia por API
+  // ========================
+  @Get('create-user')
+  async createUser() {
+    try {
+      // Seteamos las variables para lanzar el proceso BPMN
+      const dataInstance = {
+        variables: {
+          username: { value: 'juan' },
+          email: { value: 'juan@email.com' },
+        },
       };
 
-      // Raise an incident
-      await taskService.handleFailure(task, options);
+      // Hacemos un post a la API de Camunda para iniciar el proceso de BPMN
+      const { data } = await this.httpClient.post(
+        encodeURI(`http://localhost:8443/engine-rest/process-definition/key/create-user/start`),
+        {
+          data: dataInstance,
+        },
+      );
 
-      logger.error(errorMessage);
+      return data;
+    } catch (error) {
+      throw new HttpException(error.message, error.response.status);
     }
   }
-  //...
+
+  // ==================================================
+  // Subscripcion al evento de guardar en base de datos
+  // ==================================================
+  @Subscription('save-database')
+  async saveDatabase(@Payload() task: Task, @Ctx() taskService: TaskService) {
+    try {
+      const username = task.variables.get('username');
+      const email = task.variables.get('email');
+
+      console.log(`Username: ${username}`);
+      console.log(`Email: ${email}`);
+
+      /*
+       * Aca estaría el código para guardar en la BD
+       */
+
+      await taskService.complete(task);
+      logger.log(`completed task ${task.id}`, 'Camunda');
+    } catch (error) {
+      const options: HandleFailureOptions = {
+        errorMessage: error.message,
+      };
+      await taskService.handleFailure(task, options);
+      logger.error(error);
+    }
+  }
+
+  // ============================================
+  // Subscripcion para el evento de envio de mail
+  // ============================================
+  @Subscription('send-email')
+  async sendEmail(@Payload() task: Task, @Ctx() taskService: TaskService) {
+    try {
+      const username = task.variables.get('username');
+      const email = task.variables.get('email');
+
+      console.log(`Username: ${username}`);
+      console.log(`Email: ${email}`);
+
+      /*
+       * Aca estaría el código para enviar un mail
+       */
+
+      await taskService.complete(task);
+      logger.log(`completed task ${task.id}`, 'Camunda');
+    } catch (error) {
+      const options: HandleFailureOptions = {
+        errorMessage: error.message,
+      };
+      await taskService.handleFailure(task, options);
+      logger.error(error);
+    }
+  }
 }
 ```
 
