@@ -203,7 +203,9 @@ export class AppModule {}
 Para este ejemplo, vamos a trabajar un proceso BPMN sencillo para la creación de un usuario, la cual tiene unos procesos
 para realizar del lado del código.
 
-Puedes descargarte este proceso BPMN haciendo [clic acá](./.readme-static/create-user.bpmn).
+Puedes descargarte este proceso BPMN
+haciendo [clic acá](https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/develop/packages/camunda/.readme-static/create-user.bpmn)
+o [acá](./.readme-static/create-user.bpmn).
 
 <div align="center">
     <img src="./.readme-static/create-user-model-bpmn.png" width="515" alt="BPMN diagram" />
@@ -237,7 +239,9 @@ import {
 export class MyController {
   constructor(private readonly httpClient: HttpClientService) {}
 
+  // ========================
   // Lanzar instancia por API
+  // ========================
   @Get('create-user')
   async createUser() {
     try {
@@ -248,6 +252,7 @@ export class MyController {
           email: { value: 'juan@email.com' },
         },
       };
+
       // Hacemos un post a la API de Camunda para iniciar el proceso de BPMN
       const { data } = await this.httpClient.post(
         encodeURI(`http://localhost:8443/engine-rest/process-definition/key/create-user/start`),
@@ -255,13 +260,16 @@ export class MyController {
           data: dataInstance,
         },
       );
+
       return data;
     } catch (error) {
       throw new HttpException(error.message, error.response.status);
     }
   }
 
+  // ==================================================
   // Subscripcion al evento de guardar en base de datos
+  // ==================================================
   @Subscription('save-database')
   async saveDatabase(@Payload() task: Task, @Ctx() taskService: TaskService) {
     try {
@@ -271,22 +279,24 @@ export class MyController {
       console.log(`Username: ${username}`);
       console.log(`Email: ${email}`);
 
-      /* 
-                Aca estaría el código para guardar en la BD 
-            */
+      /*
+       * Aca estaría el código para guardar en la BD
+       */
 
       await taskService.complete(task);
-      // Logger.log(`completed task ${task.id}`, 'Camunda');
+      logger.log(`completed task ${task.id}`, 'Camunda');
     } catch (error) {
       const options: HandleFailureOptions = {
         errorMessage: error.message,
       };
       await taskService.handleFailure(task, options);
-      //Logger.error(error);
+      logger.error(error);
     }
   }
 
+  // ============================================
   // Subscripcion para el evento de envio de mail
+  // ============================================
   @Subscription('send-email')
   async sendEmail(@Payload() task: Task, @Ctx() taskService: TaskService) {
     try {
@@ -296,18 +306,18 @@ export class MyController {
       console.log(`Username: ${username}`);
       console.log(`Email: ${email}`);
 
-      /* 
-                Aca estaría el código para enviar un mail
-            */
+      /*
+       * Aca estaría el código para enviar un mail
+       */
 
       await taskService.complete(task);
-      // Logger.log(`completed task ${task.id}`, 'Camunda');
+      logger.log(`completed task ${task.id}`, 'Camunda');
     } catch (error) {
       const options: HandleFailureOptions = {
         errorMessage: error.message,
       };
       await taskService.handleFailure(task, options);
-      //Logger.error(error);
+      logger.error(error);
     }
   }
 }
