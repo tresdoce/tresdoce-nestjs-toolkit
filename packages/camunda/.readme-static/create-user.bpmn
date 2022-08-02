@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_079w66d" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.1.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:process id="create-user" name="Create User" isExecutable="true">
+    <bpmn:startEvent id="Event_0iffpyj" name="Create User">
+      <bpmn:outgoing>Flow_05wbwf2</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_05wbwf2" sourceRef="Event_0iffpyj" targetRef="Activity_1kc3ap4" />
+    <bpmn:sequenceFlow id="Flow_0jnel9u" sourceRef="Activity_1kc3ap4" targetRef="Activity_0bdkxsr" />
+    <bpmn:endEvent id="Event_0ahhfbt" name="User Created">
+      <bpmn:incoming>Flow_0hpja0v</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0hpja0v" sourceRef="Activity_0bdkxsr" targetRef="Event_0ahhfbt" />
+    <bpmn:serviceTask id="Activity_1kc3ap4" name="Save on database" camunda:type="external" camunda:topic="save-database">
+      <bpmn:incoming>Flow_05wbwf2</bpmn:incoming>
+      <bpmn:outgoing>Flow_0jnel9u</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0bdkxsr" name="Send Email" camunda:type="external" camunda:topic="send-email">
+      <bpmn:incoming>Flow_0jnel9u</bpmn:incoming>
+      <bpmn:outgoing>Flow_0hpja0v</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="create-user">
+      <bpmndi:BPMNEdge id="Flow_05wbwf2_di" bpmnElement="Flow_05wbwf2">
+        <di:waypoint x="208" y="120" />
+        <di:waypoint x="270" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0jnel9u_di" bpmnElement="Flow_0jnel9u">
+        <di:waypoint x="370" y="120" />
+        <di:waypoint x="430" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hpja0v_di" bpmnElement="Flow_0hpja0v">
+        <di:waypoint x="530" y="120" />
+        <di:waypoint x="592" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0iffpyj_di" bpmnElement="Event_0iffpyj">
+        <dc:Bounds x="172" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="160" y="145" width="60" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_178cutc_di" bpmnElement="Activity_1kc3ap4">
+        <dc:Bounds x="270" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0myuj85_di" bpmnElement="Activity_0bdkxsr">
+        <dc:Bounds x="430" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ahhfbt_di" bpmnElement="Event_0ahhfbt">
+        <dc:Bounds x="592" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="578" y="145" width="66" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
