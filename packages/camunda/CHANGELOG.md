@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/camunda@0.1.0-beta.0...@tresdoce-nestjs-toolkit/camunda@0.1.0) (2022-08-02)
+
+### 📝 Docs
+
+- **camunda:** edit documentation ([d675555](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d675555f82740ab0d7e3481fb97547ae785e2a2c))
+- **camunda:** edit documentation eslint ([7c2a6b9](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/7c2a6b90a494383e35138edcd96cbda1b778ece1))
+- edit docker camunda ([87eb843](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/87eb843e7dceb0c8cf4118fcf6d14d0fdcdb6c70))
+
 ## 0.1.0-beta.0 (2022-07-31)
 
 ### ✨ Features
