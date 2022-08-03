@@ -73,8 +73,8 @@ module.exports = {
       },
       {
         type: 'add',
-        path: 'packages/{{kebabCase packageName}}/src/__test__/camunda.module.spec.ts',
-        templateFile: 'plops-templates/packages/basic/src/__test__/camunda.module.spec.ts.hbs',
+        path: 'packages/{{kebabCase packageName}}/src/__test__/greeting.module.spec.ts',
+        templateFile: 'plops-templates/packages/basic/src/__test__/greeting.module.spec.ts.hbs',
       },
       {
         type: 'add',
