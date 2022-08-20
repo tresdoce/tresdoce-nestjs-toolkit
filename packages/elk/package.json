@@ -1,7 +1,7 @@
 {
-  "name": "@tresdoce-nestjs-toolkit/response-parser",
-  "version": "0.1.1",
-  "description": "Tresdoce NestJS Toolkit - Interceptor de formateo de respuesta",
+  "name": "@tresdoce-nestjs-toolkit/elk",
+  "version": "0.0.0",
+  "description": "Tresdoce NestJS Toolkit - Módulo de ElasticSearch Stack",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
     "email": "mdelgado@tresdoce.com.ar",
@@ -13,7 +13,7 @@
   },
   "keywords": [
     "nestjs",
-    "response-parser"
+    "elk"
   ],
   "repository": {
     "type": "git",
@@ -26,21 +26,26 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "prebuild": "shx rm -rf ../../dist/response-parser",
-    "build": "pika build --out ../../dist/response-parser",
+    "prebuild": "shx rm -rf ../../dist/elk",
+    "build": "pika build --out ../../dist/elk",
     "test": "jest --runInBand --detectOpenHandles --coverage --forceExit"
   },
   "publishConfig": {
     "access": "public",
-    "directory": "../../dist/response-parser"
+    "directory": "../../dist/elk"
   },
   "peerDependencies": {
+    "@elastic/elasticsearch": "^8.2.1",
     "@nestjs/common": "^8.2.0",
     "@nestjs/core": "^8.2.0",
+    "@nestjs/elasticsearch": "^8.1.0",
     "@nestjs/platform-express": "^8.2.0",
-    "@tresdoce-nestjs-toolkit/filters": "^0.1.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
+  },
+  "dependencies": {
+    "@elastic/elasticsearch": "^8.2.1",
+    "@nestjs/elasticsearch": "^8.1.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.2.0",
