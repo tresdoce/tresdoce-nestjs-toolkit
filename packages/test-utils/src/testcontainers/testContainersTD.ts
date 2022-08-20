@@ -1,4 +1,4 @@
-import { GenericContainer, StartedTestContainer, TestContainer } from 'testcontainers';
+import { GenericContainer, StartedTestContainer, TestContainer, Wait } from 'testcontainers';
 import { RandomUuid } from 'testcontainers/dist/uuid';
 import { StopOptions } from 'testcontainers/dist/test-container';
 import { ContainerName, Env, Host } from 'testcontainers/dist/docker/types';
@@ -66,6 +66,12 @@ export default class TestContainersTD {
     /* istanbul ignore next */
     if (_.has(options, 'startupTimeout')) {
       genericContainer.withStartupTimeout(options.startupTimeout);
+    }
+
+    /* Add strategy to start container */
+    /* istanbul ignore next */
+    if (_.has(options, 'strategyHealthCheck') && options.strategyHealthCheck) {
+      genericContainer.withWaitStrategy(Wait.forHealthCheck());
     }
 
     /* Add container reuse*/

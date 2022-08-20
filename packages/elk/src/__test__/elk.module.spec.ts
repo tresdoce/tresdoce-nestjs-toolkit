@@ -27,7 +27,7 @@ const response: any = {
   params: {},
 };
 
-jest.setTimeout(80000);
+jest.setTimeout(70000);
 describe('ElkModule', () => {
   let app: INestApplication;
   let container: testContainers;
@@ -44,11 +44,12 @@ describe('ElkModule', () => {
         'xpack.security.enabled': 'false',
         ELASTIC_PASSWORD: 'elastic',
       },
-      startupTimeout: 120000,
+      strategyHealthCheck: true,
       containerName: `${tcName}-elasticsearch`,
       reuse: true,
     });
     await container.start();
+    console.log(container);
   });
 
   afterAll(async () => {

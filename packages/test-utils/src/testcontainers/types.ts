@@ -7,5 +7,6 @@ export interface ITestContainerOptions {
   containerName?: string;
   startupTimeout?: number;
   command?: string[];
+  strategyHealthCheck?: boolean;
   reuse?: boolean;
 }
