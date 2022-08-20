@@ -1,11 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { dynamicConfig, tcName, testContainers } from '@tresdoce-nestjs-toolkit/test-utils';
+import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
+import ClientMock from '@elastic/elasticsearch-mock';
 
 import { ElkModule } from '../elk/elk.module';
 import { ElkInterceptor } from '../elk/interceptors/elk.interceptor';
 import { ElkService } from '../elk/services/elk.service';
+
+const mockElk = new ClientMock();
 
 const body = {};
 const executionContext: any = {
@@ -30,30 +33,6 @@ const response: any = {
 jest.setTimeout(70000);
 describe('ElkModule', () => {
   let app: INestApplication;
-  let container: testContainers;
-
-  beforeAll(async () => {
-    container = await new testContainers('docker.elastic.co/elasticsearch/elasticsearch:8.3.3', {
-      ports: {
-        container: 9200,
-        host: 9200,
-      },
-      envs: {
-        'discovery.type': 'single-node',
-        ES_JAVA_OPTS: '-Xms1g -Xmx1g',
-        'xpack.security.enabled': 'false',
-        ELASTIC_PASSWORD: 'elastic',
-      },
-      strategyHealthCheck: true,
-      containerName: `${tcName}-elasticsearch`,
-      reuse: true,
-    });
-    await container.start();
-  });
-
-  afterAll(async () => {
-    await container.stop({ removeVolumes: true });
-  });
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -67,6 +46,7 @@ describe('ElkModule', () => {
                 node: 'http://localhost:9200',
                 maxRetries: 10,
                 requestTimeout: 60000,
+                Connection: mockElk.getConnection(),
               },
             }),
           ],
@@ -88,21 +68,21 @@ describe('ElkModule', () => {
   });
 
   /*it('should be create document in elasticsearch', async () => {
-    const interceptor = new ElkInterceptor(app.get<ElkService>(ElkService));
-    const interceptorSpy = jest.spyOn(interceptor, 'sendDataToElk');
-    const timeRequest = Date.now();
-    const requestDuration = Date.now() - timeRequest;
+      const interceptor = new ElkInterceptor(app.get<ElkService>(ElkService));
+      const interceptorSpy = jest.spyOn(interceptor, 'sendDataToElk');
+      const timeRequest = Date.now();
+      const requestDuration = Date.now() - timeRequest;
 
-    const callHandler: any = {
-      handle: jest.fn(() => ({
-        pipe: jest.fn(() => {
-          interceptor.sendDataToElk(timeRequest, executionContext, response);
-        }),
-      })),
-    };
-    interceptor.intercept(executionContext, callHandler);
+      const callHandler: any = {
+        handle: jest.fn(() => ({
+          pipe: jest.fn(() => {
+            interceptor.sendDataToElk(timeRequest, executionContext, response);
+          }),
+        })),
+      };
+      interceptor.intercept(executionContext, callHandler);
 
-    expect(callHandler.handle).toBeCalledTimes(1);
-    expect(interceptorSpy).toBeCalledTimes(1);
-  });*/
+      expect(callHandler.handle).toBeCalledTimes(1);
+      expect(interceptorSpy).toBeCalledTimes(1);
+    });*/
 });
