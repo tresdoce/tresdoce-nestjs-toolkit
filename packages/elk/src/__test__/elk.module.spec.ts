@@ -27,6 +27,7 @@ const response: any = {
   params: {},
 };
 
+jest.setTimeout(70000);
 describe('ElkModule', () => {
   let app: INestApplication;
   let container: testContainers;
