@@ -33,7 +33,7 @@ describe('ElkModule', () => {
   let container: testContainers;
 
   beforeAll(async () => {
-    container = await new testContainers('elasticsearch:8.3.3', {
+    container = await new testContainers('docker.elastic.co/elasticsearch/elasticsearch:8.3.3', {
       ports: {
         container: 9200,
         host: 9200,
@@ -49,7 +49,6 @@ describe('ElkModule', () => {
       reuse: true,
     });
     await container.start();
-    console.log(container);
   });
 
   afterAll(async () => {
