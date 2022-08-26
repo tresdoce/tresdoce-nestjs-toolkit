@@ -8,11 +8,11 @@ import {
   testContainers,
 } from '@tresdoce-nestjs-toolkit/test-utils';
 import { Observable, of, throwError } from 'rxjs';
+import { HttpConnection } from '@elastic/elasticsearch';
 
 import { ElkModule } from '../elk/elk.module';
 import { ElkInterceptor } from '../elk/interceptors/elk.interceptor';
 import { ElkService } from '../elk/services/elk.service';
-import { HttpConnection } from '@elastic/elasticsearch';
 
 const executionContext: any = {
   switchToHttp: jest.fn(() => ({
@@ -84,7 +84,7 @@ describe('ElkModule', () => {
             dynamicConfig({
               elasticsearch: {
                 name: 'test-elk-index',
-                node: `http://localhost:9200`,
+                node: `http://${container.getHost()}:9200`,
                 maxRetries: 5,
                 requestTimeout: 60000,
                 sniffOnStart: true,
