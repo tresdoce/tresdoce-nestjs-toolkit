@@ -84,7 +84,7 @@ describe('ElkModule', () => {
             dynamicConfig({
               elasticsearch: {
                 name: 'test-elk-index',
-                node: `http://${container.getHost()}:9200`,
+                node: `http://localhost:9200`,
                 maxRetries: 5,
                 requestTimeout: 60000,
                 sniffOnStart: true,
