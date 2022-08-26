@@ -52,7 +52,7 @@ describe('ElkModule', () => {
     //'elasticsearch:8.3.3'
     //docker.elastic.co/elasticsearch/elasticsearch:8.3.3
 
-    container = await new testContainers('docker.elastic.co/elasticsearch/elasticsearch:8.3.3', {
+    container = await new testContainers('elasticsearch:8.3.3', {
       ports: [
         {
           container: 9200,
