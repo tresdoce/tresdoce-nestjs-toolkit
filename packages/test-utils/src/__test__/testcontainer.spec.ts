@@ -65,6 +65,11 @@ describe('testContainers - Redis', () => {
     expect(instanceContainerName).toBeDefined();
     expect(instanceContainerName).toContain(TCRedisOptions.containerName);
   });
+
+  it('should be return mapped port', () => {
+    const mappedPort = container.getMappedPort(6379);
+    expect(mappedPort).toEqual(6370);
+  });
 });
 
 describe('testContainers - MongoDB', () => {

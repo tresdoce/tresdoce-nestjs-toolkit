@@ -46,6 +46,7 @@ export default class TestContainersTD {
     }
 
     /* Add container ports */
+    /* istanbul ignore next */
     if (_.has(options, 'networkName') && !_.isEmpty(options.networkName)) {
       genericContainer.withNetworkMode(options.networkName);
     }
@@ -153,12 +154,5 @@ export default class TestContainersTD {
    */
   public getMappedPort(port: Port): Port {
     return this._container.getMappedPort(port);
-  }
-
-  /**
-   * Get network name
-   */
-  public getNetworkName(): string[] {
-    return this._container.getNetworkNames();
   }
 }
