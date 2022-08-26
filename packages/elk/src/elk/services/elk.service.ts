@@ -55,8 +55,8 @@ export class ElkService {
     this.client.index({
       index: this.options.name,
       document: {
-        application: `${process.env.npm_package_name}`,
-        applicationVersion: `v${process.env.npm_package_version}`,
+        application: `${process.env.npm_package_name}` || this.options.name,
+        applicationVersion: `v${process.env.npm_package_version}` || 'v1.0.0',
         path,
         url,
         controller,

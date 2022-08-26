@@ -12,10 +12,12 @@ describe('CamundaModule', () => {
 
   beforeAll(async () => {
     container = await new testContainers('camunda/camunda-bpm-platform:7.17.0', {
-      ports: {
-        container: 8080,
-        host: 8080,
-      },
+      ports: [
+        {
+          container: 8080,
+          host: 8080,
+        },
+      ],
       containerName: `${tcName}-camunda-bpm`,
       reuse: true,
     });

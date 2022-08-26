@@ -1,9 +1,14 @@
 import { PortWithOptionalBinding } from 'testcontainers/dist/port';
-import { Env } from 'testcontainers/dist/docker/types';
+
+export declare type EnvKey = string;
+export declare type Env = {
+  [key in EnvKey]: any;
+};
 
 export interface ITestContainerOptions {
-  ports?: PortWithOptionalBinding;
+  ports?: PortWithOptionalBinding[];
   envs?: Env;
+  networkName?: string;
   containerName?: string;
   startupTimeout?: number;
   command?: string[];

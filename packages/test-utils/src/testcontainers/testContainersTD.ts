@@ -5,6 +5,7 @@ import { ContainerName, Env, Host } from 'testcontainers/dist/docker/types';
 import * as _ from 'lodash';
 
 import { ITestContainerOptions } from './types';
+import { Port } from 'testcontainers/dist/port';
 
 export default class TestContainersTD {
   private static _instance?: TestContainersTD;
@@ -45,8 +46,13 @@ export default class TestContainersTD {
     }
 
     /* Add container ports */
+    if (_.has(options, 'networkName') && !_.isEmpty(options.networkName)) {
+      genericContainer.withNetworkMode(options.networkName);
+    }
+
+    /* Add container ports */
     if (_.has(options, 'ports') && !_.isEmpty(options.ports)) {
-      genericContainer.withExposedPorts(this._options.ports);
+      genericContainer.withExposedPorts(...options.ports);
     }
 
     /* Add container envs */
@@ -140,5 +146,19 @@ export default class TestContainersTD {
    */
   public getName(): ContainerName {
     return this._container.getName();
+  }
+
+  /**
+   * Get mapped ports
+   */
+  public getMappedPort(port: Port): Port {
+    return this._container.getMappedPort(port);
+  }
+
+  /**
+   * Get network name
+   */
+  public getNetworkName(): string[] {
+    return this._container.getNetworkNames();
   }
 }

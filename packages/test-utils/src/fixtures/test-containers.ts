@@ -7,10 +7,12 @@ export const tcName = 'tresdoce-test-container';
 
 /* Test Containers - Redis options */
 export const TCRedisOptions: ITestContainerOptions = {
-  ports: {
-    container: 6379,
-    host: 6379,
-  },
+  ports: [
+    {
+      container: 6379,
+      host: 6379,
+    },
+  ],
   envs: {
     REDIS_USERNAME: tcUsername,
     REDIS_PASSWORD: tcPassword,
@@ -22,10 +24,12 @@ export const TCRedisOptions: ITestContainerOptions = {
 
 /* Test Containers - MongoDB options */
 export const TCMongoOptions: ITestContainerOptions = {
-  ports: {
-    container: 27017,
-    host: 27017,
-  },
+  ports: [
+    {
+      container: 27017,
+      host: 27017,
+    },
+  ],
   envs: {
     MONGO_INITDB_ROOT_USERNAME: tcUsername,
     MONGO_INITDB_ROOT_PASSWORD: tcPassword,
@@ -37,10 +41,12 @@ export const TCMongoOptions: ITestContainerOptions = {
 
 /* Test Containers - Postgres options */
 export const TCPostgresOptions: ITestContainerOptions = {
-  ports: {
-    container: 5432,
-    host: 5432,
-  },
+  ports: [
+    {
+      container: 5432,
+      host: 5432,
+    },
+  ],
   envs: {
     POSTGRES_USER: tcUsername,
     POSTGRES_PASSWORD: tcPassword,
@@ -52,10 +58,12 @@ export const TCPostgresOptions: ITestContainerOptions = {
 
 /* Test Containers - MySql options */
 export const TCMySqlOptions: ITestContainerOptions = {
-  ports: {
-    container: 3306,
-    host: 3306,
-  },
+  ports: [
+    {
+      container: 3306,
+      host: 3306,
+    },
+  ],
   envs: {
     //'MYSQL_USER': tcUsername,
     MYSQL_ROOT_PASSWORD: tcPassword,
