@@ -31,6 +31,22 @@ const executionContext: any = {
   getHandler: jest.fn(() => 'handlerElk'),
 };
 
+const executionContextParams: any = {
+  switchToHttp: jest.fn(() => ({
+    getRequest: () => ({
+      path: '/test',
+      method: 'GET',
+      params: { name: 'juan' },
+      query: { name: 'juan' },
+      body: { name: 'juan' },
+    }),
+    getResponse: () => [fixtureUserResponse],
+  })),
+  getType: jest.fn(() => 'http'),
+  getClass: jest.fn(() => 'testController'),
+  getHandler: jest.fn(() => 'handlerElk'),
+};
+
 /*const callHandler: any = {
   handle: jest.fn(() => ({
     pipe: jest.fn(() => ({
@@ -136,6 +152,36 @@ describe('ElkModule', () => {
           expect(interceptorServiceSpy).toBeCalledWith(
             timeRequest,
             executionContext,
+            response,
+            false,
+          );
+        },
+        error: () => {},
+      });
+    });
+
+    it('should be create document in elasticsearch when return success with parameters', async () => {
+      const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
+      const timeRequest = Date.now();
+
+      const callHandler: any = {
+        handle: jest.fn(() => of([fixtureUserResponse])),
+      };
+
+      const obs: Observable<any> = interceptor.intercept(executionContextParams, callHandler);
+      expect(callHandler.handle).toBeCalledTimes(1);
+
+      obs.subscribe({
+        next: (response) => {
+          elkService.serializeResponseInterceptor(
+            timeRequest,
+            executionContextParams,
+            response,
+            false,
+          );
+          expect(interceptorServiceSpy).toBeCalledWith(
+            timeRequest,
+            executionContextParams,
             response,
             false,
           );
