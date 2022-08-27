@@ -88,7 +88,7 @@ describe('ElkModule', () => {
                 node: {
                   url: new URL(`http://${container.getHost()}:9200`),
                 },
-                maxRetries: 5,
+                maxRetries: 10,
                 requestTimeout: 60000,
                 sniffOnStart: true,
                 Connection: HttpConnection,

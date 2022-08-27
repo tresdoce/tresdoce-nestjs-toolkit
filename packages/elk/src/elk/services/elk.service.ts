@@ -50,9 +50,9 @@ export class ElkService {
     const query = _.isEmpty(req.query) ? null : JSON.stringify(req.query);
     const params = _.isEmpty(req.params) ? null : JSON.stringify(req.params);
     const body = _.isEmpty(req.body) ? null : JSON.stringify(req.body);
-    const path = _.isEmpty(req.path) ? null : `${req.path}`;
-    const url = _.isEmpty(req.url) ? null : `${req.url}`;
-    const method = _.isEmpty(req.method) ? null : `${req.method}`;
+    const path = `${req.path}`;
+    const url = `${req.url}`;
+    const method = `${req.method}`;
     let statusCode: number = res.statusCode;
     let response = JSON.stringify(_response);
 
@@ -63,8 +63,8 @@ export class ElkService {
     }
 
     const elkDocument = {
-      application: `${process.env.npm_package_name}` || this.options.name,
-      applicationVersion: `v${process.env.npm_package_version}` || 'v1.0.0',
+      application: `${this.configService.get('config.project.name')}`,
+      applicationVersion: `v${this.configService.get('config.project.version')}`,
       path,
       url,
       controller,
@@ -84,7 +84,7 @@ export class ElkService {
   }
 
   public responseException(_request, _exception) {
-    const apiPrefix: string = this.configService.get('config.project.apiPrefix') || 'API-PREFIX';
+    const apiPrefix: string = this.configService.get('config.project.apiPrefix');
     const instance = `${_.toUpper(_request.method)} ${_request.url}`;
 
     let status: number = HttpStatus.INTERNAL_SERVER_ERROR;
