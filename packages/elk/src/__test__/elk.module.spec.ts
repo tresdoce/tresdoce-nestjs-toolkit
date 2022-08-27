@@ -9,6 +9,7 @@ import {
 } from '@tresdoce-nestjs-toolkit/test-utils';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpConnection } from '@elastic/elasticsearch';
+import { URL } from 'url';
 
 import { ElkModule } from '../elk/elk.module';
 import { ElkInterceptor } from '../elk/interceptors/elk.interceptor';
@@ -65,7 +66,7 @@ describe('ElkModule', () => {
         ES_JAVA_OPTS: '-Xms1g -Xmx1g',
         'xpack.security.enabled': false,
       },
-      containerName: `${tcName}-elasticsearch`,
+      containerName: `${tcName}-elasticsearch-interceptor`,
       reuse: true,
     });
     await container.start();
@@ -84,7 +85,9 @@ describe('ElkModule', () => {
             dynamicConfig({
               elasticsearch: {
                 name: 'test-elk-index',
-                node: `http://${container.getHost()}:9200`,
+                node: {
+                  url: new URL(`http://${container.getHost()}:9200`),
+                },
                 maxRetries: 5,
                 requestTimeout: 60000,
                 sniffOnStart: true,
@@ -111,71 +114,78 @@ describe('ElkModule', () => {
     expect(app).toBeDefined();
   });
 
-  it('should be an ElkInterceptor instance to be defined', async () => {
-    expect(new ElkInterceptor(elkService)).toBeDefined();
-  });
-
-  it('should be create document in elasticsearch when return success', async () => {
-    const interceptorSpy = jest.spyOn(interceptor, 'sendDataToElk');
-    const timeRequest = Date.now();
-
-    const callHandler: any = {
-      handle: jest.fn(() => of([fixtureUserResponse])),
-    };
-
-    const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
-    expect(callHandler.handle).toBeCalledTimes(1);
-
-    obs.subscribe({
-      next: (response) => {
-        interceptor.sendDataToElk(timeRequest, executionContext, response);
-        expect(interceptorSpy).toBeCalledWith(timeRequest, executionContext, response);
-      },
-      error: () => {},
+  describe('ElkInterceptor', () => {
+    it('should be an ElkInterceptor instance to be defined', async () => {
+      expect(new ElkInterceptor(elkService)).toBeDefined();
     });
-  });
 
-  it('should be create document in elasticsearch when return exception', async () => {
-    const interceptorSpy = jest.spyOn(interceptor, 'sendDataToElk');
-    const timeRequest = Date.now();
+    it('should be create document in elasticsearch when return success', async () => {
+      const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
+      const timeRequest = Date.now();
 
-    const error = new Error(`User #$1 not found`);
+      const callHandler: any = {
+        handle: jest.fn(() => of([fixtureUserResponse])),
+      };
 
-    const callHandler: any = {
-      handle: jest.fn(() => throwError(error)),
-    };
+      const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
+      expect(callHandler.handle).toBeCalledTimes(1);
 
-    const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
-    expect(callHandler.handle).toBeCalledTimes(1);
-
-    obs.subscribe({
-      next: () => {},
-      error: (error) => {
-        interceptor.sendDataToElk(timeRequest, executionContext, error, true);
-        expect(interceptorSpy).toBeCalledWith(timeRequest, executionContext, error, true);
-      },
+      obs.subscribe({
+        next: (response) => {
+          elkService.serializeResponseInterceptor(timeRequest, executionContext, response, false);
+          expect(interceptorServiceSpy).toBeCalledWith(
+            timeRequest,
+            executionContext,
+            response,
+            false,
+          );
+        },
+        error: () => {},
+      });
     });
-  });
 
-  it('should be create document in elasticsearch when return exception http', async () => {
-    const interceptorSpy = jest.spyOn(interceptor, 'sendDataToElk');
-    const timeRequest = Date.now();
+    it('should be create document in elasticsearch when return exception', async () => {
+      const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
+      const timeRequest = Date.now();
 
-    const error = new HttpException('not found', 404);
+      const error = new Error(`User #$1 not found`);
 
-    const callHandler: any = {
-      handle: jest.fn(() => throwError(error)),
-    };
+      const callHandler: any = {
+        handle: jest.fn(() => throwError(error)),
+      };
 
-    const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
-    expect(callHandler.handle).toBeCalledTimes(1);
+      const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
+      expect(callHandler.handle).toBeCalledTimes(1);
 
-    obs.subscribe({
-      next: () => {},
-      error: (error) => {
-        interceptor.sendDataToElk(timeRequest, executionContext, error, true);
-        expect(interceptorSpy).toBeCalledWith(timeRequest, executionContext, error, true);
-      },
+      obs.subscribe({
+        next: () => {},
+        error: (error) => {
+          elkService.serializeResponseInterceptor(timeRequest, executionContext, error, true);
+          expect(interceptorServiceSpy).toBeCalledWith(timeRequest, executionContext, error, true);
+        },
+      });
+    });
+
+    it('should be create document in elasticsearch when return exception http', async () => {
+      const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
+      const timeRequest = Date.now();
+
+      const error = new HttpException('not found', 404);
+
+      const callHandler: any = {
+        handle: jest.fn(() => throwError(error)),
+      };
+
+      const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
+      expect(callHandler.handle).toBeCalledTimes(1);
+
+      obs.subscribe({
+        next: () => {},
+        error: (error) => {
+          elkService.serializeResponseInterceptor(timeRequest, executionContext, error, true);
+          expect(interceptorServiceSpy).toBeCalledWith(timeRequest, executionContext, error, true);
+        },
+      });
     });
   });
 });

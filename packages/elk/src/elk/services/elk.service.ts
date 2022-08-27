@@ -1,34 +1,44 @@
 import { ExecutionContext, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { getCode, getErrorMessage } from '@tresdoce-nestjs-toolkit/filters';
-import { ClientOptions, Client } from '@elastic/elasticsearch';
+import { ClientOptions } from '@elastic/elasticsearch';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { Request, Response } from 'express';
-import { v4 as uuid } from 'uuid';
 import * as _ from 'lodash';
 
-import { CONFIG_MODULE_OPTIONS } from '../constants/elk.constant';
+import { CONFIG_MODULE_OPTIONS, ELK_CLIENT } from '../constants/elk.constant';
 
 @Injectable()
 export class ElkService {
-  private readonly client;
-
   constructor(
     private readonly configService: ConfigService,
     @Inject(CONFIG_MODULE_OPTIONS) private readonly options: ClientOptions,
-  ) {
-    this.client = new Client({
-      ...options,
-      generateRequestId: () => uuid(),
+    @Inject(ELK_CLIENT) private readonly elkClient,
+  ) {}
+
+  get clientRef() {
+    return this.elkClient;
+  }
+
+  /*
+   * Create index document
+   */
+  public async createIndexDocument(elkDocument: any): Promise<void> {
+    await this.clientRef.index({
+      index: this.options.name,
+      body: elkDocument,
     });
   }
 
-  public createElkDocument(
+  /*
+   * Serialize response interceptor
+   */
+  public async serializeResponseInterceptor(
     _timeRequest: number,
     _context: ExecutionContext,
     _response: any,
-    _isException = false,
-  ): void {
+    _isException,
+  ): Promise<void> {
     const requestDuration = Date.now() - _timeRequest;
     const controller = _context.getClass().name;
     const handler = _context.getHandler().name;
@@ -52,26 +62,25 @@ export class ElkService {
       statusCode = responseException.error.status;
     }
 
-    this.client.index({
-      index: this.options.name,
-      document: {
-        application: `${process.env.npm_package_name}` || this.options.name,
-        applicationVersion: `v${process.env.npm_package_version}` || 'v1.0.0',
-        path,
-        url,
-        controller,
-        handler,
-        type,
-        method,
-        query,
-        params,
-        body,
-        timeRequest: _timeRequest,
-        requestDuration,
-        statusCode,
-        response,
-      },
-    });
+    const elkDocument = {
+      application: `${process.env.npm_package_name}` || this.options.name,
+      applicationVersion: `v${process.env.npm_package_version}` || 'v1.0.0',
+      path,
+      url,
+      controller,
+      handler,
+      type,
+      method,
+      query,
+      params,
+      body,
+      timeRequest: _timeRequest,
+      requestDuration,
+      statusCode,
+      response,
+    };
+
+    await this.createIndexDocument(elkDocument);
   }
 
   public responseException(_request, _exception) {

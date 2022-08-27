@@ -1,13 +1,15 @@
-import { Global, Module } from '@nestjs/common';
+import { Global, Inject, Module, OnModuleDestroy } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-import { CONFIG_MODULE_OPTIONS } from './constants/elk.constant';
+import { CONFIG_MODULE_OPTIONS, ELK_CLIENT } from './constants/elk.constant';
+import { createElkClient } from './providers/elk-client.provider';
 import { ElkService } from './services/elk.service';
 
 @Global()
 @Module({
   imports: [ConfigModule],
   providers: [
+    createElkClient(),
     ElkService,
     {
       provide: CONFIG_MODULE_OPTIONS,
@@ -15,6 +17,6 @@ import { ElkService } from './services/elk.service';
       inject: [ConfigService],
     },
   ],
-  exports: [ElkService],
+  exports: [ELK_CLIENT, ElkService],
 })
 export class ElkModule {}

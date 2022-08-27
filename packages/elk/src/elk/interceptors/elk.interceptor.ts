@@ -9,6 +9,7 @@ export class ElkInterceptor<T> implements NestInterceptor<T, any> {
   private ctx: HttpArgumentsHost;
   private request: Request;
   private response: Response;
+
   constructor(private readonly elkService: ElkService) {}
 
   intercept(_context: ExecutionContext, _next: CallHandler): Observable<any> {
@@ -19,17 +20,18 @@ export class ElkInterceptor<T> implements NestInterceptor<T, any> {
 
     return _next.handle().pipe(
       tap({
-        next: (_response): void => {
-          this.sendDataToElk(timeRequest, _context, _response);
+        next: async (_response): Promise<void> => {
+          await this.elkService.serializeResponseInterceptor(
+            timeRequest,
+            _context,
+            _response,
+            false,
+          );
         },
-        error: (_error): void => {
-          this.sendDataToElk(timeRequest, _context, _error, true);
+        error: async (_error): Promise<void> => {
+          await this.elkService.serializeResponseInterceptor(timeRequest, _context, _error, true);
         },
       }),
     );
-  }
-
-  public sendDataToElk(_timeRequest, _context, _response, _isException = false): void {
-    this.elkService.createElkDocument(_timeRequest, _context, _response, _isException);
   }
 }
