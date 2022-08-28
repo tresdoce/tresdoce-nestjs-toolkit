@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.2.0...@tresdoce-nestjs-toolkit/core@0.3.0-beta.0) (2022-08-28)
+
+### ✨ Features
+
+- add module elasticsearch ([8a915d1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/8a915d13fa17a69e628e62c7ce7efbef6b23561d))
+
 ## [0.2.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.2.0-beta.0...@tresdoce-nestjs-toolkit/core@0.2.0) (2022-08-02)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/core
