@@ -70,8 +70,6 @@ async function bootstrap() {
   app.useGlobalFilters(new ExceptionsFilter(appConfig));
   //...
 }
-
-bootstrap();
 ```
 
 <a name="use"></a>

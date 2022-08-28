@@ -3,6 +3,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { RedisOptions } from '@tresdoce-nestjs-toolkit/redis';
 import { MailerOptions } from '@tresdoce-nestjs-toolkit/mailer';
 import { ClientConfig } from 'camunda-external-task-client-js';
+import { ClientOptions } from '@elastic/elasticsearch';
 
 type TApiPrefix = string;
 type TName = string;
@@ -73,5 +74,6 @@ export interface AppConfig {
   redis?: RedisOptions;
   mailer?: MailerOptions;
   camunda?: ClientConfig;
+  elasticsearch?: ClientOptions;
   [key: string]: any;
 }

@@ -1,6 +1,6 @@
 <div align="center">
     <img alt="nestjs-logo" width="250" height="auto" src="https://camo.githubusercontent.com/c704e8013883cc3a04c7657e656fe30be5b188145d759a6aaff441658c5ffae0/68747470733a2f2f6e6573746a732e636f6d2f696d672f6c6f676f5f746578742e737667" />
-    <h1>Tresdoce NestJs Toolkit<br/>Response-Parser</h1>
+    <h1>Tresdoce NestJs Toolkit<br/>Elk</h1>
 </div>
 
 <div align="center">
@@ -8,15 +8,12 @@
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=Npm&message=v6.14.13&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="Npm"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJs&message=v8.2.6&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJs"/><br/>
     <img alt="GitHub license" src="https://img.shields.io/github/license/tresdoce/tresdoce-nestjs-toolkit?style=flat">
-    <img alt="Release" src="https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/response-parser.svg">
+    <img alt="Release" src="https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/elk.svg">
     <br/>
 </div>
 <br/>
 
-> ⚠️ Es importante tener en cuenta que este interceptor se encuentra implementado en el
-> package `@tresdoce-nestjs-toolkit/paas`, ya que es una funcionalidad core para el starter.
-
-Este módulo está pensada para ser utilizada en [NestJs Starter](https://github.com/rudemex/nestjs-starter), o cualquier
+Este módulo está pensado para ser utilizado en [NestJs Starter](https://github.com/rudemex/nestjs-starter), o cualquier
 proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
 
 ## Glosario
@@ -25,7 +22,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [⚙️ Configuración](#configurations)
-- [🖥 Respuesta](#response)
+- [👨‍💻 Uso](#use)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
 
@@ -46,65 +43,85 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 ## 🛠️ Instalar dependencia
 
 ```
-npm install -S @tresdoce-nestjs-toolkit/response-parser
+npm install -S @tresdoce-nestjs-toolkit/elk
 ```
 
 ```
-yarn add @tresdoce-nestjs-toolkit/response-parser
+yarn add @tresdoce-nestjs-toolkit/elk
 ```
 
 <a name="configurations"></a>
 
 ## ⚙️ Configuración
 
-Para utilizar este interceptor, es necesario instanciarlo en la creación de la `app` con su global interceptor.
-La implementación del formato de respuesta está implícito en cada respuesta de los controladores.
+Agregar los datos de conexión a Elasticsearch en `configuration.ts` utilizando el key `elasticsearch` y que contenga el
+objeto con los datos conexión desde las variables de entorno.
+
+El objeto toma como argumentos los datos de configuración
+de [@elastic/elasticsearch](https://www.npmjs.com/package/@elastic/elasticsearch), podés encontrar más información en
+la [documentación](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/client-configuration.html)
+
+```typescript
+//./src/config/configuration.ts
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import { registerAs } from '@nestjs/config';
+
+export default registerAs('config', (): Typings.AppConfig => {
+  return {
+    //...
+    elasticsearch: {
+      name: PACKAGE_JSON.name,
+      node: process.env.ELASTICSEARCH_NODE || 'http://localhost:9200',
+    },
+    //...
+  };
+});
+```
+
+Configurar el `ElkInterceptor` en el archivo `main.ts` para que pueda interceptar los **requests** y **responses** y los
+envíe automáticamente al elasticsearch.
 
 ```typescript
 //./src/main.ts
-import { ResponseInterceptor } from '@tresdoce-nestjs-toolkit/response-parser';
+//...
+import { ElkInterceptor, ElkService } from '@tresdoce-nestjs-toolkit/elk';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
   //...
-  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalInterceptors(new ElkInterceptor(app.get<ElkService>(ElkService)));
   //...
 }
 ```
 
-<a name="response"></a>
+Instanciar el módulo `ElkModule` en el archivo `app.module.ts`.
 
-## 🖥 Respuesta
+```typescript
+//./src/app.module.ts
+//...
+import { ElkModule } from '@tresdoce-nestjs-toolkit/elk';
 
-### Single entity response
-
-```json
-{
-  "id": 1,
-  "name": "juan",
-  "lastname": "perez"
-}
-```
-
-### Multiple entity response
-
-```json
-{
-  "data": [
-    {
-      "id": 1,
-      "name": "juan",
-      "lastname": "perez"
-    },
-    {
-      "id": 2,
-      "name": "jose",
-      "lastname": "gonzalez"
-    }
+@Module({
+  imports: [
     //...
-  ]
-}
+    ElkModule,
+    //...
+  ],
+  //...
+})
+export class AppModule {}
 ```
+
+<a name="use"></a>
+
+## 👨‍💻 Uso
+
+Podés descargarte
+el [dataview](https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/master/packages/elk/.readme-static/export.ndjson)
+de elk para poder visualizar los responses de manera más ordenada, o armar el tuyo personalizado.
+
+<div align="center">
+    <img src="./.readme-static/elasticsearch-kibana.png" width="100%" alt="Elasticsearch" />
+</div>
 
 ## 📄 Changelog
 

@@ -11,10 +11,12 @@ describe('testContainers - Redis', () => {
     container = await new testContainers('redis:6.2-alpine', {
       ...TCRedisOptions,
       command: ['redis-server', '--appendonly', 'yes', '--requirepass', '123456'],
-      ports: {
-        container: 6379,
-        host: 6370,
-      },
+      ports: [
+        {
+          container: 6379,
+          host: 6370,
+        },
+      ],
     });
     await container.start();
   });
@@ -63,6 +65,11 @@ describe('testContainers - Redis', () => {
     expect(instanceContainerName).toBeDefined();
     expect(instanceContainerName).toContain(TCRedisOptions.containerName);
   });
+
+  it('should be return mapped port', () => {
+    const mappedPort = container.getMappedPort(6379);
+    expect(mappedPort).toEqual(6370);
+  });
 });
 
 describe('testContainers - MongoDB', () => {
@@ -71,10 +78,12 @@ describe('testContainers - MongoDB', () => {
   beforeAll(async () => {
     container = await new testContainers('mongo:5.0', {
       ...TCMongoOptions,
-      ports: {
-        container: 27017,
-        host: 27012,
-      },
+      ports: [
+        {
+          container: 27017,
+          host: 27012,
+        },
+      ],
     });
     await container.start();
   });
@@ -95,10 +104,12 @@ describe('testContainers - MySql', () => {
   beforeAll(async () => {
     container = await new testContainers('mysql:5.7', {
       ...TCMySqlOptions,
-      ports: {
-        container: 3306,
-        host: 52000,
-      },
+      ports: [
+        {
+          container: 3306,
+          host: 52000,
+        },
+      ],
     });
     await container.start();
   });
