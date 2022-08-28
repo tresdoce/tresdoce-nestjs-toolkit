@@ -54,17 +54,74 @@ yarn add @tresdoce-nestjs-toolkit/elk
 
 ## ⚙️ Configuración
 
-```typescript
+Agregar los datos de conexión a Elasticsearch en `configuration.ts` utilizando el key `elasticsearch` y que contenga el
+objeto con los datos conexión desde las variables de entorno.
 
+El objeto toma como argumentos los datos de configuración
+de [@elastic/elasticsearch](https://www.npmjs.com/package/@elastic/elasticsearch), podés encontrar más información en
+la [documentación](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/client-configuration.html)
+
+```typescript
+//./src/config/configuration.ts
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import { registerAs } from '@nestjs/config';
+
+export default registerAs('config', (): Typings.AppConfig => {
+  return {
+    //...
+    elasticsearch: {
+      name: PACKAGE_JSON.name,
+      node: process.env.ELASTICSEARCH_NODE || 'http://localhost:9200',
+    },
+    //...
+  };
+});
+```
+
+Configurar el `ElkInterceptor` en el archivo `main.ts` para que pueda interceptar los **requests** y **responses** y los
+envíe automáticamente al elasticsearch.
+
+```typescript
+//./src/main.ts
+//...
+import { ElkInterceptor, ElkService } from '@tresdoce-nestjs-toolkit/elk';
+
+async function bootstrap() {
+  //...
+  app.useGlobalInterceptors(new ElkInterceptor(app.get<ElkService>(ElkService)));
+  //...
+}
+```
+
+Instanciar el módulo `ElkModule` en el archivo `app.module.ts`.
+
+```typescript
+//./src/app.module.ts
+//...
+import { ElkModule } from '@tresdoce-nestjs-toolkit/elk';
+
+@Module({
+  imports: [
+    //...
+    ElkModule,
+    //...
+  ],
+  //...
+})
+export class AppModule {}
 ```
 
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-```typescript
+Podés descargarte
+el [dataview](https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/master/packages/elk/.readme-static/export.ndjson)
+de elk para poder visualizar los responses de manera más ordenada, o armar el tuyo personalizado.
 
-```
+<div align="center">
+    <img src="./.readme-static/elasticsearch-kibana.png" width="100%" alt="Elasticsearch" />
+</div>
 
 ## 📄 Changelog
 

@@ -70,8 +70,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor());
   //...
 }
-
-bootstrap();
 ```
 
 <a name="response"></a>
