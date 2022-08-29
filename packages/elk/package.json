@@ -38,14 +38,12 @@
     "@elastic/elasticsearch": "^8.2.1",
     "@nestjs/common": "^8.2.0",
     "@nestjs/core": "^8.2.0",
-    "@nestjs/elasticsearch": "^8.1.0",
     "@nestjs/platform-express": "^8.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },
   "dependencies": {
-    "@elastic/elasticsearch": "^8.2.1",
-    "@nestjs/elasticsearch": "^8.1.0"
+    "@elastic/elasticsearch": "^8.2.1"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.2.0",
