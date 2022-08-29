@@ -101,8 +101,7 @@ export class ElkService {
       message = exceptionResponse.message;
       detail = exceptionResponse.detail;
     } else {
-      const error = _exception as any;
-      message = error.message;
+      message = _exception.message;
     }
     return {
       error: {
