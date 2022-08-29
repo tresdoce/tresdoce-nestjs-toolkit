@@ -1,6 +1,7 @@
 import { ExecutionContext, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { getCode, getErrorMessage } from '@tresdoce-nestjs-toolkit/filters';
+import { excludePaths } from '@tresdoce-nestjs-toolkit/core';
 import { ClientOptions } from '@elastic/elasticsearch';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { Request, Response } from 'express';
@@ -56,31 +57,33 @@ export class ElkService {
     let statusCode: number = res.statusCode;
     let response = JSON.stringify(_response);
 
-    if (_isException) {
-      const responseException = this.responseException(req, _response);
-      response = JSON.stringify(responseException);
-      statusCode = responseException.error.status;
+    if (_.isUndefined(excludePaths.find((path) => _.startsWith(req.path, path)))) {
+      if (_isException) {
+        const responseException = this.responseException(req, _response);
+        response = JSON.stringify(responseException);
+        statusCode = responseException.error.status;
+      }
+
+      const elkDocument = {
+        application: `${this.configService.get('config.project.name')}`,
+        applicationVersion: `v${this.configService.get('config.project.version')}`,
+        path,
+        url,
+        controller,
+        handler,
+        type,
+        method,
+        query,
+        params,
+        body,
+        timeRequest: _timeRequest,
+        requestDuration,
+        statusCode,
+        response,
+      };
+
+      await this.createIndexDocument(elkDocument);
     }
-
-    const elkDocument = {
-      application: `${this.configService.get('config.project.name')}`,
-      applicationVersion: `v${this.configService.get('config.project.version')}`,
-      path,
-      url,
-      controller,
-      handler,
-      type,
-      method,
-      query,
-      params,
-      body,
-      timeRequest: _timeRequest,
-      requestDuration,
-      statusCode,
-      response,
-    };
-
-    await this.createIndexDocument(elkDocument);
   }
 
   public responseException(_request, _exception) {
