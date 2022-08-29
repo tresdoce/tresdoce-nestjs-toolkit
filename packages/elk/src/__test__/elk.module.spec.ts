@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import {
   dynamicConfig,
   fixtureUserResponse,
+  TCElasticSearchOptions,
   tcName,
   testContainers,
 } from '@tresdoce-nestjs-toolkit/test-utils';
@@ -70,20 +71,8 @@ describe('ElkModule', () => {
     //docker.elastic.co/elasticsearch/elasticsearch:8.3.3
 
     container = await new testContainers('elasticsearch:8.3.3', {
-      ports: [
-        {
-          container: 9200,
-          host: 9200,
-        },
-      ],
-      envs: {
-        'discovery.type': 'single-node',
-        'node.name': 'elasticsearch',
-        ES_JAVA_OPTS: '-Xms1g -Xmx1g',
-        'xpack.security.enabled': false,
-      },
+      ...TCElasticSearchOptions,
       containerName: `${tcName}-elasticsearch-interceptor`,
-      reuse: true,
     });
     await container.start();
   });

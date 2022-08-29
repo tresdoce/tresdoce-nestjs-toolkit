@@ -5,6 +5,7 @@ import {
   TCMongoOptions,
   TCMySqlOptions,
   TCPostgresOptions,
+  TCElasticSearchOptions,
 } from '../fixtures';
 
 describe('Fixture - appConfigBase', () => {
@@ -72,6 +73,19 @@ describe('Fixture - TestContainers options', () => {
       {
         container: 5432,
         host: 5432,
+      },
+    ]);
+  });
+
+  it('should be define elasticsearch options', async () => {
+    expect(TCElasticSearchOptions).toBeDefined();
+    expect(TCElasticSearchOptions).not.toBe(null);
+    expect(typeof TCElasticSearchOptions).toBe('object');
+    expect(TCElasticSearchOptions.containerName).toEqual('tresdoce-test-container-elasticsearch');
+    expect(TCElasticSearchOptions.ports).toEqual([
+      {
+        container: 9200,
+        host: 9200,
       },
     ]);
   });

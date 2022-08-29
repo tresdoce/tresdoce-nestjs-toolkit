@@ -1,7 +1,13 @@
 import { testContainers } from '../testcontainers';
 import { StartedGenericContainer } from 'testcontainers/dist/generic-container/started-generic-container';
 
-import { TCRedisOptions, TCMongoOptions, TCMySqlOptions, TCPostgresOptions } from '../fixtures';
+import {
+  TCRedisOptions,
+  TCMongoOptions,
+  TCMySqlOptions,
+  TCPostgresOptions,
+  TCElasticSearchOptions,
+} from '../fixtures';
 
 jest.setTimeout(70000);
 describe('testContainers - Redis', () => {
@@ -129,6 +135,32 @@ describe('testContainers - Postgres', () => {
 
   beforeAll(async () => {
     container = await new testContainers('postgres:13', TCPostgresOptions);
+    await container.start();
+  });
+
+  afterAll(async () => {
+    await container.stop({ removeVolumes: true });
+  });
+
+  it('should be defined', () => {
+    expect(container).toBeDefined();
+    expect(container).toBeInstanceOf(testContainers);
+  });
+});
+
+describe('testContainers - Elasticsearch', () => {
+  let container: testContainers;
+
+  beforeAll(async () => {
+    container = await new testContainers('elasticsearch:8.3.3', {
+      ...TCElasticSearchOptions,
+      ports: [
+        {
+          container: 9200,
+          host: 9201,
+        },
+      ],
+    });
     await container.start();
   });
 

@@ -73,3 +73,21 @@ export const TCMySqlOptions: ITestContainerOptions = {
   containerName: `${tcName}-mysql`,
   reuse: true,
 };
+
+/* Test Containers - Elasticsearch */
+export const TCElasticSearchOptions: ITestContainerOptions = {
+  ports: [
+    {
+      container: 9200,
+      host: 9200,
+    },
+  ],
+  envs: {
+    'discovery.type': 'single-node',
+    'node.name': 'elasticsearch',
+    ES_JAVA_OPTS: '-Xms1g -Xmx1g',
+    'xpack.security.enabled': false,
+  },
+  containerName: `${tcName}-elasticsearch`,
+  reuse: true,
+};
