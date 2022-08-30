@@ -1,7 +1,7 @@
 import { Logger, Provider } from '@nestjs/common';
 import { Client, ClientOptions } from '@elastic/elasticsearch';
 import {
-  CONFIG_MODULE_OPTIONS,
+  ELK_MODULE_OPTIONS,
   ELK_CLIENT,
   ELK_MSG_ERROR_CONNECTED,
   ELK_MSG_SUCCESSFULLY_CONNECTED,
@@ -28,5 +28,5 @@ export const createElkClient = (): Provider => ({
 
     return client;
   },
-  inject: [CONFIG_MODULE_OPTIONS],
+  inject: [ELK_MODULE_OPTIONS],
 });

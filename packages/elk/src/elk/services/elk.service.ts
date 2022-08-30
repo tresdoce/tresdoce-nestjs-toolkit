@@ -7,13 +7,13 @@ import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { Request, Response } from 'express';
 import * as _ from 'lodash';
 
-import { CONFIG_MODULE_OPTIONS, ELK_CLIENT } from '../constants/elk.constant';
+import { ELK_MODULE_OPTIONS, ELK_CLIENT } from '../constants/elk.constant';
 
 @Injectable()
 export class ElkService {
   constructor(
     private readonly configService: ConfigService,
-    @Inject(CONFIG_MODULE_OPTIONS) private readonly options: ClientOptions,
+    @Inject(ELK_MODULE_OPTIONS) private readonly options: ClientOptions,
     @Inject(ELK_CLIENT) private readonly elkClient,
   ) {}
 
@@ -55,7 +55,7 @@ export class ElkService {
     const url = `${req.url}`;
     const method = `${req.method}`;
     let statusCode: number = res.statusCode;
-    let response = JSON.stringify(_response);
+    let response = typeof _response === 'string' ? _response : JSON.stringify(_response);
 
     if (_.isUndefined(excludePaths.find((path) => _.startsWith(req.path, path)))) {
       if (_isException) {

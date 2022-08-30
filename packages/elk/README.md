@@ -71,7 +71,7 @@ export default registerAs('config', (): Typings.AppConfig => {
     //...
     elasticsearch: {
       name: PACKAGE_JSON.name,
-      node: process.env.ELASTICSEARCH_NODE || 'http://localhost:9200',
+      node: process.env.ELASTICSEARCH_NODE, // Default: 'http://localhost:9200',
     },
     //...
   };
@@ -117,10 +117,33 @@ export class AppModule {}
 
 Podés descargarte
 el [dataview](https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/master/packages/elk/.readme-static/export.ndjson)
-de elk para poder visualizar los responses de manera más ordenada, o armar el tuyo personalizado.
+de elk para poder visualizar los responses interceptados de manera más ordenada, o armar el tuyo personalizado.
 
 <div align="center">
     <img src="./.readme-static/elasticsearch-kibana.png" width="100%" alt="Elasticsearch" />
+</div>
+
+Para enviar tus propios datos al **Elasticsearch**, podés inyectar el `ElkService` llamando a la
+función `createIndexDocument()`, la cual recibe un objeto como parámetro.
+
+```typescript
+//./src/app.service.ts
+//...
+import { ElkService } from '@tresdoce-nestjs-toolkit/elk';
+
+@Injectable()
+export class AppService {
+  constructor(private readonly elkService: ElkService) {}
+
+  async myCustomMsg(): Promise<void> {
+    await this.elkService.createIndexDocument({ response: 'This is a custom message' });
+  }
+  //...
+}
+```
+
+<div align="center">
+    <img src="./.readme-static/elasticsearch-kibana-custom-msg.png" width="100%" alt="Elasticsearch custom msg" />
 </div>
 
 ## 📄 Changelog
