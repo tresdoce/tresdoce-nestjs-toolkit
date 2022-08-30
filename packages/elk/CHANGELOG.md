@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@0.1.0-beta.1...@tresdoce-nestjs-toolkit/elk@0.1.0) (2022-08-30)
+
+### 🐛 Bug Fixes
+
+- **elk:** resolve code smell exception ([42f74f7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/42f74f78079cf5f26a2b29d66c60dbb84c29ed18))
+
+### 👨‍💻 Chores
+
+- **elk:** add documentation and add use service to send custom msg ([15b2383](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/15b2383db8b89d48926c77050f37661c86ebc1c9))
+- **elk:** add logs of connect to service ([4567e6f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/4567e6fb086710a9706fc1c78b595cbe67c6f90c))
+- **elk:** add more tests ([c1934a7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c1934a74bd559999645d344d5d6c245794939b3b))
+- **test-utils:** add fixture to elasticsearch test container ([81cf5ea](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/81cf5ea945597573d11618f18fd054568608853f))
+
 ## [0.1.0-beta.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@0.1.0-beta.0...@tresdoce-nestjs-toolkit/elk@0.1.0-beta.1) (2022-08-29)
 
 ### 👨‍💻 Chores
