@@ -16,7 +16,7 @@ import { ElkModule } from '../elk/elk.module';
 import { ElkInterceptor } from '../elk/interceptors/elk.interceptor';
 import { ElkService } from '../elk/services/elk.service';
 
-const executionContext: any = {
+let executionContext: any = {
   switchToHttp: jest.fn(() => ({
     getRequest: () => ({
       path: '/test',
@@ -32,7 +32,7 @@ const executionContext: any = {
   getHandler: jest.fn(() => 'handlerElk'),
 };
 
-const executionContextParams: any = {
+let executionContextParams: any = {
   switchToHttp: jest.fn(() => ({
     getRequest: () => ({
       path: '/test',
@@ -124,7 +124,32 @@ describe('ElkModule', () => {
       expect(new ElkInterceptor(elkService)).toBeDefined();
     });
 
-    it('should be create document in elasticsearch when return success', async () => {
+    it('should be create document in elasticsearch when return success string', async () => {
+      const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
+      const timeRequest = Date.now();
+
+      const callHandler: any = {
+        handle: jest.fn(() => of('this is a test')),
+      };
+
+      const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
+      expect(callHandler.handle).toBeCalledTimes(1);
+
+      obs.subscribe({
+        next: (response) => {
+          elkService.serializeResponseInterceptor(timeRequest, executionContext, response, false);
+          expect(interceptorServiceSpy).toBeCalledWith(
+            timeRequest,
+            executionContext,
+            response,
+            false,
+          );
+        },
+        error: () => {},
+      });
+    });
+
+    it('should be create document in elasticsearch when return success object', async () => {
       const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
       const timeRequest = Date.now();
 
@@ -221,6 +246,42 @@ describe('ElkModule', () => {
           expect(interceptorServiceSpy).toBeCalledWith(timeRequest, executionContext, error, true);
         },
       });
+    });
+  });
+
+  describe('ElkModule - Register', () => {
+    let app: INestApplication;
+    let elkService: ElkService;
+    let interceptor: ElkInterceptor<any>;
+
+    beforeEach(async () => {
+      const moduleFixture: TestingModule = await Test.createTestingModule({
+        imports: [
+          ElkModule.register({
+            name: 'test-elk-index',
+            node: {
+              url: new URL(`http://${container.getHost()}:9200`),
+            },
+            maxRetries: 10,
+            requestTimeout: 60000,
+            sniffOnStart: true,
+            Connection: HttpConnection,
+          }),
+        ],
+      }).compile();
+      app = moduleFixture.createNestApplication();
+      interceptor = new ElkInterceptor(app.get<ElkService>(ElkService));
+      app.useGlobalInterceptors(interceptor);
+      elkService = moduleFixture.get<ElkService>(ElkService);
+      await app.init();
+    });
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    it('should be defined', () => {
+      expect(app).toBeDefined();
     });
   });
 });
