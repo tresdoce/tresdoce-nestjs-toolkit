@@ -10,3 +10,7 @@ export const fixturePostResponse: any = {
   description: 'this is a description of post 1',
   isActive: true,
 };
+
+export const fixtureUserArrayResponse: any = [fixtureUserResponse];
+
+export const fixturePostArrayResponse: any = [fixturePostResponse];
