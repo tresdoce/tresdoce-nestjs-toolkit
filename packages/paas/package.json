@@ -39,10 +39,11 @@
     "@nestjs/common": "^8.2.0",
     "@nestjs/core": "^8.2.0",
     "@nestjs/platform-express": "^8.2.0",
-    "@tresdoce-nestjs-toolkit/core": "^0.1.0",
-    "@tresdoce-nestjs-toolkit/filters": "^0.1.0",
-    "@tresdoce-nestjs-toolkit/health": "^0.1.0",
-    "@tresdoce-nestjs-toolkit/response-parser": "^0.1.0",
+    "@tresdoce-nestjs-toolkit/core": "^0.3.0",
+    "@tresdoce-nestjs-toolkit/filters": "^0.1.4",
+    "@tresdoce-nestjs-toolkit/health": "^0.1.1",
+    "@tresdoce-nestjs-toolkit/response-parser": "^0.2.0",
+    "@tresdoce-nestjs-toolkit/tracing": "^0.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },
@@ -50,7 +51,8 @@
     "@tresdoce-nestjs-toolkit/core": "^0.3.0",
     "@tresdoce-nestjs-toolkit/filters": "^0.1.4",
     "@tresdoce-nestjs-toolkit/health": "^0.1.1",
-    "@tresdoce-nestjs-toolkit/response-parser": "^0.2.0"
+    "@tresdoce-nestjs-toolkit/response-parser": "^0.2.0",
+    "@tresdoce-nestjs-toolkit/tracing": "^0.0.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.2.0",

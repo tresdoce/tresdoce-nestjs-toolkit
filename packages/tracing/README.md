@@ -13,6 +13,9 @@
 </div>
 <br/>
 
+> ⚠️ Es importante tener en cuenta que este interceptor se encuentra implementado en el
+> package `@tresdoce-nestjs-toolkit/paas`, ya que es una funcionalidad core para el starter.
+
 Este módulo está pensado para ser utilizado en [NestJs Starter](https://github.com/rudemex/nestjs-starter), o cualquier
 proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
 
@@ -55,15 +58,107 @@ yarn add @tresdoce-nestjs-toolkit/tracing
 ## ⚙️ Configuración
 
 ```typescript
+//./src/config/configuration.ts
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import { registerAs } from '@nestjs/config';
 
+export default registerAs('config', (): Typings.AppConfig => {
+  return {
+    //...
+    tracing: {
+      serviceName: `${process.env.API_PREFIX.toLowerCase()}-${PACKAGE_JSON.name}`,
+      jaegerConfig: {},
+    },
+    //...
+  };
+});
 ```
+
+<details>
+<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+
+`serviceName`: Es el nombre de la aplicación para la traza
+
+- Type: `String`
+
+`resourceAttributes`: Tags para la traza que se ingresa como objeto con `KEY:VALUE`
+
+- Type: `Object`
+- Default: `{ 'serviceName': options.serviceName }`
+
+`excludeTracerPaths`: Array de paths para excluir la traza.
+
+- Type: `Array`
+- Default: `['/health/liveness', '/health/readiness', '/manifest']`
+
+### jaegerConfig
+
+Es la configuración para visualizar la traza en jaeger.
+
+`jaegerConfig.endpoint`: Es el la ruta de la API de Jaeger para la traza.
+
+- Type: `String`
+- Default: `http://localhost:14268/api/traces`
+
+`jaegerConfig.host`: Es el host de Jaeger.
+
+- Type: `String`
+- Default: `localhost`
+
+`jaegerConfig.port`: Es el puerto para conectarse al Jaeger.
+
+- Type: `number`
+- Values: `6832`
+
+`username`: Es el nombre de usuario para conectarse a Jaeger.
+
+- Type: `String`
+
+`password`: Es la contraseña de usuario para conectarse a Jaeger.
+
+</details>
 
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-```typescript
+Inicializamos **Opentelemetry** previo a inicializar la app, pasando los datos de la config.
 
+```typescript
+//./src/main.ts
+import { otelSDK } from '@tresdoce-nestjs-toolkit/tracing';
+import { config } from './config';
+
+async function bootstrap() {
+  await otelSDK(config().tracing).start();
+  //...
+}
+```
+
+Instanciamos el `TracingModule` y el `TracingInterceptor` para que empiece a realizar la traza de la app.
+
+```typescript
+//./src/app.module.ts
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TracingModule, TracingInterceptor } from '@tresdoce-nestjs-toolkit/tracing';
+
+@Module({
+  imports: [
+    //...
+    TracingModule,
+    //...
+  ],
+  //...
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TracingInterceptor,
+    },
+    //...
+  ],
+})
+export class AppModule {}
 ```
 
 ## 📄 Changelog

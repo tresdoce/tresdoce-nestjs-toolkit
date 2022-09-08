@@ -4,6 +4,9 @@ import { RedisOptions } from '@tresdoce-nestjs-toolkit/redis';
 import { MailerOptions } from '@tresdoce-nestjs-toolkit/mailer';
 import { ClientConfig } from 'camunda-external-task-client-js';
 import { ClientOptions } from '@elastic/elasticsearch';
+import { ResourceAttributes } from '@opentelemetry/resources';
+import { ExporterConfig as JaegerExporterConfig } from '@opentelemetry/exporter-jaeger/build/src/types';
+import { IgnoreMatcher } from '@opentelemetry/instrumentation-http';
 
 type TApiPrefix = string;
 type TName = string;
@@ -64,6 +67,14 @@ export interface IDatabaseConfiguration {
   typeorm?: TypeOrmModuleOptions;
 }
 
+export interface IOpenTelemetryConfiguration {
+  serviceName: string;
+  resourceAttributes?: ResourceAttributes;
+  excludeTracerPaths?: IgnoreMatcher[];
+  jaegerConfig: JaegerExporterConfig;
+  [key: string]: any;
+}
+
 export interface AppConfig {
   project: IProjectConfig;
   server: IServerConfig;
@@ -75,5 +86,6 @@ export interface AppConfig {
   mailer?: MailerOptions;
   camunda?: ClientConfig;
   elasticsearch?: ClientOptions;
+  tracing?: IOpenTelemetryConfiguration;
   [key: string]: any;
 }
