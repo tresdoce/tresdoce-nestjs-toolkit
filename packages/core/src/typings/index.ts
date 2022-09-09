@@ -4,6 +4,7 @@ import { RedisOptions } from '@tresdoce-nestjs-toolkit/redis';
 import { MailerOptions } from '@tresdoce-nestjs-toolkit/mailer';
 import { ClientConfig } from 'camunda-external-task-client-js';
 import { ClientOptions } from '@elastic/elasticsearch';
+import AspectoClientOptions from '@aspecto/opentelemetry/dist/src/interfaces/AspectoClientOptions';
 
 type TApiPrefix = string;
 type TName = string;
@@ -75,5 +76,6 @@ export interface AppConfig {
   mailer?: MailerOptions;
   camunda?: ClientConfig;
   elasticsearch?: ClientOptions;
+  aspecto?: AspectoClientOptions;
   [key: string]: any;
 }

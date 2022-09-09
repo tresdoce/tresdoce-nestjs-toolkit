@@ -1,0 +1,2 @@
+export const ASPECTO_MODULE_OPTIONS = Symbol('ASPECTO_MODULE_OPTIONS');
+export const ASPECTO_CLIENT = Symbol('ASPECTO_CLIENT');
