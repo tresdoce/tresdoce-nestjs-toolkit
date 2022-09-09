@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.1.5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/filters@0.1.4...@tresdoce-nestjs-toolkit/filters@0.1.5) (2022-09-09)
+
+### 📝 Docs
+
+- edit url demo starter ([74f1569](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/74f156929d81cd9d8c94c0a32adfc0ce70f36ae6))
+
 ### [0.1.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/filters@0.1.4-beta.0...@tresdoce-nestjs-toolkit/filters@0.1.4) (2022-08-30)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/filters
