@@ -27,7 +27,7 @@ esta librería que maneja de manera centralizada todo lo necesario para nuestros
 
 ## Glosario
 
-- [🥳 Demo](https://rudemex-nestjs-starter.herokuapp.com/docs)
+- [🥳 Demo](https://nestjs-starter.onrender.com/v1/docs)
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [👨‍💻 Uso](#use)
@@ -180,10 +180,10 @@ Para la configuración del contenedor, tiene disponibles las siguientes opciones
 
 ```
 {
-  ports: {
+  ports: [{
     container: number,
     host: number
-  },
+  }],
   envs: {
     KEY: value
     //...
@@ -211,10 +211,12 @@ manteniendo el del `container` con el default.
 // Ejemplo para MongoDB
 await new testContainers('mongo:5.0', {
   ...TCMongoOptions,
-  ports: {
-    container: 27017,
-    host: 27013,
-  },
+  ports: [
+    {
+      container: 27017,
+      host: 27013,
+    },
+  ],
 });
 ```
 

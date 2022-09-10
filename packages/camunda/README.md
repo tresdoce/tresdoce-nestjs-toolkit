@@ -18,7 +18,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 
 ## Glosario
 
-- [🥳 Demo](https://rudemex-nestjs-starter.herokuapp.com/docs)
+- [🥳 Demo](https://nestjs-starter.onrender.com/v1/docs)
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [⚙️ Configuración](#configurations)
@@ -170,8 +170,6 @@ async function bootstrap() {
   await app.startAllMicroservices();
   //..
 }
-
-bootstrap();
 ```
 
 Luego hay que instanciar el módulo de camunda.
@@ -204,7 +202,7 @@ Para este ejemplo, vamos a trabajar un proceso BPMN sencillo para la creación d
 para realizar del lado del código.
 
 Puedes descargarte este proceso BPMN
-haciendo [clic acá](https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/develop/packages/camunda/.readme-static/create-user.bpmn)
+haciendo [clic acá](https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/master/packages/camunda/.readme-static/create-user.bpmn)
 o [acá](./.readme-static/create-user.bpmn).
 
 <div align="center">

@@ -1,6 +1,8 @@
+const matchers = require('jest-extended');
 jest.setTimeout(70000);
 
 expect.extend({
+  ...matchers,
   toContainObject(received, argument) {
     const pass = this.equals(received, expect.arrayContaining([expect.objectContaining(argument)]));
 

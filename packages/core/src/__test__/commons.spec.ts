@@ -5,7 +5,7 @@ describe('commons', () => {
   it('should be return commons exclude paths', () => {
     expect(corePathsExcludes).not.toBe(null);
     expect(corePathsExcludes).toBeDefined();
-    expect(corePathsExcludes).toBeInstanceOf(Array);
+    expect(corePathsExcludes).toBeArray();
 
     expect(corePathsExcludes).toContainObject({
       path: '/health/liveness',

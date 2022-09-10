@@ -9,6 +9,7 @@
     "@typescript-eslint/eslint-plugin"
   ],
   "extends": [
+    "plugin:jest-extended/all",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],

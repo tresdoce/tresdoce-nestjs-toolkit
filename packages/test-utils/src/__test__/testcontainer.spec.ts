@@ -1,7 +1,13 @@
 import { testContainers } from '../testcontainers';
 import { StartedGenericContainer } from 'testcontainers/dist/generic-container/started-generic-container';
 
-import { TCRedisOptions, TCMongoOptions, TCMySqlOptions, TCPostgresOptions } from '../fixtures';
+import {
+  TCRedisOptions,
+  TCMongoOptions,
+  TCMySqlOptions,
+  TCPostgresOptions,
+  TCElasticSearchOptions,
+} from '../fixtures';
 
 jest.setTimeout(70000);
 describe('testContainers - Redis', () => {
@@ -11,10 +17,12 @@ describe('testContainers - Redis', () => {
     container = await new testContainers('redis:6.2-alpine', {
       ...TCRedisOptions,
       command: ['redis-server', '--appendonly', 'yes', '--requirepass', '123456'],
-      ports: {
-        container: 6379,
-        host: 6370,
-      },
+      ports: [
+        {
+          container: 6379,
+          host: 6370,
+        },
+      ],
     });
     await container.start();
   });
@@ -63,6 +71,11 @@ describe('testContainers - Redis', () => {
     expect(instanceContainerName).toBeDefined();
     expect(instanceContainerName).toContain(TCRedisOptions.containerName);
   });
+
+  it('should be return mapped port', () => {
+    const mappedPort = container.getMappedPort(6379);
+    expect(mappedPort).toEqual(6370);
+  });
 });
 
 describe('testContainers - MongoDB', () => {
@@ -71,10 +84,12 @@ describe('testContainers - MongoDB', () => {
   beforeAll(async () => {
     container = await new testContainers('mongo:5.0', {
       ...TCMongoOptions,
-      ports: {
-        container: 27017,
-        host: 27012,
-      },
+      ports: [
+        {
+          container: 27017,
+          host: 27012,
+        },
+      ],
     });
     await container.start();
   });
@@ -95,10 +110,12 @@ describe('testContainers - MySql', () => {
   beforeAll(async () => {
     container = await new testContainers('mysql:5.7', {
       ...TCMySqlOptions,
-      ports: {
-        container: 3306,
-        host: 52000,
-      },
+      ports: [
+        {
+          container: 3306,
+          host: 52000,
+        },
+      ],
     });
     await container.start();
   });
@@ -118,6 +135,32 @@ describe('testContainers - Postgres', () => {
 
   beforeAll(async () => {
     container = await new testContainers('postgres:13', TCPostgresOptions);
+    await container.start();
+  });
+
+  afterAll(async () => {
+    await container.stop({ removeVolumes: true });
+  });
+
+  it('should be defined', () => {
+    expect(container).toBeDefined();
+    expect(container).toBeInstanceOf(testContainers);
+  });
+});
+
+describe('testContainers - Elasticsearch', () => {
+  let container: testContainers;
+
+  beforeAll(async () => {
+    container = await new testContainers('elasticsearch:8.3.3', {
+      ...TCElasticSearchOptions,
+      ports: [
+        {
+          container: 9200,
+          host: 9201,
+        },
+      ],
+    });
     await container.start();
   });
 

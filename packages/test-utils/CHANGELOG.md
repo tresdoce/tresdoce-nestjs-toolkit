@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.1.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.1.3...@tresdoce-nestjs-toolkit/test-utils@0.1.4) (2022-09-09)
+
+### 👨‍💻 Chores
+
+- **test-utils:** add more fixtures ([d046b18](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d046b186ddbc2dd9504785e5c535be2a569b1cfa))
+
+### 📝 Docs
+
+- edit url demo starter ([74f1569](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/74f156929d81cd9d8c94c0a32adfc0ce70f36ae6))
+
+### [0.1.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.1.3-beta.0...@tresdoce-nestjs-toolkit/test-utils@0.1.3) (2022-08-30)
+
+### 👨‍💻 Chores
+
+- **test-utils:** add fixture to elasticsearch test container ([81cf5ea](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/81cf5ea945597573d11618f18fd054568608853f))
+
+### [0.1.3-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.1.2...@tresdoce-nestjs-toolkit/test-utils@0.1.3-beta.0) (2022-08-28)
+
+### 👨‍💻 Chores
+
+- add strategy to test container ([a925f0f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a925f0fdfae78d76571694c40c3e01d2241ee533))
+- add test to test utils ([29403a3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/29403a3a390aa912c3415ebd00a1598d839e7e3e))
+- edit packages ([9df518e](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/9df518e7afb9c0f96f620920b09dd3e2212ae3d7))
+
 ### [0.1.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.1.2-beta.0...@tresdoce-nestjs-toolkit/test-utils@0.1.2) (2022-07-15)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/test-utils

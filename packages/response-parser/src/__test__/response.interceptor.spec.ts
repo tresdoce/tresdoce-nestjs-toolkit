@@ -1,5 +1,9 @@
 import { ResponseInterceptor } from '../response/response.interceptor';
-import { JestFN, fixtureUserResponse } from '@tresdoce-nestjs-toolkit/test-utils';
+import {
+  JestFN,
+  fixtureUserResponse,
+  fixtureUserArrayResponse,
+} from '@tresdoce-nestjs-toolkit/test-utils';
 import { of } from 'rxjs';
 
 const executionContext: any = JestFN.executionContext;
@@ -34,14 +38,14 @@ describe('ResponseInterceptor', () => {
 
   it('should return an ResponseInterceptor instance multiple entity', (done) => {
     const callHandler: any = {
-      handle: jest.fn(() => of([fixtureUserResponse])),
+      handle: jest.fn(() => of(fixtureUserArrayResponse)),
     };
     const obs = interceptor.intercept(executionContext, callHandler);
     expect(callHandler.handle).toBeCalledTimes(1);
 
     obs.subscribe({
       next: (value) => {
-        expect(value).toMatchObject({ data: [fixtureUserResponse] });
+        expect(value).toMatchObject({ data: fixtureUserArrayResponse });
       },
       error: (error) => {
         throw error;

@@ -14,3 +14,5 @@ export const corePathsExcludes = [
     method: RequestMethod.GET,
   },
 ];
+
+export const excludePaths = corePathsExcludes.map((item) => item.path);
