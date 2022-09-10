@@ -21,7 +21,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 
 ## Glosario
 
-- [🥳 Demo](https://rudemex-nestjs-starter.herokuapp.com/docs)
+- [🥳 Demo](https://nestjs-starter.onrender.com/v1/docs)
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [⚙️ Configuración](#configurations)
@@ -70,8 +70,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor());
   //...
 }
-
-bootstrap();
 ```
 
 <a name="response"></a>

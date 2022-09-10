@@ -1,4 +1,4 @@
-import { Provider } from '@nestjs/common';
+import { Logger, Provider } from '@nestjs/common';
 import { createClient } from 'redis';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -35,11 +35,11 @@ export const createRedisClient = (): Provider => ({
     await client.connect();
 
     /* istanbul ignore next */
-    client.on('ready', () => console.log(REDIS_MSG_IS_READY));
+    client.on('ready', () => Logger.log(REDIS_MSG_IS_READY));
     /* istanbul ignore next */
-    client.on('connect', () => console.log(REDIS_MSG_SUCCESSFULLY_CONNECTED));
+    client.on('connect', () => Logger.log(REDIS_MSG_SUCCESSFULLY_CONNECTED));
     /* istanbul ignore next */
-    client.on('error', (error) => console.error(`${REDIS_MSG_ERROR_CONNECTED} ${error}`));
+    client.on('error', (error) => Logger.error(`${REDIS_MSG_ERROR_CONNECTED} ${error}`));
 
     return client;
   },

@@ -5,6 +5,7 @@ import {
   TCMongoOptions,
   TCMySqlOptions,
   TCPostgresOptions,
+  TCElasticSearchOptions,
 } from '../fixtures';
 
 describe('Fixture - appConfigBase', () => {
@@ -29,10 +30,12 @@ describe('Fixture - TestContainers options', () => {
     expect(TCRedisOptions).not.toBe(null);
     expect(typeof TCRedisOptions).toBe('object');
     expect(TCRedisOptions.containerName).toEqual('tresdoce-test-container-redis');
-    expect(TCRedisOptions.ports).toEqual({
-      container: 6379,
-      host: 6379,
-    });
+    expect(TCRedisOptions.ports).toEqual([
+      {
+        container: 6379,
+        host: 6379,
+      },
+    ]);
   });
 
   it('should be define mongo options', async () => {
@@ -40,10 +43,12 @@ describe('Fixture - TestContainers options', () => {
     expect(TCMongoOptions).not.toBe(null);
     expect(typeof TCMongoOptions).toBe('object');
     expect(TCMongoOptions.containerName).toEqual('tresdoce-test-container-mongo');
-    expect(TCMongoOptions.ports).toEqual({
-      container: 27017,
-      host: 27017,
-    });
+    expect(TCMongoOptions.ports).toEqual([
+      {
+        container: 27017,
+        host: 27017,
+      },
+    ]);
   });
 
   it('should be define mysql options', async () => {
@@ -51,10 +56,12 @@ describe('Fixture - TestContainers options', () => {
     expect(TCMySqlOptions).not.toBe(null);
     expect(typeof TCMySqlOptions).toBe('object');
     expect(TCMySqlOptions.containerName).toEqual('tresdoce-test-container-mysql');
-    expect(TCMySqlOptions.ports).toEqual({
-      container: 3306,
-      host: 3306,
-    });
+    expect(TCMySqlOptions.ports).toEqual([
+      {
+        container: 3306,
+        host: 3306,
+      },
+    ]);
   });
 
   it('should be define postgres options', async () => {
@@ -62,9 +69,24 @@ describe('Fixture - TestContainers options', () => {
     expect(TCPostgresOptions).not.toBe(null);
     expect(typeof TCPostgresOptions).toBe('object');
     expect(TCPostgresOptions.containerName).toEqual('tresdoce-test-container-postgres');
-    expect(TCPostgresOptions.ports).toEqual({
-      container: 5432,
-      host: 5432,
-    });
+    expect(TCPostgresOptions.ports).toEqual([
+      {
+        container: 5432,
+        host: 5432,
+      },
+    ]);
+  });
+
+  it('should be define elasticsearch options', async () => {
+    expect(TCElasticSearchOptions).toBeDefined();
+    expect(TCElasticSearchOptions).not.toBe(null);
+    expect(typeof TCElasticSearchOptions).toBe('object');
+    expect(TCElasticSearchOptions.containerName).toEqual('tresdoce-test-container-elasticsearch');
+    expect(TCElasticSearchOptions.ports).toEqual([
+      {
+        container: 9200,
+        host: 9200,
+      },
+    ]);
   });
 });
