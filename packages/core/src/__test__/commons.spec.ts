@@ -7,19 +7,31 @@ describe('commons', () => {
     expect(corePathsExcludes).toBeDefined();
     expect(corePathsExcludes).toBeInstanceOf(Array);
 
-    expect(corePathsExcludes).toContainObject({
-      path: '/health/liveness',
-      method: RequestMethod.GET,
-    });
+    expect(corePathsExcludes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          path: '/health/liveness',
+          method: RequestMethod.GET,
+        }),
+      ]),
+    );
 
-    expect(corePathsExcludes).toContainObject({
-      path: '/health/readiness',
-      method: RequestMethod.GET,
-    });
+    expect(corePathsExcludes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          path: '/health/readiness',
+          method: RequestMethod.GET,
+        }),
+      ]),
+    );
 
-    expect(corePathsExcludes).toContainObject({
-      path: '/manifest',
-      method: RequestMethod.GET,
-    });
+    expect(corePathsExcludes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          path: '/manifest',
+          method: RequestMethod.GET,
+        }),
+      ]),
+    );
   });
 });

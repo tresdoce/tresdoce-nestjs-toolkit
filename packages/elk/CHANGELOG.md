@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.1.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@0.1.0...@tresdoce-nestjs-toolkit/elk@0.1.1) (2022-09-09)
+
+### 📝 Docs
+
+- edit url demo starter ([74f1569](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/74f156929d81cd9d8c94c0a32adfc0ce70f36ae6))
+
+### 👨‍💻 Chores
+
+- **elk:** add headers and cookies in elk document ([93549b1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/93549b181c554168062ffae00078bacc0cb6304c))
+
 ## [0.1.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@0.1.0-beta.1...@tresdoce-nestjs-toolkit/elk@0.1.0) (2022-08-30)
 
 ### 🐛 Bug Fixes

@@ -51,6 +51,8 @@ export class ElkService {
     const query = _.isEmpty(req.query) ? null : JSON.stringify(req.query);
     const params = _.isEmpty(req.params) ? null : JSON.stringify(req.params);
     const body = _.isEmpty(req.body) ? null : JSON.stringify(req.body);
+    const headers = JSON.stringify(req.headers);
+    const cookies = JSON.stringify(req.cookies);
     const path = `${req.path}`;
     const url = `${req.url}`;
     const method = `${req.method}`;
@@ -76,6 +78,8 @@ export class ElkService {
         query,
         params,
         body,
+        headers,
+        cookies,
         timeRequest: _timeRequest,
         requestDuration,
         statusCode,

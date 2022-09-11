@@ -78,8 +78,36 @@ export default registerAs('config', (): Typings.AppConfig => {
 });
 ```
 
-Configurar el `ElkInterceptor` en el archivo `main.ts` para que pueda interceptar los **requests** y **responses** y los
+Instanciar el módulo `ElkModule` en el archivo `app.module.ts`, e instanciar en los providers el `ElkInterceptor` para
+que pueda interceptar los **requests** y **responses** y los
 envíe automáticamente al elasticsearch.
+
+```typescript
+//./src/app.module.ts
+//...
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ElkModule, ElkInterceptor } from '@tresdoce-nestjs-toolkit/elk';
+
+@Module({
+  imports: [
+    //...
+    ElkModule,
+    //...
+  ],
+  providers: [
+    //...
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ElkInterceptor,
+    },
+  ],
+  //...
+})
+export class AppModule {}
+```
+
+O bien se puede configurar el `ElkInterceptor` en el archivo `main.ts` de la siguiente manera y no es necesario
+implementarlo en el módulo.
 
 ```typescript
 //./src/main.ts
@@ -91,24 +119,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ElkInterceptor(app.get<ElkService>(ElkService)));
   //...
 }
-```
-
-Instanciar el módulo `ElkModule` en el archivo `app.module.ts`.
-
-```typescript
-//./src/app.module.ts
-//...
-import { ElkModule } from '@tresdoce-nestjs-toolkit/elk';
-
-@Module({
-  imports: [
-    //...
-    ElkModule,
-    //...
-  ],
-  //...
-})
-export class AppModule {}
 ```
 
 <a name="use"></a>
@@ -138,6 +148,7 @@ export class AppService {
   async myCustomMsg(): Promise<void> {
     await this.elkService.createIndexDocument({ response: 'This is a custom message' });
   }
+
   //...
 }
 ```

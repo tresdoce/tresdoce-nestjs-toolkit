@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.1.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.1.3...@tresdoce-nestjs-toolkit/test-utils@0.1.4) (2022-09-09)
+
+### 👨‍💻 Chores
+
+- **test-utils:** add more fixtures ([d046b18](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d046b186ddbc2dd9504785e5c535be2a569b1cfa))
+
+### 📝 Docs
+
+- edit url demo starter ([74f1569](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/74f156929d81cd9d8c94c0a32adfc0ce70f36ae6))
+
 ### [0.1.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.1.3-beta.0...@tresdoce-nestjs-toolkit/test-utils@0.1.3) (2022-08-30)
 
 ### 👨‍💻 Chores
