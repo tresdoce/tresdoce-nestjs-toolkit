@@ -17,6 +17,7 @@
   "homepage": "https://github.com/tresdoce/tresdoce-nestjs-toolkit#readme",
   "private": true,
   "scripts": {
+    "prebuild": "rimraf ./dist",
     "build": "turbo run build",
     "test": "turbo run test --concurrency=1",
     "lint": "lint-staged",
