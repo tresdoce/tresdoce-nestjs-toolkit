@@ -2,8 +2,9 @@ import { AxiosRequestConfig } from 'axios';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { RedisOptions } from '@tresdoce-nestjs-toolkit/redis';
 import { MailerOptions } from '@tresdoce-nestjs-toolkit/mailer';
-import { ClientConfig } from 'camunda-external-task-client-js';
+import { LoggingModuleOptions } from '@tresdoce-nestjs-toolkit/logging';
 import { ClientOptions } from '@elastic/elasticsearch';
+import { ClientConfig } from 'camunda-external-task-client-js';
 
 type TApiPrefix = string;
 type TName = string;
@@ -44,6 +45,7 @@ export interface IServerConfig {
   allowedMethods: string;
   corsEnabled: boolean;
   corsCredentials: boolean;
+  logging?: LoggingModuleOptions;
 }
 
 export interface ISwaggerConfig {

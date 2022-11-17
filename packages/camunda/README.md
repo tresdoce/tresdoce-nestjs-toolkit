@@ -62,14 +62,14 @@ objeto con los datos conexión desde las variables de entorno.
 //./src/config/configuration.ts
 import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { registerAs } from '@nestjs/config';
-//import { logger } from '@tresdoce-nestjs-toolkit/camunda';
+//import { logging } from '@tresdoce-nestjs-toolkit/camunda';
 
 export default registerAs('config', (): Typings.AppConfig => {
   return {
     //...
     camunda: {
       baseUrl: process.env.CAMUNDA_URL_REST || 'http://localhost:8443/engine-rest',
-      //use: logger,
+      //use: logging,
     },
     //...
   };
