@@ -16,6 +16,9 @@
     "format": {
       "outputs": []
     },
+    "clean": {
+      "outputs": []
+    },
     "dev": {
       "cache": false
     }

@@ -20,6 +20,7 @@
     "prebuild": "rimraf ./dist",
     "build": "turbo run build",
     "test": "turbo run test --concurrency=1",
+    "clean": "turbo run clean",
     "lint": "lint-staged",
     "prepublishOnly": "yarn build",
     "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,md,json}\"",
@@ -27,6 +28,7 @@
     "publish:pkgs": "lerna publish from-git --no-verify-access --yes",
     "postinstall": "husky install && lerna bootstrap",
     "bs": "lerna bootstrap",
+    "hoist-deps": "lerna clean -y && lerna bootstrap",
     "plop": "plop"
   },
   "workspaces": [
@@ -104,7 +106,7 @@
     "@types/glob": "^7.2.0",
     "@types/inline-css": "^3.0.1",
     "@types/jest": "^27.4.0",
-    "@types/node": "^17.0.21",
+    "@types/node": "^18.11.9",
     "@types/nodemailer": "^6.4.4",
     "@types/pug": "^2.0.6",
     "@types/supertest": "^2.0.11",
@@ -117,6 +119,7 @@
     "husky": "^7.0.4",
     "jest": "^27.4.7",
     "jest-extended": "^2.0.0",
+    "jest-mock-extended": "^3.0.1",
     "jest-sonar-reporter": "^2.0.0",
     "lerna": "^4.0.0",
     "lint-staged": "^12.2.2",
