@@ -26,9 +26,10 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "prebuild": "shx rm -rf ../../dist/http-client",
+    "prebuild": "rimraf ../../dist/http-client",
     "build": "pika build --out ../../dist/http-client",
-    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit"
+    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit",
+    "clean": "rimraf .turbo coverage node_modules test-report.xml"
   },
   "publishConfig": {
     "access": "public",

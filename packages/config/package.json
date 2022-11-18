@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.2.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\""
+    "test": "echo \"Error: no test specified\"",
+    "clean": "rimraf .turbo coverage node_modules test-report.xml"
   }
 }

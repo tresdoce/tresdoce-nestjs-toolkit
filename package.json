@@ -19,12 +19,14 @@
   "scripts": {
     "build": "turbo run build",
     "test": "turbo run test --concurrency=1",
+    "clean": "turbo run clean",
     "lint": "lint-staged",
     "prepublishOnly": "yarn build",
     "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,md,json}\"",
     "version-packages": "lerna version --conventional-commits --force-git-tag --create-release github --yes",
     "publish:pkgs": "lerna publish from-git --no-verify-access --yes",
     "postinstall": "husky install && lerna bootstrap",
+    "hoist-deps": "lerna clean -y && lerna bootstrap",
     "bs": "lerna bootstrap",
     "plop": "plop"
   },
@@ -129,7 +131,7 @@
     "ts-loader": "^9.2.6",
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.12.0",
-    "turbo": "latest",
-    "typescript": "^4.5.5"
+    "turbo": "1.5.5",
+    "typescript": "^4.8.4"
   }
 }

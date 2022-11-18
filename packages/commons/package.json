@@ -26,9 +26,10 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "prebuild": "shx rm -rf ../../dist/commons",
+    "prebuild": "rimraf ../../dist/commons",
     "build": "pika build --out ../../dist/commons",
-    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit"
+    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit",
+    "clean": "rimraf .turbo coverage node_modules test-report.xml"
   },
   "publishConfig": {
     "access": "public",
