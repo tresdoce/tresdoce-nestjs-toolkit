@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.1.5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/typeorm@0.1.4...@tresdoce-nestjs-toolkit/typeorm@0.1.5) (2022-11-19)
+
+### 📝 Docs
+
+- replace url of demo ([81a8728](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/81a8728186aeffec9d7d50cd095f0e44b1f17773))
+
+### 🐛 Bug Fixes
+
+- resolve problem with build pkgs and changes in scripts ([f2d43dd](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/f2d43dd8d7a147d8024b9b67757bbc62d71ffe85))
+
 ### [0.1.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/typeorm@0.1.3...@tresdoce-nestjs-toolkit/typeorm@0.1.4) (2022-11-07)
 
 ### 👨‍💻 Chores
