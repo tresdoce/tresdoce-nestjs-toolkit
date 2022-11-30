@@ -34,7 +34,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 
 ## Glosario
 
-- [🥳 Demo](https://nestjs-starter.onrender.com/v1/docs)
+- [🥳 Demo](https://nestjs-starter.up.railway.app/v1/docs)
 - [📝 Requerimientos básicos](#basic-requirements)
 - [💻 Scripts](#scripts)
 - [🧰 Toolkit](#toolkit)

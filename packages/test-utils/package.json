@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/test-utils",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Tresdoce NestJS Toolkit - Utilities para testing",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -26,9 +26,10 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "prebuild": "shx rm -rf ../../dist/test-utils",
+    "prebuild": "rimraf ../../dist/test-utils",
     "build": "pika build --out ../../dist/test-utils",
-    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit"
+    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit",
+    "clean": "rimraf .turbo coverage node_modules test-report.xml"
   },
   "publishConfig": {
     "access": "public",
@@ -46,8 +47,8 @@
     "testcontainers": "^8.10.0"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.2.0",
-    "@types/tresdoce-nestjs-toolkit": "^0.1.0"
+    "@tresdoce-nestjs-toolkit/config": "^0.2.1",
+    "@types/tresdoce-nestjs-toolkit": "^0.1.1"
   },
   "prettier": {
     "semi": true,

@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/archetype",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Tresdoce NestJS Toolkit - Módulo informativo de la app",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -26,9 +26,10 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "prebuild": "shx rm -rf ../../dist/archetype",
+    "prebuild": "rimraf ../../dist/archetype",
     "build": "pika build --out ../../dist/archetype",
-    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit"
+    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit",
+    "clean": "rimraf .turbo coverage node_modules test-report.xml"
   },
   "publishConfig": {
     "access": "public",
@@ -42,8 +43,8 @@
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.2.0",
-    "@types/tresdoce-nestjs-toolkit": "^0.1.0"
+    "@tresdoce-nestjs-toolkit/config": "^0.2.1",
+    "@types/tresdoce-nestjs-toolkit": "^0.1.1"
   },
   "prettier": {
     "semi": true,

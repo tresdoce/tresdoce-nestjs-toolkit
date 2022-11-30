@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/core",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Tresdoce NestJS Toolkit - Funcionalidades a nivel core",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -26,9 +26,10 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "prebuild": "shx rm -rf ../../dist/core",
+    "prebuild": "rimraf ../../dist/core",
     "build": "pika build --out ../../dist/core",
-    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit"
+    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit",
+    "clean": "rimraf .turbo coverage node_modules test-report.xml"
   },
   "publishConfig": {
     "access": "public",
@@ -42,8 +43,8 @@
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.2.0",
-    "@types/tresdoce-nestjs-toolkit": "^0.1.0"
+    "@tresdoce-nestjs-toolkit/config": "^0.2.1",
+    "@types/tresdoce-nestjs-toolkit": "^0.1.1"
   },
   "prettier": {
     "semi": true,

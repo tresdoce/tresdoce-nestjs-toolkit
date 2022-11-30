@@ -22,7 +22,7 @@ export const otelSDK = (options: Typings.IOpenTelemetryConfiguration) => {
       new JaegerExporter({
         endpoint: options?.jaegerConfig.endpoint
           ? `${options.jaegerConfig.endpoint}`
-          : `${options?.jaegerConfig.host || 'http://localhost:'}:${
+          : `${options?.jaegerConfig.host || 'http://localhost'}:${
               options?.jaegerConfig.port || 14268
             }/api/traces`,
         ...options.jaegerConfig,
