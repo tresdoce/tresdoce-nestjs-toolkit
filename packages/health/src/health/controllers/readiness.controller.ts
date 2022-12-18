@@ -1,4 +1,5 @@
 import { Controller, Get, Inject } from '@nestjs/common';
+import { ApiExcludeEndpoint } from '@nestjs/swagger';
 import {
   HealthCheck,
   HealthCheckService,
@@ -21,6 +22,7 @@ export class ReadinessController {
   ) {}
 
   @Get('readiness')
+  @ApiExcludeEndpoint()
   @HealthCheck()
   async check() {
     const servicesPingCheckList = _.has(this.appConfig, 'services')
