@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.1.4-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@0.1.3...@tresdoce-nestjs-toolkit/health@0.1.4-beta.0) (2022-12-18)
+
+### 👨‍💻 Chores
+
+- changes in modules ([d59ee56](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d59ee563ee514bdbdf87a4dce15f424414ed828a))
+
 ### [0.1.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@0.1.2...@tresdoce-nestjs-toolkit/health@0.1.3) (2022-11-19)
 
 ### 📝 Docs
