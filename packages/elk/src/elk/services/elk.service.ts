@@ -59,7 +59,7 @@ export class ElkService {
     let statusCode: number = res.statusCode;
     let response = typeof _response === 'string' ? _response : JSON.stringify(_response);
 
-    if (_.isUndefined(excludePaths.find((path) => _.startsWith(req.path, path)))) {
+    if (_.isUndefined(excludePaths().find((path) => _.startsWith(req.path, path)))) {
       if (_isException) {
         const responseException = this.responseException(req, _response);
         response = JSON.stringify(responseException);

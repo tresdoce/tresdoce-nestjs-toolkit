@@ -68,7 +68,7 @@ import { corePathsExcludes } from '@tresdoce-nestjs-toolkit/core';
 async function bootstrap() {
   //...
   app.setGlobalPrefix(`${server.context}`, {
-    exclude: [...corePathsExcludes],
+    exclude: [...corePathsExcludes()],
   });
   //...
 }
@@ -94,6 +94,67 @@ async function bootstrap() {
     });
   }
   //...
+}
+```
+
+## Decorators
+
+### Public
+
+Decorador para definir si un endpoint es público.
+
+```typescript
+// ./src/app.controller.ts
+import { Controller, Get } from '@nestjs/common';
+import { AppService } from './app.service';
+import { Public } from '@tresdoce-nestjs-toolkit/core';
+
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
+
+  // Publico
+  @Get('')
+  @Public()
+  getTestEnv(): string {
+    return this.appService.getTestEnv();
+  }
+
+  // Privado
+  @Get('my-util')
+  getMyUtil() {
+    return this.appService.getMyCustomUtil();
+  }
+}
+```
+
+### Roles
+
+Decorador para definir el metadata de roles.
+
+```typescript
+// ./src/app.controller.ts
+import { Controller, Get } from '@nestjs/common';
+import { AppService } from './app.service';
+import { Roles } from '@tresdoce-nestjs-toolkit/core';
+
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
+
+  // Only user role
+  @Get('')
+  @Roles('user')
+  getTestEnv(): string {
+    return this.appService.getTestEnv();
+  }
+
+  // Only user and admin role
+  @Get('my-util')
+  @Roles('user', 'admin')
+  getMyUtil() {
+    return this.appService.getMyCustomUtil();
+  }
 }
 ```
 
