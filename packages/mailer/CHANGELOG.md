@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.1.6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/mailer@0.1.5...@tresdoce-nestjs-toolkit/mailer@0.1.6) (2022-12-20)
+
+### 👨‍💻 Chores
+
+- **mailer:** update nodemailer ([f2fd67f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/f2fd67f544b10a334ab76178941e64c5dcf296fa))
+
+### 🐛 Bug Fixes
+
+- **mailer:** secure smtp ([e883883](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/e883883a44ce4a6f93ce835bde9517d37ce894e7))
+
 ### [0.1.5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/mailer@0.1.5-beta.0...@tresdoce-nestjs-toolkit/mailer@0.1.5) (2022-12-18)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/mailer
