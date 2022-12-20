@@ -115,6 +115,7 @@ describe('MailerService', () => {
     const service = await getMailerServiceForOptions({
       transport: {
         secure: true,
+        requireTLS: true,
         auth: {
           user: 'user@domain.com',
           pass: 'pass',
