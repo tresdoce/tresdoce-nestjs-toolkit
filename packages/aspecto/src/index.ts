@@ -1,0 +1,1 @@
+export { aspectoInstrument } from './aspecto';
