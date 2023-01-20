@@ -21,6 +21,7 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "strict": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["tresdoce-nestjs-toolkit", "jest"]
   }
 }
