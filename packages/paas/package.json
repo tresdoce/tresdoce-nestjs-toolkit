@@ -37,9 +37,9 @@
     "directory": "../../dist/paas"
   },
   "peerDependencies": {
-    "@nestjs/common": "^8.2.0",
-    "@nestjs/core": "^8.2.0",
-    "@nestjs/platform-express": "^8.2.0",
+    "@nestjs/common": "^9.2.1",
+    "@nestjs/core": "^9.2.1",
+    "@nestjs/platform-express": "^9.2.1",
     "@tresdoce-nestjs-toolkit/core": "^0.1.0",
     "@tresdoce-nestjs-toolkit/filters": "^0.1.0",
     "@tresdoce-nestjs-toolkit/health": "^0.1.0",

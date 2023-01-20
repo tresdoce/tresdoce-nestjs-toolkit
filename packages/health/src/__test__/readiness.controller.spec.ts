@@ -17,9 +17,9 @@ const mockedConfig = {
       timeout: 3000,
     },
     demoApi: {
-      url: 'https://rudemex-nestjs-starter.herokuapp.com',
+      url: 'https://nestjs-starter.up.railway.app',
       timeout: 3000,
-      healthPath: '/liveness',
+      healthPath: '/v1/health/liveness',
     },
   },
   database: {

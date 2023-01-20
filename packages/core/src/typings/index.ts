@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios';
+import { RawAxiosRequestConfig } from 'axios';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { RedisOptions } from '@tresdoce-nestjs-toolkit/redis';
 import { MailerOptions } from '@tresdoce-nestjs-toolkit/mailer';
@@ -55,7 +55,7 @@ export interface IParamsConfig {
   [key: string]: any;
 }
 
-export interface IServicesConfig extends AxiosRequestConfig {
+export interface IServicesConfig extends RawAxiosRequestConfig {
   healthPath?: string;
   [key: string]: any;
 }
