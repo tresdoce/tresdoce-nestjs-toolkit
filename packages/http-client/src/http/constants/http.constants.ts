@@ -1,5 +1,5 @@
 import https from 'https';
-import { DefaultConfigAxiosInstance, HttpModuleOptions } from '../interfaces/http-module.interface';
+import { HttpModuleOptions } from '../interfaces/http-module.interface';
 
 export const AXIOS_INSTANCE_TOKEN = 'AXIOS_INSTANCE_TOKEN';
 export const HTTP_MODULE_ID = 'HTTP_MODULE_ID';

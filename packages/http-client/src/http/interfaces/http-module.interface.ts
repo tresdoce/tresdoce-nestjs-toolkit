@@ -1,10 +1,8 @@
 import { ModuleMetadata, Provider, Type } from '@nestjs/common';
 import { IAxiosRetryConfig } from 'axios-retry';
-import { RawAxiosRequestConfig, CreateAxiosDefaults } from 'axios';
+import { CreateAxiosDefaults } from 'axios';
 
-export type DefaultConfigAxiosInstance = RawAxiosRequestConfig;
-
-export type HttpModuleOptions = CreateAxiosDefaults & IAxiosRetryConfig; //AxiosRequestConfig & IAxiosRetryConfig;
+export type HttpModuleOptions = CreateAxiosDefaults & IAxiosRetryConfig;
 
 export interface HttpModuleOptionsFactory {
   createHttpOptions(): Promise<HttpModuleOptions> | HttpModuleOptions;
