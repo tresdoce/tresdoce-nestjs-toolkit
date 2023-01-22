@@ -39,6 +39,7 @@
     "@nestjs/axios": "^1.0.1",
     "@nestjs/common": "^9.2.1",
     "@nestjs/core": "^9.2.1",
+    "@nestjs/microservices": "^9.2.1",
     "@nestjs/platform-express": "^9.2.1",
     "@nestjs/swagger": "^6.1.4",
     "@nestjs/terminus": "^9.1.4",
@@ -51,6 +52,7 @@
   "dependencies": {
     "@nestjs/axios": "^1.0.1",
     "@nestjs/swagger": "^6.1.4",
+    "@nestjs/microservices": "^9.2.1",
     "@nestjs/terminus": "^9.1.4",
     "@nestjs/typeorm": "^9.0.1",
     "lodash": "^4.17.21",

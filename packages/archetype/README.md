@@ -13,8 +13,6 @@
 </div>
 <br/>
 
-> ⚠️ Es importante tener en cuenta que este módulo se encuentra implementado en el package `@tresdoce-nestjs-toolkit/paas`, ya que es una funcionalidad core para el starter.
-
 Este módulo está pensada para ser utilizada en [NestJs Starter](https://github.com/rudemex/nestjs-starter), o cualquier
 proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
 

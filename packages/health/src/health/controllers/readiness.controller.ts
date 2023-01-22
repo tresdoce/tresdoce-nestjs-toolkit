@@ -1,10 +1,12 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { ApiExcludeEndpoint } from '@nestjs/swagger';
+import { Transport } from '@nestjs/microservices';
 import {
   HealthCheck,
   HealthCheckService,
   HttpHealthIndicator,
   TypeOrmHealthIndicator,
+  MicroserviceHealthIndicator,
 } from '@nestjs/terminus';
 import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import * as _ from 'lodash';
@@ -19,6 +21,7 @@ export class ReadinessController {
     private health: HealthCheckService,
     private http: HttpHealthIndicator,
     private typeOrm: TypeOrmHealthIndicator,
+    private microservice: MicroserviceHealthIndicator,
   ) {}
 
   @Get('readiness')
@@ -46,6 +49,20 @@ export class ReadinessController {
         })
       : /* istanbul ignore next */ [];
 
-    return this.health.check([...servicesPingCheckList, ...typeormCheckList]);
+    const redisCheckList = _.has(this.appConfig, 'redis')
+      ? Object.keys(this.appConfig.redis).map((_key) => {
+          /* istanbul ignore next */
+          return () =>
+            this.microservice.pingCheck(this.appConfig.redis.name || 'redis', {
+              transport: Transport.REDIS,
+              options: {
+                host: this.appConfig.redis.host,
+                port: this.appConfig.redis.port,
+              },
+            });
+        })
+      : /* istanbul ignore next */ [];
+
+    return this.health.check([...servicesPingCheckList, ...typeormCheckList, ...redisCheckList]);
   }
 }
