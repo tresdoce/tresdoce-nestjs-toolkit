@@ -110,17 +110,17 @@ import { HealthModule } from '@tresdoce-nestjs-toolkit/health';
 export class AppModule {}
 ```
 
-Para visualizar las respuestas de los endpoints, basta con navegar a `/health/live` y `/health/ready`.
+Para visualizar las respuestas de los endpoints, basta con navegar a `/health/liveness` y `/health/readiness`.
 
 ### Liveness
 
-**Schema:** `<http|https>://<server_url><:port>/health/live`<br/>
-**Example:** `http://localhost:8080/health/live`
+**Schema:** `<http|https>://<server_url><:port>/<context>/health/liveness`<br/>
+**Example:** `http://localhost:8080/v1/health/liveness`
 
 ### Readiness
 
-**Schema:** `<http|https>://<server_url><:port>/health/ready`<br/>
-**Example:** `http://localhost:8080/health/ready`
+**Schema:** `<http|https>://<server_url><:port>/<context>/health/readiness`<br/>
+**Example:** `http://localhost:8080/v1/health/readiness`
 
 ## 📄 Changelog
 

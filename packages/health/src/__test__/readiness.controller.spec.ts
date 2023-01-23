@@ -32,6 +32,13 @@ const mockedConfig = {
     host: 'localhost',
     port: 6379,
   },
+  elasticsearch: {
+    name: 'test-app',
+    node: 'http://localhost:9200',
+  },
+  camunda: {
+    baseUrl: 'http://localhost:8080/engine-rest',
+  },
 };
 
 const mockExpectReadiness = {
@@ -46,6 +53,12 @@ const mockExpectReadiness = {
     redis: {
       status: 'up',
     },
+    elasticsearch: {
+      status: 'up',
+    },
+    camunda: {
+      status: 'up',
+    },
   },
   error: {},
   details: {
@@ -56,6 +69,12 @@ const mockExpectReadiness = {
       status: 'up',
     },
     redis: {
+      status: 'up',
+    },
+    elasticsearch: {
+      status: 'up',
+    },
+    camunda: {
       status: 'up',
     },
   },

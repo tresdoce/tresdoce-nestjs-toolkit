@@ -28,6 +28,7 @@ export class ReadinessController {
   @ApiExcludeEndpoint()
   @HealthCheck()
   async check() {
+    /** HealthChecks Services */
     const servicesPingCheckList = _.has(this.appConfig, 'services')
       ? Object.keys(this.appConfig.services).map((_key) => {
           const {
@@ -42,6 +43,7 @@ export class ReadinessController {
         })
       : /* istanbul ignore next */ [];
 
+    /** HealthChecks TypeORM */
     const typeormCheckList = _.has(this.appConfig, 'database')
       ? Object.keys(this.appConfig.database).map((_key) => {
           /* istanbul ignore next */
@@ -49,6 +51,7 @@ export class ReadinessController {
         })
       : /* istanbul ignore next */ [];
 
+    /** HealthChecks Redis */
     const redisCheckList = _.has(this.appConfig, 'redis')
       ? Object.keys(this.appConfig.redis).map((_key) => {
           /* istanbul ignore next */
@@ -65,6 +68,28 @@ export class ReadinessController {
         })
       : /* istanbul ignore next */ [];
 
-    return this.health.check([...servicesPingCheckList, ...typeormCheckList, ...redisCheckList]);
+    /** HealthChecks ElasticSearch */
+    const elkCheckList = _.has(this.appConfig, 'elasticsearch')
+      ? Object.keys(this.appConfig.elasticsearch).map((_key) => {
+          /* istanbul ignore next */
+          return () => this.http.pingCheck('elasticsearch', `${this.appConfig.elasticsearch.node}`);
+        })
+      : /* istanbul ignore next */ [];
+
+    /** HealthChecks Camunda */
+    const camundaCheckList = _.has(this.appConfig, 'camunda')
+      ? Object.keys(this.appConfig.camunda).map((_key) => {
+          /* istanbul ignore next */
+          return () => this.http.pingCheck('camunda', `${this.appConfig.camunda.baseUrl}/version`);
+        })
+      : /* istanbul ignore next */ [];
+
+    return this.health.check([
+      ...servicesPingCheckList,
+      ...typeormCheckList,
+      ...redisCheckList,
+      ...elkCheckList,
+      ...camundaCheckList,
+    ]);
   }
 }
