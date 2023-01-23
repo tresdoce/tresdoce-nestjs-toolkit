@@ -114,12 +114,12 @@ Para visualizar las respuestas de los endpoints, basta con navegar a `/health/li
 
 ### Liveness
 
-**Schema:** `<http|https>://<server_url><:port>/<context>/health/liveness`<br/>
+**Schema:** `<http|https>://<server_url><:port>/<app-context>/health/liveness`<br/>
 **Example:** `http://localhost:8080/v1/health/liveness`
 
 ### Readiness
 
-**Schema:** `<http|https>://<server_url><:port>/<context>/health/readiness`<br/>
+**Schema:** `<http|https>://<server_url><:port>/<app-context>/health/readiness`<br/>
 **Example:** `http://localhost:8080/v1/health/readiness`
 
 ## 📄 Changelog
