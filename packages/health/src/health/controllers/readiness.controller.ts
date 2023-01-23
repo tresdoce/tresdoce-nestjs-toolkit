@@ -1,6 +1,6 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { ApiExcludeEndpoint } from '@nestjs/swagger';
-import { Transport } from '@nestjs/microservices';
+import { RedisOptions, Transport } from '@nestjs/microservices';
 import {
   HealthCheck,
   HealthCheckService,
@@ -53,7 +53,7 @@ export class ReadinessController {
       ? Object.keys(this.appConfig.redis).map((_key) => {
           /* istanbul ignore next */
           return () =>
-            this.microservice.pingCheck(this.appConfig.redis.name || 'redis', {
+            this.microservice.pingCheck<RedisOptions>(this.appConfig.redis.name || 'redis', {
               transport: Transport.REDIS,
               options: {
                 host: this.appConfig.redis.host,

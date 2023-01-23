@@ -1,5 +1,5 @@
-import { RawAxiosRequestConfig } from 'axios';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { RawAxiosRequestConfig } from '@tresdoce-nestjs-toolkit/http-client';
 import { RedisOptions } from '@tresdoce-nestjs-toolkit/redis';
 import { MailerOptions } from '@tresdoce-nestjs-toolkit/mailer';
 import { ClientConfig } from 'camunda-external-task-client-js';
