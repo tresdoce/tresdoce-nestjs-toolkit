@@ -58,6 +58,8 @@ export class ReadinessController {
               options: {
                 host: this.appConfig.redis.host,
                 port: this.appConfig.redis.port,
+                password: this.appConfig.redis.password,
+                username: this.appConfig.redis.username,
               },
             });
         })
