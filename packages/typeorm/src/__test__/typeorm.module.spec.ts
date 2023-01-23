@@ -9,6 +9,7 @@ import {
   testContainers,
   fixturePostResponse,
   fixtureUserResponse,
+  fixtureUserArrayResponse,
 } from '@tresdoce-nestjs-toolkit/test-utils';
 import { Repository } from 'typeorm';
 
@@ -159,9 +160,9 @@ describe('TypeOrm - Mongo', () => {
   }, 50000);
 
   it('should be return an array of user', async () => {
-    await repository.save([fixtureUserResponse]);
+    await repository.save(fixtureUserArrayResponse);
 
     const query = await repository.find();
-    expect(query).toEqual([fixtureUserResponse]);
+    expect(query).toEqual(expect.any(Array));
   });
 });

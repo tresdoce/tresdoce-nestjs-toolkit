@@ -36,19 +36,19 @@
     "directory": "../../dist/http-client"
   },
   "peerDependencies": {
-    "@nestjs/common": "^8.2.0",
-    "@nestjs/config": "^1.1.6",
-    "@nestjs/core": "^8.2.0",
-    "@nestjs/platform-express": "^8.2.0",
-    "axios": "^0.26.0",
-    "axios-retry": "^3.2.4",
+    "@nestjs/common": "^9.2.1",
+    "@nestjs/config": "^2.2.0",
+    "@nestjs/core": "^9.2.1",
+    "@nestjs/platform-express": "^9.2.1",
+    "axios": "^1.2.3",
+    "axios-retry": "^3.4.0",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },
   "dependencies": {
-    "axios": "^0.26.0",
-    "axios-retry": "^3.2.4",
+    "axios": "^1.2.3",
+    "axios-retry": "^3.4.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

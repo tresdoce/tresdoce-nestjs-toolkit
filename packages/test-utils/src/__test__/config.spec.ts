@@ -1,5 +1,5 @@
 import { config, dynamicConfig } from '../config/index';
-import { appConfigBase } from '../fixtures/index';
+import { appConfigBase } from '../fixtures';
 
 describe('config', () => {
   it('should be return config', async () => {
