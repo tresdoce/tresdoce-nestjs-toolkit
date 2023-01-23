@@ -6,7 +6,7 @@
 <div align="center">
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=Node&message=v14.17.0&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="Node.js"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=Npm&message=v6.14.13&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="Npm"/>
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJs&message=v8.2.6&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJs"/><br/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJs&message=v9.2.1&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJs"/><br/>
     <img alt="GitHub license" src="https://img.shields.io/github/license/tresdoce/tresdoce-nestjs-toolkit?style=flat">
     <img alt="Release" src="https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/mailer.svg">
     <br/>
@@ -38,7 +38,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - Node.js v14.17.0 or higher ([Download](https://nodejs.org/es/download/))
 - YARN v1.22.17 or higher
 - NPM v6.14.13 or higher
-- NestJS v8.2.6 or higher ([Documentación](https://nestjs.com/))
+- NestJS v9.2.1 or higher ([Documentación](https://nestjs.com/))
 
 <a name="install-dependencies"></a>
 
@@ -71,7 +71,8 @@ export default registerAs('config', (): Typings.AppConfig => {
       transport: {
         host: process.env.EMAIL_HOST,
         port: parseInt(process.env.EMAIL_PORT, 10) || 587,
-        secure: false,
+        secure: true,
+        requireTLS: true,
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASSWORD,
@@ -153,7 +154,8 @@ export default registerAs('config', (): Typings.AppConfig => {
       transport: {
         host: process.env.EMAIL_HOST,
         port: parseInt(process.env.EMAIL_PORT, 10) || 587,
-        secure: false,
+        secure: true,
+        requireTLS: true,
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASSWORD,
