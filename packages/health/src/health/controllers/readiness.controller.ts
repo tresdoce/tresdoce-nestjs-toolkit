@@ -53,7 +53,7 @@ export class ReadinessController {
       ? Object.keys(this.appConfig.redis).map((_key) => {
           /* istanbul ignore next */
           return () =>
-            this.microservice.pingCheck<RedisOptions>(this.appConfig.redis.name || 'redis', {
+            this.microservice.pingCheck<RedisOptions>(`${this.appConfig.redis.name}` || 'redis', {
               transport: Transport.REDIS,
               options: {
                 host: this.appConfig.redis.host,
