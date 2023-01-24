@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/redis",
-  "version": "0.1.6-beta.0",
+  "version": "0.1.6",
   "description": "Tresdoce NestJS Toolkit - Módulo de Redis para cache",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -49,8 +49,8 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.2.3-beta.0",
-    "@types/tresdoce-nestjs-toolkit": "^0.1.2-beta.0"
+    "@tresdoce-nestjs-toolkit/config": "^0.2.3",
+    "@types/tresdoce-nestjs-toolkit": "^0.1.2"
   },
   "prettier": {
     "semi": true,

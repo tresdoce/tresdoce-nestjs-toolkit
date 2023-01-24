@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.3.4-beta.1...@tresdoce-nestjs-toolkit/core@0.3.4) (2023-01-24)
+
+**Note:** Version bump only for package @tresdoce-nestjs-toolkit/core
+
 ## [0.3.4-beta.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.3.4-beta.0...@tresdoce-nestjs-toolkit/core@0.3.4-beta.1) (2023-01-24)
 
 ### 🐛 Bug Fixes
