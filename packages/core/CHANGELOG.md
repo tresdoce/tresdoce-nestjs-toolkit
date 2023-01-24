@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.4-beta.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.3.4-beta.0...@tresdoce-nestjs-toolkit/core@0.3.4-beta.1) (2023-01-24)
+
+### 🐛 Bug Fixes
+
+- **core:** remove export axios ([6e70fdb](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/6e70fdb97d1ccba5471ff2759c53b62741fc3173))
+
 ## [0.3.4-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.3.3...@tresdoce-nestjs-toolkit/core@0.3.4-beta.0) (2023-01-24)
 
 ### 👨‍💻 Chores

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.6-beta.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@0.0.6-beta.0...@tresdoce-nestjs-toolkit/http-client@0.0.6-beta.1) (2023-01-24)
+
+### 🐛 Bug Fixes
+
+- **httpClient:** remove export axios ([73e3a5d](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/73e3a5d5458dbbb31a778091213236d00e097f9d))
+
 ## [0.0.6-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@0.0.5...@tresdoce-nestjs-toolkit/http-client@0.0.6-beta.0) (2023-01-24)
 
 ### 👨‍💻 Chores
