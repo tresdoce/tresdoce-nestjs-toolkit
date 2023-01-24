@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@0.1.4...@tresdoce-nestjs-toolkit/health@0.2.0-beta.0) (2023-01-24)
+
+### 🐛 Bug Fixes
+
+- **health:** resolve problem with ping to redis with auth ([e62968b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/e62968b9de3bc6657e61be7f415edae81506435d))
+
+### ✨ Features
+
+- **health:** add ping check to redis ([9d48d7d](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/9d48d7dae78f46eabd7ed591182386b18c31a821))
+- **health:** add readiness to elk and camunda ([35948a4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/35948a4abb8cb223abaa55d178bf6d95b3d4f875))
+
+### 👨‍💻 Chores
+
+- changes in tsconfigs ([73f1198](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/73f1198a775cac34f7785ce7b19b06203f2c1792))
+- **health:** add user and password to ping check ([d1f985b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d1f985bbd3e9c4a52634bd20d037a3003134b68e))
+- update dependencies ([c5f119b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c5f119be294e0e7940155af075279af9f3cccbc3))
+- update version of nestjs badge ([1a45d4f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/1a45d4f56b984b524aba7475484c3a192ff2248f))
+- work with healthcheck and export axios types ([d90c28a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d90c28a94522560e0a877d3456e493e5901cb013))
+
+### 📝 Docs
+
+- **health:** change in readme ([7c0d14f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/7c0d14fe518ddc8bc0a90dbc70e847869dcab2c4))
+
 ### [0.1.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@0.1.4-beta.0...@tresdoce-nestjs-toolkit/health@0.1.4) (2022-12-18)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/health

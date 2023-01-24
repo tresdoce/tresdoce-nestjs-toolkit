@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/archetype@0.1.4...@tresdoce-nestjs-toolkit/archetype@0.2.0-beta.0) (2023-01-24)
+
+### ✨ Features
+
+- **health:** add ping check to redis ([9d48d7d](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/9d48d7dae78f46eabd7ed591182386b18c31a821))
+
+### 👨‍💻 Chores
+
+- changes in tsconfigs ([73f1198](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/73f1198a775cac34f7785ce7b19b06203f2c1792))
+- update dependencies ([c5f119b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c5f119be294e0e7940155af075279af9f3cccbc3))
+- update version of nestjs badge ([1a45d4f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/1a45d4f56b984b524aba7475484c3a192ff2248f))
+
 ### [0.1.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/archetype@0.1.4-beta.0...@tresdoce-nestjs-toolkit/archetype@0.1.4) (2022-12-18)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/archetype
