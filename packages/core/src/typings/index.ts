@@ -1,9 +1,9 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { RawAxiosRequestConfig } from '@tresdoce-nestjs-toolkit/http-client';
 import { RedisOptions } from '@tresdoce-nestjs-toolkit/redis';
 import { MailerOptions } from '@tresdoce-nestjs-toolkit/mailer';
 import { ClientConfig } from 'camunda-external-task-client-js';
 import { ClientOptions } from '@elastic/elasticsearch';
+import { RawAxiosRequestConfig } from 'axios';
 
 type TApiPrefix = string;
 type TName = string;
