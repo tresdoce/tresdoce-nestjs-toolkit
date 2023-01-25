@@ -71,12 +71,12 @@ import { ArchetypeModule } from '@tresdoce-nestjs-toolkit/archetype';
 export class AppModule {}
 ```
 
-Para visualizar la respuesta del endpoint, basta con navegar a `/manifest`.
+Para visualizar la respuesta del endpoint, basta con navegar a `/info`.
 
-### Manifest
+### App Information
 
-**Schema:** `<http|https>://<server_url><:port>/manifest`<br/>
-**Example:** `http://localhost:8080/manifest`
+**Schema:** `<http|https>://<server_url><:port>/<app-context>/info`<br/>
+**Example:** `http://localhost:8080/v1/info`
 
 ## 📄 Changelog
 

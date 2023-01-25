@@ -6,7 +6,7 @@ import { ApiExcludeEndpoint } from '@nestjs/swagger';
 export class ArchetypeController {
   constructor(private readonly archetypeService: ArchetypeService) {}
 
-  @Get('manifest')
+  @Get('info')
   @ApiExcludeEndpoint()
   async getArchetypeInfo() {
     return this.archetypeService.generateManifest();
