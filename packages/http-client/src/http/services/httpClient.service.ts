@@ -4,6 +4,7 @@ import Axios, {
   RawAxiosRequestConfig,
   AxiosResponse,
   AxiosRequestConfig,
+  AxiosError,
 } from 'axios';
 import { AXIOS_INSTANCE_TOKEN, RequestMethod } from '../constants/http.constants';
 import * as _ from 'lodash';
@@ -15,10 +16,13 @@ export class HttpClientService {
 
   /* istanbul ignore next */
   constructor(@Inject(AXIOS_INSTANCE_TOKEN) private readonly _instance: AxiosInstance = Axios) {
-    this.axiosRef.interceptors.request.use((config: AxiosRequestConfig) => config);
+    this.axiosRef.interceptors.request.use(
+      (config: AxiosRequestConfig): AxiosRequestConfig => config,
+      //(error: AxiosError): Promise<AxiosError> => Promise.reject(error),
+    );
     this.axiosRef.interceptors.response.use(
-      (response: AxiosResponse) => response,
-      (error) => Promise.reject(error),
+      (response: AxiosResponse): AxiosResponse => response,
+      (error: AxiosError): Promise<AxiosError> => Promise.reject(error),
     );
   }
 
