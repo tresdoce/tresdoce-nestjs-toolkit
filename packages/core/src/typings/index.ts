@@ -1,12 +1,9 @@
-import { AxiosRequestConfig } from 'axios';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { RedisOptions } from '@tresdoce-nestjs-toolkit/redis';
 import { MailerOptions } from '@tresdoce-nestjs-toolkit/mailer';
 import { ClientConfig } from 'camunda-external-task-client-js';
 import { ClientOptions } from '@elastic/elasticsearch';
-import { ResourceAttributes } from '@opentelemetry/resources';
-import { ExporterConfig as JaegerExporterConfig } from '@opentelemetry/exporter-jaeger/build/src/types';
-import { IgnoreMatcher } from '@opentelemetry/instrumentation-http';
+import { RawAxiosRequestConfig } from 'axios';
 
 type TApiPrefix = string;
 type TName = string;
@@ -58,21 +55,13 @@ export interface IParamsConfig {
   [key: string]: any;
 }
 
-export interface IServicesConfig extends AxiosRequestConfig {
+export interface IServicesConfig extends RawAxiosRequestConfig {
   healthPath?: string;
   [key: string]: any;
 }
 
 export interface IDatabaseConfiguration {
   typeorm?: TypeOrmModuleOptions;
-}
-
-export interface IOpenTelemetryConfiguration {
-  serviceName: string;
-  resourceAttributes?: ResourceAttributes;
-  excludeTracerPaths?: IgnoreMatcher[];
-  jaegerConfig: JaegerExporterConfig;
-  [key: string]: any;
 }
 
 export interface AppConfig {
@@ -86,6 +75,5 @@ export interface AppConfig {
   mailer?: MailerOptions;
   camunda?: ClientConfig;
   elasticsearch?: ClientOptions;
-  tracing?: IOpenTelemetryConfiguration;
   [key: string]: any;
 }

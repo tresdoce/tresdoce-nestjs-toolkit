@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/mailer@0.1.7-beta.0...@tresdoce-nestjs-toolkit/mailer@0.1.7) (2023-01-24)
+
+**Note:** Version bump only for package @tresdoce-nestjs-toolkit/mailer
+
+## [0.1.7-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/mailer@0.1.6...@tresdoce-nestjs-toolkit/mailer@0.1.7-beta.0) (2023-01-24)
+
+### 👨‍💻 Chores
+
+- changes in tsconfigs ([73f1198](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/73f1198a775cac34f7785ce7b19b06203f2c1792))
+- update dependencies ([c5f119b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c5f119be294e0e7940155af075279af9f3cccbc3))
+- update version of nestjs badge ([1a45d4f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/1a45d4f56b984b524aba7475484c3a192ff2248f))
+
+### [0.1.6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/mailer@0.1.5...@tresdoce-nestjs-toolkit/mailer@0.1.6) (2022-12-20)
+
+### 👨‍💻 Chores
+
+- **mailer:** update nodemailer ([f2fd67f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/f2fd67f544b10a334ab76178941e64c5dcf296fa))
+
+### 🐛 Bug Fixes
+
+- **mailer:** secure smtp ([e883883](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/e883883a44ce4a6f93ce835bde9517d37ce894e7))
+
+### [0.1.5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/mailer@0.1.5-beta.0...@tresdoce-nestjs-toolkit/mailer@0.1.5) (2022-12-18)
+
+**Note:** Version bump only for package @tresdoce-nestjs-toolkit/mailer
+
+### [0.1.5-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/mailer@0.1.4...@tresdoce-nestjs-toolkit/mailer@0.1.5-beta.0) (2022-12-18)
+
+**Note:** Version bump only for package @tresdoce-nestjs-toolkit/mailer
+
 ### [0.1.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/mailer@0.1.3...@tresdoce-nestjs-toolkit/mailer@0.1.4) (2022-11-19)
 
 ### 📝 Docs

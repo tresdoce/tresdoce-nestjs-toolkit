@@ -17,7 +17,7 @@ module.exports = {
   coverageDirectory: './coverage',
   coveragePathIgnorePatterns: ['node_modules', 'node_modules/*', 'dist', 'dist/*', 'src/index.ts'],
   testEnvironment: 'node',
-  setupFilesAfterEnv: [path.join(__dirname, 'jest.setup.js'), 'jest-extended'],
+  setupFilesAfterEnv: [path.join(__dirname, 'jest.setup.js'), 'jest-extended/all'],
   moduleDirectories: ['node_modules'],
   preset: 'ts-jest',
   testResultsProcessor: 'jest-sonar-reporter',
