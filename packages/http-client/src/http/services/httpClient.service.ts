@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import Axios, {
   AxiosInstance,
-  RawAxiosRequestConfig,
-  AxiosResponse,
   AxiosRequestConfig,
+  AxiosResponse,
   AxiosError,
+  InternalAxiosRequestConfig,
 } from 'axios';
 import { AXIOS_INSTANCE_TOKEN, RequestMethod } from '../constants/http.constants';
 import * as _ from 'lodash';
@@ -17,7 +17,9 @@ export class HttpClientService {
   /* istanbul ignore next */
   constructor(@Inject(AXIOS_INSTANCE_TOKEN) private readonly _instance: AxiosInstance = Axios) {
     this.axiosRef.interceptors.request.use(
-      (config: AxiosRequestConfig): AxiosRequestConfig => config,
+      (
+        config: InternalAxiosRequestConfig<any>,
+      ): InternalAxiosRequestConfig<any> | Promise<InternalAxiosRequestConfig<any>> => config,
       //(error: AxiosError): Promise<AxiosError> => Promise.reject(error),
     );
     this.axiosRef.interceptors.response.use(
@@ -40,11 +42,11 @@ export class HttpClientService {
   /**
    * Make and http request in base of default config, and configuration
    * @param url API url for request
-   * @param config RawAxiosRequestConfig type user configuration
+   * @param config AxiosRequestConfig type user configuration
    */
   private fetch = async <T = any>(
     url: string,
-    config: RawAxiosRequestConfig,
+    config: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> => {
     try {
       config = _.omit(config, ['url']);
@@ -60,20 +62,20 @@ export class HttpClientService {
 
   /**
    * Make http request  based on axios using user´s config
-   * @param config Contain request configuration (headers, data, url, method...) type RawAxiosRequestConfig
+   * @param config Contain request configuration (headers, data, url, method...) type AxiosRequestConfig
    */
-  public request = async <T = any>(config: RawAxiosRequestConfig): Promise<AxiosResponse<T>> => {
+  public request = async <T = any>(config: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
     return this.fetch(config.url, config);
   };
 
   /**
    * Make get http request based on axios
    * @param url API url for request
-   * @param config Contain request configuration (headers, httpAgent...) type RawAxiosRequestConfig
+   * @param config Contain request configuration (headers, httpAgent...) type AxiosRequestConfig
    */
   public get = async <T = any>(
     url: string,
-    config?: RawAxiosRequestConfig,
+    config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> => {
     return this.fetch(url, { ...config, method: RequestMethod.GET });
   };
@@ -81,11 +83,11 @@ export class HttpClientService {
   /**
    * Make post http request based on axios
    * @param url API url for request
-   * @param config Contain request configuration (headers, data...) type RawAxiosRequestConfig
+   * @param config Contain request configuration (headers, data...) type AxiosRequestConfig
    */
   public post = async <T = any>(
     url: string,
-    config?: RawAxiosRequestConfig,
+    config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> => {
     return this.fetch(url, { ...config, method: RequestMethod.POST });
   };
@@ -93,11 +95,11 @@ export class HttpClientService {
   /**
    * Make put http request based on axios
    * @param url API url for request
-   * @param config Contain request configuration (headers, data...) type RawAxiosRequestConfig
+   * @param config Contain request configuration (headers, data...) type AxiosRequestConfig
    */
   public put = async <T = any>(
     url: string,
-    config?: RawAxiosRequestConfig,
+    config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> => {
     return this.fetch(url, { ...config, method: RequestMethod.PUT });
   };
@@ -105,11 +107,11 @@ export class HttpClientService {
   /**
    * Make patch patch request based on axios
    * @param url API url for request
-   * @param config Contain request configuration (headers, data...) type RawAxiosRequestConfig
+   * @param config Contain request configuration (headers, data...) type AxiosRequestConfig
    */
   public patch = async <T = any>(
     url: string,
-    config?: RawAxiosRequestConfig,
+    config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> => {
     return this.fetch(url, { ...config, method: RequestMethod.PATCH });
   };
@@ -117,11 +119,11 @@ export class HttpClientService {
   /**
    * Make delete http request based on axios
    * @param url API url for request
-   * @param config Contain request configuration (headers, params...) type RawAxiosRequestConfig
+   * @param config Contain request configuration (headers, params...) type AxiosRequestConfig
    */
   public delete = async <T = any>(
     url: string,
-    config?: RawAxiosRequestConfig,
+    config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> => {
     return this.fetch(url, { ...config, method: RequestMethod.DELETE });
   };
@@ -129,11 +131,11 @@ export class HttpClientService {
   /**
    * Make head http request based on axios
    * @param url API url for request
-   * @param config Contain request configuration (params, httpAgent...) type RawAxiosRequestConfig
+   * @param config Contain request configuration (params, httpAgent...) type AxiosRequestConfig
    */
   public head = async <T = any>(
     url: string,
-    config?: RawAxiosRequestConfig,
+    config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> => {
     return this.fetch(url, { ...config, method: RequestMethod.HEAD });
   };

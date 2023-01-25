@@ -3,7 +3,7 @@ import { RedisOptions } from '@tresdoce-nestjs-toolkit/redis';
 import { MailerOptions } from '@tresdoce-nestjs-toolkit/mailer';
 import { ClientConfig } from 'camunda-external-task-client-js';
 import { ClientOptions } from '@elastic/elasticsearch';
-import { RawAxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 
 type TApiPrefix = string;
 type TName = string;
@@ -55,7 +55,7 @@ export interface IParamsConfig {
   [key: string]: any;
 }
 
-export interface IServicesConfig extends RawAxiosRequestConfig {
+export interface IServicesConfig extends AxiosRequestConfig {
   healthPath?: string;
   [key: string]: any;
 }
