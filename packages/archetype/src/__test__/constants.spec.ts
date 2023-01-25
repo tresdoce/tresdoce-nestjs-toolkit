@@ -6,7 +6,7 @@ describe('healthConstants', () => {
     expect(manifestControllerExcludes).toEqual(expect.any(Array));
     expect(manifestControllerExcludes).toMatchObject([
       {
-        path: '/manifest',
+        path: '/info',
         method: RequestMethod.GET,
       },
     ]);
