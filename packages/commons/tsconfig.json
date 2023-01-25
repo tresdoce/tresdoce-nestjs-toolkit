@@ -2,7 +2,7 @@
   "extends": "@tresdoce-nestjs-toolkit/config",
   "compilerOptions": {
     "rootDir": "./src",
-    "types": ["tresdoce-nestjs-toolkit", "node"]
+    "types": ["tresdoce-nestjs-toolkit", "node", "jest"]
   },
   "include": ["src/**/*"],
   "exclude": [

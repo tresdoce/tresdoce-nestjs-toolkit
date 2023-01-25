@@ -1,37 +1,76 @@
-import { corePathsExcludes } from '../index';
+import { corePathsExcludes, excludePaths } from '../index';
 import { RequestMethod } from '@nestjs/common';
 
 describe('commons', () => {
-  it('should be return commons exclude paths', () => {
-    expect(corePathsExcludes).not.toBe(null);
-    expect(corePathsExcludes).toBeDefined();
-    expect(corePathsExcludes).toBeInstanceOf(Array);
+  describe('with env context', () => {
+    beforeEach(() => {
+      process.env.CONTEXT = 'v1/api-test';
+    });
 
-    expect(corePathsExcludes).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          path: '/health/liveness',
-          method: RequestMethod.GET,
-        }),
-      ]),
-    );
+    it('should be return commons exclude paths with context', () => {
+      expect(corePathsExcludes()).not.toBe(null);
+      expect(corePathsExcludes()).toBeDefined();
+      expect(corePathsExcludes()).toBeInstanceOf(Array);
 
-    expect(corePathsExcludes).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          path: '/health/readiness',
-          method: RequestMethod.GET,
-        }),
-      ]),
-    );
+      expect(corePathsExcludes()).toContainObject({
+        path: `/v1/api-test/health/liveness`,
+        method: RequestMethod.GET,
+      });
 
-    expect(corePathsExcludes).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          path: '/manifest',
-          method: RequestMethod.GET,
-        }),
-      ]),
-    );
+      expect(corePathsExcludes()).toContainObject({
+        path: `/v1/api-test/health/readiness`,
+        method: RequestMethod.GET,
+      });
+
+      expect(corePathsExcludes()).toContainObject({
+        path: `/v1/api-test/info`,
+        method: RequestMethod.GET,
+      });
+    });
+
+    it('should be return array of exclude paths with context', () => {
+      expect(excludePaths()).not.toBe(null);
+      expect(excludePaths()).toBeDefined();
+      expect(excludePaths()).toBeInstanceOf(Array);
+      expect(excludePaths()).toEqual([
+        `/v1/api-test/health/liveness`,
+        `/v1/api-test/health/readiness`,
+        `/v1/api-test/info`,
+      ]);
+    });
+  });
+
+  describe('without env context', () => {
+    beforeEach(() => {
+      process.env.CONTEXT = '';
+    });
+
+    it('should be return commons exclude paths without context', () => {
+      expect(corePathsExcludes()).not.toBe(null);
+      expect(corePathsExcludes()).toBeDefined();
+      expect(corePathsExcludes()).toBeInstanceOf(Array);
+
+      expect(corePathsExcludes()).toContainObject({
+        path: '/health/liveness',
+        method: RequestMethod.GET,
+      });
+
+      expect(corePathsExcludes()).toContainObject({
+        path: '/health/readiness',
+        method: RequestMethod.GET,
+      });
+
+      expect(corePathsExcludes()).toContainObject({
+        path: '/info',
+        method: RequestMethod.GET,
+      });
+    });
+
+    it('should be return array of exclude paths without context', () => {
+      expect(excludePaths()).not.toBe(null);
+      expect(excludePaths()).toBeDefined();
+      expect(excludePaths()).toBeInstanceOf(Array);
+      expect(excludePaths()).toEqual(['/health/liveness', '/health/readiness', '/info']);
+    });
   });
 });

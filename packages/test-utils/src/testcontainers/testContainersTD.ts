@@ -1,11 +1,9 @@
 import { GenericContainer, StartedTestContainer, TestContainer, Wait } from 'testcontainers';
 import { RandomUuid } from 'testcontainers/dist/uuid';
 import { StopOptions } from 'testcontainers/dist/test-container';
-import { ContainerName, Env, Host } from 'testcontainers/dist/docker/types';
 import * as _ from 'lodash';
 
-import { ITestContainerOptions } from './types';
-import { Port } from 'testcontainers/dist/port';
+import { ITestContainerOptions, Env } from './types';
 
 export default class TestContainersTD {
   private static _instance?: TestContainersTD;
@@ -58,15 +56,13 @@ export default class TestContainersTD {
 
     /* Add container envs */
     if (_.has(options, 'envs') && !_.isEmpty(options.envs)) {
-      Object.keys(options.envs).forEach((key) => {
-        genericContainer.withEnv(`${key}`, `${options.envs[key]}`);
-      });
+      genericContainer.withEnvironment(options.envs);
     }
 
     /* Add command to container */
     /* istanbul ignore next */
     if (_.has(options, 'command') && !_.isEmpty(options.command)) {
-      genericContainer.withCmd(options.command);
+      genericContainer.withCommand(options.command);
     }
 
     /* Add startup timeout container */
@@ -138,21 +134,21 @@ export default class TestContainersTD {
   /**
    * Get host of container
    */
-  public getHost(): Host {
+  public getHost(): string {
     return this._container.getHost();
   }
 
   /**
    * Get container name
    */
-  public getName(): ContainerName {
+  public getName(): string {
     return this._container.getName();
   }
 
   /**
    * Get mapped ports
    */
-  public getMappedPort(port: Port): Port {
+  public getMappedPort(port: number): number {
     return this._container.getMappedPort(port);
   }
 }
