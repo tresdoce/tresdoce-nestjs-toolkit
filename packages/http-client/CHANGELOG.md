@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.7-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@0.0.6...@tresdoce-nestjs-toolkit/http-client@0.0.7-beta.0) (2023-01-25)
+
+### 👨‍💻 Chores
+
+- **httpClient:** add typing to interceptor ([db2702c](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/db2702ca2ace3bf58bcb2373b832aa7133ca980e))
+
+### 🐛 Bug Fixes
+
+- **httpClient:** update axios to fix typing AxiosRequestConfig ([86d38ec](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/86d38ec450d0ea5f04d4f7c830c657d2da423dd8))
+
 ## [0.0.6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@0.0.6-beta.1...@tresdoce-nestjs-toolkit/http-client@0.0.6) (2023-01-24)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/http-client

@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.9-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/paas@0.1.8...@tresdoce-nestjs-toolkit/paas@0.1.9-beta.0) (2023-01-25)
+
+**Note:** Version bump only for package @tresdoce-nestjs-toolkit/paas
+
 ## [0.1.8](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/paas@0.1.8-beta.1...@tresdoce-nestjs-toolkit/paas@0.1.8) (2023-01-24)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/paas

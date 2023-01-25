@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/archetype@0.2.0...@tresdoce-nestjs-toolkit/archetype@0.2.1-beta.0) (2023-01-25)
+
+### 🐛 Bug Fixes
+
+- **archetype:** rename manifest to info controller ([59ef162](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/59ef1626746786b1db1b4e786d27ef6f5c3c06c1))
+
+### 📝 Docs
+
+- **archetype:** edit readme ([b4c7302](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/b4c7302b606186d4b53fc27839f7150bb0efa17c))
+
 ## [0.2.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/archetype@0.2.0-beta.0...@tresdoce-nestjs-toolkit/archetype@0.2.0) (2023-01-24)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/archetype

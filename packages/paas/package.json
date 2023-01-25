@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/paas",
-  "version": "0.1.8",
+  "version": "0.1.9-beta.0",
   "description": "Tresdoce NestJS Toolkit - Librería centralizada de funcionalidades cross",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -48,7 +48,7 @@
     "rxjs": "^7.5.5"
   },
   "dependencies": {
-    "@tresdoce-nestjs-toolkit/core": "^0.3.4",
+    "@tresdoce-nestjs-toolkit/core": "^0.3.5-beta.0",
     "@tresdoce-nestjs-toolkit/filters": "^0.1.8",
     "@tresdoce-nestjs-toolkit/health": "^0.2.0",
     "@tresdoce-nestjs-toolkit/response-parser": "^0.2.4"
