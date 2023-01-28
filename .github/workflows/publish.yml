@@ -109,3 +109,15 @@ jobs:
         run: |
           npm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
           npm run publish:pkgs
+
+      - name: "🔁 Rebase"
+        run: |
+          git remote set-url origin "https://github.com/${{ github.repository }}.git"
+          git config --global user.name "GitHub CI/CD bot"
+          git config --global user.email "${GITHUB_EMAIL}"
+          git config pull.rebase true
+          git fetch
+          git checkout develop
+          git pull
+          git merge --no-ff -m "ci(rebase): merge master" origin/master
+          git push -f
