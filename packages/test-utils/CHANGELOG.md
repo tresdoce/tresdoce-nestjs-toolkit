@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.8](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.1.7...@tresdoce-nestjs-toolkit/test-utils@0.1.8) (2023-02-13)
+
+### 👨‍💻 Chores
+
+- **test-utils:** add container name in error log initialize ([3f572df](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/3f572df01ada75bf8e216040880b3748e43b2111))
+
 ## [0.1.7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.1.7-beta.0...@tresdoce-nestjs-toolkit/test-utils@0.1.7) (2023-01-24)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/test-utils
