@@ -95,7 +95,7 @@ export default class TestContainersTD {
       console.info(`Container initialized: ${this.getName()}`);
     } catch (e) {
       /* istanbul ignore next */
-      console.error(`Error initializing container: ${e}`);
+      console.error(`[${this._options.containerName}] Error initializing container: ${e}`);
     }
   }
 
@@ -110,7 +110,7 @@ export default class TestContainersTD {
       console.info(`Container stopped successfully: ${containerName}`);
     } catch (e) {
       /* istanbul ignore next */
-      console.error('Container not initialized');
+      console.error(`[${this._options.containerName}] Container not initialized`);
     }
   }
 
