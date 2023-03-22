@@ -24,8 +24,18 @@ let executionContext: any = {
       params: {},
       query: {},
       body: {},
+      headers: {
+        'Content-Type': 'application/json',
+        apiKey: 'abcdefg12345',
+      },
     }),
-    getResponse: () => [fixtureUserResponse],
+    getResponse: () => ({
+      getHeaders: jest.fn().mockReturnValue({
+        'Content-Type': 'application/json',
+        my_header: 'test-header',
+      }),
+      json: [fixtureUserResponse],
+    }),
   })),
   getType: jest.fn(() => 'http'),
   getClass: jest.fn(() => 'testController'),
@@ -40,8 +50,18 @@ let executionContextParams: any = {
       params: { name: 'juan' },
       query: { name: 'juan' },
       body: { name: 'juan' },
+      headers: {
+        'Content-Type': 'application/json',
+        apiKey: 'abcdefg12345',
+      },
     }),
-    getResponse: () => [fixtureUserResponse],
+    getResponse: () => ({
+      getHeaders: jest.fn().mockReturnValue({
+        'Content-Type': 'application/json',
+        my_header: 'test-header',
+      }),
+      json: [fixtureUserResponse],
+    }),
   })),
   getType: jest.fn(() => 'http'),
   getClass: jest.fn(() => 'testController'),
