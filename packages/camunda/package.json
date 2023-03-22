@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/camunda",
     "build": "pika build --out ../../dist/camunda",
-    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit",
+    "test": "jest --runInBand --coverage --forceExit",
     "clean": "rimraf .turbo coverage node_modules test-report.xml"
   },
   "publishConfig": {
