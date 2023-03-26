@@ -8,7 +8,6 @@ import {
   tcName,
   testContainers,
   fixturePostResponse,
-  fixtureUserResponse,
   fixtureUserArrayResponse,
 } from '@tresdoce-nestjs-toolkit/test-utils';
 import { Repository } from 'typeorm';
@@ -156,6 +155,7 @@ describe('TypeOrm - Mongo', () => {
   });
 
   it('should be defined', async () => {
+    console.log(app);
     await expect(app).toBeDefined();
   }, 50000);
 
