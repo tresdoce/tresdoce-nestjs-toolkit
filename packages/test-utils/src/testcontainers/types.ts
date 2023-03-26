@@ -1,4 +1,4 @@
-import { PortWithOptionalBinding } from 'testcontainers/dist/port';
+import { PortWithOptionalBinding } from 'testcontainers/dist/src/port';
 
 export declare type EnvKey = string;
 export declare type Env = {

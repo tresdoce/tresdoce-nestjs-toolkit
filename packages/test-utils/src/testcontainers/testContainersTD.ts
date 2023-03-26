@@ -1,6 +1,6 @@
 import { GenericContainer, StartedTestContainer, TestContainer, Wait } from 'testcontainers';
-import { RandomUuid } from 'testcontainers/dist/uuid';
-import { StopOptions } from 'testcontainers/dist/test-container';
+import { RandomUuid } from 'testcontainers/dist/src/uuid';
+import { StopOptions } from 'testcontainers/dist/src/test-container';
 import * as _ from 'lodash';
 
 import { ITestContainerOptions, Env } from './types';

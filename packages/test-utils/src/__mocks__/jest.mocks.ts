@@ -1,4 +1,4 @@
-import { appConfigBase } from '../fixtures';
+import { appConfigBase } from '../fixtures/appConfigBase';
 
 export const config = jest.fn().mockImplementation(() => appConfigBase);
 
