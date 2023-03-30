@@ -79,14 +79,6 @@
             "**/__test__/*"
           ]
         }
-      ],
-      [
-        "@pika/plugin-build-types",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
       ]
     ]
   }
