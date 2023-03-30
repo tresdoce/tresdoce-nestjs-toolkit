@@ -68,6 +68,7 @@ describe('TypeOrm - Postgres', () => {
   });
 });
 
+jest.setTimeout(70000);
 describe('TypeOrm - MySql', () => {
   let app: INestApplication;
   let container: testContainers;
@@ -117,6 +118,7 @@ describe('TypeOrm - MySql', () => {
   });
 });
 
+jest.setTimeout(70000);
 describe('TypeOrm - Mongo', () => {
   let app: INestApplication;
   let container: testContainers;
@@ -155,14 +157,13 @@ describe('TypeOrm - Mongo', () => {
   });
 
   it('should be defined', async () => {
-    console.log(app);
     await expect(app).toBeDefined();
   }, 50000);
 
   it('should be return an array of user', async () => {
     await repository.save(fixtureUserArrayResponse);
 
-    const query = await repository.find();
+    const query: User[] = await repository.find();
     expect(query).toEqual(expect.any(Array));
   });
 });

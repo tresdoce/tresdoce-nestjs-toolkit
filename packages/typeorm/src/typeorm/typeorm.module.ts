@@ -16,11 +16,8 @@ import { TYPE_ORM_MODULE_OPTIONS } from './constants/typerom.constants';
   providers: [
     {
       provide: TYPE_ORM_MODULE_OPTIONS,
-      useFactory: async (configService: ConfigService) => {
-        const typeOrmModuleOptions: TypeOrmModuleOptions =
-          configService.get('config.database.typeorm');
-        return typeOrmModuleOptions;
-      },
+      useFactory: async (configService: ConfigService) =>
+        configService.get<TypeOrmModuleOptions>('config.database.typeorm'),
       inject: [ConfigService],
     },
   ],
