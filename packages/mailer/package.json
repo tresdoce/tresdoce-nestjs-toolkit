@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/mailer",
     "build": "pika build --out ../../dist/mailer",
-    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit",
+    "test": "jest --runInBand --coverage --forceExit",
     "clean": "rimraf .turbo coverage node_modules test-report.xml"
   },
   "publishConfig": {
@@ -40,22 +40,22 @@
     "@nestjs/core": "^9.2.1",
     "@nestjs/platform-express": "^9.2.1",
     "ejs": "^3.1.2",
-    "glob": "8.1.0",
+    "glob": "9.3.2",
     "handlebars": "^4.7.6",
-    "inline-css": "4.0.1",
+    "inline-css": "4.0.2",
     "mjml": "^4.12.0",
-    "nodemailer": "6.9.0",
+    "nodemailer": "6.9.1",
     "pug": "^3.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },
   "dependencies": {
     "ejs": "^3.1.2",
-    "glob": "8.1.0",
+    "glob": "9.3.2",
     "handlebars": "^4.7.6",
-    "inline-css": "4.0.1",
+    "inline-css": "4.0.2",
     "mjml": "^4.12.0",
-    "nodemailer": "6.9.0",
+    "nodemailer": "6.9.1",
     "pug": "^3.0.1"
   },
   "devDependencies": {
@@ -81,14 +81,6 @@
       ],
       [
         "@pika/plugin-build-node",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "@pika/plugin-build-types",
         {
           "exclude": [
             "**/__test__/*"

@@ -22,6 +22,6 @@
     "esModuleInterop": true,
     "strict": false,
     "skipLibCheck": true,
-    "types": ["tresdoce-nestjs-toolkit", "jest"]
+    "types": ["tresdoce-nestjs-toolkit", "jest", "node"]
   }
 }

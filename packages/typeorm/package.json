@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/typeorm",
     "build": "pika build --out ../../dist/typeorm",
-    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit",
+    "test": "jest --runInBand --coverage --forceExit",
     "clean": "rimraf .turbo coverage node_modules test-report.xml"
   },
   "publishConfig": {
@@ -79,14 +79,6 @@
       ],
       [
         "@pika/plugin-build-node",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "@pika/plugin-build-types",
         {
           "exclude": [
             "**/__test__/*"

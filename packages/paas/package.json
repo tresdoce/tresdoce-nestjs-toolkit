@@ -40,10 +40,10 @@
     "@nestjs/common": "^9.2.1",
     "@nestjs/core": "^9.2.1",
     "@nestjs/platform-express": "^9.2.1",
-    "@tresdoce-nestjs-toolkit/core": "^0.1.0",
-    "@tresdoce-nestjs-toolkit/filters": "^0.1.0",
-    "@tresdoce-nestjs-toolkit/health": "^0.1.0",
-    "@tresdoce-nestjs-toolkit/response-parser": "^0.1.0",
+    "@tresdoce-nestjs-toolkit/core": "^0.3.5",
+    "@tresdoce-nestjs-toolkit/filters": "^0.1.8",
+    "@tresdoce-nestjs-toolkit/health": "^0.2.0",
+    "@tresdoce-nestjs-toolkit/response-parser": "^0.2.4",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },
@@ -76,14 +76,6 @@
       ],
       [
         "@pika/plugin-build-node",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "@pika/plugin-build-types",
         {
           "exclude": [
             "**/__test__/*"

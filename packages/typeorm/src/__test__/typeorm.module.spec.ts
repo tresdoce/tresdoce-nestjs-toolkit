@@ -8,7 +8,6 @@ import {
   tcName,
   testContainers,
   fixturePostResponse,
-  fixtureUserResponse,
   fixtureUserArrayResponse,
 } from '@tresdoce-nestjs-toolkit/test-utils';
 import { Repository } from 'typeorm';
@@ -69,6 +68,7 @@ describe('TypeOrm - Postgres', () => {
   });
 });
 
+jest.setTimeout(70000);
 describe('TypeOrm - MySql', () => {
   let app: INestApplication;
   let container: testContainers;
@@ -118,6 +118,7 @@ describe('TypeOrm - MySql', () => {
   });
 });
 
+jest.setTimeout(70000);
 describe('TypeOrm - Mongo', () => {
   let app: INestApplication;
   let container: testContainers;
@@ -162,7 +163,7 @@ describe('TypeOrm - Mongo', () => {
   it('should be return an array of user', async () => {
     await repository.save(fixtureUserArrayResponse);
 
-    const query = await repository.find();
+    const query: User[] = await repository.find();
     expect(query).toEqual(expect.any(Array));
   });
 });

@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/test-utils",
     "build": "pika build --out ../../dist/test-utils",
-    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit",
+    "test": "jest --runInBand --coverage --forceExit",
     "clean": "rimraf .turbo coverage node_modules test-report.xml"
   },
   "publishConfig": {
@@ -60,7 +60,7 @@
   "@pika/pack": {
     "pipeline": [
       [
-        "@pika/plugin-standard-pkg",
+        "@pika/plugin-ts-standard-pkg",
         {
           "exclude": [
             "**/__test__/*"
@@ -69,14 +69,6 @@
       ],
       [
         "@pika/plugin-build-node",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "@pika/plugin-build-types",
         {
           "exclude": [
             "**/__test__/*"

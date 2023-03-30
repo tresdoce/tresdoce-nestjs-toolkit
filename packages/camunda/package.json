@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/camunda",
     "build": "pika build --out ../../dist/camunda",
-    "test": "jest --runInBand --detectOpenHandles --coverage --forceExit",
+    "test": "jest --runInBand --coverage --forceExit",
     "clean": "rimraf .turbo coverage node_modules test-report.xml"
   },
   "publishConfig": {
@@ -40,13 +40,13 @@
     "@nestjs/core": "^9.2.1",
     "@nestjs/microservices": "^9.2.1",
     "@nestjs/platform-express": "^9.2.1",
-    "camunda-external-task-client-js": "^2.2.0",
+    "camunda-external-task-client-js": "^2.3.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },
   "dependencies": {
     "@nestjs/microservices": "^9.2.1",
-    "camunda-external-task-client-js": "^2.2.0"
+    "camunda-external-task-client-js": "^2.3.1"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.2.3",
@@ -72,14 +72,6 @@
       ],
       [
         "@pika/plugin-build-node",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "@pika/plugin-build-types",
         {
           "exclude": [
             "**/__test__/*"

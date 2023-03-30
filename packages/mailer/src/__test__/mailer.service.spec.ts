@@ -56,7 +56,7 @@ function spyOnSmtpSend(onMail: (mail: MailMessage) => void) {
 
 async function getMailerServiceWithCustomTransport(options: MailerOptions): Promise<MailerService> {
   class TestTransportFactory implements MailerTransportFactory {
-    createTransport(options?: TransportType) {
+    createTransport(options?: TransportType): any {
       return nodemailerMock.createTransport({ host: 'localhost', port: -100 });
     }
   }
