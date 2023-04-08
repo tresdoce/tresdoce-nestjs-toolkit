@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/paas@0.2.0-beta.0...@tresdoce-nestjs-toolkit/paas@0.2.0) (2023-04-08)
+
+### 👨‍💻 Chores
+
+- remove peer dependencies of paas ([9035121](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/9035121e43b33719073194f46fe6739b7eb86ac2))
+
 ## [0.2.0-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/paas@0.1.9...@tresdoce-nestjs-toolkit/paas@0.2.0-beta.0) (2023-04-08)
 
 ### 👨‍💻 Chores
