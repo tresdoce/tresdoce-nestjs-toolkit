@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.1.8...@tresdoce-nestjs-toolkit/test-utils@0.2.0-beta.0) (2023-04-08)
+
+### 👨‍💻 Chores
+
+- add types to test utils ([ec7de71](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/ec7de71de8cb9c6355ca84265eb5bad429a89e3e))
+- edit script test ([d9f549f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d9f549f19a7ed0eaa88faebb7cdfea44a153ae6e))
+- remove build types ([f5d0f2b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/f5d0f2b0d1cd4f54a0ddb367f132c43ef672b08f))
+
+### ✨ Features
+
+- update dependencies ([dabe1da](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/dabe1da5742674ebdca7262246ac811d9c474683))
+
 ## [0.1.8](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.1.7...@tresdoce-nestjs-toolkit/test-utils@0.1.8) (2023-02-13)
 
 ### 👨‍💻 Chores

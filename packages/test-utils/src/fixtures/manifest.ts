@@ -26,8 +26,8 @@ export const manifest = {
   devDependencies: {
     '@tresdoce-nestjs-toolkit/commons': '0.0.1',
     '@nestjs/cli': '^9.1.8',
-    '@nestjs/schematics': '^8.0.4',
-    '@nestjs/testing': '^8.2.5',
+    '@nestjs/schematics': '^9.1.0',
+    '@nestjs/testing': '^9.4.0',
     husky: '^4.3.8',
     jest: '^27.4.7',
   },

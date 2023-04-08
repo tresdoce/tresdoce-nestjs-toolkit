@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.4-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/config@0.2.3...@tresdoce-nestjs-toolkit/config@0.2.4-beta.0) (2023-04-08)
+
+### 🐛 Bug Fixes
+
+- resolve problem with build pkgs ([0af35ad](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/0af35ad3508f8b932ea7bc0095049d6de15a5c11))
+
+### 👨‍💻 Chores
+
+- fixed dependencies ([c07e523](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c07e5234b28d482b448a3a56dfbd125550ea21c4))
+- update dependencies ([05f54ce](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/05f54ce1781587ae83aea792ad4eb4a73c6cc73b))
+
 ## [0.2.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/config@0.2.3-beta.0...@tresdoce-nestjs-toolkit/config@0.2.3) (2023-01-24)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/config
