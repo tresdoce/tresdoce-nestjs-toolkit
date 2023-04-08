@@ -36,9 +36,9 @@
     "directory": "../../dist/response-parser"
   },
   "peerDependencies": {
-    "@nestjs/common": "^9.2.1",
-    "@nestjs/core": "^9.2.1",
-    "@nestjs/platform-express": "^9.2.1",
+    "@nestjs/common": "^9.4.0",
+    "@nestjs/core": "^9.4.0",
+    "@nestjs/platform-express": "^9.4.0",
     "@tresdoce-nestjs-toolkit/filters": "^0.1.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
