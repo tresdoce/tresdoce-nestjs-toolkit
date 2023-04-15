@@ -9,9 +9,9 @@ export const initDockerCompose = (
 ) => {
   return async (): Promise<void> => {
     console.info(`🐳 Initialize docker-compose...`);
-    !_.isEmpty(_services)
-      ? console.log(`• Services from ${_composeFile}: ${_services.join(', ')}`)
-      : null;
+    _.isEmpty(_services)
+      ? console.log(`• All services from ${_composeFile}`)
+      : console.log(`• Services from ${_composeFile}: ${_services.join(', ')}`);
     try {
       global.__TESTCONTAINERS__ = await new DockerComposeEnvironment(
         _composeFilePath,
