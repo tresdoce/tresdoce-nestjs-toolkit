@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@0.3.0...@tresdoce-nestjs-toolkit/health@0.3.1-beta.0) (2023-04-16)
+
+### 🐛 Bug Fixes
+
+- **typeorm:** update dependency and change ObjectID for ObjectId in test ([77038d4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/77038d4b8dc57d94f724aa39741943f32a05ab81))
+
 ## [0.3.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@0.3.0-beta.0...@tresdoce-nestjs-toolkit/health@0.3.0) (2023-04-08)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/health

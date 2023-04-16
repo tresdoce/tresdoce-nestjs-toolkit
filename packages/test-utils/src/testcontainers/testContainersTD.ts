@@ -92,10 +92,10 @@ export default class TestContainersTD {
     try {
       this._container = await this.prepareContainer(this._options).start();
       global.hostContainer = this._container.getHost();
-      console.info(`Container initialized: ${this.getName()}`);
+      console.info(`✨ Container initialized: ${this.getName()}`);
     } catch (e) {
       /* istanbul ignore next */
-      console.error(`[${this._options.containerName}] Error initializing container: ${e}`);
+      console.error(`😰 [${this._options.containerName}] Error initializing container: ${e}`);
     }
   }
 
@@ -107,10 +107,10 @@ export default class TestContainersTD {
     try {
       const containerName = this.getName();
       await this._container.stop(options);
-      console.info(`Container stopped successfully: ${containerName}`);
+      console.info(`👌 Container stopped successfully: ${containerName}`);
     } catch (e) {
       /* istanbul ignore next */
-      console.error(`[${this._options.containerName}] Container not initialized`);
+      console.error(`😒 [${this._options.containerName}] Container not initialized`);
     }
   }
 

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@0.2.0...@tresdoce-nestjs-toolkit/elk@0.3.0-beta.0) (2023-04-16)
+
+### ✨ Features
+
+- **test-utils:** add functions to init and close containers from docker-compose for jest globaSetup ([2acb148](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/2acb148ba82d276679d1d38f87342282c4229d0b))
+
 ## [0.2.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@0.2.0-beta.0...@tresdoce-nestjs-toolkit/elk@0.2.0) (2023-04-08)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/elk
