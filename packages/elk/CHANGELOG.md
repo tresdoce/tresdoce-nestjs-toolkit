@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@0.3.0-beta.0...@tresdoce-nestjs-toolkit/elk@0.3.0) (2023-04-16)
+
+**Note:** Version bump only for package @tresdoce-nestjs-toolkit/elk
+
 ## [0.3.0-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@0.2.0...@tresdoce-nestjs-toolkit/elk@0.3.0-beta.0) (2023-04-16)
 
 ### ✨ Features
