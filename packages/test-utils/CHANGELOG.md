@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.3.0-beta.0...@tresdoce-nestjs-toolkit/test-utils@0.3.0) (2023-04-16)
+
+### 📝 Docs
+
+- **test-utils:** add documentation of global test containers ([6f86a40](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/6f86a404795ccfaf53b94e92564566ead29ee090))
+
 ## [0.3.0-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.2.0...@tresdoce-nestjs-toolkit/test-utils@0.3.0-beta.0) (2023-04-16)
 
 ### ✨ Features
