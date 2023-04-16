@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.2.0...@tresdoce-nestjs-toolkit/test-utils@0.3.0-beta.0) (2023-04-16)
+
+### ✨ Features
+
+- **test-utils:** add functions to init and close containers from docker-compose for jest globaSetup ([2acb148](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/2acb148ba82d276679d1d38f87342282c4229d0b))
+
+### 👨‍💻 Chores
+
+- **test-utils:** add log to initicialize all services ([b02ba1d](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/b02ba1d470c9a6f8e5b9dfe136ddd2fa151928d3))
+- update turbo and add emoji in logs of test containers ([0b7d222](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/0b7d2224677a0bb0fad9b4673d88a8e27ef4a272))
+
 ## [0.2.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.2.0-beta.0...@tresdoce-nestjs-toolkit/test-utils@0.2.0) (2023-04-08)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/test-utils
