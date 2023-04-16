@@ -8,25 +8,33 @@ describe('globalTestContainers', () => {
 
   it('should be initialize service from docker-compose.yml', async () => {
     const services = ['mongo'];
-    await initDockerCompose(services, composeFilePath, composeFile)();
-    expect(global.__TESTCONTAINERS__).toBeDefined();
-    expect(global.__TESTCONTAINERS__).toBeInstanceOf(StartedDockerComposeEnvironment);
+    const environment: StartedDockerComposeEnvironment = await initDockerCompose(
+      services,
+      composeFilePath,
+      composeFile,
+    )();
+    expect(environment).toBeDefined();
+    expect(environment).toBeInstanceOf(StartedDockerComposeEnvironment);
     await closeDockerCompose({ removeVolumes: false })();
   });
 
   it('should be initialize all services from docker-compose.yml', async () => {
     const services = [];
-    await initDockerCompose(services, composeFilePath, composeFile)();
-    expect(global.__TESTCONTAINERS__).toBeDefined();
-    expect(global.__TESTCONTAINERS__).toBeInstanceOf(StartedDockerComposeEnvironment);
+    const environment: StartedDockerComposeEnvironment = await initDockerCompose(
+      services,
+      composeFilePath,
+      composeFile,
+    )();
+    expect(environment).toBeDefined();
+    expect(environment).toBeInstanceOf(StartedDockerComposeEnvironment);
     await closeDockerCompose({ removeVolumes: false })();
   });
 
   it('should be initialize services from docker-compose.yml in default path and filename', async () => {
     const services = [];
-    await initDockerCompose(services)();
-    expect(global.__TESTCONTAINERS__).toBeDefined();
-    expect(global.__TESTCONTAINERS__).toBeInstanceOf(StartedDockerComposeEnvironment);
+    const environment: StartedDockerComposeEnvironment = await initDockerCompose(services)();
+    expect(environment).toBeDefined();
+    expect(environment).toBeInstanceOf(StartedDockerComposeEnvironment);
     await closeDockerCompose({ removeVolumes: false })();
   });
 });
