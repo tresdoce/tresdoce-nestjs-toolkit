@@ -1,6 +1,6 @@
 import { appConfigBase } from '../fixtures/appConfigBase';
 
-export const config = jest.fn().mockImplementation(() => appConfigBase);
+export const config = () => jest.fn().mockImplementation(() => appConfigBase);
 
 export const executionContext: any = () => ({
   switchToHttp: jest.fn().mockReturnThis(),

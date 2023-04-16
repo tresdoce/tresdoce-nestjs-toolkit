@@ -1,0 +1,20 @@
+# docker-compose.yml - Only for local debug purposes
+# docker-compose up -d elasticsearch kibana jaeger camunda redis mongo mysql postgres pgadmin
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:5.0
+    container_name: local-mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      TZ: UTC
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+      MONGO_INITDB_DATABASE: test_db
+    #logging:
+    #  driver: none
+    #volumes:
+    #  - ./.mongo_data:/data/db
