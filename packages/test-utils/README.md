@@ -31,6 +31,7 @@ esta librería que maneja de manera centralizada todo lo necesario para nuestros
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [👨‍💻 Uso](#use)
+- [🧪 TestContainers](#testcontainers)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
 
@@ -123,15 +124,138 @@ describe('Suite for dynamic config', () => {
 });
 ```
 
-### TestContainers
+<a name="testcontainers"></a>
 
-[TestContainers](https://www.testcontainers.org/) es una librería que utiliza docker de por medio para poder instanciar
+## 🧪 TestContainers
+
+[TestContainers](https://node.testcontainers.org/) es una librería que utiliza docker de por medio para poder instanciar
 un servicio durante el entorno de testing, tanto local como asi también en nuestros pipelines, y poder realizar las
 pruebas correctamente sin tener que estar consumiendo el servicio de algún entorno.
 
-Esta librería viene con una configuración base para instanciar `Redis`, `MongoDB`, `Postgres` y `MySql`, pero también
-cuenta con la posibilidad de levantar cualquier otro servicio utilizando las imágenes de docker, por lo que se requiere
+Esta librería viene con una configuración base para instanciar `Redis`, `MongoDB`, `Postgres`, `MySql` y `Elasticsearch`,
+pero también cuenta con la posibilidad de levantar cualquier otro servicio utilizando las imágenes de docker, por lo que se requiere
 tener [Docker](https://www.docker.com/) instalado.
+
+### Global Container
+
+Instancia uno o más containers a partir de un archivo `docker-compose.yml`, está funcionalidad es ideal para instanciar
+los servicios de una aplicación y que disponible para consumir en todos los test.
+
+Agregar `globalSetup` y `globalTeardown` a la configuración de jest de la aplicación (`jest.config.ts`)
+
+```typescript
+//./jest.config.ts
+import { jestConfig } from '@tresdoce-nestjs-toolkit/commons';
+import * as dotenv from 'dotenv';
+
+process.env.NODE_ENV = 'test';
+
+dotenv.config({
+  path: '.env.test',
+});
+
+module.exports = {
+  ...jestConfig(),
+  globalSetup: './jest.globalSetup.ts',
+  globalTeardown: './jest.globalTeardown.ts',
+};
+```
+
+Creamos los archivos `jest.globalSetup.ts` y `jest.globalTeardown.ts` en el root de la aplicación.
+
+```typescript
+//./jest.globalSetup.ts
+import { initDockerCompose } from '@tresdoce-nestjs-toolkit/test-utils';
+
+const services = ['mongo', 'redis', 'elasticsearch'];
+module.exports = initDockerCompose(services);
+```
+
+<details>
+<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+
+La función `initDockerCompose` recibe tres parámetros.
+
+`services`: Es un array de string que sirve para especificar que servicios se quiere instanciar del `docker-compose.yml`,
+si no se envía el parámetro o se envía un array vacío, se inicializa todos los servicios definidos en el archivo.
+
+- Type: `String[]`
+- Required: `false`
+- Default: `[]`
+- Example: `['mongo', 'redis', 'elasticsearch']`
+
+`composeFilePath`: Es el path de donde se encuentra el archivo `docker-compose.yml`.
+
+- Type: `String`
+- Required: `false`
+- Default: `'.'`
+
+`composeFile`: Es el nombre del archivo de `docker-compose`.
+
+- Type: `String`
+- Required: `false`
+- Default: `'docker-compose.yml'`
+
+```typescript
+//./jest.globalSetup.ts
+import { initDockerCompose } from '@tresdoce-nestjs-toolkit/test-utils';
+import * as path from 'path';
+
+const services = ['mongo', 'redis'];
+const composeFilePath = path.resolve(__dirname, 'fixtures', 'docker-compose');
+const composeFile = 'docker-compose-test.yml';
+
+module.exports = initDockerCompose(services, composeFilePath, composeFile);
+```
+
+</details>
+
+```typescript
+//./jest.globalTeardown.ts
+import { closeDockerCompose } from '@tresdoce-nestjs-toolkit/test-utils';
+
+module.exports = closeDockerCompose({ removeVolumes: false });
+```
+
+```yaml
+# ./docker-compose.yml
+
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:5.0
+    container_name: local-mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      TZ: UTC
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+      MONGO_INITDB_DATABASE: test_db
+
+  redis:
+    image: redis:6.2-alpine
+    container_name: local-redis
+    restart: always
+    ports:
+      - '6379:6379'
+    environment:
+      TZ: UTC
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: 123456
+      REDIS_HOST: cache
+    command: ['redis-server', '--appendonly', 'yes', '--requirepass', '123456']
+```
+
+> ⚠️ En caso de fallas al correr en los pipelines, revisar que el `docker-compose.yml` este bien configurado y que el
+> host del runner sea el mismo que usa docker. Ej.: http://localhost:6379 o http://docker:6379
+
+### Generic Container
+
+Instancia un container con la imagen del servicio, está pensada para utilizarse para proyectos que
+utilizan un solo servicio.
 
 ```typescript
 //...
