@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1-beta.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.3.0...@tresdoce-nestjs-toolkit/test-utils@0.3.1-beta.0) (2023-04-17)
+
+### 🐛 Bug Fixes
+
+- **test-utils:** return started docker compose environment to initialized ([b41de70](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/b41de7096fd53bf1a62719f75b5d8f86d1e4f06e))
+
 ## [0.3.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.3.0-beta.0...@tresdoce-nestjs-toolkit/test-utils@0.3.0) (2023-04-16)
 
 ### 📝 Docs
