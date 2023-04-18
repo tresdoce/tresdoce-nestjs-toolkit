@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.3.1...@tresdoce-nestjs-toolkit/test-utils@0.3.2) (2023-04-18)
+
+### 👨‍💻 Chores
+
+- update turbo dependency and remove volumes in test containers test ([4488592](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/448859227105a7f275ec0618b037d331dd7d33c5))
+
 ## [0.3.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@0.3.1-beta.0...@tresdoce-nestjs-toolkit/test-utils@0.3.1) (2023-04-17)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/test-utils
