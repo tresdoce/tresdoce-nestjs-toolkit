@@ -21,6 +21,7 @@
     "build": "turbo run build --concurrency=1",
     "test": "turbo run test --concurrency=1",
     "clean": "turbo run clean",
+    "postclean": "rimraf ./dist ./node_modules ./yarn.lock ./package-lock.json",
     "lint": "lint-staged",
     "prepublishOnly": "yarn build",
     "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,md,json}\"",
@@ -132,7 +133,7 @@
     "ts-loader": "^9.3.1",
     "ts-node": "^10.9.0",
     "tsconfig-paths": "^4.2.0",
-    "turbo": "^1.9.1",
+    "turbo": "^1.9.3",
     "typescript": "^4.9.5"
   }
 }

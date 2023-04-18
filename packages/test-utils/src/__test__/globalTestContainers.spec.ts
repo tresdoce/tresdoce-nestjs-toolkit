@@ -15,7 +15,7 @@ describe('globalTestContainers', () => {
     )();
     expect(environment).toBeDefined();
     expect(environment).toBeInstanceOf(StartedDockerComposeEnvironment);
-    await closeDockerCompose({ removeVolumes: false })();
+    await closeDockerCompose({ removeVolumes: true })();
   });
 
   it('should be initialize all services from docker-compose.yml', async () => {
@@ -27,7 +27,7 @@ describe('globalTestContainers', () => {
     )();
     expect(environment).toBeDefined();
     expect(environment).toBeInstanceOf(StartedDockerComposeEnvironment);
-    await closeDockerCompose({ removeVolumes: false })();
+    await closeDockerCompose({ removeVolumes: true })();
   });
 
   it('should be initialize services from docker-compose.yml in default path and filename', async () => {
@@ -35,6 +35,6 @@ describe('globalTestContainers', () => {
     const environment: StartedDockerComposeEnvironment = await initDockerCompose(services)();
     expect(environment).toBeDefined();
     expect(environment).toBeInstanceOf(StartedDockerComposeEnvironment);
-    await closeDockerCompose({ removeVolumes: false })();
+    await closeDockerCompose({ removeVolumes: true })();
   });
 });
