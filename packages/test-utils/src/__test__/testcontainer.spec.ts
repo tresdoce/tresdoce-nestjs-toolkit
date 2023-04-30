@@ -3,6 +3,7 @@ import { StartedGenericContainer } from 'testcontainers/dist/src/generic-contain
 
 import {
   TCRedisOptions,
+  TCDynamoDBOptions,
   TCMongoOptions,
   TCMySqlOptions,
   TCPostgresOptions,
@@ -78,6 +79,32 @@ describe('testContainers - Redis', () => {
   });
 });
 
+describe('testContainers - DynamoDB', () => {
+  let container: testContainers;
+
+  beforeAll(async () => {
+    container = await new testContainers('amazon/dynamodb-local:latest', {
+      ...TCDynamoDBOptions,
+      ports: [
+        {
+          container: 8000,
+          host: 8002,
+        },
+      ],
+    });
+    await container.start();
+  });
+
+  afterAll(async () => {
+    await container.stop({ removeVolumes: true });
+  });
+
+  it('should be defined', () => {
+    expect(container).toBeDefined();
+    expect(container).toBeInstanceOf(testContainers);
+  });
+});
+
 describe('testContainers - MongoDB', () => {
   let container: testContainers;
 
@@ -148,7 +175,7 @@ describe('testContainers - Postgres', () => {
   });
 });
 
-describe('testContainers - Elasticsearch', () => {
+describe('testContainers - ElasticSearch', () => {
   let container: testContainers;
 
   beforeAll(async () => {

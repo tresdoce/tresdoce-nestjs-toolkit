@@ -5,7 +5,7 @@ version: '3.9'
 services:
   mongo:
     image: mongo:5.0
-    container_name: local-mongo
+    container_name: tresdoce-test-container-local-mongo
     restart: always
     ports:
       - '27017:27017'
@@ -14,7 +14,3 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123456
       MONGO_INITDB_DATABASE: test_db
-    #logging:
-    #  driver: none
-    #volumes:
-    #  - ./.mongo_data:/data/db

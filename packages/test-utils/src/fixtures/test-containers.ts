@@ -22,6 +22,23 @@ export const TCRedisOptions: ITestContainerOptions = {
   reuse: true,
 };
 
+/* Test Containers - DynamoDB */
+export const TCDynamoDBOptions: ITestContainerOptions = {
+  ports: [
+    {
+      container: 8000,
+      host: 8000,
+    },
+  ],
+  envs: {
+    AWS_ACCESS_KEY_ID: 'local',
+    AWS_SECRET_ACCESS_KEY: 'local',
+    AWS_REGION: 'us-east-1',
+  },
+  containerName: `${tcName}-dynamodb`,
+  reuse: true,
+};
+
 /* Test Containers - MongoDB options */
 export const TCMongoOptions: ITestContainerOptions = {
   ports: [

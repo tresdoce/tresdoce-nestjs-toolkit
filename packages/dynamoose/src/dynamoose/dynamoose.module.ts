@@ -1,18 +1,40 @@
 import { DynamicModule, flatten, Global, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
 import { DynamooseCoreModule } from './dynamoose-core.module';
 import {
   createDynamooseAsyncProviders,
   createDynamooseProviders,
 } from './providers/dynamoose.provider';
-import { ModelDefinition } from './interfaces';
 import {
+  ModelDefinition,
   AsyncModelFactory,
   DynamooseModuleAsyncOptions,
   DynamooseModuleOptions,
 } from './interfaces';
 
+import { DYNAMOOSE_OPTIONS } from './constants/dynamoose.constant';
+
 @Global()
-@Module({})
+@Module({
+  imports: [
+    ConfigModule,
+    DynamooseCoreModule.forRootAsync({
+      useFactory: async (options: DynamooseModuleOptions): Promise<DynamooseModuleOptions> =>
+        options,
+      inject: [DYNAMOOSE_OPTIONS],
+    }),
+  ],
+  providers: [
+    {
+      provide: DYNAMOOSE_OPTIONS,
+      useFactory: async (configService: ConfigService): Promise<DynamooseModuleOptions> =>
+        configService.get<DynamooseModuleOptions>('config.dynamodb'),
+      inject: [ConfigService],
+    },
+  ],
+  exports: [DynamooseCoreModule, DYNAMOOSE_OPTIONS],
+})
 export class DynamooseModule {
   static forRoot(options: DynamooseModuleOptions = {}): DynamicModule {
     return {

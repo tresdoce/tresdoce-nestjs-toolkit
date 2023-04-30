@@ -16,6 +16,7 @@ async function initialization(options: DynamooseModuleOptions): Promise<void> {
   } else if (options.aws) {
     aws.ddb.set(new aws.ddb.DynamoDB(options.aws));
   }
+
   if (options.local) {
     if (typeof options.local === 'boolean') {
       aws.ddb.local();
@@ -23,9 +24,11 @@ async function initialization(options: DynamooseModuleOptions): Promise<void> {
       aws.ddb.local(options.local);
     }
   }
+
   if (options.table) {
     Table.defaults.set(options.table);
   }
+
   if (options.logger) {
     (await logger()).providers.add(
       new LoggerProvider(
