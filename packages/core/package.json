@@ -29,7 +29,7 @@
     "prebuild": "rimraf ../../dist/core",
     "build": "pika build --out ../../dist/core",
     "test": "jest --runInBand --coverage --forceExit",
-    "clean": "rimraf .turbo coverage node_modules test-report.xml"
+    "clean": "rimraf .turbo coverage test-results node_modules test-report.xml"
   },
   "publishConfig": {
     "access": "public",

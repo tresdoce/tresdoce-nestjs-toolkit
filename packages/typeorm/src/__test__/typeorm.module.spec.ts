@@ -19,151 +19,151 @@ import { User } from './utils/user.entity';
 import { configPostgres, configMySql, configMongo } from './utils';
 
 jest.setTimeout(70000);
-describe('TypeOrm - Postgres', () => {
-  let app: INestApplication;
-  let container: testContainers;
-  let repository: Repository<Post>;
+describe('TypeOrm', () => {
+  describe('Postgres', () => {
+    let app: INestApplication;
+    let container: testContainers;
+    let repository: Repository<Post>;
 
-  beforeAll(async () => {
-    container = await new testContainers('postgres:13', {
-      ...TCPostgresOptions,
-      containerName: `${tcName}-typeorm-postgres`,
+    beforeAll(async () => {
+      container = await new testContainers('postgres:13', {
+        ...TCPostgresOptions,
+        containerName: `${tcName}-typeorm-postgres`,
+      });
+      await container.start();
     });
-    await container.start();
-  });
 
-  afterAll(async () => {
-    await container.stop({ removeVolumes: true });
-  });
-
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({
-          isGlobal: true,
-          load: [configPostgres],
-        }),
-        TypeOrmClientModule,
-        TypeOrmClientModule.forFeature([Post]),
-      ],
-    }).compile();
-    app = module.createNestApplication();
-    repository = module.get('PostRepository');
-    await app.init();
-  });
-
-  afterEach(async () => {
-    await app.close();
-  });
-
-  it('should be defined', async () => {
-    await expect(app).toBeDefined();
-  }, 50000);
-
-  it('should be return an array of post', async () => {
-    await repository.save([fixturePostResponse]);
-
-    const query = await repository.find();
-    expect(query).toEqual([fixturePostResponse]);
-  });
-});
-
-jest.setTimeout(70000);
-describe('TypeOrm - MySql', () => {
-  let app: INestApplication;
-  let container: testContainers;
-  let repository: Repository<Post>;
-
-  beforeAll(async () => {
-    container = await new testContainers('mysql:5.7', {
-      ...TCMySqlOptions,
-      containerName: `${tcName}-typeorm-mysql`,
+    afterAll(async () => {
+      await container.stop({ removeVolumes: true });
     });
-    await container.start();
-  });
 
-  afterAll(async () => {
-    await container.stop({ removeVolumes: true });
-  });
-
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({
-          isGlobal: true,
-          load: [configMySql],
-        }),
-        TypeOrmClientModule,
-        TypeOrmClientModule.forFeature([Post]),
-      ],
-    }).compile();
-    app = module.createNestApplication();
-    repository = module.get('PostRepository');
-    await app.init();
-  });
-
-  afterEach(async () => {
-    await app.close();
-  });
-
-  it('should be defined', async () => {
-    await expect(app).toBeDefined();
-  }, 50000);
-
-  it('should be return an array of post', async () => {
-    await repository.save([fixturePostResponse]);
-
-    const query = await repository.find();
-    expect(query).toEqual([fixturePostResponse]);
-  });
-});
-
-jest.setTimeout(70000);
-describe('TypeOrm - Mongo', () => {
-  let app: INestApplication;
-  let container: testContainers;
-  let repository: Repository<User>;
-
-  beforeAll(async () => {
-    container = await new testContainers('mongo:5.0', {
-      ...TCMongoOptions,
-      containerName: `${tcName}-typeorm-mongo`,
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        imports: [
+          ConfigModule.forRoot({
+            isGlobal: true,
+            load: [configPostgres],
+          }),
+          TypeOrmClientModule,
+          TypeOrmClientModule.forFeature([Post]),
+        ],
+      }).compile();
+      app = module.createNestApplication();
+      repository = module.get('PostRepository');
+      await app.init();
     });
-    await container.start();
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    it('should be defined', async () => {
+      await expect(app).toBeDefined();
+    }, 50000);
+
+    it('should be return an array of post', async () => {
+      await repository.save([fixturePostResponse]);
+
+      const query = await repository.find();
+      expect(query).toEqual([fixturePostResponse]);
+    });
   });
 
-  afterAll(async () => {
-    await container.stop({ removeVolumes: true });
+  describe('MySql', () => {
+    let app: INestApplication;
+    let container: testContainers;
+    let repository: Repository<Post>;
+
+    beforeAll(async () => {
+      container = await new testContainers('mysql:5.7', {
+        ...TCMySqlOptions,
+        containerName: `${tcName}-typeorm-mysql`,
+      });
+      await container.start();
+    });
+
+    afterAll(async () => {
+      await container.stop({ removeVolumes: true });
+    });
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        imports: [
+          ConfigModule.forRoot({
+            isGlobal: true,
+            load: [configMySql],
+          }),
+          TypeOrmClientModule,
+          TypeOrmClientModule.forFeature([Post]),
+        ],
+      }).compile();
+      app = module.createNestApplication();
+      repository = module.get('PostRepository');
+      await app.init();
+    });
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    it('should be defined', async () => {
+      await expect(app).toBeDefined();
+    }, 50000);
+
+    it('should be return an array of post', async () => {
+      await repository.save([fixturePostResponse]);
+
+      const query = await repository.find();
+      expect(query).toEqual([fixturePostResponse]);
+    });
   });
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({
-          isGlobal: true,
-          load: [configMongo],
-        }),
-        TypeOrmClientModule,
-        TypeOrmClientModule.forFeature([User]),
-      ],
-    }).compile();
-    app = module.createNestApplication();
-    repository = module.get('UserRepository');
-    await app.init();
-  });
+  describe('Mongo', () => {
+    let app: INestApplication;
+    let container: testContainers;
+    let repository: Repository<User>;
 
-  afterEach(async () => {
-    await app.close();
-  });
+    beforeAll(async () => {
+      container = await new testContainers('mongo:5.0', {
+        ...TCMongoOptions,
+        containerName: `${tcName}-typeorm-mongo`,
+      });
+      await container.start();
+    });
 
-  it('should be defined', async () => {
-    await expect(app).toBeDefined();
-  }, 50000);
+    afterAll(async () => {
+      await container.stop({ removeVolumes: true });
+    });
 
-  it('should be return an array of user', async () => {
-    await repository.save(fixtureUserArrayResponse);
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        imports: [
+          ConfigModule.forRoot({
+            isGlobal: true,
+            load: [configMongo],
+          }),
+          TypeOrmClientModule,
+          TypeOrmClientModule.forFeature([User]),
+        ],
+      }).compile();
+      app = module.createNestApplication();
+      repository = module.get('UserRepository');
+      await app.init();
+    });
 
-    const query: User[] = await repository.find();
-    expect(query).toEqual(expect.any(Array));
+    afterEach(async () => {
+      await app.close();
+    });
+
+    it('should be defined', async () => {
+      await expect(app).toBeDefined();
+    }, 50000);
+
+    it('should be return an array of user', async () => {
+      await repository.save(fixtureUserArrayResponse);
+
+      const query: User[] = await repository.find();
+      expect(query).toEqual(expect.any(Array));
+    });
   });
 });

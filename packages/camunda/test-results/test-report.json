@@ -1,0 +1,98 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "start": "2023-05-01T23:14:58.625Z",
+    "end": "2023-05-01T23:14:58.837Z",
+    "duration": 212
+  },
+  "results": [
+    {
+      "uuid": "e5bdc099-139a-4005-8ade-b43144db0b8c",
+      "title": "@tresdoce-nestjs-toolkit/camunda",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "99ae8d72-9ed7-4a4c-9928-08e9eca79664",
+          "title": "@tresdoce-nestjs-toolkit/camunda",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should be defined",
+              "fullTitle": "CamundaModule > should be defined",
+              "timedOut": false,
+              "duration": 203,
+              "state": "passed",
+              "speed": null,
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "76a4383e-b822-4d75-84af-f77782a43395",
+              "parentUUID": "99ae8d72-9ed7-4a4c-9928-08e9eca79664",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should be Subscription decorator is defined with options",
+              "fullTitle": "CamundaModule > should be Subscription decorator is defined with options",
+              "timedOut": false,
+              "duration": 9,
+              "state": "passed",
+              "speed": null,
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "c5515c9d-d08d-454a-8a8c-78bf7c903d97",
+              "parentUUID": "99ae8d72-9ed7-4a4c-9928-08e9eca79664",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "76a4383e-b822-4d75-84af-f77782a43395",
+            "c5515c9d-d08d-454a-8a8c-78bf7c903d97"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 212,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 5000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 5000
+    }
+  ]
+}

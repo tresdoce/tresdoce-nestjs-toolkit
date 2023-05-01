@@ -1,0 +1,117 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 3,
+    "pending": 0,
+    "failures": 0,
+    "testsRegistered": 3,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "start": "2023-05-01T23:15:08.784Z",
+    "end": "2023-05-01T23:15:08.789Z",
+    "duration": 5
+  },
+  "results": [
+    {
+      "uuid": "e1179f36-7bbd-4962-a83c-3499d5f3372b",
+      "title": "@tresdoce-nestjs-toolkit/response-parser",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "a9a9f8ab-3c89-40b7-90fe-b5c10fe02dbf",
+          "title": "@tresdoce-nestjs-toolkit/response-parser",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should be defined",
+              "fullTitle": "ResponseInterceptor > should be defined",
+              "timedOut": false,
+              "duration": 2,
+              "state": "passed",
+              "speed": null,
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "46a670dc-f9ed-4530-b73b-321cabace7b0",
+              "parentUUID": "a9a9f8ab-3c89-40b7-90fe-b5c10fe02dbf",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should return an ResponseInterceptor instance simple entity",
+              "fullTitle": "ResponseInterceptor > should return an ResponseInterceptor instance simple entity",
+              "timedOut": false,
+              "duration": 3,
+              "state": "passed",
+              "speed": null,
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "a64a2b41-80db-4509-8db8-781edb7ecb60",
+              "parentUUID": "a9a9f8ab-3c89-40b7-90fe-b5c10fe02dbf",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should return an ResponseInterceptor instance multiple entity",
+              "fullTitle": "ResponseInterceptor > should return an ResponseInterceptor instance multiple entity",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": null,
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "73f555aa-62d3-4da0-8461-064fce0afa84",
+              "parentUUID": "a9a9f8ab-3c89-40b7-90fe-b5c10fe02dbf",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "46a670dc-f9ed-4530-b73b-321cabace7b0",
+            "a64a2b41-80db-4509-8db8-781edb7ecb60",
+            "73f555aa-62d3-4da0-8461-064fce0afa84"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 5,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 5000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 5000
+    }
+  ]
+}
