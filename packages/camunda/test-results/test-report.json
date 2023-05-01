@@ -12,13 +12,13 @@
     "hasOther": false,
     "skipped": 0,
     "hasSkipped": false,
-    "start": "2023-05-01T23:14:58.625Z",
-    "end": "2023-05-01T23:14:58.837Z",
-    "duration": 212
+    "start": "2023-05-01T23:24:15.579Z",
+    "end": "2023-05-01T23:24:15.797Z",
+    "duration": 218
   },
   "results": [
     {
-      "uuid": "e5bdc099-139a-4005-8ade-b43144db0b8c",
+      "uuid": "ea162bb0-145a-42e9-a6fc-3be6dd91485c",
       "title": "@tresdoce-nestjs-toolkit/camunda",
       "fullFile": "",
       "file": "",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "99ae8d72-9ed7-4a4c-9928-08e9eca79664",
+          "uuid": "caa9c667-02b3-4b4a-b950-6f0ce86d4b9f",
           "title": "@tresdoce-nestjs-toolkit/camunda",
           "fullFile": "",
           "file": "",
@@ -38,7 +38,7 @@
               "title": "should be defined",
               "fullTitle": "CamundaModule > should be defined",
               "timedOut": false,
-              "duration": 203,
+              "duration": 209,
               "state": "passed",
               "speed": null,
               "pass": true,
@@ -47,8 +47,8 @@
               "context": null,
               "code": "",
               "err": {},
-              "uuid": "76a4383e-b822-4d75-84af-f77782a43395",
-              "parentUUID": "99ae8d72-9ed7-4a4c-9928-08e9eca79664",
+              "uuid": "45ae0f3d-1df7-40dd-a463-fbc34edb75af",
+              "parentUUID": "caa9c667-02b3-4b4a-b950-6f0ce86d4b9f",
               "isHook": false,
               "skipped": false
             },
@@ -65,21 +65,21 @@
               "context": null,
               "code": "",
               "err": {},
-              "uuid": "c5515c9d-d08d-454a-8a8c-78bf7c903d97",
-              "parentUUID": "99ae8d72-9ed7-4a4c-9928-08e9eca79664",
+              "uuid": "5504d540-509b-41db-ac3a-2631e324ce41",
+              "parentUUID": "caa9c667-02b3-4b4a-b950-6f0ce86d4b9f",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "76a4383e-b822-4d75-84af-f77782a43395",
-            "c5515c9d-d08d-454a-8a8c-78bf7c903d97"
+            "45ae0f3d-1df7-40dd-a463-fbc34edb75af",
+            "5504d540-509b-41db-ac3a-2631e324ce41"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 212,
+          "duration": 218,
           "root": false,
           "rootEmpty": false,
           "_timeout": 5000
