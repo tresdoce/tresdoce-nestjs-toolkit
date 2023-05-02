@@ -20,6 +20,7 @@
     "prebuild": "rimraf ./dist",
     "build": "turbo run build --concurrency=1",
     "test": "turbo run test --concurrency=1",
+    "test:husky": "turbo run test --concurrency=1",
     "posttest": "yarn report",
     "clean": "turbo run clean",
     "postclean": "rimraf ./yarn.lock ./package-lock.json ./dist ./mochawesome-report ./mochawesome.json ./node_modules",
@@ -33,11 +34,12 @@
     "bs": "lerna bootstrap",
     "hoist-deps": "lerna clean -y && lerna bootstrap",
     "plop": "plop",
+    "pretest": "rimraf ./packages/*/test-results",
     "prereport": "rimraf ./mochawesome-report ./mochawesome.json",
     "report": "yarn mochawesome:merge",
     "postreport": "yarn mochawesome:report-generator",
     "mochawesome:merge": "npx mochawesome-merge -f ./packages/*/test-results/*.json > mochawesome.json",
-    "mochawesome:report-generator": "npx marge -f index --charts --assetsDir ./mochawesome-report/assets mochawesome.json"
+    "mochawesome:report-generator": "npx marge -f index -t \"Tresdoce NestJS Toolkit\" -p \"Tresdoce NestJS Toolkit - Test Reports\" --overwrite --charts --assetsDir ./mochawesome-report/assets mochawesome.json"
   },
   "workspaces": [
     "packages/*"
