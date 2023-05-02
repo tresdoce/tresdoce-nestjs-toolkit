@@ -12,13 +12,13 @@
     "hasOther": false,
     "skipped": 0,
     "hasSkipped": false,
-    "start": "2023-05-01T23:22:06.960Z",
-    "end": "2023-05-01T23:22:06.965Z",
-    "duration": 5
+    "start": "2023-05-02T00:48:44.747Z",
+    "end": "2023-05-02T00:48:44.751Z",
+    "duration": 4
   },
   "results": [
     {
-      "uuid": "af8887b8-2766-448b-82bb-e8c4dc4f62b3",
+      "uuid": "a32d16df-7cf1-4379-8fb9-3fccb8c8c9ad",
       "title": "@tresdoce-nestjs-toolkit/response-parser",
       "fullFile": "",
       "file": "",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "1881de7c-d3a4-4dbe-99d8-9e1e95f5a15f",
+          "uuid": "9b34dc08-7aaa-43bb-a256-2bdfeaf91ded",
           "title": "@tresdoce-nestjs-toolkit/response-parser",
           "fullFile": "",
           "file": "",
@@ -35,26 +35,26 @@
           "afterHooks": [],
           "tests": [
             {
-              "title": "should be defined",
-              "fullTitle": "ResponseInterceptor > should be defined",
+              "title": "ResponseInterceptor > should be defined",
+              "fullTitle": "should be defined",
               "timedOut": false,
-              "duration": 2,
+              "duration": 1,
               "state": "passed",
               "speed": null,
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-              "code": "",
+              "code": "import { ResponseInterceptor } from '../response/response.interceptor';\nimport {\n  JestFN,\n  fixtureUserResponse,\n  fixtureUserArrayResponse,\n} from '@tresdoce-nestjs-toolkit/test-utils';\nimport { of } from 'rxjs';\n\nconst executionContext: any = JestFN.executionContext;\n\ndescribe('ResponseInterceptor', () => {\n  let interceptor = new ResponseInterceptor();\n\n  it('should be defined', () => {\n    expect(interceptor).toBeDefined();\n  });\n\n  it('should return an ResponseInterceptor instance simple entity', (done) => {\n    const callHandler: any = {\n      handle: jest.fn(() => of(fixtureUserResponse)),\n    };\n\n    const obs = interceptor.intercept(executionContext, callHandler);\n    expect(callHandler.handle).toBeCalledTimes(1);\n\n    obs.subscribe({\n      next: (value) => {\n        expect(value).toMatchObject(fixtureUserResponse);\n      },\n      error: (error) => {\n        throw error;\n      },\n      complete: () => {\n        done();\n      },\n    });\n  });\n\n  it('should return an ResponseInterceptor instance multiple entity', (done) => {\n    const callHandler: any = {\n      handle: jest.fn(() => of(fixtureUserArrayResponse)),\n    };\n    const obs = interceptor.intercept(executionContext, callHandler);\n    expect(callHandler.handle).toBeCalledTimes(1);\n\n    obs.subscribe({\n      next: (value) => {\n        expect(value).toMatchObject({ data: fixtureUserArrayResponse });\n      },\n      error: (error) => {\n        throw error;\n      },\n      complete: () => {\n        done();\n      },\n    });\n  });\n});\n",
               "err": {},
-              "uuid": "a77018b7-d72c-4fea-9aaa-17ab0375816b",
-              "parentUUID": "1881de7c-d3a4-4dbe-99d8-9e1e95f5a15f",
+              "uuid": "e9758630-c0a1-42f7-8830-78d0d2ae0c14",
+              "parentUUID": "9b34dc08-7aaa-43bb-a256-2bdfeaf91ded",
               "isHook": false,
               "skipped": false
             },
             {
-              "title": "should return an ResponseInterceptor instance simple entity",
-              "fullTitle": "ResponseInterceptor > should return an ResponseInterceptor instance simple entity",
+              "title": "ResponseInterceptor > should return an ResponseInterceptor instance simple entity",
+              "fullTitle": "should return an ResponseInterceptor instance simple entity",
               "timedOut": false,
               "duration": 3,
               "state": "passed",
@@ -63,16 +63,16 @@
               "fail": false,
               "pending": false,
               "context": null,
-              "code": "",
+              "code": "import { ResponseInterceptor } from '../response/response.interceptor';\nimport {\n  JestFN,\n  fixtureUserResponse,\n  fixtureUserArrayResponse,\n} from '@tresdoce-nestjs-toolkit/test-utils';\nimport { of } from 'rxjs';\n\nconst executionContext: any = JestFN.executionContext;\n\ndescribe('ResponseInterceptor', () => {\n  let interceptor = new ResponseInterceptor();\n\n  it('should be defined', () => {\n    expect(interceptor).toBeDefined();\n  });\n\n  it('should return an ResponseInterceptor instance simple entity', (done) => {\n    const callHandler: any = {\n      handle: jest.fn(() => of(fixtureUserResponse)),\n    };\n\n    const obs = interceptor.intercept(executionContext, callHandler);\n    expect(callHandler.handle).toBeCalledTimes(1);\n\n    obs.subscribe({\n      next: (value) => {\n        expect(value).toMatchObject(fixtureUserResponse);\n      },\n      error: (error) => {\n        throw error;\n      },\n      complete: () => {\n        done();\n      },\n    });\n  });\n\n  it('should return an ResponseInterceptor instance multiple entity', (done) => {\n    const callHandler: any = {\n      handle: jest.fn(() => of(fixtureUserArrayResponse)),\n    };\n    const obs = interceptor.intercept(executionContext, callHandler);\n    expect(callHandler.handle).toBeCalledTimes(1);\n\n    obs.subscribe({\n      next: (value) => {\n        expect(value).toMatchObject({ data: fixtureUserArrayResponse });\n      },\n      error: (error) => {\n        throw error;\n      },\n      complete: () => {\n        done();\n      },\n    });\n  });\n});\n",
               "err": {},
-              "uuid": "de9138fd-87d6-4d91-95aa-0943a45e1290",
-              "parentUUID": "1881de7c-d3a4-4dbe-99d8-9e1e95f5a15f",
+              "uuid": "9ae42ac1-1a7a-42d6-b217-86fe6a5cb441",
+              "parentUUID": "9b34dc08-7aaa-43bb-a256-2bdfeaf91ded",
               "isHook": false,
               "skipped": false
             },
             {
-              "title": "should return an ResponseInterceptor instance multiple entity",
-              "fullTitle": "ResponseInterceptor > should return an ResponseInterceptor instance multiple entity",
+              "title": "ResponseInterceptor > should return an ResponseInterceptor instance multiple entity",
+              "fullTitle": "should return an ResponseInterceptor instance multiple entity",
               "timedOut": false,
               "duration": 0,
               "state": "passed",
@@ -81,24 +81,24 @@
               "fail": false,
               "pending": false,
               "context": null,
-              "code": "",
+              "code": "import { ResponseInterceptor } from '../response/response.interceptor';\nimport {\n  JestFN,\n  fixtureUserResponse,\n  fixtureUserArrayResponse,\n} from '@tresdoce-nestjs-toolkit/test-utils';\nimport { of } from 'rxjs';\n\nconst executionContext: any = JestFN.executionContext;\n\ndescribe('ResponseInterceptor', () => {\n  let interceptor = new ResponseInterceptor();\n\n  it('should be defined', () => {\n    expect(interceptor).toBeDefined();\n  });\n\n  it('should return an ResponseInterceptor instance simple entity', (done) => {\n    const callHandler: any = {\n      handle: jest.fn(() => of(fixtureUserResponse)),\n    };\n\n    const obs = interceptor.intercept(executionContext, callHandler);\n    expect(callHandler.handle).toBeCalledTimes(1);\n\n    obs.subscribe({\n      next: (value) => {\n        expect(value).toMatchObject(fixtureUserResponse);\n      },\n      error: (error) => {\n        throw error;\n      },\n      complete: () => {\n        done();\n      },\n    });\n  });\n\n  it('should return an ResponseInterceptor instance multiple entity', (done) => {\n    const callHandler: any = {\n      handle: jest.fn(() => of(fixtureUserArrayResponse)),\n    };\n    const obs = interceptor.intercept(executionContext, callHandler);\n    expect(callHandler.handle).toBeCalledTimes(1);\n\n    obs.subscribe({\n      next: (value) => {\n        expect(value).toMatchObject({ data: fixtureUserArrayResponse });\n      },\n      error: (error) => {\n        throw error;\n      },\n      complete: () => {\n        done();\n      },\n    });\n  });\n});\n",
               "err": {},
-              "uuid": "31d47081-0ff7-4e55-9a2c-98da1cb05c5b",
-              "parentUUID": "1881de7c-d3a4-4dbe-99d8-9e1e95f5a15f",
+              "uuid": "2c1ee676-37d1-4118-9d3c-c7b2df8a4e62",
+              "parentUUID": "9b34dc08-7aaa-43bb-a256-2bdfeaf91ded",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "a77018b7-d72c-4fea-9aaa-17ab0375816b",
-            "de9138fd-87d6-4d91-95aa-0943a45e1290",
-            "31d47081-0ff7-4e55-9a2c-98da1cb05c5b"
+            "e9758630-c0a1-42f7-8830-78d0d2ae0c14",
+            "9ae42ac1-1a7a-42d6-b217-86fe6a5cb441",
+            "2c1ee676-37d1-4118-9d3c-c7b2df8a4e62"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 5,
+          "duration": 4,
           "root": false,
           "rootEmpty": false,
           "_timeout": 5000

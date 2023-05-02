@@ -28,9 +28,12 @@ const buildMargeInput = (_results) => {
   _results.testResults.forEach((testResult) => {
     testResult.testResults.forEach((result) => {
       const id = uuid();
+      const testFilePath = testResult.testFilePath;
+      const testFileContent = fs.readFileSync(testFilePath, 'utf8') || '';
+
       const test = {
-        title: result.title,
-        fullTitle: `${testResult.testResults[0].ancestorTitles.join(' > ')} > ${result.title}`,
+        title: `${testResult.testResults[0].ancestorTitles.join(' > ')} > ${result.title}`,
+        fullTitle: result.title,
         timedOut: false,
         duration: result.duration,
         state: result.status,
@@ -39,12 +42,14 @@ const buildMargeInput = (_results) => {
         fail: failed(result),
         pending: pending(result),
         context: null,
-        code: '',
+        code: testFileContent,
         err:
           result.status === 'failed'
             ? {
-                message: result.failureMessages.join('\n'),
-                estack: result.failureMessages.map((msg) => msg.stack).join('\n'),
+                message: result.failureDetails.map((msg) => msg.message.replace(/\x1b\[\d+m/g, '')),
+                stackTrace: result.failureDetails
+                  .map((msg) => msg.stack.replace(/\x1b\[\d+m/g, ''))
+                  .join('\n'),
                 diff: null,
               }
             : {},
@@ -108,11 +113,11 @@ const createSuite = (_suite) => {
       afterHooks: [],
       tests: [],
       suites: [],
-      passes: [], //get passes
-      failures: [], // get fails
-      pending: [], // get pendings
-      skipped: [], // get skipeds
-      duration: 0, // sumatoria de duracion de los test
+      passes: [],
+      failures: [],
+      pending: [],
+      skipped: [],
+      duration: 0,
       root: false,
       rootEmpty: false,
       _timeout: 5000,

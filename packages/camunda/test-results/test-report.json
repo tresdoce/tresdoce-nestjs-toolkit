@@ -12,13 +12,13 @@
     "hasOther": false,
     "skipped": 0,
     "hasSkipped": false,
-    "start": "2023-05-01T23:24:15.579Z",
-    "end": "2023-05-01T23:24:15.797Z",
-    "duration": 218
+    "start": "2023-05-02T00:49:18.085Z",
+    "end": "2023-05-02T00:49:18.305Z",
+    "duration": 220
   },
   "results": [
     {
-      "uuid": "ea162bb0-145a-42e9-a6fc-3be6dd91485c",
+      "uuid": "adcd52cc-8b72-4468-89a5-bee1ff93ca02",
       "title": "@tresdoce-nestjs-toolkit/camunda",
       "fullFile": "",
       "file": "",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "caa9c667-02b3-4b4a-b950-6f0ce86d4b9f",
+          "uuid": "809e24eb-b710-4ac6-94bc-020031b8b792",
           "title": "@tresdoce-nestjs-toolkit/camunda",
           "fullFile": "",
           "file": "",
@@ -35,26 +35,26 @@
           "afterHooks": [],
           "tests": [
             {
-              "title": "should be defined",
-              "fullTitle": "CamundaModule > should be defined",
+              "title": "CamundaModule > should be defined",
+              "fullTitle": "should be defined",
               "timedOut": false,
-              "duration": 209,
+              "duration": 211,
               "state": "passed",
               "speed": null,
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-              "code": "",
+              "code": "import { Test, TestingModule } from '@nestjs/testing';\nimport { INestApplication } from '@nestjs/common';\nimport { ConfigModule } from '@nestjs/config';\nimport { CamundaModule } from '../camunda/camunda.module';\nimport { dynamicConfig, tcName, testContainers } from '@tresdoce-nestjs-toolkit/test-utils';\nimport { Subscription } from '../camunda/decorators/camunda.decorator';\nimport { CamundaTaskConnector } from '../camunda/providers/camunda.provider';\n\ndescribe('CamundaModule', () => {\n  let app: INestApplication;\n  let container: testContainers;\n\n  beforeAll(async () => {\n    container = await new testContainers('camunda/camunda-bpm-platform:7.17.0', {\n      ports: [\n        {\n          container: 8080,\n          host: 8080,\n        },\n      ],\n      containerName: `${tcName}-camunda-bpm`,\n      reuse: true,\n    });\n    await container.start();\n  });\n\n  afterAll(async () => {\n    await container.stop({ removeVolumes: true });\n  });\n\n  beforeEach(async () => {\n    const moduleFixture: TestingModule = await Test.createTestingModule({\n      imports: [\n        ConfigModule.forRoot({\n          isGlobal: true,\n          load: [\n            dynamicConfig({\n              camunda: {\n                baseUrl: 'http://localhost:8080/engine-rest',\n              },\n            }),\n          ],\n        }),\n        CamundaModule,\n      ],\n    }).compile();\n\n    app = moduleFixture.createNestApplication();\n    app.connectMicroservice({\n      strategy: app.get(CamundaTaskConnector),\n    });\n    await app.startAllMicroservices();\n    await app.init();\n  });\n\n  it('should be defined', () => {\n    expect(app).toBeDefined();\n  });\n\n  it('should be Subscription decorator is defined with options', async () => {\n    const decorator = Subscription('test-topic', { lockDuration: 500 });\n    console.log(decorator);\n    expect(decorator).toBeDefined();\n  });\n});\n",
               "err": {},
-              "uuid": "45ae0f3d-1df7-40dd-a463-fbc34edb75af",
-              "parentUUID": "caa9c667-02b3-4b4a-b950-6f0ce86d4b9f",
+              "uuid": "ac026077-3923-447e-a382-ddf89ee64d9d",
+              "parentUUID": "809e24eb-b710-4ac6-94bc-020031b8b792",
               "isHook": false,
               "skipped": false
             },
             {
-              "title": "should be Subscription decorator is defined with options",
-              "fullTitle": "CamundaModule > should be Subscription decorator is defined with options",
+              "title": "CamundaModule > should be Subscription decorator is defined with options",
+              "fullTitle": "should be Subscription decorator is defined with options",
               "timedOut": false,
               "duration": 9,
               "state": "passed",
@@ -63,23 +63,23 @@
               "fail": false,
               "pending": false,
               "context": null,
-              "code": "",
+              "code": "import { Test, TestingModule } from '@nestjs/testing';\nimport { INestApplication } from '@nestjs/common';\nimport { ConfigModule } from '@nestjs/config';\nimport { CamundaModule } from '../camunda/camunda.module';\nimport { dynamicConfig, tcName, testContainers } from '@tresdoce-nestjs-toolkit/test-utils';\nimport { Subscription } from '../camunda/decorators/camunda.decorator';\nimport { CamundaTaskConnector } from '../camunda/providers/camunda.provider';\n\ndescribe('CamundaModule', () => {\n  let app: INestApplication;\n  let container: testContainers;\n\n  beforeAll(async () => {\n    container = await new testContainers('camunda/camunda-bpm-platform:7.17.0', {\n      ports: [\n        {\n          container: 8080,\n          host: 8080,\n        },\n      ],\n      containerName: `${tcName}-camunda-bpm`,\n      reuse: true,\n    });\n    await container.start();\n  });\n\n  afterAll(async () => {\n    await container.stop({ removeVolumes: true });\n  });\n\n  beforeEach(async () => {\n    const moduleFixture: TestingModule = await Test.createTestingModule({\n      imports: [\n        ConfigModule.forRoot({\n          isGlobal: true,\n          load: [\n            dynamicConfig({\n              camunda: {\n                baseUrl: 'http://localhost:8080/engine-rest',\n              },\n            }),\n          ],\n        }),\n        CamundaModule,\n      ],\n    }).compile();\n\n    app = moduleFixture.createNestApplication();\n    app.connectMicroservice({\n      strategy: app.get(CamundaTaskConnector),\n    });\n    await app.startAllMicroservices();\n    await app.init();\n  });\n\n  it('should be defined', () => {\n    expect(app).toBeDefined();\n  });\n\n  it('should be Subscription decorator is defined with options', async () => {\n    const decorator = Subscription('test-topic', { lockDuration: 500 });\n    console.log(decorator);\n    expect(decorator).toBeDefined();\n  });\n});\n",
               "err": {},
-              "uuid": "5504d540-509b-41db-ac3a-2631e324ce41",
-              "parentUUID": "caa9c667-02b3-4b4a-b950-6f0ce86d4b9f",
+              "uuid": "4bd7c4db-5e44-4f87-b53a-41c1425082a5",
+              "parentUUID": "809e24eb-b710-4ac6-94bc-020031b8b792",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "45ae0f3d-1df7-40dd-a463-fbc34edb75af",
-            "5504d540-509b-41db-ac3a-2631e324ce41"
+            "ac026077-3923-447e-a382-ddf89ee64d9d",
+            "4bd7c4db-5e44-4f87-b53a-41c1425082a5"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 218,
+          "duration": 220,
           "root": false,
           "rootEmpty": false,
           "_timeout": 5000
