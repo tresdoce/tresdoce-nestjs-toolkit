@@ -12,13 +12,13 @@
     "hasOther": false,
     "skipped": 0,
     "hasSkipped": false,
-    "start": "2023-05-02T02:24:03.238Z",
-    "end": "2023-05-02T02:24:03.457Z",
-    "duration": 219
+    "start": "2023-05-02T17:45:02.222Z",
+    "end": "2023-05-02T17:45:02.440Z",
+    "duration": 218
   },
   "results": [
     {
-      "uuid": "954518e6-40ae-4f00-9065-09f41e097e6a",
+      "uuid": "1e011356-937d-4334-8f5c-243191ccb07f",
       "title": "@tresdoce-nestjs-toolkit/camunda",
       "fullFile": "",
       "file": "",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "98f30cff-f489-4c70-af61-9f09f8d7ea74",
+          "uuid": "a9623d78-4950-4c99-afcf-c0633d30a4d5",
           "title": "@tresdoce-nestjs-toolkit/camunda",
           "fullFile": "",
           "file": "",
@@ -35,10 +35,10 @@
           "afterHooks": [],
           "tests": [
             {
+              "fullTitle": "CamundaModule > should be defined",
               "title": "CamundaModule > should be defined",
-              "fullTitle": "should be defined",
               "timedOut": false,
-              "duration": 210,
+              "duration": 208,
               "state": "passed",
               "speed": null,
               "pass": true,
@@ -47,16 +47,16 @@
               "context": null,
               "code": "import { Test, TestingModule } from '@nestjs/testing';\nimport { INestApplication } from '@nestjs/common';\nimport { ConfigModule } from '@nestjs/config';\nimport { CamundaModule } from '../camunda/camunda.module';\nimport { dynamicConfig, tcName, testContainers } from '@tresdoce-nestjs-toolkit/test-utils';\nimport { Subscription } from '../camunda/decorators/camunda.decorator';\nimport { CamundaTaskConnector } from '../camunda/providers/camunda.provider';\n\ndescribe('CamundaModule', () => {\n  let app: INestApplication;\n  let container: testContainers;\n\n  beforeAll(async () => {\n    container = await new testContainers('camunda/camunda-bpm-platform:7.17.0', {\n      ports: [\n        {\n          container: 8080,\n          host: 8080,\n        },\n      ],\n      containerName: `${tcName}-camunda-bpm`,\n      reuse: true,\n    });\n    await container.start();\n  });\n\n  afterAll(async () => {\n    await container.stop({ removeVolumes: true });\n  });\n\n  beforeEach(async () => {\n    const moduleFixture: TestingModule = await Test.createTestingModule({\n      imports: [\n        ConfigModule.forRoot({\n          isGlobal: true,\n          load: [\n            dynamicConfig({\n              camunda: {\n                baseUrl: 'http://localhost:8080/engine-rest',\n              },\n            }),\n          ],\n        }),\n        CamundaModule,\n      ],\n    }).compile();\n\n    app = moduleFixture.createNestApplication();\n    app.connectMicroservice({\n      strategy: app.get(CamundaTaskConnector),\n    });\n    await app.startAllMicroservices();\n    await app.init();\n  });\n\n  it('should be defined', () => {\n    expect(app).toBeDefined();\n  });\n\n  it('should be Subscription decorator is defined with options', async () => {\n    const decorator = Subscription('test-topic', { lockDuration: 500 });\n    console.log(decorator);\n    expect(decorator).toBeDefined();\n  });\n});\n",
               "err": {},
-              "uuid": "9f35a279-18cc-415c-b8f9-b5538d06a583",
-              "parentUUID": "98f30cff-f489-4c70-af61-9f09f8d7ea74",
+              "uuid": "bdc0e16d-6a7d-4291-8523-bb0006c12ae6",
+              "parentUUID": "a9623d78-4950-4c99-afcf-c0633d30a4d5",
               "isHook": false,
               "skipped": false
             },
             {
+              "fullTitle": "CamundaModule > should be Subscription decorator is defined with options",
               "title": "CamundaModule > should be Subscription decorator is defined with options",
-              "fullTitle": "should be Subscription decorator is defined with options",
               "timedOut": false,
-              "duration": 9,
+              "duration": 10,
               "state": "passed",
               "speed": null,
               "pass": true,
@@ -65,21 +65,21 @@
               "context": null,
               "code": "import { Test, TestingModule } from '@nestjs/testing';\nimport { INestApplication } from '@nestjs/common';\nimport { ConfigModule } from '@nestjs/config';\nimport { CamundaModule } from '../camunda/camunda.module';\nimport { dynamicConfig, tcName, testContainers } from '@tresdoce-nestjs-toolkit/test-utils';\nimport { Subscription } from '../camunda/decorators/camunda.decorator';\nimport { CamundaTaskConnector } from '../camunda/providers/camunda.provider';\n\ndescribe('CamundaModule', () => {\n  let app: INestApplication;\n  let container: testContainers;\n\n  beforeAll(async () => {\n    container = await new testContainers('camunda/camunda-bpm-platform:7.17.0', {\n      ports: [\n        {\n          container: 8080,\n          host: 8080,\n        },\n      ],\n      containerName: `${tcName}-camunda-bpm`,\n      reuse: true,\n    });\n    await container.start();\n  });\n\n  afterAll(async () => {\n    await container.stop({ removeVolumes: true });\n  });\n\n  beforeEach(async () => {\n    const moduleFixture: TestingModule = await Test.createTestingModule({\n      imports: [\n        ConfigModule.forRoot({\n          isGlobal: true,\n          load: [\n            dynamicConfig({\n              camunda: {\n                baseUrl: 'http://localhost:8080/engine-rest',\n              },\n            }),\n          ],\n        }),\n        CamundaModule,\n      ],\n    }).compile();\n\n    app = moduleFixture.createNestApplication();\n    app.connectMicroservice({\n      strategy: app.get(CamundaTaskConnector),\n    });\n    await app.startAllMicroservices();\n    await app.init();\n  });\n\n  it('should be defined', () => {\n    expect(app).toBeDefined();\n  });\n\n  it('should be Subscription decorator is defined with options', async () => {\n    const decorator = Subscription('test-topic', { lockDuration: 500 });\n    console.log(decorator);\n    expect(decorator).toBeDefined();\n  });\n});\n",
               "err": {},
-              "uuid": "dcd0e652-46dc-4c73-9ae0-6a48f2251e77",
-              "parentUUID": "98f30cff-f489-4c70-af61-9f09f8d7ea74",
+              "uuid": "d22aeef0-47db-4293-aba5-fe62a57a9a84",
+              "parentUUID": "a9623d78-4950-4c99-afcf-c0633d30a4d5",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "9f35a279-18cc-415c-b8f9-b5538d06a583",
-            "dcd0e652-46dc-4c73-9ae0-6a48f2251e77"
+            "bdc0e16d-6a7d-4291-8523-bb0006c12ae6",
+            "d22aeef0-47db-4293-aba5-fe62a57a9a84"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 219,
+          "duration": 218,
           "root": false,
           "rootEmpty": false,
           "_timeout": 5000
