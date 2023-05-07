@@ -25,35 +25,18 @@ const buildMargeInput = (_results) => {
   };
   input.results = [results];
 
-  _results.testResults.forEach((testResult) => {
-    //console.log('1 ', testResult);
-    testResult.testResults.forEach((result) => {
-      //console.log('2 ', result);
-      const id = uuid();
-      const testFilePath = testResult.testFilePath;
-      const fileName = testFilePath.split('/').pop();
-      //console.log(fileName);
-      const testFileContent = fs.readFileSync(testFilePath, 'utf8') || '';
+  //console.log('RESULTS: ', _results);
 
-      const test = {
-        fullTitle: `${testResult.testResults[0].ancestorTitles.join(' > ')} > ${result.title}`,
-        title: `${testResult.testResults[0].ancestorTitles.join(' > ')} > ${result.title}`,
-        //title: result.title,
-        timedOut: false,
-        duration: result.duration,
-        state: result.status,
-        speed: null,
-        pass: passed(result),
-        fail: failed(result),
-        pending: pending(result),
-        context: null,
-        code: testFileContent,
-        err: getErrorTest(result),
-        uuid: id,
-        parentUUID: input.results[0].suites[0].uuid,
-        isHook: false,
-        skipped: false,
-      };
+  // RECORRE ARCHIVO x ARCHIVO
+  _results.testResults.forEach((_testResult, _indexTestResult) => {
+    //console.log(`TEST RESULT ${_indexTestResult}`, _testResult);
+    const testFileContent = getFileContent(_testResult);
+
+    // RECORRE DESCRIBE e ITS
+    _testResult.testResults.forEach((_result, _indexTest) => {
+      //console.log(`TEST ${_indexTest}`, _result);
+      const parentUUID = input.results[0].suites[0].uuid;
+      const test = createTest(_result, parentUUID, testFileContent);
 
       input.results[0].suites[0].tests.push(test);
     });
@@ -68,10 +51,9 @@ const buildMargeInput = (_results) => {
 };
 
 const createResults = (_results) => {
-  const id = uuid();
   const suite = createSuite(_results);
   return {
-    uuid: id,
+    uuid: uuid(),
     title: `${_results[0].displayName?.name || ''}`,
     fullFile: '',
     file: '',
@@ -91,11 +73,9 @@ const createResults = (_results) => {
 };
 
 const createSuite = (_results) => {
-  const id = uuid();
-
   return [
     {
-      uuid: id,
+      uuid: uuid(),
       title: `${_results[0].displayName?.name || ''}`,
       fullFile: '',
       file: '',
@@ -113,6 +93,46 @@ const createSuite = (_results) => {
       _timeout: 5000,
     },
   ];
+};
+
+const createTest = (_result, _parentUUID, _testFileContent = null) => {
+  return {
+    fullTitle: `${_result.ancestorTitles.join(' > ')} > ${_result.title}`,
+    title: `${_result.ancestorTitles.join(' > ')} > ${_result.title}`,
+    //title: result.title,
+    timedOut: false,
+    duration: _result.duration,
+    state: _result.status,
+    speed: testSpeed(_result.duration),
+    pass: passed(_result),
+    fail: failed(_result),
+    pending: pending(_result),
+    context: null,
+    code: _testFileContent,
+    err: getErrorTest(_result),
+    uuid: uuid(),
+    parentUUID: _parentUUID,
+    isHook: false,
+    skipped: false,
+  };
+};
+
+const getFileContent = (_results) => {
+  const { testFilePath } = _results;
+  return fs.readFileSync(testFilePath, 'utf8') || '';
+};
+
+const testSpeed = (_duration) => {
+  const duration = parseInt(_duration);
+  if (duration <= 100) {
+    return 'fast';
+  } else if (duration <= 1000) {
+    return 'medium';
+  } else if (duration > 1000) {
+    return 'slow';
+  } else {
+    return null;
+  }
 };
 
 const passed = (_test) => _test.status === 'passed';

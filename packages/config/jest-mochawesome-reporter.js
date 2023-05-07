@@ -2,6 +2,7 @@ const fs = require('fs');
 const { v4: uuid } = require('uuid');
 
 const buildMargeInput = (_results) => {
+  //console.log(_results);
   let input = {};
   const elapsed = buildElapsedTime(_results.testResults);
   const results = createResults(_results.testResults);
@@ -35,7 +36,6 @@ const buildMargeInput = (_results) => {
     // RECORRE DESCRIBE e ITS
     _testResult.testResults.forEach((_result, _indexTest) => {
       //console.log(`TEST ${_indexTest}`, _result);
-
       const parentUUID = input.results[0].suites[0].uuid;
       const test = createTest(_result, parentUUID, testFileContent);
 

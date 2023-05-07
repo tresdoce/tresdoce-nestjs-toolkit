@@ -12,13 +12,13 @@
     "hasOther": false,
     "skipped": 0,
     "hasSkipped": false,
-    "start": "2023-05-03T01:41:13.464Z",
-    "end": "2023-05-03T01:41:13.472Z",
+    "start": "2023-05-05T13:15:29.870Z",
+    "end": "2023-05-05T13:15:29.878Z",
     "duration": 8
   },
   "results": [
     {
-      "uuid": "897b94bc-1055-416e-b44a-0edbbac1f8fe",
+      "uuid": "9134f974-0456-4760-b66e-9bab6a0072f6",
       "title": "@tresdoce-nestjs-toolkit/commons",
       "fullFile": "",
       "file": "",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "68deb495-5b46-481a-8ef5-0fe0c86ba1a6",
+          "uuid": "05f0e9f7-549a-4cae-9195-4f50b743658c",
           "title": "@tresdoce-nestjs-toolkit/commons",
           "fullFile": "",
           "file": "",
@@ -47,8 +47,8 @@
               "context": null,
               "code": "import { buildConfig } from '../index';\ndescribe('build-config', () => {\n  const INIT_ENVS = process.env;\n\n  beforeEach(() => {\n    jest.resetModules();\n    process.env = { ...INIT_ENVS };\n  });\n\n  afterAll(() => {\n    process.env = INIT_ENVS;\n  });\n\n  it('should be return jest config is build', () => {\n    process.env.NODE_ENV = 'build';\n    const config = buildConfig({ output: {}, optimization: {} });\n    expect(config).not.toBe(null);\n    expect(typeof config).toBe('object');\n    expect(config).toBeDefined();\n    expect(config.mode).toEqual('production');\n  });\n\n  it('should be return jest config not is build', () => {\n    process.env.NODE_ENV = 'dev';\n    const config = buildConfig({ output: {}, optimization: {} });\n    expect(config).not.toBe(null);\n    expect(typeof config).toBe('object');\n    expect(config).toBeDefined();\n    expect(config.mode).toEqual('none');\n  });\n});\n",
               "err": {},
-              "uuid": "cfa178f1-ecb1-44ba-b593-5d82b0329ec0",
-              "parentUUID": "68deb495-5b46-481a-8ef5-0fe0c86ba1a6",
+              "uuid": "c6966595-2662-4fac-abb4-c256a2c1a8dc",
+              "parentUUID": "05f0e9f7-549a-4cae-9195-4f50b743658c",
               "isHook": false,
               "skipped": false
             },
@@ -65,26 +65,8 @@
               "context": null,
               "code": "import { buildConfig } from '../index';\ndescribe('build-config', () => {\n  const INIT_ENVS = process.env;\n\n  beforeEach(() => {\n    jest.resetModules();\n    process.env = { ...INIT_ENVS };\n  });\n\n  afterAll(() => {\n    process.env = INIT_ENVS;\n  });\n\n  it('should be return jest config is build', () => {\n    process.env.NODE_ENV = 'build';\n    const config = buildConfig({ output: {}, optimization: {} });\n    expect(config).not.toBe(null);\n    expect(typeof config).toBe('object');\n    expect(config).toBeDefined();\n    expect(config.mode).toEqual('production');\n  });\n\n  it('should be return jest config not is build', () => {\n    process.env.NODE_ENV = 'dev';\n    const config = buildConfig({ output: {}, optimization: {} });\n    expect(config).not.toBe(null);\n    expect(typeof config).toBe('object');\n    expect(config).toBeDefined();\n    expect(config.mode).toEqual('none');\n  });\n});\n",
               "err": {},
-              "uuid": "301cee8a-e0e3-49a8-ada9-1a95f00b6386",
-              "parentUUID": "68deb495-5b46-481a-8ef5-0fe0c86ba1a6",
-              "isHook": false,
-              "skipped": false
-            },
-            {
-              "fullTitle": "eslint-config > should be return jest config",
-              "title": "eslint-config > should be return jest config",
-              "timedOut": false,
-              "duration": 2,
-              "state": "passed",
-              "speed": "fast",
-              "pass": true,
-              "fail": false,
-              "pending": false,
-              "context": null,
-              "code": "import { eslintConfig } from '../index';\ndescribe('eslint-config', () => {\n  it('should be return jest config', () => {\n    const config = eslintConfig();\n    expect(config).not.toBe(null);\n    expect(typeof config).toBe('object');\n    expect(config).toBeDefined();\n  });\n});\n",
-              "err": {},
-              "uuid": "eb53e2e0-d947-4429-a5ed-18847b675b6e",
-              "parentUUID": "68deb495-5b46-481a-8ef5-0fe0c86ba1a6",
+              "uuid": "d7a8aadf-6a65-47a7-a0d1-6599072eeb23",
+              "parentUUID": "05f0e9f7-549a-4cae-9195-4f50b743658c",
               "isHook": false,
               "skipped": false
             },
@@ -101,18 +83,36 @@
               "context": null,
               "code": "import { jestConfig } from '../index';\n\ndescribe('testing-library', () => {\n  it('should be return jest config', () => {\n    const config = jestConfig();\n    expect(config).not.toBe(null);\n    expect(typeof config).toBe('object');\n    expect(config).toBeDefined();\n  });\n});\n",
               "err": {},
-              "uuid": "5df78768-1886-4dd9-8269-e73f601baaa3",
-              "parentUUID": "68deb495-5b46-481a-8ef5-0fe0c86ba1a6",
+              "uuid": "7d07e3f4-48ac-4308-8c17-34e45868689a",
+              "parentUUID": "05f0e9f7-549a-4cae-9195-4f50b743658c",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "fullTitle": "eslint-config > should be return jest config",
+              "title": "eslint-config > should be return jest config",
+              "timedOut": false,
+              "duration": 2,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "import { eslintConfig } from '../index';\ndescribe('eslint-config', () => {\n  it('should be return jest config', () => {\n    const config = eslintConfig();\n    expect(config).not.toBe(null);\n    expect(typeof config).toBe('object');\n    expect(config).toBeDefined();\n  });\n});\n",
+              "err": {},
+              "uuid": "03544d79-00c1-4c54-88f3-2357f75aa579",
+              "parentUUID": "05f0e9f7-549a-4cae-9195-4f50b743658c",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "cfa178f1-ecb1-44ba-b593-5d82b0329ec0",
-            "301cee8a-e0e3-49a8-ada9-1a95f00b6386",
-            "eb53e2e0-d947-4429-a5ed-18847b675b6e",
-            "5df78768-1886-4dd9-8269-e73f601baaa3"
+            "c6966595-2662-4fac-abb4-c256a2c1a8dc",
+            "d7a8aadf-6a65-47a7-a0d1-6599072eeb23",
+            "7d07e3f4-48ac-4308-8c17-34e45868689a",
+            "03544d79-00c1-4c54-88f3-2357f75aa579"
           ],
           "failures": [],
           "pending": [],
