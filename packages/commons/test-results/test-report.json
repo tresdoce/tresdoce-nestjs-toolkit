@@ -1,0 +1,195 @@
+{
+  "stats": {
+    "suites": 3,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "testsRegistered": 4,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "start": "2023-05-11T02:09:49.981Z",
+    "end": "2023-05-11T02:09:49.989Z",
+    "duration": 8
+  },
+  "results": [
+    {
+      "uuid": "64acc353-672c-441a-be19-55d07b194e4a",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "08faaa5b-8657-47f5-ba7b-13636dfcbf19",
+          "title": "@tresdoce-nestjs-toolkit/commons",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "37a85bea-54f0-4f8b-b7af-30a8bcbb47be",
+              "title": "build-config",
+              "fullFile": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/commons/src/__test__/build-config.spec.ts",
+              "file": "build-config.spec.ts",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "fullTitle": "build-config should be return jest config is build",
+                  "title": "should be return jest config is build",
+                  "timedOut": false,
+                  "duration": 3,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "it('should be return jest config is build', () => {\n    process.env.NODE_ENV = 'build';\n    const config = buildConfig({ output: {}, optimization: {} });\n    expect(config).not.toBe(null);\n    expect(typeof config).toBe('object');\n    expect(config).toBeDefined();\n    expect(config.mode).toEqual('production');\n  })",
+                  "err": {},
+                  "uuid": "6984eb73-664b-4920-bd2d-e09da74680b9",
+                  "parentUUID": "37a85bea-54f0-4f8b-b7af-30a8bcbb47be",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "fullTitle": "build-config should be return jest config not is build",
+                  "title": "should be return jest config not is build",
+                  "timedOut": false,
+                  "duration": 1,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "it('should be return jest config not is build', () => {\n    process.env.NODE_ENV = 'dev';\n    const config = buildConfig({ output: {}, optimization: {} });\n    expect(config).not.toBe(null);\n    expect(typeof config).toBe('object');\n    expect(config).toBeDefined();\n    expect(config.mode).toEqual('none');\n  })",
+                  "err": {},
+                  "uuid": "5f71aa3b-1156-4ea5-b6e2-3c6c0295fba9",
+                  "parentUUID": "37a85bea-54f0-4f8b-b7af-30a8bcbb47be",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "6984eb73-664b-4920-bd2d-e09da74680b9",
+                "5f71aa3b-1156-4ea5-b6e2-3c6c0295fba9"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 4,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 5000
+            },
+            {
+              "uuid": "bd856861-846a-4081-9105-1742bc793c4f",
+              "title": "testing-library",
+              "fullFile": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/commons/src/__test__/testing-library.spec.ts",
+              "file": "testing-library.spec.ts",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "fullTitle": "testing-library should be return jest config",
+                  "title": "should be return jest config",
+                  "timedOut": false,
+                  "duration": 2,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "it('should be return jest config', () => {\n    const config = jestConfig();\n    expect(config).not.toBe(null);\n    expect(typeof config).toBe('object');\n    expect(config).toBeDefined();\n  })",
+                  "err": {},
+                  "uuid": "b95979ce-6d82-46fc-a983-92502fdc255a",
+                  "parentUUID": "bd856861-846a-4081-9105-1742bc793c4f",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "b95979ce-6d82-46fc-a983-92502fdc255a"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 2,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 5000
+            },
+            {
+              "uuid": "8db4be2a-b5b3-4a86-bfba-65169b4869a1",
+              "title": "eslint-config",
+              "fullFile": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/commons/src/__test__/eslint-config.spec.ts",
+              "file": "eslint-config.spec.ts",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "fullTitle": "eslint-config should be return jest config",
+                  "title": "should be return jest config",
+                  "timedOut": false,
+                  "duration": 2,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "it('should be return jest config', () => {\n    const config = eslintConfig();\n    expect(config).not.toBe(null);\n    expect(typeof config).toBe('object');\n    expect(config).toBeDefined();\n  })",
+                  "err": {},
+                  "uuid": "01fbfcd5-180a-4802-8111-08591e9b7120",
+                  "parentUUID": "8db4be2a-b5b3-4a86-bfba-65169b4869a1",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "01fbfcd5-180a-4802-8111-08591e9b7120"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 2,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 5000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 5000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 5000
+    }
+  ]
+}
