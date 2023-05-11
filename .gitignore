@@ -32,9 +32,6 @@ test-report.xml
 ./packages/*/test-results
 ./packages/*/test-results/*
 ./packages/*/test-results/test-report.json
-./mochawesome-report
-./mochawesome-report/*
-./mochawesome.json
 .sonarcloud.properties
 sonar-project.properties
 .scannerwork
