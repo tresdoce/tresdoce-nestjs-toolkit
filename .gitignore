@@ -37,6 +37,12 @@ packages/*/test-results/test-report.json
 ./packages/*/test-results/test-report.json
 packages/*/test-results/*.json
 ./packages/*/test-results/*.json
+mochawesome-report
+./mochawesome-report
+mochawesome-report/*
+./mochawesome-report/*
+mochawesome.json
+./mochawesome.json
 .sonarcloud.properties
 sonar-project.properties
 .scannerwork
