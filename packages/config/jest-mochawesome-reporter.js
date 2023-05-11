@@ -44,7 +44,7 @@ const hasAncestorsTitles = (testResults) =>
   testResults.length > 0 &&
   testResults.some((test) => test.ancestorTitles && test.ancestorTitles.length > 0);
 
-const groupByAncestor = (_testResults, _testFilePath) =>
+const groupByAncestor = (_testResults, _testFilePath, _savePath) =>
   _testResults.reduce((_acc, _value) => {
     const [ancestorTitles, ...restAncestors] = _value.ancestorTitles;
     _value.ancestorTitles = restAncestors;
@@ -52,28 +52,29 @@ const groupByAncestor = (_testResults, _testFilePath) =>
 
     if (previousSuites) {
       previousSuites.tempSuites.push(_value);
-    } else
+    } else {
       _acc.push({
         ...createSuite(),
         uuid: uuid(),
         title: ancestorTitles,
         fullFile: `${_testFilePath}`,
-        file: `${_testFilePath.split('/').pop()}`,
+        file: `${_savePath ? _testFilePath.split('/').pop() : ''}`,
         tempSuites: [_value],
       });
+    }
     return _acc;
   }, []);
 
-const mapChildSuites = (_testResults, _testFile) => {
-  let suites = groupByAncestor(_testResults, _testFile.path);
+const mapChildSuites = (_testResults, _testFile, _savePath = true) => {
+  let suites = groupByAncestor(_testResults, _testFile.path, _savePath);
 
   suites = suites.map((_suit) => {
     if (hasAncestorsTitles(_suit.tempSuites)) {
-      _suit.suites = mapChildSuites(_suit.tempSuites, _testFile);
+      _suit.suites = mapChildSuites(_suit.tempSuites, _testFile, false);
       delete _suit.tempSuites;
     } else {
       _suit.tests = _suit.tempSuites.map((_tempSuites) =>
-        createTest(_tempSuites, _suit.uuid, _testFile.content),
+        createTest(_tempSuites, _suit, _testFile.content),
       );
       _suit.duration = getTestDuration(_suit.tests);
       _suit.passes = getUUIDByStatus(_suit.tests, (_test) => _test.pass);
@@ -105,7 +106,7 @@ const createPackageSuite = (_results) => {
   };
 };
 
-const createTest = (_result, _parentUUID, _testFileContent = null) => {
+const createTest = (_result, _suit, _testFileContent = null) => {
   return {
     fullTitle: `${_result.fullName}`,
     title: `${_result.title}`,
@@ -117,10 +118,10 @@ const createTest = (_result, _parentUUID, _testFileContent = null) => {
     fail: failed(_result),
     pending: pending(_result),
     context: null,
-    code: findTestCase(_result.title, _testFileContent),
+    code: findTestCase(_result.title, _suit.title, _testFileContent),
     err: getErrorTest(_result),
     uuid: uuid(),
-    parentUUID: _parentUUID,
+    parentUUID: _suit.uuid,
     isHook: false,
     skipped: false,
   };
@@ -147,24 +148,36 @@ const createSuite = (_isRoot = false) => {
   };
 };
 
-const findTestCase = (_testCaseName, _testFileContent) => {
+const findTestCase = (_testCaseName, _suitTitle, _testFileContent) => {
   const ast = parser.parse(_testFileContent, {
     sourceType: 'module',
     plugins: ['jsx', 'typescript'],
   });
   let testCaseCode = null;
+  let hasDescribe = false;
 
   traverse(ast, {
     CallExpression(path) {
       if (
-        path.node.callee.name === 'test' ||
-        path.node.callee.name === 'it' ||
-        (path.node.callee.object && path.node.callee.object.name === 'it')
+        path.node.callee.name === 'describe' ||
+        (path.node.callee.object && path.node.callee.object.name === 'describe')
+      ) {
+        const describeArg = path.node.arguments[0];
+        hasDescribe = describeArg && describeArg.value === _suitTitle;
+      }
+
+      if (
+        hasDescribe &&
+        (path.node.callee.name === 'test' ||
+          path.node.callee.name === 'it' ||
+          (path.node.callee.object && path.node.callee.object.name === 'test') ||
+          (path.node.callee.object && path.node.callee.object.name === 'it'))
       ) {
         const firstArg = path.node.arguments[0];
 
         if (firstArg && firstArg.value === _testCaseName) {
           testCaseCode = _testFileContent.slice(path.node.start, path.node.end);
+          hasDescribe = false;
         }
       }
     },
