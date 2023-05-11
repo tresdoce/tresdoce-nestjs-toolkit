@@ -33,7 +33,7 @@
     "bs": "lerna bootstrap",
     "hoist-deps": "lerna clean -y && lerna bootstrap",
     "plop": "plop",
-    "pretest": "rimraf ./packages/*/test-results",
+    "clean-reports:pretest": "rimraf ./packages/*/test-results",
     "prereport": "rimraf ./mochawesome-report ./mochawesome.json",
     "report": "yarn mochawesome:merge",
     "postreport": "yarn mochawesome:report-generator",

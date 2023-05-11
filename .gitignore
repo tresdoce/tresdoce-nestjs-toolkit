@@ -29,6 +29,14 @@ coverage
 /coverage
 /.nyc_output
 test-report.xml
+packages/*/test-results
+./packages/*/test-results
+packages/*/test-results/*
+./packages/*/test-results/*
+packages/*/test-results/test-report.json
+./packages/*/test-results/test-report.json
+packages/*/test-results/*.json
+./packages/*/test-results/*.json
 .sonarcloud.properties
 sonar-project.properties
 .scannerwork
