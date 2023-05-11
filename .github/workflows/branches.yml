@@ -69,7 +69,7 @@ jobs:
       - name: "👨‍💻 Run Test"
         run: |
           yarn test
-          #yarn report
+          yarn report
         env:
           NODE_ENV: 'test'
 
