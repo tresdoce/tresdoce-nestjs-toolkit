@@ -32,9 +32,9 @@ describe('ArchetypeController', () => {
     controller = module.get<ArchetypeController>(ArchetypeController);
   });
 
-  it('should be defined', () => {
+  it('should be defined', async () => {
     expect(controller).toBeDefined();
-  });
+  }, 1000);
 
   it('should be return manifest json', async () => {
     expect(await controller.getArchetypeInfo()).toBeDefined();

@@ -1,8 +1,9 @@
+const parser = require('@babel/parser');
+const traverse = require('@babel/traverse').default;
 const fs = require('fs');
 const { v4: uuid } = require('uuid');
 
 const buildMargeInput = (_results) => {
-  //console.log(_results);
   let input = {};
   const elapsed = buildElapsedTime(_results.testResults);
   const results = createResults(_results.testResults);
@@ -26,81 +27,88 @@ const buildMargeInput = (_results) => {
   };
   input.results = [results];
 
-  //console.log('RESULTS: ', _results);
-
-  // RECORRE ARCHIVO x ARCHIVO
-  _results.testResults.forEach((_testResult, _indexTestResult) => {
-    //console.log(`TEST RESULT ${_indexTestResult}`, _testResult);
-    const testFileContent = getFileContent(_testResult);
-
-    // RECORRE DESCRIBE e ITS
-    _testResult.testResults.forEach((_result, _indexTest) => {
-      //console.log(`TEST ${_indexTest}`, _result);
-      const parentUUID = input.results[0].suites[0].uuid;
-      const test = createTest(_result, parentUUID, testFileContent);
-
-      input.results[0].suites[0].tests.push(test);
-    });
-  });
-
-  input.results[0].suites[0].duration = getTestDuration(input);
-  input.results[0].suites[0].passes = getUUIDByStatus(input, 'passed');
-  input.results[0].suites[0].failures = getUUIDByStatus(input, 'failed');
-  input.results[0].suites[0].pending = getUUIDByStatus(input, 'pending');
-
   return input;
 };
 
 const createResults = (_results) => {
-  const suite = createSuite(_results);
+  const suite = createPackageSuite(_results);
   return {
+    ...createSuite(true),
     uuid: uuid(),
-    title: `${_results[0].displayName?.name || ''}`,
-    fullFile: '',
-    file: '',
-    beforeHooks: [],
-    afterHooks: [],
-    tests: [],
-    suites: suite,
-    passes: [],
-    failures: [],
-    pending: [],
-    skipped: [],
-    duration: 0,
-    root: true,
-    rootEmpty: true,
-    _timeout: 5000,
+    suites: [suite],
   };
 };
 
-const createSuite = (_results) => {
-  return [
-    {
-      uuid: uuid(),
-      title: `${_results[0].displayName?.name || ''}`,
-      fullFile: '',
-      file: '',
-      beforeHooks: [],
-      afterHooks: [],
-      tests: [],
-      suites: [],
-      passes: [],
-      failures: [],
-      pending: [],
-      skipped: [],
-      duration: 0,
-      root: false,
-      rootEmpty: false,
-      _timeout: 5000,
-    },
-  ];
+const hasAncestorsTitles = (testResults) =>
+  testResults &&
+  testResults.length > 0 &&
+  testResults.some((test) => test.ancestorTitles && test.ancestorTitles.length > 0);
+
+const groupByAncestor = (_testResults, _testFilePath) =>
+  _testResults.reduce((_acc, _value) => {
+    const [ancestorTitles, ...restAncestors] = _value.ancestorTitles;
+    _value.ancestorTitles = restAncestors;
+    const previousSuites = _acc.find((elem) => elem.title === ancestorTitles);
+
+    if (previousSuites) {
+      previousSuites.tempSuites.push(_value);
+    } else
+      _acc.push({
+        ...createSuite(),
+        uuid: uuid(),
+        title: ancestorTitles,
+        fullFile: `${_testFilePath}`,
+        file: `${_testFilePath.split('/').pop()}`,
+        tempSuites: [_value],
+      });
+    return _acc;
+  }, []);
+
+const mapChildSuites = (_testResults, _testFile) => {
+  let suites = groupByAncestor(_testResults, _testFile.path);
+
+  suites = suites.map((_suit) => {
+    if (hasAncestorsTitles(_suit.tempSuites)) {
+      _suit.suites = mapChildSuites(_suit.tempSuites, _testFile);
+      delete _suit.tempSuites;
+    } else {
+      _suit.tests = _suit.tempSuites.map((_tempSuites) =>
+        createTest(_tempSuites, _suit.uuid, _testFile.content),
+      );
+      _suit.duration = getTestDuration(_suit.tests);
+      _suit.passes = getUUIDByStatus(_suit.tests, (_test) => _test.pass);
+      _suit.failures = getUUIDByStatus(_suit.tests, (_test) => _test.fail);
+      _suit.pending = getUUIDByStatus(_suit.tests, (_test) => _test.pending);
+      delete _suit.tempSuites;
+    }
+    return _suit;
+  });
+
+  return suites;
+};
+
+const createPackageSuite = (_results) => {
+  const suites = _results
+    .map((_package) => {
+      const testFileContent = fs.readFileSync(_package.testFilePath, 'utf8');
+      return mapChildSuites(_package.testResults, {
+        content: testFileContent,
+        path: _package.testFilePath,
+      });
+    })
+    .flat();
+  return {
+    ...createSuite(),
+    uuid: uuid(),
+    title: `${_results[0].displayName?.name || ''}`,
+    suites,
+  };
 };
 
 const createTest = (_result, _parentUUID, _testFileContent = null) => {
   return {
-    fullTitle: `${_result.ancestorTitles.join(' > ')} > ${_result.title}`,
-    title: `${_result.ancestorTitles.join(' > ')} > ${_result.title}`,
-    //title: result.title,
+    fullTitle: `${_result.fullName}`,
+    title: `${_result.title}`,
     timedOut: false,
     duration: _result.duration,
     state: _result.status,
@@ -109,7 +117,7 @@ const createTest = (_result, _parentUUID, _testFileContent = null) => {
     fail: failed(_result),
     pending: pending(_result),
     context: null,
-    code: _testFileContent,
+    code: findTestCase(_result.title, _testFileContent),
     err: getErrorTest(_result),
     uuid: uuid(),
     parentUUID: _parentUUID,
@@ -118,9 +126,51 @@ const createTest = (_result, _parentUUID, _testFileContent = null) => {
   };
 };
 
-const getFileContent = (_results) => {
-  const { testFilePath } = _results;
-  return fs.readFileSync(testFilePath, 'utf8') || '';
+const createSuite = (_isRoot = false) => {
+  return {
+    uuid: '',
+    title: '',
+    fullFile: '',
+    file: '',
+    beforeHooks: [],
+    afterHooks: [],
+    tests: [],
+    suites: [],
+    passes: [],
+    failures: [],
+    pending: [],
+    skipped: [],
+    duration: 0,
+    root: _isRoot,
+    rootEmpty: _isRoot,
+    _timeout: 5000,
+  };
+};
+
+const findTestCase = (_testCaseName, _testFileContent) => {
+  const ast = parser.parse(_testFileContent, {
+    sourceType: 'module',
+    plugins: ['jsx', 'typescript'],
+  });
+  let testCaseCode = null;
+
+  traverse(ast, {
+    CallExpression(path) {
+      if (
+        path.node.callee.name === 'test' ||
+        path.node.callee.name === 'it' ||
+        (path.node.callee.object && path.node.callee.object.name === 'it')
+      ) {
+        const firstArg = path.node.arguments[0];
+
+        if (firstArg && firstArg.value === _testCaseName) {
+          testCaseCode = _testFileContent.slice(path.node.start, path.node.end);
+        }
+      }
+    },
+  });
+
+  return testCaseCode;
 };
 
 const testSpeed = (_duration) => {
@@ -160,14 +210,9 @@ const buildElapsedTime = (_results) => {
   }, 0);
 };
 
-const getTestDuration = (_input) =>
-  _input.results[0].suites[0].tests.reduce((sum, test) => sum + test.duration, 0);
+const getTestDuration = (_tests) => _tests.reduce((sum, test) => sum + test.duration, 0);
 
-const getUUIDByStatus = (_input, _state) => {
-  return _input.results[0].suites[0].tests
-    .filter((obj) => obj.state === `${_state}`)
-    .map((obj) => obj.uuid);
-};
+const getUUIDByStatus = (_tests, _passed) => _tests.filter(_passed).map((obj) => obj.uuid);
 
 const checkOrCreateReportDir = (_reportDir) => {
   if (!fs.existsSync(_reportDir)) {

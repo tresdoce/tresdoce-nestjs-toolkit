@@ -42,6 +42,7 @@ describe('filters', () => {
   describe('code exception', () => {
     const appConfig = config();
     const filter = new ExceptionsFilter(appConfig);
+
     it('should map a regular code exception', () => {
       const status = HttpStatus.INTERNAL_SERVER_ERROR;
       const expectation: IProblemDetail = {
@@ -59,54 +60,82 @@ describe('filters', () => {
     });
   });
 
-  describe('default Http exceptions', () => {
-    const appConfig = config();
-    const filter = new ExceptionsFilter(appConfig);
-    it('should map default exception when thrown with not parameters', () => {
-      const status = HttpStatus.BAD_REQUEST;
-      const expectation: IProblemDetail = {
-        message: HttpStatus[status],
-        status,
-        code: HttpStatus[status],
-      };
+  describe('HttpExceptions', () => {
+    describe('Default HttpExceptions', () => {
+      const appConfig = config();
+      const filter = new ExceptionsFilter(appConfig);
+      it('should map default exception when thrown with not parameters', () => {
+        const status = HttpStatus.BAD_REQUEST;
+        const expectation: IProblemDetail = {
+          message: HttpStatus[status],
+          status,
+          code: HttpStatus[status],
+        };
 
-      filter.catch(new BadRequestException(), mockArgumentsHost);
+        filter.catch(new BadRequestException(), mockArgumentsHost);
 
-      assertResponse(status, expectation);
+        assertResponse(status, expectation);
+      });
+
+      it('should map default exception when thrown with error details', () => {
+        const status = HttpStatus.FORBIDDEN;
+        const message = 'not pass!';
+
+        const expectation: IProblemDetail = {
+          message,
+          status,
+          code: HttpStatus[status],
+          detail: HttpStatus[status],
+        };
+        filter.catch(new ForbiddenException(message), mockArgumentsHost);
+
+        assertResponse(status, expectation);
+      });
+
+      it('should map default exception when thrown with error details and description', () => {
+        const status = HttpStatus.FORBIDDEN;
+        const message = 'passing?';
+        const details = 'not pass!';
+
+        const expectation: IProblemDetail = {
+          message,
+          detail: details,
+          status,
+          code: HttpStatus[status],
+        };
+        filter.catch(new ForbiddenException(message, details), mockArgumentsHost);
+
+        assertResponse(status, expectation);
+      });
+
+      it('should map HttpException response when called with an object', () => {
+        const errorObject: IErrorDetail = {
+          message: 'some message',
+          error: {
+            instance: 'instance',
+            type: 'some-problem-detail',
+          },
+        };
+
+        const status = HttpStatus.BAD_REQUEST;
+        const expectation: IProblemDetail = {
+          message: errorObject.message,
+          detail: errorObject.error,
+          status,
+          instance: errorObject.error.instance,
+          code: HttpStatus[status],
+        };
+
+        filter.catch(new HttpException(errorObject, status), mockArgumentsHost);
+
+        assertResponse(status, expectation);
+      });
     });
 
-    it('should map default exception when thrown with error details', () => {
-      const status = HttpStatus.FORBIDDEN;
-      const message = 'not pass!';
+    describe('Generic HttpException', () => {
+      const appConfig = config();
+      const filter = new ExceptionsFilter(appConfig);
 
-      const expectation: IProblemDetail = {
-        message,
-        status,
-        code: HttpStatus[status],
-        detail: HttpStatus[status],
-      };
-      filter.catch(new ForbiddenException(message), mockArgumentsHost);
-
-      assertResponse(status, expectation);
-    });
-
-    it('should map default exception when thrown with error details and description', () => {
-      const status = HttpStatus.FORBIDDEN;
-      const message = 'passing?';
-      const details = 'not pass!';
-
-      const expectation: IProblemDetail = {
-        message,
-        detail: details,
-        status,
-        code: HttpStatus[status],
-      };
-      filter.catch(new ForbiddenException(message, details), mockArgumentsHost);
-
-      assertResponse(status, expectation);
-    });
-
-    describe('the generic HttpException', () => {
       it('should map HttpException response when called with a string', () => {
         const status = HttpStatus.SEE_OTHER;
         const message = 'Not passing';
@@ -173,29 +202,6 @@ describe('filters', () => {
         filter.catch(new HttpException(errorObject, status), mockArgumentsHost);
         assertResponse(status, expectation);
       });
-    });
-
-    it('should map HttpException response when called with an object', () => {
-      const errorObject: IErrorDetail = {
-        message: 'some message',
-        error: {
-          instance: 'instance',
-          type: 'some-problem-detail',
-        },
-      };
-
-      const status = HttpStatus.BAD_REQUEST;
-      const expectation: IProblemDetail = {
-        message: errorObject.message,
-        detail: errorObject.error,
-        status,
-        instance: errorObject.error.instance,
-        code: HttpStatus[status],
-      };
-
-      filter.catch(new HttpException(errorObject, status), mockArgumentsHost);
-
-      assertResponse(status, expectation);
     });
   });
 
