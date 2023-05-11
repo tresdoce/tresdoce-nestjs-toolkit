@@ -33,7 +33,7 @@ test-report.xml
 ./packages/*/test-results/*
 ./mochawesome-report
 ./mochawesome-report/*
-.mochawesome.json
+
 .sonarcloud.properties
 sonar-project.properties
 .scannerwork
