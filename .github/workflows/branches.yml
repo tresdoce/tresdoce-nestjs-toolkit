@@ -73,7 +73,12 @@ jobs:
         env:
           NODE_ENV: 'test'
 
-      - name: "📊 Deploy Report"
+      - name: "📤 Upload artifact"
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./mochawesome-report
+
+      - name: "🚀 Deploy Report"
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GH_TOKEN }}
