@@ -73,6 +73,12 @@ jobs:
         env:
           NODE_ENV: 'test'
 
+      - name: "📊 Deploy Report"
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          publish_dir: ./mochawesome-report
+
       - name: "📊 Upload coverage report to Codecov"
         uses: codecov/codecov-action@v1
         with:
