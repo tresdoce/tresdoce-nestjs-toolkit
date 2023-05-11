@@ -1,0 +1,252 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 6,
+    "passes": 6,
+    "pending": 0,
+    "failures": 0,
+    "testsRegistered": 6,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "start": "2023-05-11T01:57:31.147Z",
+    "end": "2023-05-11T01:57:34.121Z",
+    "duration": 2974
+  },
+  "results": [
+    {
+      "uuid": "27bcd9d8-f7ee-4994-8954-d3455065ba4c",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "5136ce1e-eb38-4157-b823-ec0626c85961",
+          "title": "@tresdoce-nestjs-toolkit/typeorm",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "58a2a78e-3b06-4b93-9143-780f93c09c7d",
+              "title": "TypeOrm",
+              "fullFile": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts",
+              "file": "typeorm.module.spec.ts",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [],
+              "suites": [
+                {
+                  "uuid": "405e3490-ff59-45e8-afc3-dbbfef85ac0e",
+                  "title": "Postgres",
+                  "fullFile": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts",
+                  "file": "typeorm.module.spec.ts",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "fullTitle": "TypeOrm Postgres should be defined",
+                      "title": "should be defined",
+                      "timedOut": false,
+                      "duration": 299,
+                      "state": "passed",
+                      "speed": "medium",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "it('should be defined', async () => {\n      await expect(app).toBeDefined();\n    }, 50000)",
+                      "err": {},
+                      "uuid": "1529ef6b-3858-4509-a663-73988da6a49d",
+                      "parentUUID": "405e3490-ff59-45e8-afc3-dbbfef85ac0e",
+                      "isHook": false,
+                      "skipped": false
+                    },
+                    {
+                      "fullTitle": "TypeOrm Postgres should be return an array of post",
+                      "title": "should be return an array of post",
+                      "timedOut": false,
+                      "duration": 120,
+                      "state": "passed",
+                      "speed": "medium",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "it('should be return an array of post', async () => {\n      await repository.save([fixturePostResponse]);\n\n      const query = await repository.find();\n      expect(query).toEqual([fixturePostResponse]);\n    })",
+                      "err": {},
+                      "uuid": "d04159aa-eb92-4d92-a325-ec7937ef259b",
+                      "parentUUID": "405e3490-ff59-45e8-afc3-dbbfef85ac0e",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "1529ef6b-3858-4509-a663-73988da6a49d",
+                    "d04159aa-eb92-4d92-a325-ec7937ef259b"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 419,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 5000
+                },
+                {
+                  "uuid": "e44f9636-b926-462e-9e44-63127c077675",
+                  "title": "MySql",
+                  "fullFile": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts",
+                  "file": "typeorm.module.spec.ts",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "fullTitle": "TypeOrm MySql should be defined",
+                      "title": "should be defined",
+                      "timedOut": false,
+                      "duration": 149,
+                      "state": "passed",
+                      "speed": "medium",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "it('should be defined', async () => {\n      await expect(app).toBeDefined();\n    }, 50000)",
+                      "err": {},
+                      "uuid": "aa6758cb-57ac-4343-b31a-ef524d313d19",
+                      "parentUUID": "e44f9636-b926-462e-9e44-63127c077675",
+                      "isHook": false,
+                      "skipped": false
+                    },
+                    {
+                      "fullTitle": "TypeOrm MySql should be return an array of post",
+                      "title": "should be return an array of post",
+                      "timedOut": false,
+                      "duration": 71,
+                      "state": "passed",
+                      "speed": "fast",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "it('should be return an array of post', async () => {\n      await repository.save([fixturePostResponse]);\n\n      const query = await repository.find();\n      expect(query).toEqual([fixturePostResponse]);\n    })",
+                      "err": {},
+                      "uuid": "f752d7b1-7846-4638-abf8-5b20fd0c43e6",
+                      "parentUUID": "e44f9636-b926-462e-9e44-63127c077675",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "aa6758cb-57ac-4343-b31a-ef524d313d19",
+                    "f752d7b1-7846-4638-abf8-5b20fd0c43e6"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 220,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 5000
+                },
+                {
+                  "uuid": "e20ba132-bf9f-4d97-933c-99bc9105a0d7",
+                  "title": "Mongo",
+                  "fullFile": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts",
+                  "file": "typeorm.module.spec.ts",
+                  "beforeHooks": [],
+                  "afterHooks": [],
+                  "tests": [
+                    {
+                      "fullTitle": "TypeOrm Mongo should be defined",
+                      "title": "should be defined",
+                      "timedOut": false,
+                      "duration": 2286,
+                      "state": "passed",
+                      "speed": "slow",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "it('should be defined', async () => {\n      await expect(app).toBeDefined();\n    }, 50000)",
+                      "err": {},
+                      "uuid": "c5ace8d4-2f57-4958-bc17-e92c2097da54",
+                      "parentUUID": "e20ba132-bf9f-4d97-933c-99bc9105a0d7",
+                      "isHook": false,
+                      "skipped": false
+                    },
+                    {
+                      "fullTitle": "TypeOrm Mongo should be return an array of user",
+                      "title": "should be return an array of user",
+                      "timedOut": false,
+                      "duration": 49,
+                      "state": "passed",
+                      "speed": "fast",
+                      "pass": true,
+                      "fail": false,
+                      "pending": false,
+                      "context": null,
+                      "code": "it('should be return an array of user', async () => {\n      await repository.save(fixtureUserArrayResponse);\n\n      const query: User[] = await repository.find();\n      expect(query).toEqual(expect.any(Array));\n    })",
+                      "err": {},
+                      "uuid": "4882cf19-ebe4-475a-8899-fef56f52167e",
+                      "parentUUID": "e20ba132-bf9f-4d97-933c-99bc9105a0d7",
+                      "isHook": false,
+                      "skipped": false
+                    }
+                  ],
+                  "suites": [],
+                  "passes": [
+                    "c5ace8d4-2f57-4958-bc17-e92c2097da54",
+                    "4882cf19-ebe4-475a-8899-fef56f52167e"
+                  ],
+                  "failures": [],
+                  "pending": [],
+                  "skipped": [],
+                  "duration": 2335,
+                  "root": false,
+                  "rootEmpty": false,
+                  "_timeout": 5000
+                }
+              ],
+              "passes": [],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 0,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 5000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 5000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 5000
+    }
+  ]
+}

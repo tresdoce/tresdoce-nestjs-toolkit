@@ -1,0 +1,117 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "start": "2023-05-11T01:56:35.004Z",
+    "end": "2023-05-11T01:56:35.319Z",
+    "duration": 315
+  },
+  "results": [
+    {
+      "uuid": "d5318d45-8e5e-43f5-b9e4-eb03e865fe9b",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "d5b9e077-1f64-46eb-a367-ff8ca79a571d",
+          "title": "@tresdoce-nestjs-toolkit/camunda",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "65b980de-ff49-4507-9a44-0c9f842526fc",
+              "title": "CamundaModule",
+              "fullFile": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/camunda/src/__test__/camunda.module.spec.ts",
+              "file": "camunda.module.spec.ts",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "fullTitle": "CamundaModule should be defined",
+                  "title": "should be defined",
+                  "timedOut": false,
+                  "duration": 305,
+                  "state": "passed",
+                  "speed": "medium",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "it('should be defined', () => {\n    expect(app).toBeDefined();\n  })",
+                  "err": {},
+                  "uuid": "ed33939f-c39f-4f19-b7c1-d46a62aff91c",
+                  "parentUUID": "65b980de-ff49-4507-9a44-0c9f842526fc",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "fullTitle": "CamundaModule should be Subscription decorator is defined with options",
+                  "title": "should be Subscription decorator is defined with options",
+                  "timedOut": false,
+                  "duration": 10,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "it('should be Subscription decorator is defined with options', async () => {\n    const decorator = Subscription('test-topic', { lockDuration: 500 });\n    console.log(decorator);\n    expect(decorator).toBeDefined();\n  })",
+                  "err": {},
+                  "uuid": "8d42f86d-a719-4fe6-9f38-23b39d4fb46b",
+                  "parentUUID": "65b980de-ff49-4507-9a44-0c9f842526fc",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "ed33939f-c39f-4f19-b7c1-d46a62aff91c",
+                "8d42f86d-a719-4fe6-9f38-23b39d4fb46b"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 315,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 5000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 5000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 5000
+    }
+  ]
+}
