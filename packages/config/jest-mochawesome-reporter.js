@@ -56,7 +56,7 @@ const groupByAncestor = (_testResults, _testFilePath, _savePath) =>
       _acc.push({
         ...createSuite(),
         uuid: uuid(),
-        title: ancestorTitles,
+        title: ancestorTitles || '',
         fullFile: `${_testFilePath}`,
         file: `${_savePath ? _testFilePath.split('/').pop() : ''}`,
         tempSuites: [_value],
@@ -153,7 +153,7 @@ const findTestCase = (_testCaseName, _suitTitle, _testFileContent) => {
     sourceType: 'module',
     plugins: ['jsx', 'typescript'],
   });
-  let testCaseCode = null;
+  let testCaseCode = '';
   let hasDescribe = false;
 
   traverse(ast, {
