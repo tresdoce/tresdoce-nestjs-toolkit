@@ -1,0 +1,78 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: tresdoce-test-utils-global-postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      TZ: UTC
+      POSTGRES_DB: my_db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+
+  mysql:
+    image: mysql:5.7
+    container_name: tresdoce-test-utils-global-mysql
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      TZ: UTC
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: my_db
+      MYSQL_PASSWORD: 123456
+      #MYSQL_USER: root
+
+  mongo:
+    image: mongo:5.0
+    container_name: tresdoce-test-utils-global-mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      TZ: UTC
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+      MONGO_INITDB_DATABASE: test_db
+
+  redis:
+    image: redis:6.2-alpine
+    container_name: tresdoce-test-utils-global-redis
+    restart: always
+    ports:
+      - '6379:6379'
+    environment:
+      TZ: UTC
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: 123456
+      REDIS_HOST: cache
+      #REDIS_USERNAME: default
+    command: [ "redis-server", "--appendonly", "yes", "--requirepass","123456" ]
+
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    container_name: tresdoce-test-utils-global-dynamodb
+    restart: always
+    ports:
+      - '8000:8000'
+    environment:
+      TZ: UTC
+      AWS_ACCESS_KEY_ID: local
+      AWS_SECRET_ACCESS_KEY: local
+      AWS_REGION: us-east-1
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    container_name: tresdoce-test-utils-global-elasticsearch
+    restart: always
+    ports:
+      - '9204:9200'
+    environment:
+      - TZ=UTC
+      - discovery.type=single-node
+      - node.name=elasticsearch
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - xpack.security.enabled=false

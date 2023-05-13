@@ -1,6 +1,6 @@
 import { Roles, ROLES_KEY } from '../index';
 
-describe('Public decorator', () => {
+describe('Roles decorator', () => {
   it('should be defined', async () => {
     expect(Roles('admin')).toBeDefined();
     expect(Roles('admin', 'user')).toBeDefined();

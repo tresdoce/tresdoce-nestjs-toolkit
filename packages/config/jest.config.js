@@ -21,6 +21,17 @@ module.exports = {
   moduleDirectories: ['node_modules'],
   preset: 'ts-jest',
   testResultsProcessor: 'jest-sonar-reporter',
+  displayName: `${process.env.npm_package_name}`,
+  reporters: [
+    'default',
+    [
+      path.join(__dirname, './jest-mochawesome-reporter.js'),
+      {
+        reportDir: 'test-results',
+        reportFilename: 'test-report.json',
+      },
+    ],
+  ],
   coverageThreshold: {
     global: {
       branches: 80,

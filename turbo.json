@@ -11,6 +11,11 @@
       "dependsOn": [],
       "cache": true
     },
+    "test:husky": {
+      "outputs": ["coverage/**"],
+      "dependsOn": [],
+      "cache": true
+    },
     "lint": {
       "outputs": []
     },

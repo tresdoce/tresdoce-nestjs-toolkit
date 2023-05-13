@@ -5,7 +5,7 @@ version: '3.9'
 services:
   postgres:
     image: postgres:13
-    container_name: local-postgres
+    container_name: tresdoce-test-container-local-postgres
     restart: always
     ports:
       - '5432:5432'
@@ -14,14 +14,10 @@ services:
       POSTGRES_DB: my_db
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 123456
-    #logging:
-    #  driver: none
-    #volumes:
-    #  - ./.postgres_data:/var/lib/postgresql/data
 
   mysql:
     image: mysql:5.7
-    container_name: local-mysql
+    container_name: tresdoce-test-container-local-mysql
     restart: always
     ports:
       - '3306:3306'
@@ -31,12 +27,10 @@ services:
       MYSQL_DATABASE: my_db
       MYSQL_PASSWORD: 123456
       #MYSQL_USER: root
-    #volumes:
-    #  - ./.mysql-data/db:/var/lib/mysql
 
   mongo:
     image: mongo:5.0
-    container_name: local-mongo
+    container_name: tresdoce-test-container-local-mongo
     restart: always
     ports:
       - '27017:27017'
@@ -45,14 +39,10 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123456
       MONGO_INITDB_DATABASE: test_db
-    #logging:
-    #  driver: none
-    #volumes:
-    #  - ./.mongo_data:/data/db
 
   redis:
     image: redis:6.2-alpine
-    container_name: local-redis
+    container_name: tresdoce-test-container-local-redis
     restart: always
     ports:
       - '6379:6379'
@@ -63,7 +53,15 @@ services:
       REDIS_HOST: cache
       #REDIS_USERNAME: default
     command: [ "redis-server", "--appendonly", "yes", "--requirepass","123456" ]
-    #logging:
-    #  driver: none
-    #volumes:
-    #  - ./.redis_data:/data
+
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    container_name: tresdoce-test-container-local-dynamodb
+    restart: always
+    ports:
+      - '8000:8000'
+    environment:
+      TZ: UTC
+      AWS_ACCESS_KEY_ID: local
+      AWS_SECRET_ACCESS_KEY: local
+      AWS_REGION: us-east-1

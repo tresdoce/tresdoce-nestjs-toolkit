@@ -29,7 +29,7 @@
     "prebuild": "rimraf ../../dist/mailer",
     "build": "pika build --out ../../dist/mailer",
     "test": "jest --runInBand --coverage --forceExit",
-    "clean": "rimraf .turbo coverage node_modules test-report.xml"
+    "clean": "rimraf .turbo coverage test-results node_modules test-report.xml"
   },
   "publishConfig": {
     "access": "public",
@@ -40,7 +40,7 @@
     "@nestjs/core": "^9.4.0",
     "@nestjs/platform-express": "^9.4.0",
     "ejs": "^3.1.2",
-    "glob": "10.2.1",
+    "glob": "10.2.2",
     "handlebars": "^4.7.6",
     "inline-css": "4.0.2",
     "mjml": "^4.14.0",
@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "ejs": "^3.1.2",
-    "glob": "10.2.1",
+    "glob": "10.2.2",
     "handlebars": "^4.7.6",
     "inline-css": "4.0.2",
     "mjml": "^4.14.0",

@@ -47,6 +47,16 @@ module.exports = {
       },
       {
         type: 'add',
+        path: 'packages/{{kebabCase packageName}}/jest.globalSetup.ts',
+        templateFile: 'plops-templates/packages/basic/jest.globalSetup.ts.hbs',
+      },
+      {
+        type: 'add',
+        path: 'packages/{{kebabCase packageName}}/jest.globalTeardown.ts',
+        templateFile: 'plops-templates/packages/basic/jest.globalTeardown.ts.hbs',
+      },
+      {
+        type: 'add',
         path: 'packages/{{kebabCase packageName}}/CHANGELOG.md',
         templateFile: 'plops-templates/packages/basic/CHANGELOG.md.hbs',
       },

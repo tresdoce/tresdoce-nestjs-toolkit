@@ -1,6 +1,6 @@
+import { StartedDockerComposeEnvironment } from 'testcontainers';
 import { closeDockerCompose, initDockerCompose } from '../testcontainers';
 import path from 'path';
-import { StartedDockerComposeEnvironment } from 'testcontainers';
 
 describe('globalTestContainers', () => {
   const composeFilePath = path.resolve(__dirname, '..', 'fixtures', 'docker-compose');
