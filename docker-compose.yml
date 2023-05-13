@@ -3,7 +3,7 @@ version: '3.9'
 services:
   postgres:
     image: postgres:13
-    container_name: tiimiit-test-utils-global-postgres
+    container_name: tresdoce-test-utils-global-postgres
     restart: always
     ports:
       - '5432:5432'
@@ -15,7 +15,7 @@ services:
 
   mysql:
     image: mysql:5.7
-    container_name: tiimiit-test-utils-global-mysql
+    container_name: tresdoce-test-utils-global-mysql
     restart: always
     ports:
       - '3306:3306'
@@ -28,7 +28,7 @@ services:
 
   mongo:
     image: mongo:5.0
-    container_name: tiimiit-test-utils-global-mongo
+    container_name: tresdoce-test-utils-global-mongo
     restart: always
     ports:
       - '27017:27017'
@@ -40,7 +40,7 @@ services:
 
   redis:
     image: redis:6.2-alpine
-    container_name: tiimiit-test-utils-global-redis
+    container_name: tresdoce-test-utils-global-redis
     restart: always
     ports:
       - '6379:6379'
@@ -54,7 +54,7 @@ services:
 
   dynamodb:
     image: amazon/dynamodb-local:latest
-    container_name: tiimiit-test-utils-global-dynamodb
+    container_name: tresdoce-test-utils-global-dynamodb
     restart: always
     ports:
       - '8000:8000'
@@ -64,24 +64,9 @@ services:
       AWS_SECRET_ACCESS_KEY: local
       AWS_REGION: us-east-1
 
-  opensearch-node:
-    image: opensearchproject/opensearch:2.3.0
-    container_name: tiimiit-test-utils-global-opensearch-node
-    restart: always
-    ports:
-      - '9203:9200'
-      - '9600:9600'
-    environment:
-      - TZ=UTC
-      - discovery.type=single-node
-      - node.name=opensearch-node
-      - plugins.security.disabled=true
-      - 'OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g'
-      - plugins.security.ssl.http.enabled=false
-
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-    container_name: tiimiit-test-utils-global-elasticsearch
+    container_name: tresdoce-test-utils-global-elasticsearch
     restart: always
     ports:
       - '9204:9200'
