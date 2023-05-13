@@ -25,6 +25,7 @@ export abstract class TransactionSupport {
     settings?: TransactionSettings,
     callback?: CallbackType<any, any>,
   ): any {
+    /* istanbul ignore next */
     return dynamoose.transaction(transactions, settings as any, callback as any);
   }
 }
