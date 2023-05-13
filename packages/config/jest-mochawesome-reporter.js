@@ -56,7 +56,7 @@ const groupByAncestor = (_testResults, _testFilePath, _savePath) =>
       _acc.push({
         ...createSuite(),
         uuid: uuid(),
-        title: ancestorTitles,
+        title: ancestorTitles || '',
         fullFile: `${_testFilePath}`,
         file: `${_savePath ? _testFilePath.split('/').pop() : ''}`,
         tempSuites: [_value],
@@ -153,7 +153,7 @@ const findTestCase = (_testCaseName, _suitTitle, _testFileContent) => {
     sourceType: 'module',
     plugins: ['jsx', 'typescript'],
   });
-  let testCaseCode = null;
+  let testCaseCode = '';
   let hasDescribe = false;
 
   traverse(ast, {
@@ -176,7 +176,8 @@ const findTestCase = (_testCaseName, _suitTitle, _testFileContent) => {
         const firstArg = path.node.arguments[0];
 
         if (firstArg && firstArg.value === _testCaseName) {
-          testCaseCode = _testFileContent.slice(path.node.start, path.node.end);
+          const lineCode = `// ⎯⎯⎯⎯⎯⎯⎯⎯⎯\n// • Line: ${path.node.loc.start.line}\n// • Column: ${path.node.loc.start.column}\n// ⎯⎯⎯⎯⎯⎯⎯⎯⎯\n\n`;
+          testCaseCode = `${lineCode}${_testFileContent.slice(path.node.start, path.node.end)}`;
           hasDescribe = false;
         }
       }

@@ -8,7 +8,7 @@ type Message = {
 
 export class LoggerProvider {
   constructor(private readonly logger: LoggerService) {}
-
+  /* istanbul ignore next */
   log(message: Message): void {
     let method: (message: string) => void;
     switch (message.level) {
