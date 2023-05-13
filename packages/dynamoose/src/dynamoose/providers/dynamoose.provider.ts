@@ -3,12 +3,17 @@ import * as dynamoose from 'dynamoose';
 import { getModelToken } from '../common/index';
 import { DYNAMOOSE_INITIALIZATION } from '../constants/dynamoose.constant';
 import { AsyncModelFactory, ModelDefinition } from '../interfaces';
+import { ModelType } from 'dynamoose/dist/General';
 
-export function createDynamooseProviders(models: ModelDefinition[] = []) {
-  return (models || []).map((model) => ({
+export const createDynamooseProviders = (models: ModelDefinition[] = []) => {
+  return models.map((model) => ({
     provide: getModelToken(model.name),
     useFactory: () => {
-      const modelInstance = dynamoose.model(model.name, model.schema, model.options);
+      const modelInstance: ModelType<any> = dynamoose.model(
+        model.name,
+        model.schema,
+        model.options,
+      );
       if (model.serializers) {
         Object.entries(model.serializers).forEach(([key, value]) => {
           modelInstance.serializer.add(key, value);
@@ -18,10 +23,10 @@ export function createDynamooseProviders(models: ModelDefinition[] = []) {
     },
     inject: [DYNAMOOSE_INITIALIZATION],
   }));
-}
+};
 
-export function createDynamooseAsyncProviders(modelFactories: AsyncModelFactory[] = []) {
-  const providers = (modelFactories || []).map((model) => [
+export const createDynamooseAsyncProviders = (modelFactories: AsyncModelFactory[] = []) => {
+  const providers = modelFactories.map((model) => [
     {
       provide: getModelToken(model.name),
       useFactory: async (...args: unknown[]) => {
@@ -51,4 +56,4 @@ export function createDynamooseAsyncProviders(modelFactories: AsyncModelFactory[
     },
   ]);
   return flatten(providers);
-}
+};

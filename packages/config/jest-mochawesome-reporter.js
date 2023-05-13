@@ -176,7 +176,8 @@ const findTestCase = (_testCaseName, _suitTitle, _testFileContent) => {
         const firstArg = path.node.arguments[0];
 
         if (firstArg && firstArg.value === _testCaseName) {
-          testCaseCode = _testFileContent.slice(path.node.start, path.node.end);
+          const lineCode = `// ⎯⎯⎯⎯⎯⎯⎯⎯⎯\n// • Line: ${path.node.loc.start.line}\n// • Column: ${path.node.loc.start.column}\n// ⎯⎯⎯⎯⎯⎯⎯⎯⎯\n\n`;
+          testCaseCode = `${lineCode}${_testFileContent.slice(path.node.start, path.node.end)}`;
           hasDescribe = false;
         }
       }

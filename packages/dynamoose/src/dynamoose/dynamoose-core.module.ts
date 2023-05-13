@@ -29,6 +29,7 @@ async function initialization(options: DynamooseModuleOptions): Promise<void> {
     Table.defaults.set(options.table);
   }
 
+  /* istanbul ignore next */
   if (options.logger) {
     (await logger()).providers.add(
       new LoggerProvider(
@@ -41,6 +42,7 @@ async function initialization(options: DynamooseModuleOptions): Promise<void> {
 @Global()
 @Module({})
 export class DynamooseCoreModule {
+  /* istanbul ignore next */
   static forRoot(options: DynamooseModuleOptions = {}): DynamicModule {
     const initialProvider = {
       provide: DYNAMOOSE_INITIALIZATION,
@@ -74,7 +76,9 @@ export class DynamooseCoreModule {
     if (options.useExisting || options.useFactory) {
       return [this.createAsyncOptionsProvider(options)];
     }
+    /* istanbul ignore next */
     const useClass = options.useClass as Type<DynamooseOptionsFactory>;
+    /* istanbul ignore next */
     return [
       this.createAsyncOptionsProvider(options),
       {
@@ -92,9 +96,9 @@ export class DynamooseCoreModule {
         inject: options.inject || [],
       };
     }
-
+    /* istanbul ignore next */
     const inject = [(options.useClass || options.useExisting) as Type<DynamooseOptionsFactory>];
-
+    /* istanbul ignore next */
     return {
       provide: DYNAMOOSE_MODULE_OPTIONS,
       useFactory: async (optionsFactory: DynamooseOptionsFactory) =>

@@ -38,16 +38,18 @@
   },
   "peerDependencies": {
     "@aws-sdk/client-dynamodb": "^3.321.1",
-    "dynamoose": "^3.2.0",
     "@nestjs/common": "^9.4.0",
     "@nestjs/core": "^9.4.0",
     "@nestjs/platform-express": "^9.4.0",
+    "dynamoose": "^3.2.0",
+    "dynamoose-logger": "^3.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.321.1",
-    "dynamoose": "^3.2.0"
+    "dynamoose": "^3.2.0",
+    "dynamoose-logger": "^3.2.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.2.4",

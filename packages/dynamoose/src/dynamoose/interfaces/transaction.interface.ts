@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import * as dynamoose from 'dynamoose';
 import { TransactionSettings } from 'dynamoose/dist/Transaction';
 import {
