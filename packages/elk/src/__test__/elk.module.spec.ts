@@ -101,45 +101,81 @@ describe('ElkModule', () => {
     await container.stop({ removeVolumes: true });
   });
 
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({
-          isGlobal: true,
-          load: [
-            dynamicConfig({
-              elasticsearch: {
-                name: 'test-elk-index',
-                node: {
-                  url: new URL(`http://${container.getHost()}:9200`),
+  describe('forRoot', () => {
+    beforeEach(async () => {
+      const moduleFixture: TestingModule = await Test.createTestingModule({
+        imports: [
+          ConfigModule.forRoot({
+            isGlobal: true,
+            load: [
+              dynamicConfig({
+                elasticsearch: {
+                  name: 'test-elk-index',
+                  node: {
+                    url: new URL(`http://${container.getHost()}:9200`),
+                  },
+                  maxRetries: 10,
+                  requestTimeout: 60000,
+                  sniffOnStart: true,
+                  Connection: HttpConnection,
                 },
-                maxRetries: 10,
-                requestTimeout: 60000,
-                sniffOnStart: true,
-                Connection: HttpConnection,
-              },
-            }),
-          ],
-        }),
-        ElkModule,
-      ],
-    }).compile();
-    app = moduleFixture.createNestApplication();
-    interceptor = new ElkInterceptor(app.get<ElkService>(ElkService));
-    app.useGlobalInterceptors(interceptor);
-    elkService = moduleFixture.get<ElkService>(ElkService);
-    await app.init();
+              }),
+            ],
+          }),
+          ElkModule,
+        ],
+      }).compile();
+      app = moduleFixture.createNestApplication();
+      interceptor = new ElkInterceptor(app.get<ElkService>(ElkService));
+      app.useGlobalInterceptors(interceptor);
+      elkService = moduleFixture.get<ElkService>(ElkService);
+      await app.init();
+    });
+
+    afterEach(async () => {
+      await app.close();
+    });
+
+    it('should be defined', () => {
+      expect(app).toBeDefined();
+    });
   });
 
-  afterEach(async () => {
-    await app.close();
-  });
+  describe('Interceptor', () => {
+    beforeEach(async () => {
+      const moduleFixture: TestingModule = await Test.createTestingModule({
+        imports: [
+          ConfigModule.forRoot({
+            isGlobal: true,
+            load: [
+              dynamicConfig({
+                elasticsearch: {
+                  name: 'test-elk-index',
+                  node: {
+                    url: new URL(`http://${container.getHost()}:9200`),
+                  },
+                  maxRetries: 10,
+                  requestTimeout: 60000,
+                  sniffOnStart: true,
+                  Connection: HttpConnection,
+                },
+              }),
+            ],
+          }),
+          ElkModule,
+        ],
+      }).compile();
+      app = moduleFixture.createNestApplication();
+      interceptor = new ElkInterceptor(app.get<ElkService>(ElkService));
+      app.useGlobalInterceptors(interceptor);
+      elkService = moduleFixture.get<ElkService>(ElkService);
+      await app.init();
+    });
 
-  it('should be defined', () => {
-    expect(app).toBeDefined();
-  });
+    afterEach(async () => {
+      await app.close();
+    });
 
-  describe('ElkInterceptor', () => {
     it('should be an ElkInterceptor instance to be defined', async () => {
       expect(new ElkInterceptor(elkService)).toBeDefined();
     });
@@ -269,7 +305,7 @@ describe('ElkModule', () => {
     });
   });
 
-  describe('ElkModule - Register', () => {
+  describe('Register', () => {
     let app: INestApplication;
     let elkService: ElkService;
     let interceptor: ElkInterceptor<any>;

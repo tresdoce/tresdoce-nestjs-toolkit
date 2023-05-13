@@ -87,90 +87,92 @@ const mockExpectReadinessDown = {
   },
 };
 
-describe('Health - Ready controller - extend config', () => {
-  let controller: ReadinessController;
-  let health: HealthCheckService;
-  let http: HttpHealthIndicator;
-  let typeOrm: TypeOrmHealthIndicator;
-  let redis: MicroserviceHealthIndicator;
-
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [TerminusModule, HttpModule],
-      controllers: [ReadinessController],
-      providers: [
-        {
-          provide: CONFIG_OPTIONS,
-          useValue: mockedConfig,
-        },
-      ],
-    }).compile();
-
-    controller = module.get<ReadinessController>(ReadinessController);
-    health = await module.resolve<HealthCheckService>(HealthCheckService);
-    http = await module.resolve<HttpHealthIndicator>(HttpHealthIndicator as any);
-    typeOrm = await module.resolve<TypeOrmHealthIndicator>(TypeOrmHealthIndicator);
-    redis = await module.resolve<MicroserviceHealthIndicator>(MicroserviceHealthIndicator);
-  });
-
-  it('should be defined with extend config', () => {
-    expect(controller).toBeDefined();
-  });
-
-  it('should be return up services with extend config', async () => {
-    http.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
-    typeOrm.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
-    redis.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
-    health.check = jest.fn().mockImplementation(() => mockExpectReadiness);
-
-    const readinessData = await controller.check();
-    expect(readinessData).toEqual(mockExpectReadiness);
-  });
-});
-
 const simpleConfig = {
   services: {
     myService: { url: 'http://localhost:8082' },
   },
 };
 
-describe('Health - Ready controller - simple config', () => {
-  let controller: ReadinessController;
-  let health: HealthCheckService;
-  let http: HttpHealthIndicator;
-  let typeOrm: TypeOrmHealthIndicator;
-  let redis: MicroserviceHealthIndicator;
+describe('Health', () => {
+  describe('Ready controller - extend config', () => {
+    let controller: ReadinessController;
+    let health: HealthCheckService;
+    let http: HttpHealthIndicator;
+    let typeOrm: TypeOrmHealthIndicator;
+    let redis: MicroserviceHealthIndicator;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [TerminusModule, HttpModule],
-      controllers: [ReadinessController],
-      providers: [
-        {
-          provide: CONFIG_OPTIONS,
-          useValue: simpleConfig,
-        },
-      ],
-    }).compile();
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        imports: [TerminusModule, HttpModule],
+        controllers: [ReadinessController],
+        providers: [
+          {
+            provide: CONFIG_OPTIONS,
+            useValue: mockedConfig,
+          },
+        ],
+      }).compile();
 
-    controller = module.get<ReadinessController>(ReadinessController);
-    health = await module.resolve<HealthCheckService>(HealthCheckService);
-    http = await module.resolve<HttpHealthIndicator>(HttpHealthIndicator as any);
-    typeOrm = await module.resolve<TypeOrmHealthIndicator>(TypeOrmHealthIndicator);
-    redis = await module.resolve<MicroserviceHealthIndicator>(MicroserviceHealthIndicator);
+      controller = module.get<ReadinessController>(ReadinessController);
+      health = await module.resolve<HealthCheckService>(HealthCheckService);
+      http = await module.resolve<HttpHealthIndicator>(HttpHealthIndicator as any);
+      typeOrm = await module.resolve<TypeOrmHealthIndicator>(TypeOrmHealthIndicator);
+      redis = await module.resolve<MicroserviceHealthIndicator>(MicroserviceHealthIndicator);
+    });
+
+    it('should be defined with extend config', () => {
+      expect(controller).toBeDefined();
+    });
+
+    it('should be return up services with extend config', async () => {
+      http.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
+      typeOrm.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
+      redis.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
+      health.check = jest.fn().mockImplementation(() => mockExpectReadiness);
+
+      const readinessData = await controller.check();
+      expect(readinessData).toEqual(mockExpectReadiness);
+    });
   });
 
-  it('should be defined with simple config', () => {
-    expect(controller).toBeDefined();
-  });
+  describe('Ready controller - simple config', () => {
+    let controller: ReadinessController;
+    let health: HealthCheckService;
+    let http: HttpHealthIndicator;
+    let typeOrm: TypeOrmHealthIndicator;
+    let redis: MicroserviceHealthIndicator;
 
-  it('should be return up services with simple config', async () => {
-    http.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
-    typeOrm.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
-    redis.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
-    health.check = jest.fn().mockImplementation(() => mockExpectReadiness);
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        imports: [TerminusModule, HttpModule],
+        controllers: [ReadinessController],
+        providers: [
+          {
+            provide: CONFIG_OPTIONS,
+            useValue: simpleConfig,
+          },
+        ],
+      }).compile();
 
-    const readinessData = await controller.check();
-    expect(readinessData).toEqual(mockExpectReadiness);
+      controller = module.get<ReadinessController>(ReadinessController);
+      health = await module.resolve<HealthCheckService>(HealthCheckService);
+      http = await module.resolve<HttpHealthIndicator>(HttpHealthIndicator as any);
+      typeOrm = await module.resolve<TypeOrmHealthIndicator>(TypeOrmHealthIndicator);
+      redis = await module.resolve<MicroserviceHealthIndicator>(MicroserviceHealthIndicator);
+    });
+
+    it('should be defined with simple config', () => {
+      expect(controller).toBeDefined();
+    });
+
+    it('should be return up services with simple config', async () => {
+      http.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
+      typeOrm.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
+      redis.pingCheck = jest.fn().mockImplementation(() => mockExpectReadiness.info);
+      health.check = jest.fn().mockImplementation(() => mockExpectReadiness);
+
+      const readinessData = await controller.check();
+      expect(readinessData).toEqual(mockExpectReadiness);
+    });
   });
 });

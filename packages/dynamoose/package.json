@@ -1,0 +1,85 @@
+{
+  "name": "@tresdoce-nestjs-toolkit/dynamoose",
+  "version": "0.0.0",
+  "description": "Tresdoce NestJS Toolkit - Módulo de base de datos DynamoDB - Dynamoose",
+  "author": {
+    "name": "Maximiliano \"Mex\" Delgado",
+    "email": "mdelgado@tresdoce.com.ar",
+    "url": "https://rudemex.github.io/"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "keywords": [
+    "nestjs",
+    "dynamodb",
+    "dynamoose"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tresdoce/tresdoce-nestjs-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tresdoce/tresdoce-nestjs-toolkit/issues"
+  },
+  "homepage": "https://github.com/tresdoce/tresdoce-nestjs-toolkit#readme",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf ../../dist/dynamoose",
+    "build": "pika build --out ../../dist/dynamoose",
+    "test": "jest --runInBand --coverage --forceExit --passWithNoTests",
+    "clean": "rimraf .turbo coverage test-results node_modules test-report.xml"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "../../dist/dynamoose"
+  },
+  "peerDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.321.1",
+    "@nestjs/common": "^9.4.0",
+    "@nestjs/core": "^9.4.0",
+    "@nestjs/platform-express": "^9.4.0",
+    "dynamoose": "^3.2.0",
+    "dynamoose-logger": "^3.2.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.5.5"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.321.1",
+    "dynamoose": "^3.2.0",
+    "dynamoose-logger": "^3.2.0"
+  },
+  "devDependencies": {
+    "@tresdoce-nestjs-toolkit/config": "^0.2.4",
+    "@types/tresdoce-nestjs-toolkit": "^0.1.3"
+  },
+  "prettier": {
+    "semi": true,
+    "tabWidth": 2,
+    "singleQuote": true,
+    "printWidth": 100,
+    "trailingComma": "all"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-ts-standard-pkg",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-node",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ]
+    ]
+  }
+}
