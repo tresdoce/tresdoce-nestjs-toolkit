@@ -19,11 +19,11 @@ export class ElkInterceptor<T> implements NestInterceptor<T, any> {
     this.response = this.ctx.getResponse<Response>();
 
     return _next.handle().pipe(
-      mergeMap(async (_response) => {
+      mergeMap(async (_response): Promise<any> => {
         await this.elkService.serializeResponseInterceptor(timeRequest, _context, _response, false);
         return _response;
       }),
-      catchError(async (_error) => {
+      catchError(async (_error): Promise<any> => {
         await this.elkService.serializeResponseInterceptor(timeRequest, _context, _error, true);
         return _error;
       }),
