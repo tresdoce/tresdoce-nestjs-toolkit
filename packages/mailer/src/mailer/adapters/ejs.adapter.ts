@@ -8,6 +8,7 @@ import { MailerOptions } from '../interfaces/mailer-options.interface';
 import { TemplateAdapter } from '../interfaces/template-adapter.interface';
 import { TemplateAdapterConfig } from '../interfaces/template-adapter-config.interface';
 import { defaultConfigMailer, getTemplatePath } from '../utils/utils';
+import { throws } from 'assert';
 
 export class EjsAdapter implements TemplateAdapter {
   private precompiledTemplates: {
@@ -58,7 +59,7 @@ export class EjsAdapter implements TemplateAdapter {
     if (typeof rendered === 'string') {
       render(rendered);
     } else {
-      rendered.then(render);
+      rendered.then(render).catch((_error) => _error);
     }
   }
 }

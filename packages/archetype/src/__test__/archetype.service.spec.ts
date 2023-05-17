@@ -8,22 +8,6 @@ import { ArchetypeService } from '../archetype/services/archetype.service';
 
 describe('ArchetypeService', () => {
   let service: ArchetypeService;
-  /*const archetypeService = {
-      readFile: jest.fn(() => manifest),
-      getArchetypeVersion: jest.fn(() => ({ archetypeVersion: manifest.archetypeVersion })),
-      getApplicationInfo: jest.fn(() => ({
-        name: manifest.name,
-        version: manifest.version,
-        description: manifest.description,
-        author: manifest.author,
-        repository: manifest.repository,
-        homepage: manifest.homepage,
-        dependencies: manifest.dependencies,
-        devDependencies: manifest.devDependencies,
-      })),
-      generateManifest: jest.fn(() => manifest),
-    };*/
-
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
@@ -59,6 +43,7 @@ describe('ArchetypeService', () => {
 
   it('should be return application info', async () => {
     service.readFile = jest.fn().mockImplementation(() => ({
+      appStage: manifest.appStage,
       apiPrefix: manifest.apiPrefix,
       name: manifest.name,
       version: manifest.version,
@@ -71,6 +56,7 @@ describe('ArchetypeService', () => {
     }));
 
     expect(await service.getApplicationInfo()).toEqual({
+      appStage: manifest.appStage,
       apiPrefix: manifest.apiPrefix,
       name: manifest.name,
       version: manifest.version,
@@ -105,6 +91,7 @@ describe('ArchetypeService', () => {
     }));
 
     service.getApplicationInfo = jest.fn().mockImplementation(() => ({
+      appStage: manifest.appStage,
       apiPrefix: manifest.apiPrefix,
       name: manifest.name,
       version: manifest.version,

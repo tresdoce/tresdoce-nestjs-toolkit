@@ -1,13 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpException, INestApplication } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import {
-  dynamicConfig,
-  fixtureUserResponse,
-  TCElasticSearchOptions,
-  tcName,
-  testContainers,
-} from '@tresdoce-nestjs-toolkit/test-utils';
+import { dynamicConfig, fixtureUserResponse } from '@tresdoce-nestjs-toolkit/test-utils';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpConnection } from '@elastic/elasticsearch';
 import { URL } from 'url';
@@ -68,38 +62,11 @@ let executionContextParams: any = {
   getHandler: jest.fn(() => 'handlerElk'),
 };
 
-/*const callHandler: any = {
-  handle: jest.fn(() => ({
-    pipe: jest.fn(() => ({
-      tap: jest.fn(() => ({
-        next: jest.fn(),
-        error: jest.fn(),
-      })),
-    })),
-  })),
-};*/
-
 jest.setTimeout(70000);
 describe('ElkModule', () => {
   let app: INestApplication;
   let elkService: ElkService;
   let interceptor: ElkInterceptor<any>;
-  let container: testContainers;
-
-  beforeAll(async () => {
-    //'elasticsearch:8.3.3'
-    //docker.elastic.co/elasticsearch/elasticsearch:8.3.3
-
-    container = await new testContainers('elasticsearch:8.3.3', {
-      ...TCElasticSearchOptions,
-      containerName: `${tcName}-elasticsearch-interceptor`,
-    });
-    await container.start();
-  });
-
-  afterAll(async () => {
-    await container.stop({ removeVolumes: true });
-  });
 
   describe('forRoot', () => {
     beforeEach(async () => {
@@ -112,7 +79,7 @@ describe('ElkModule', () => {
                 elasticsearch: {
                   name: 'test-elk-index',
                   node: {
-                    url: new URL(`http://${container.getHost()}:9200`),
+                    url: new URL(`http://localhost:9200`),
                   },
                   maxRetries: 10,
                   requestTimeout: 60000,
@@ -152,7 +119,7 @@ describe('ElkModule', () => {
                 elasticsearch: {
                   name: 'test-elk-index',
                   node: {
-                    url: new URL(`http://${container.getHost()}:9200`),
+                    url: new URL(`http://localhost:9200`),
                   },
                   maxRetries: 10,
                   requestTimeout: 60000,
@@ -316,7 +283,7 @@ describe('ElkModule', () => {
           ElkModule.register({
             name: 'test-elk-index',
             node: {
-              url: new URL(`http://${container.getHost()}:9200`),
+              url: new URL(`http://localhost:9200`),
             },
             maxRetries: 10,
             requestTimeout: 60000,

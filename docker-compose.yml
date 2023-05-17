@@ -65,11 +65,11 @@ services:
       AWS_REGION: us-east-1
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.3.3
     container_name: tresdoce-test-utils-global-elasticsearch
     restart: always
     ports:
-      - '9204:9200'
+      - '9200:9200'
     environment:
       - TZ=UTC
       - discovery.type=single-node
