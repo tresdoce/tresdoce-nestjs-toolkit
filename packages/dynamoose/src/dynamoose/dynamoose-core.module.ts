@@ -1,4 +1,4 @@
-import { DynamicModule, Global, Logger, Module, Provider, Type } from '@nestjs/common';
+import { DynamicModule, Global, Logger, Module, Provider } from '@nestjs/common';
 import { aws, logger, Table } from 'dynamoose';
 import { DynamooseModule } from './dynamoose.module';
 import { LoggerProvider } from './providers/dynamoose-logger.provider';

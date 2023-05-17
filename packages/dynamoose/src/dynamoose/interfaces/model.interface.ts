@@ -412,9 +412,11 @@ export interface UpdateTransaction<Key, Data> {
     settings?: ModelUpdateSettings,
   ): UpdateTransactionResult;
 }
-export interface ConditionTransaction<Key> {
-  (key: Key, condition: Condition): ConditionTransactionResult;
-}
+
+export type ConditionTransaction<Key> = (
+  key: Key,
+  condition: Condition,
+) => ConditionTransactionResult;
 
 type TransactionType<Data, Key> = {
   get: GetTransaction<Data>;

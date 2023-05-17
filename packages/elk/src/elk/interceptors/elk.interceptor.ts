@@ -1,6 +1,6 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
-import { Observable, tap, mergeMap, catchError } from 'rxjs';
+import { Observable, mergeMap, catchError } from 'rxjs';
 import { Request, Response } from 'express';
 import { ElkService } from '../services/elk.service';
 

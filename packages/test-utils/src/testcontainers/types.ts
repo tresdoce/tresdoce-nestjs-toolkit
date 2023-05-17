@@ -1,8 +1,7 @@
 import { PortWithOptionalBinding } from 'testcontainers/dist/src/port';
 
-export declare type EnvKey = string;
 export declare type Env = {
-  [key in EnvKey]: any;
+  [key in string]: any;
 };
 
 export interface ITestContainerOptions {
