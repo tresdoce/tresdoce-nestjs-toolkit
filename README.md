@@ -134,6 +134,18 @@ referencia [`conventional commits`](https://www.conventionalcommits.org/es/v1.0.
 - **scope:** indica la página, componente, funcionalidad
 - **description:** comienza en minúsculas y no debe superar los 72 caracteres.
 
+### Ejemplo Commit
+
+```
+git commit -m "docs(core): add documentantion to readme core module"
+```
+
+### Commit Breaking Change
+
+```
+git commit -am 'feat!: changes in application'
+```
+
 ---
 
 <div align="center">

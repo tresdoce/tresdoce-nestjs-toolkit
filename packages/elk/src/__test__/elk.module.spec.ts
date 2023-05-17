@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpException, INestApplication } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { dynamicConfig, fixtureUserResponse } from '@tresdoce-nestjs-toolkit/test-utils';
+import { config, dynamicConfig, fixtureUserResponse } from '@tresdoce-nestjs-toolkit/test-utils';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpConnection } from '@elastic/elasticsearch';
 import { URL } from 'url';
@@ -62,7 +62,7 @@ let executionContextParams: any = {
   getHandler: jest.fn(() => 'handlerElk'),
 };
 
-jest.setTimeout(70000);
+jest.setTimeout(90000);
 describe('ElkModule', () => {
   let app: INestApplication;
   let elkService: ElkService;
@@ -82,8 +82,8 @@ describe('ElkModule', () => {
                     url: new URL(`http://localhost:9200`),
                   },
                   maxRetries: 10,
-                  requestTimeout: 60000,
-                  sniffOnStart: true,
+                  requestTimeout: 90000,
+                  sniffOnStart: false,
                   Connection: HttpConnection,
                 },
               }),
@@ -122,8 +122,8 @@ describe('ElkModule', () => {
                     url: new URL(`http://localhost:9200`),
                   },
                   maxRetries: 10,
-                  requestTimeout: 60000,
-                  sniffOnStart: true,
+                  requestTimeout: 90000,
+                  sniffOnStart: false,
                   Connection: HttpConnection,
                 },
               }),
@@ -280,14 +280,18 @@ describe('ElkModule', () => {
     beforeEach(async () => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
         imports: [
+          ConfigModule.forRoot({
+            isGlobal: true,
+            load: [config],
+          }),
           ElkModule.register({
             name: 'test-elk-index',
             node: {
               url: new URL(`http://localhost:9200`),
             },
             maxRetries: 10,
-            requestTimeout: 60000,
-            sniffOnStart: true,
+            requestTimeout: 90000,
+            sniffOnStart: false,
             Connection: HttpConnection,
           }),
         ],
