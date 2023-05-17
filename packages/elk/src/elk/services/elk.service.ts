@@ -40,6 +40,10 @@ export class ElkService {
     _response: any,
     _isException,
   ): Promise<void> {
+    const application = `${this.configService.get('config.project.name')}`;
+    const applicationVersion = `v${this.configService.get('config.project.version')}`;
+    const appStage = `${this.configService.get('config.server.appStage')}`;
+
     const requestDuration = Date.now() - _timeRequest;
     const controller = _context.getClass().name;
     const handler = _context.getHandler().name;
@@ -70,8 +74,9 @@ export class ElkService {
       }
 
       const elkDocument = {
-        application: `${this.configService.get('config.project.name')}`,
-        applicationVersion: `v${this.configService.get('config.project.version')}`,
+        application,
+        applicationVersion,
+        appStage,
         path,
         url,
         controller,
