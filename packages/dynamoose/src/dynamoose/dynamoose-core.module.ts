@@ -77,7 +77,8 @@ export class DynamooseCoreModule {
       return [this.createAsyncOptionsProvider(options)];
     }
     /* istanbul ignore next */
-    const useClass = options.useClass as Type<DynamooseOptionsFactory>;
+    //const useClass = options.useClass as Type<DynamooseOptionsFactory>;
+    const useClass = options.useClass;
     /* istanbul ignore next */
     return [
       this.createAsyncOptionsProvider(options),
@@ -97,7 +98,8 @@ export class DynamooseCoreModule {
       };
     }
     /* istanbul ignore next */
-    const inject = [(options.useClass || options.useExisting) as Type<DynamooseOptionsFactory>];
+    //const inject = [(options.useClass || options.useExisting) as Type<DynamooseOptionsFactory>];
+    const inject = [options.useClass || options.useExisting];
     /* istanbul ignore next */
     return {
       provide: DYNAMOOSE_MODULE_OPTIONS,
