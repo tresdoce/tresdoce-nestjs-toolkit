@@ -22,6 +22,7 @@ export const appConfigBase: Typings.AppConfig = {
   },
   server: {
     isProd: false,
+    appStage: 'test',
     port: 8081,
     context: 'api',
     origins: ['http://localhost:3000', 'http://localhost:8080'],

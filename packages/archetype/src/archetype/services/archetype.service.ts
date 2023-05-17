@@ -26,6 +26,7 @@ export class ArchetypeService {
   async getApplicationInfo() {
     const {
       project: { apiPrefix, name, version, description, author, repository, homepage },
+      server: { appStage },
     } = this.configService;
     const { dependencies, devDependencies } = await this.readFile(process.cwd(), './package.json');
 
@@ -39,6 +40,7 @@ export class ArchetypeService {
     );
 
     return {
+      appStage,
       apiPrefix,
       name,
       version,

@@ -58,7 +58,7 @@ export class EjsAdapter implements TemplateAdapter {
     if (typeof rendered === 'string') {
       render(rendered);
     } else {
-      rendered.then(render);
+      rendered.then(render).catch((_error) => _error);
     }
   }
 }

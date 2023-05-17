@@ -5,28 +5,34 @@ import { ClientConfig } from 'camunda-external-task-client-js';
 import { ClientOptions } from '@elastic/elasticsearch';
 import { AxiosRequestConfig } from 'axios';
 
-type TApiPrefix = string;
-type TName = string;
-type TUrl = string;
+export type TAppStage = 'local' | 'test' | 'snd' | 'dev' | 'qa' | 'homo' | 'prod';
+
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      APP_STAGE: TAppStage;
+    }
+  }
+}
 
 export interface IProjectConfigAuthor {
-  name: TName;
+  name: string;
   email: string;
-  url: TUrl;
+  url: string;
 }
 
 export interface IProjectConfigRepository {
   type: string;
-  url: TUrl;
+  url: string;
 }
 
 export interface IProjectConfigBugs {
-  url: TUrl;
+  url: string;
 }
 
 export interface IProjectConfig {
-  apiPrefix: TApiPrefix;
-  name: TName;
+  apiPrefix: string;
+  name: string;
   version: string;
   description: string;
   author: IProjectConfigAuthor;
@@ -37,6 +43,7 @@ export interface IProjectConfig {
 
 export interface IServerConfig {
   isProd: boolean;
+  appStage: TAppStage;
   port: number;
   context: string;
   origins: string[] | string;

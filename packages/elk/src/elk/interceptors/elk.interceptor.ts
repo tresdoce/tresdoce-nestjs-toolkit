@@ -1,6 +1,6 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
-import { Observable, tap } from 'rxjs';
+import { Observable, mergeMap, catchError } from 'rxjs';
 import { Request, Response } from 'express';
 import { ElkService } from '../services/elk.service';
 
@@ -19,18 +19,13 @@ export class ElkInterceptor<T> implements NestInterceptor<T, any> {
     this.response = this.ctx.getResponse<Response>();
 
     return _next.handle().pipe(
-      tap({
-        next: async (_response): Promise<void> => {
-          await this.elkService.serializeResponseInterceptor(
-            timeRequest,
-            _context,
-            _response,
-            false,
-          );
-        },
-        error: async (_error): Promise<void> => {
-          await this.elkService.serializeResponseInterceptor(timeRequest, _context, _error, true);
-        },
+      mergeMap(async (_response) => {
+        await this.elkService.serializeResponseInterceptor(timeRequest, _context, _response, false);
+        return _response;
+      }),
+      catchError(async (_error) => {
+        await this.elkService.serializeResponseInterceptor(timeRequest, _context, _error, true);
+        return _error;
       }),
     );
   }
