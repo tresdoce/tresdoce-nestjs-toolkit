@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.4.0...@tresdoce-nestjs-toolkit/core@0.5.0) (2023-05-19)
+
+### 🐛 Bug Fixes
+
+- **jest-reporter:** remove fileName in suitesChilds and fix bug 2 describe with same testcase name ([d5a20fe](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d5a20fe61200f59eeabfd580edb067771fe974d9))
+
+### ✨ Features
+
+- add jest mochawesome report ([3ec8286](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/3ec8286c58764945068af903749ed474f25d64ef))
+- **core:** add app stage param ([a9d53d1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a9d53d1bcc509bbb532539df42af93d12b02f2f3))
+
+### 👨‍💻 Chores
+
+- delete test results ([1a98b93](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/1a98b9331bd5b50a70d89cf24003bcad913241ce))
+- edit scripts and husky ([e68ebac](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/e68ebac9251cd78a7a351a008af857b4507f6b9a))
+- **jest-report:** disabled auto open ([2d57f6c](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/2d57f6c5aa0a2efdaea3a1c33894939fcde27c9c))
+- jest-reporter ([5b99c1b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/5b99c1b1c6f3a986a657184feeeb59c552f32192))
+- **jest-reporter:** generate jest reporter ([cd78f21](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/cd78f218497159fcf50e8daf2e4186352c991633))
+- **jest-reporter:** separete test generator and add speed in test ([8a2568b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/8a2568bb3ee52628d4a318bc2b75dd96569869c3))
+- **jest-reporter:** work with fixes ([2550bbc](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/2550bbc3e32f1dc0022422573eeba38657f1cf3e))
+- **jest-reporter:** work with fixes in error test ([a63a2b7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a63a2b7797a7e4f85671f73f6b044de959e88ad2))
+- re install dependencies ([37f3854](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/37f38542729ba305f4ed238093cb3c0c94d80309))
+- remove test reports ([91dfcf5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/91dfcf569d94b1fe92e4584d29672a5b5a157726))
+- update dependencies ([bb50d6a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/bb50d6ade4796ad92c2cce3194b4d542828d1895))
+- upload reports ([0241b2b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/0241b2b4c3c4c4b05b1505acecba7bd2980f09fb))
+
 ## [0.4.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.4.0-beta.0...@tresdoce-nestjs-toolkit/core@0.4.0) (2023-04-08)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/core

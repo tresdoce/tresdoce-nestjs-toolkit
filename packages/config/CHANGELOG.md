@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/config@0.2.4...@tresdoce-nestjs-toolkit/config@0.3.0) (2023-05-19)
+
+### ✨ Features
+
+- add jest mochawesome report ([3ec8286](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/3ec8286c58764945068af903749ed474f25d64ef))
+
+### 👨‍💻 Chores
+
+- delete test results ([1a98b93](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/1a98b9331bd5b50a70d89cf24003bcad913241ce))
+- jest-reporter ([5b99c1b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/5b99c1b1c6f3a986a657184feeeb59c552f32192))
+- **jest-reporter:** generate jest reporter ([cd78f21](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/cd78f218497159fcf50e8daf2e4186352c991633))
+- **jest-reporter:** separete test generator and add speed in test ([8a2568b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/8a2568bb3ee52628d4a318bc2b75dd96569869c3))
+- **jest-reporter:** work with fixes ([2550bbc](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/2550bbc3e32f1dc0022422573eeba38657f1cf3e))
+- **jest-reporter:** work with fixes in error test ([a63a2b7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a63a2b7797a7e4f85671f73f6b044de959e88ad2))
+- remove test reports ([91dfcf5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/91dfcf569d94b1fe92e4584d29672a5b5a157726))
+- remove test results ([8add646](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/8add64639a091fbbf77cc48fc1945d03bd73936a))
+- upload reports ([0241b2b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/0241b2b4c3c4c4b05b1505acecba7bd2980f09fb))
+
+### 🐛 Bug Fixes
+
+- **jest-reporter:** remove fileName in suitesChilds and fix bug 2 describe with same testcase name ([d5a20fe](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d5a20fe61200f59eeabfd580edb067771fe974d9))
+- **jest-reporter:** resolve problem with not title and not get code ([cd3d9f3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/cd3d9f332650271f57a4b7d481aca7c8a0cfb068))
+
+### 🧪 Tests
+
+- **dynamoose:** add test to module ([3fbda90](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/3fbda9077cd4763bb2b20e3e25c1ea8d35383210))
+
 ## [0.2.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/config@0.2.4-beta.0...@tresdoce-nestjs-toolkit/config@0.2.4) (2023-04-08)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/config

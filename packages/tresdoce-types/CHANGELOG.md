@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@types/tresdoce-nestjs-toolkit@0.1.3...@types/tresdoce-nestjs-toolkit@0.2.0) (2023-05-19)
+
+### ✨ Features
+
+- add jest mochawesome report ([3ec8286](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/3ec8286c58764945068af903749ed474f25d64ef))
+
 ## [0.1.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@types/tresdoce-nestjs-toolkit@0.1.3-beta.0...@types/tresdoce-nestjs-toolkit@0.1.3) (2023-04-08)
 
 **Note:** Version bump only for package @types/tresdoce-nestjs-toolkit
