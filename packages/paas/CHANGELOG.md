@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/paas@0.2.1...@tresdoce-nestjs-toolkit/paas@0.3.0) (2023-05-19)
+
+### ✨ Features
+
+- add jest mochawesome report ([3ec8286](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/3ec8286c58764945068af903749ed474f25d64ef))
+
+### 👨‍💻 Chores
+
+- update dependencies ([bb50d6a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/bb50d6ade4796ad92c2cce3194b4d542828d1895))
+
 ## [0.2.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/paas@0.2.1-beta.0...@tresdoce-nestjs-toolkit/paas@0.2.1) (2023-04-16)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/paas
