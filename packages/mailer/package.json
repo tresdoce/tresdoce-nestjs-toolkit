@@ -36,9 +36,9 @@
     "directory": "../../dist/mailer"
   },
   "peerDependencies": {
-    "@nestjs/common": "^9.4.0",
-    "@nestjs/core": "^9.4.0",
-    "@nestjs/platform-express": "^9.4.0",
+    "@nestjs/common": "^9.4.1",
+    "@nestjs/core": "^9.4.1",
+    "@nestjs/platform-express": "^9.4.1",
     "ejs": "^3.1.2",
     "glob": "10.2.5",
     "handlebars": "^4.7.6",
