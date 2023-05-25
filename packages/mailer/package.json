@@ -36,11 +36,11 @@
     "directory": "../../dist/mailer"
   },
   "peerDependencies": {
-    "@nestjs/common": "^9.4.1",
-    "@nestjs/core": "^9.4.1",
-    "@nestjs/platform-express": "^9.4.1",
+    "@nestjs/common": "^9.4.2",
+    "@nestjs/core": "^9.4.2",
+    "@nestjs/platform-express": "^9.4.2",
     "ejs": "^3.1.2",
-    "glob": "10.2.5",
+    "glob": "10.2.6",
     "handlebars": "^4.7.6",
     "inline-css": "4.0.2",
     "mjml": "^4.14.0",
@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "ejs": "^3.1.2",
-    "glob": "10.2.5",
+    "glob": "10.2.6",
     "handlebars": "^4.7.6",
     "inline-css": "4.0.2",
     "mjml": "^4.14.0",
