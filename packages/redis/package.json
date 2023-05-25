@@ -36,9 +36,9 @@
     "directory": "../../dist/redis"
   },
   "peerDependencies": {
-    "@nestjs/common": "^9.4.1",
-    "@nestjs/core": "^9.4.1",
-    "@nestjs/platform-express": "^9.4.1",
+    "@nestjs/common": "^9.4.2",
+    "@nestjs/core": "^9.4.2",
+    "@nestjs/platform-express": "^9.4.2",
     "redis": "^4.1.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5",
