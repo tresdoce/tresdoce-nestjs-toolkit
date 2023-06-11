@@ -17,3 +17,4 @@ export {
   Logger,
   logger,
 } from 'camunda-external-task-client-js';
+export * from './camunda/interfaces/camunda.interface';

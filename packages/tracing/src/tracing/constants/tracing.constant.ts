@@ -1,17 +1,19 @@
 import { excludePaths } from '@tresdoce-nestjs-toolkit/core';
 import * as Tags from './tags.constant';
 
-export const TRACING_MODULE_OPTIONS = Symbol('TRACING_MODULE_OPTIONS');
-export const TRACING_PROVIDER = Symbol('TRACING_PROVIDER');
-export const TRACING_SERVICE = 'TRACING_SERVICE';
-
 export const defaultExcludePaths = excludePaths();
+export const DEFAULT_TIMEZONE = 'America/Argentina/Buenos_Aires';
+/*
+'dd/LL/yyyy TT.SSS'; // 05/06/2023 16:54:30.752
+'dd/LL/yyyy hh:mm:ss.SSS a'; // 05/06/2023 04:49:44.033 PM
+*/
+export const DEFAULT_TIME_FORMAT = 'dd/LL/yyyy TT.SSS'; // 05/06/2023 16:54:30.752
 
 export const FORMAT_HTTP_HEADERS = 'http_headers';
-export const SPAN_ERROR = Symbol('SPAN_ERROR');
-export const REQUEST_SPAN = Symbol('REQUEST_SPAN');
-export const RESPONSE_SPAN = Symbol('RESPONSE_SPAN');
-export const EXCEPT_TRACING_INTERCEPTOR = 'EXCEPT_TRACING_INTERCEPTOR';
+export const SPAN_ERROR = 'SPAN_ERROR';
+export const REQUEST_RECEIVED = 'REQUEST_RECEIVED';
+export const RESPONSE_RECEIVED = 'RESPONSE_RECEIVED';
+export const SKIP_TRACE = 'SKIP_TRACE';
 export const TAGS = {
   ...Tags,
   PROTOCAL: 'protocal',

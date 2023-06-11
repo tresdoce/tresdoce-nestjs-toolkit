@@ -33,6 +33,26 @@ export const COMPONENT = 'component';
  */
 export const SAMPLING_PRIORITY = 'sampling.priority';
 
+/**
+ * Timestamp of request
+ */
+export const TIMESTAMP = 'timestamp';
+
+/**
+ * Start time of request
+ */
+export const TIME_START = 'time.start';
+
+/**
+ * End time of request
+ */
+export const TIME_END = 'time.end';
+
+/**
+ * Duration of request
+ */
+export const TIME_DURATION = 'time.duration';
+
 // ---------------------------------------------------------------------------
 // PEER_* tags can be emitted by either client-side of server-side to describe
 // the other side/service in a peer-to-peer communications, like an RPC call.
@@ -70,6 +90,24 @@ export const PEER_PORT = 'peer.port';
 // ---------------------------------------------------------------------------
 // HTTP tags
 // ---------------------------------------------------------------------------
+
+/**
+ * HTTP_OPERATION (string) HTTP operation of the request for the associated Span. E.g.,
+ * "http:AppController:getMyUtil"
+ */
+export const HTTP_OPERATION = 'http.operation';
+
+/**
+ * HTTP_CONTROLLER (string) HTTP controller of the request for the associated Span. E.g.,
+ * "AppController"
+ */
+export const HTTP_CONTROLLER = 'http.controller';
+
+/**
+ * HTTP_HANDLER (string) HTTP handler of the request for the associated Span. E.g.,
+ * "getHello"
+ */
+export const HTTP_HANDLER = 'http.handler';
 
 /**
  * HTTP_URL (string) URL of the request being handled in this segment of the
