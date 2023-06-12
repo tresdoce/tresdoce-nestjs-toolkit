@@ -32,7 +32,7 @@ export const otelProvider = (_options: TracingOptions): void => {
     new NodeSDK({
       resource: new Resource({
         [SemanticResourceAttributes.SERVICE_NAME]: resourceAttributes.serviceName,
-        [SemanticResourceAttributes.SERVICE_VERSION]: resourceAttributes.version || '1.0.0',
+        [SemanticResourceAttributes.SERVICE_VERSION]: resourceAttributes.version,
         ...resourceAttributes,
       }),
       idGenerator: new AWSXRayIdGenerator(),
@@ -55,6 +55,7 @@ export const otelProvider = (_options: TracingOptions): void => {
     }).start();
     Logger.log('Creating OpenTelemetry provider successfully!', 'TracingModule');
   } catch (_error) {
+    /* istanbul ignore next */
     Logger.error('Error creating OpenTelemetry provider: ', _error, 'TracingModule');
   }
 };

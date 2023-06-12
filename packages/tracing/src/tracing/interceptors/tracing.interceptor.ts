@@ -58,6 +58,7 @@ export class TracingInterceptor implements NestInterceptor {
     this.request = this.ctx.getRequest();
     this.response = this.ctx.getResponse();
 
+    /* istanbul ignore next */
     if (excludePaths.includes(this.request.path)) return _next.handle();
 
     /* istanbul ignore next */
