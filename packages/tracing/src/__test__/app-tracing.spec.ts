@@ -90,19 +90,18 @@ describe('Tracing', () => {
     const spanContext = span.spanContext();
     expect(spanContext).not.toBeNull();
     expect(typeof spanContext).toBe('object');
-
     tracingService.setSpanTags(span, { ...req.headers, 'tracing-tag': 27 });
   });
 
-  it(`GET /cats/1`, () => {
-    return request(app.getHttpServer()).get('/cats/1').expect(200);
+  it(`GET /cats/1`, async () => {
+    await request(app.getHttpServer()).get('/cats/1').expect(200);
   });
 
-  it(`GET /cats/100`, () => {
-    return request(app.getHttpServer()).get('/cats/100').expect(404);
+  it(`GET /cats/100`, async () => {
+    await request(app.getHttpServer()).get('/cats/100').expect(404);
   });
 
-  it(`GET /all-cats`, () => {
-    return request(app.getHttpServer()).get('/all-cats').expect(404);
+  it(`GET /all-cats`, async () => {
+    await request(app.getHttpServer()).get('/all-cats').expect(404);
   });
 });
