@@ -1,8 +1,9 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { RedisOptions } from '@tresdoce-nestjs-toolkit/redis';
 import { MailerOptions } from '@tresdoce-nestjs-toolkit/mailer';
-import { ClientConfig } from 'camunda-external-task-client-js';
-import { ClientOptions } from '@elastic/elasticsearch';
+import { TracingOptions } from '@tresdoce-nestjs-toolkit/tracing';
+import { DatabaseOptions } from '@tresdoce-nestjs-toolkit/typeorm';
+import { CamundaOptions } from '@tresdoce-nestjs-toolkit/camunda';
+import { ElasticsearchOptions } from '@tresdoce-nestjs-toolkit/elk';
 import { AxiosRequestConfig } from 'axios';
 
 export type TAppStage = 'local' | 'test' | 'snd' | 'dev' | 'qa' | 'homo' | 'prod';
@@ -67,20 +68,17 @@ export interface IServicesConfig extends AxiosRequestConfig {
   [key: string]: any;
 }
 
-export interface IDatabaseConfiguration {
-  typeorm?: TypeOrmModuleOptions;
-}
-
 export interface AppConfig {
   project: IProjectConfig;
   server: IServerConfig;
   swagger: ISwaggerConfig;
   params?: IParamsConfig;
   services?: Record<string, IServicesConfig>;
-  database?: IDatabaseConfiguration;
+  database?: DatabaseOptions;
   redis?: RedisOptions;
   mailer?: MailerOptions;
-  camunda?: ClientConfig;
-  elasticsearch?: ClientOptions;
+  camunda?: CamundaOptions;
+  elasticsearch?: ElasticsearchOptions;
+  tracing?: TracingOptions;
   [key: string]: any;
 }

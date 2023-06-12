@@ -8,7 +8,7 @@ services:
     ports:
       - '5432:5432'
     environment:
-      TZ: UTC
+      TZ: 'America/Argentina/Buenos_Aires'
       POSTGRES_DB: my_db
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 123456
@@ -20,7 +20,7 @@ services:
     ports:
       - '3306:3306'
     environment:
-      TZ: UTC
+      TZ: 'America/Argentina/Buenos_Aires'
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: my_db
       MYSQL_PASSWORD: 123456
@@ -33,7 +33,7 @@ services:
     ports:
       - '27017:27017'
     environment:
-      TZ: UTC
+      TZ: 'America/Argentina/Buenos_Aires'
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123456
       MONGO_INITDB_DATABASE: test_db
@@ -45,7 +45,7 @@ services:
     ports:
       - '6379:6379'
     environment:
-      TZ: UTC
+      TZ: 'America/Argentina/Buenos_Aires'
       REDIS_PORT: 6379
       REDIS_PASSWORD: 123456
       REDIS_HOST: cache
@@ -59,7 +59,7 @@ services:
     ports:
       - '8000:8000'
     environment:
-      TZ: UTC
+      TZ: 'America/Argentina/Buenos_Aires'
       AWS_ACCESS_KEY_ID: local
       AWS_SECRET_ACCESS_KEY: local
       AWS_REGION: us-east-1
@@ -71,8 +71,27 @@ services:
     ports:
       - '9200:9200'
     environment:
-      - TZ=UTC
+      - TZ=America/Argentina/Buenos_Aires
       - discovery.type=single-node
       - node.name=elasticsearch
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
       - xpack.security.enabled=false
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: tresdoce-test-utils-global-jaeger
+    restart: always
+    ports:
+      - '6831:6831/udp'
+      - '6832:6832/udp'
+      - '5778:5778'
+      - '16686:16686'
+      - '4317:4317'
+      - '4318:4318'
+      - '14250:14250'
+      - '14268:14268'
+      - '14269:14269'
+      - '9411:9411'
+    environment:
+      TZ: 'America/Argentina/Buenos_Aires'
+      COLLECTOR_OTLP_ENABLED: 'true'
