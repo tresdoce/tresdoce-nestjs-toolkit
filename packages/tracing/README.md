@@ -55,15 +55,137 @@ yarn add @tresdoce-nestjs-toolkit/tracing
 ## ⚙️ Configuración
 
 ```typescript
+//./src/config/configuration.ts
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import { registerAs } from '@nestjs/config';
+import * as PACKAGE_JSON from '../../package.json';
 
+export default registerAs('config', (): Typings.AppConfig => {
+  return {
+    //...
+    tracing: {
+      resourceAttributes: {
+        serviceName: `${PACKAGE_JSON.name}`,
+        version: PACKAGE_JSON.version,
+        'service.namespace': `${process.env.API_PREFIX}`,
+        'deployment.environment': process.env.APP_STAGE,
+      },
+      exporter: {
+        url: process.env.TRACING_ENDPOINT,
+        /*headers: {
+          Authorization: '<token>',
+        },*/
+      },
+    },
+    //...
+  };
+});
 ```
+
+<details>
+<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+
+`resourceAttributes`: Tags para la traza que se ingresa como objeto con `KEY:VALUE`, puedes ver que valores admite
+revisando la documentación de [Semantic Conventions](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/semantic_conventions/README.md)
+
+- Type: `Object`
+- Default: `{ 'serviceName': options.serviceName }`
+
+`resourceAttributes.serviceName`: Es el nombre de la aplicación para la traza
+
+- Type: `String`
+
+`resourceAttributes.version`: Es la version de la aplicación para la traza
+
+- Type: `String`
+
+`resourceAttributes.service.namespace`: Es un nombre para agrupar la traza por grupos
+
+- Type: `String`
+
+`resourceAttributes.deployment.environment`: Es el entorno en el que está desplegado la aplicación
+
+- Type: `String`
+
+`exporter`: Es la configuración del exportador de la traza y sus valores se definen como `KEY:VALUE`, puedes ver que
+valores admite revisando la documentación de [OTLP Exporter Configuration](https://opentelemetry.io/docs/concepts/sdk-configuration/otlp-exporter-configuration/)
+
+- Type: `Object`
+- Default: `{ 'url': 'http://localhost:4318/v1/traces' }`
+
+`exporter.url`: Es la url del endpoint que va a estar colectando la traza.
+
+- Type: `String`
+
+</details>
 
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-```typescript
+Inicializamos **Opentelemetry** previo a inicializar la app, pasando los datos de la config.
 
+```typescript
+//./src/main.ts
+import { otelProvider } from '@tresdoce-nestjs-toolkit/tracing';
+import { config } from './config';
+
+async function bootstrap() {
+  await otelProvider(config().tracing);
+  //...
+}
+
+(async () => await bootstrap())();
+```
+
+Instanciamos el `TracingModule` y el `TracingInterceptor` para que empiece a realizar la traza de la app.
+
+```typescript
+//./src/app.module.ts
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { TracingModule, TracingInterceptor } from '@tresdoce-nestjs-toolkit/tracing';
+
+@Module({
+  imports: [
+    //...
+    TracingModule,
+    //...
+  ],
+  //...
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TracingInterceptor,
+    },
+    //...
+  ],
+})
+export class AppModule {}
+```
+
+Excluir paths para la traza
+
+```typescript
+//./src/app.controller.ts
+import { Controller, Get } from '@nestjs/common';
+import { SkipTrace } from '@tresdoce-nestjs-toolkit/tracing';
+
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
+
+  @Get()
+  async getHello(): Promise<string> {
+    return 'hello world!';
+  }
+
+  @SkipTrace() // use this decorator to skip trace
+  @Get('my-util')
+  getMyUtil() {
+    return 'my util';
+  }
+}
 ```
 
 ## 📄 Changelog
