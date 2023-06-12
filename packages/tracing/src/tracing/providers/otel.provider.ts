@@ -29,12 +29,14 @@ export const otelProvider = (_options: TracingOptions): void => {
 
     const spanProcessor = new BatchSpanProcessor(traceExporter);
 
+    const resource = new Resource({
+      [SemanticResourceAttributes.SERVICE_NAME]: resourceAttributes.serviceName,
+      [SemanticResourceAttributes.SERVICE_VERSION]: resourceAttributes.version,
+      ...resourceAttributes,
+    });
+
     new NodeSDK({
-      resource: new Resource({
-        [SemanticResourceAttributes.SERVICE_NAME]: resourceAttributes.serviceName,
-        [SemanticResourceAttributes.SERVICE_VERSION]: resourceAttributes.version,
-        ...resourceAttributes,
-      }),
+      resource,
       idGenerator: new AWSXRayIdGenerator(),
       spanProcessor,
       textMapPropagator: new CompositePropagator({
