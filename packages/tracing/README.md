@@ -112,10 +112,16 @@ valores admite revisando la documentación de [OTLP Exporter Configuration](http
 
 - Type: `Object`
 - Default: `{ 'url': 'http://localhost:4318/v1/traces' }`
+- Example: `'http://localhost:4318/v1/traces' | 'http://docker:4318/v1/traces' | 'https://otelcol.aspecto.io/v1/trace'`
 
 `exporter.url`: Es la url del endpoint que va a estar colectando la traza.
 
 - Type: `String`
+
+`exporter.headers`: Es la configuración de los headers del colector de la traza.
+
+- Type: `Object`
+- Example: `{ Authorization: '<aspecto-io-token>' }`
 
 </details>
 

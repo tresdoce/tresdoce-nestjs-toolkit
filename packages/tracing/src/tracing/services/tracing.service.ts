@@ -55,7 +55,7 @@ export class TracingService {
 
     if (_headers && _headers[TAGS.TRACING_TAG]) {
       tracing_tag = _headers;
-      Object.keys(tracing_tag).map((_key) => {
+      Object.keys(tracing_tag).forEach((_key) => {
         _span.setAttribute(_key, `${tracing_tag[_key]}`);
       });
     }
