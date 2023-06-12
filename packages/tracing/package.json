@@ -1,7 +1,7 @@
 {
-  "name": "@tresdoce-nestjs-toolkit/paas",
-  "version": "0.3.2-beta.0",
-  "description": "Tresdoce NestJS Toolkit - Librería centralizada de funcionalidades cross",
+  "name": "@tresdoce-nestjs-toolkit/tracing",
+  "version": "0.1.0-beta.0",
+  "description": "Tresdoce NestJS Toolkit - Módulo de traza con OpenTelemetry",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
     "email": "mdelgado@tresdoce.com.ar",
@@ -13,8 +13,7 @@
   },
   "keywords": [
     "nestjs",
-    "paas",
-    "cross"
+    "tracing"
   ],
   "repository": {
     "type": "git",
@@ -27,27 +26,47 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "prebuild": "rimraf ../../dist/paas",
-    "build": "pika build --out ../../dist/paas",
-    "test": "echo \"Error: no test specified\"",
+    "prebuild": "rimraf ../../dist/tracing",
+    "build": "pika build --out ../../dist/tracing",
+    "test": "jest --runInBand --coverage --forceExit",
     "clean": "rimraf .turbo coverage test-results node_modules test-report.xml"
   },
   "publishConfig": {
     "access": "public",
-    "directory": "../../dist/paas"
+    "directory": "../../dist/tracing"
   },
   "peerDependencies": {
     "@nestjs/common": "^9.4.2",
     "@nestjs/core": "^9.4.2",
     "@nestjs/platform-express": "^9.4.2",
+    "@opentelemetry/core": "^1.14.0",
+    "@opentelemetry/exporter-trace-otlp-proto": "^0.40.0",
+    "@opentelemetry/id-generator-aws-xray": "^1.1.2",
+    "@opentelemetry/instrumentation-http": "^0.40.0",
+    "@opentelemetry/propagator-aws-xray": "^1.2.1",
+    "@opentelemetry/propagator-b3": "^1.14.0",
+    "@opentelemetry/propagator-jaeger": "^1.14.0",
+    "@opentelemetry/resources": "^1.14.0",
+    "@opentelemetry/sdk-node": "^0.40.0",
+    "@opentelemetry/sdk-trace-base": "^1.14.0",
+    "@opentelemetry/semantic-conventions": "^1.14.0",
+    "luxon": "^3.3.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },
   "dependencies": {
-    "@tresdoce-nestjs-toolkit/core": "^0.6.0-beta.0",
-    "@tresdoce-nestjs-toolkit/filters": "^0.3.1",
-    "@tresdoce-nestjs-toolkit/health": "^0.4.1",
-    "@tresdoce-nestjs-toolkit/response-parser": "^0.4.1"
+    "@opentelemetry/core": "^1.14.0",
+    "@opentelemetry/exporter-trace-otlp-proto": "^0.40.0",
+    "@opentelemetry/id-generator-aws-xray": "^1.1.2",
+    "@opentelemetry/instrumentation-http": "^0.40.0",
+    "@opentelemetry/propagator-aws-xray": "^1.2.1",
+    "@opentelemetry/propagator-b3": "^1.14.0",
+    "@opentelemetry/propagator-jaeger": "^1.14.0",
+    "@opentelemetry/resources": "^1.14.0",
+    "@opentelemetry/sdk-node": "^0.40.0",
+    "@opentelemetry/sdk-trace-base": "^1.14.0",
+    "@opentelemetry/semantic-conventions": "^1.14.0",
+    "luxon": "^3.3.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.3.0",
