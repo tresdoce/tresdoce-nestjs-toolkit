@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/paas@0.3.1...@tresdoce-nestjs-toolkit/paas@0.4.0) (2023-06-13)
+
+### ✨ Features
+
+- **paas:** add tracing module ([5353ef2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/5353ef2d6a2b907299ac68bfd828aaa5904b1d96))
+
 ## [0.3.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/paas@0.3.0...@tresdoce-nestjs-toolkit/paas@0.3.1) (2023-05-25)
 
 ### 👨‍💻 Chores
