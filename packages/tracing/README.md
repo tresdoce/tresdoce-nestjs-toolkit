@@ -13,6 +13,9 @@
 </div>
 <br/>
 
+> ⚠️ Es importante tener en cuenta que este interceptor se encuentra implementado en el
+> package `@tresdoce-nestjs-toolkit/paas`, ya que es una funcionalidad core para el starter.
+
 Este módulo está pensado para ser utilizado en [NestJs Starter](https://github.com/rudemex/nestjs-starter), o cualquier
 proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
 
@@ -144,7 +147,7 @@ async function bootstrap() {
 (async () => await bootstrap())();
 ```
 
-Instanciamos el `TracingModule` y el `TracingInterceptor` para que empiece a realizar la traza de la app.
+Instanciar el `TracingModule` y el `TracingInterceptor` para que empiece a realizar la traza de la app.
 
 ```typescript
 //./src/app.module.ts
