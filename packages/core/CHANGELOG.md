@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.5.1...@tresdoce-nestjs-toolkit/core@0.6.0) (2023-06-13)
+
+### ✨ Features
+
+- **tracing:** add module of opentelemtry ([319f065](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/319f065b8aa8c90b79769df900ca84e46561f760))
+
 ## [0.5.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.5.0...@tresdoce-nestjs-toolkit/core@0.5.1) (2023-05-25)
 
 ### 👨‍💻 Chores
