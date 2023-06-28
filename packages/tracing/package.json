@@ -36,9 +36,9 @@
     "directory": "../../dist/tracing"
   },
   "peerDependencies": {
-    "@nestjs/common": "^9.4.2",
-    "@nestjs/core": "^9.4.2",
-    "@nestjs/platform-express": "^9.4.2",
+    "@nestjs/common": "^10.0.3",
+    "@nestjs/core": "^10.0.3",
+    "@nestjs/platform-express": "^10.0.3",
     "@opentelemetry/core": "^1.14.0",
     "@opentelemetry/exporter-trace-otlp-proto": "^0.40.0",
     "@opentelemetry/id-generator-aws-xray": "^1.1.2",
