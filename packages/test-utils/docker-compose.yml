@@ -10,7 +10,7 @@ services:
     ports:
       - '27017:27017'
     environment:
-      TZ: UTC
+      TZ: 'America/Argentina/Buenos_Aires'
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123456
       MONGO_INITDB_DATABASE: test_db

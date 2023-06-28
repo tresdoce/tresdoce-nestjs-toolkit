@@ -10,7 +10,7 @@ services:
     ports:
       - '5432:5432'
     environment:
-      TZ: UTC
+      TZ: 'America/Argentina/Buenos_Aires'
       POSTGRES_DB: my_db
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 123456
@@ -22,7 +22,7 @@ services:
     ports:
       - '3306:3306'
     environment:
-      TZ: UTC
+      TZ: 'America/Argentina/Buenos_Aires'
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: my_db
       MYSQL_PASSWORD: 123456
@@ -35,7 +35,7 @@ services:
     ports:
       - '27017:27017'
     environment:
-      TZ: UTC
+      TZ: 'America/Argentina/Buenos_Aires'
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123456
       MONGO_INITDB_DATABASE: test_db
@@ -47,7 +47,7 @@ services:
     ports:
       - '6379:6379'
     environment:
-      TZ: UTC
+      TZ: 'America/Argentina/Buenos_Aires'
       REDIS_PORT: 6379
       REDIS_PASSWORD: 123456
       REDIS_HOST: cache
@@ -61,7 +61,7 @@ services:
     ports:
       - '8000:8000'
     environment:
-      TZ: UTC
+      TZ: 'America/Argentina/Buenos_Aires'
       AWS_ACCESS_KEY_ID: local
       AWS_SECRET_ACCESS_KEY: local
       AWS_REGION: us-east-1
