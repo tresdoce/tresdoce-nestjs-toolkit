@@ -230,7 +230,7 @@ services:
     ports:
       - '27017:27017'
     environment:
-      TZ: UTC
+      TZ: 'America/Argentina/Buenos_Aires'
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123456
       MONGO_INITDB_DATABASE: test_db
@@ -242,7 +242,7 @@ services:
     ports:
       - '6379:6379'
     environment:
-      TZ: UTC
+      TZ: 'America/Argentina/Buenos_Aires'
       REDIS_PORT: 6379
       REDIS_PASSWORD: 123456
       REDIS_HOST: cache

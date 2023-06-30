@@ -74,6 +74,7 @@ export class ElkService {
       }
 
       const elkDocument = {
+        '@timestamp': new Date(_timeRequest).toISOString(),
         application,
         applicationVersion,
         appStage,
