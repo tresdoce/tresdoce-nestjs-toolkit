@@ -10,36 +10,38 @@ import { ConfigModule } from '@nestjs/config';
 import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
 
 describe('RedactModule', () => {
-  it('should define the REDACT_PROVIDER', async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [RedactModule],
-    }).compile();
+  describe('default', () => {
+    it('should define the REDACT_PROVIDER', async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        imports: [RedactModule],
+      }).compile();
 
-    const provider = module.get(REDACT_PROVIDER);
-    expect(provider).toBeDefined();
-    expect(provider({ apiKey: '123456789' })).toEqual({ apiKey: '123456789' });
-  });
+      const provider = module.get(REDACT_PROVIDER);
+      expect(provider).toBeDefined();
+      expect(provider({ apiKey: '123456789' })).toEqual({ apiKey: '123456789' });
+    });
 
-  it('should define the REDACT_PROVIDER with configModule', async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({
-          isGlobal: true,
-          load: [
-            dynamicConfig({
-              redact: {
-                paths: ['apiKey'],
-              },
-            }),
-          ],
-        }),
-        RedactModule,
-      ],
-    }).compile();
+    it('should define the REDACT_PROVIDER with configModule', async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        imports: [
+          ConfigModule.forRoot({
+            isGlobal: true,
+            load: [
+              dynamicConfig({
+                redact: {
+                  paths: ['apiKey'],
+                },
+              }),
+            ],
+          }),
+          RedactModule,
+        ],
+      }).compile();
 
-    const provider = module.get(REDACT_PROVIDER);
-    expect(provider).toBeDefined();
-    expect(provider({ apiKey: '123456789' })).toEqual({ apiKey: '12345****' });
+      const provider = module.get(REDACT_PROVIDER);
+      expect(provider).toBeDefined();
+      expect(provider({ apiKey: '123456789' })).toEqual({ apiKey: '12345****' });
+    });
   });
 
   describe('register', () => {
