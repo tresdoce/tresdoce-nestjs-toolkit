@@ -39,10 +39,14 @@
     "@nestjs/common": "^9.4.2",
     "@nestjs/core": "^9.4.2",
     "@nestjs/platform-express": "^9.4.2",
-    "fast-redact": "^3.1.2",
+    "fast-redact": "^3.2.0",
     "luxon": "^3.3.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
+  },
+  "dependencies": {
+    "fast-redact": "^3.2.0",
+    "luxon": "^3.3.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.3.0",

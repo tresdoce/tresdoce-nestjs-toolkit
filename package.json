@@ -75,7 +75,7 @@
     "axios-retry": "^3.5.0",
     "camunda-external-task-client-js": "^2.3.1",
     "dynamoose": "^3.2.0",
-    "fast-redact": "^3.1.2",
+    "fast-redact": "^3.2.0",
     "lodash": "^4.17.21",
     "luxon": "^3.3.0",
     "mongodb": "^5.3.0",
