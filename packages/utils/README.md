@@ -53,7 +53,8 @@ yarn add @tresdoce-nestjs-toolkit/utils
 
 ## Redact
 
-El módulo de Redact está pensado para el uso de ofuscamiento de datos sensibles, tanto para implementarse en una lib como en alguna aplicación.
+El módulo de **Redact** está pensado para el uso de ofuscamiento de datos sensibles para la implementación de una librería
+como asi también en el uso de una aplicación.
 
 Este módulo utiliza como base [`fast-redact`](https://github.com/davidmarkclements/fast-redact), pero se implementaron
 algunas mejoras.
