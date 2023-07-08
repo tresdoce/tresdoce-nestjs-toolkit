@@ -48,7 +48,8 @@
     "@tresdoce-nestjs-toolkit/filters": "^0.3.1",
     "@tresdoce-nestjs-toolkit/health": "^0.4.1",
     "@tresdoce-nestjs-toolkit/response-parser": "^0.4.1",
-    "@tresdoce-nestjs-toolkit/tracing": "^0.1.0"
+    "@tresdoce-nestjs-toolkit/tracing": "^0.1.0",
+    "@tresdoce-nestjs-toolkit/utils": "^0.0.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.3.0",

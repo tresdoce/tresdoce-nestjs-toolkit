@@ -230,7 +230,7 @@ services:
     ports:
       - '27017:27017'
     environment:
-      TZ: UTC
+      TZ: 'America/Argentina/Buenos_Aires'
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123456
       MONGO_INITDB_DATABASE: test_db
@@ -242,7 +242,7 @@ services:
     ports:
       - '6379:6379'
     environment:
-      TZ: UTC
+      TZ: 'America/Argentina/Buenos_Aires'
       REDIS_PORT: 6379
       REDIS_PASSWORD: 123456
       REDIS_HOST: cache
@@ -360,7 +360,7 @@ Todos los cambios notables de este paquete se documentarán en el archivo [Chang
 
 <div align="center">
     <a href="mailto:mdelgado@tresdoce.com.ar" target="_blank" alt="Send an email">
-        <img src="../../.readme-static/logo-mex-red.svg" width="120" alt="Mex" />
+        <img src="https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/ab924d5bdd9a9b9acb3ca5721d4ce977c6b7f680/.readme-static/logo-mex-red.svg" width="120" alt="Mex" />
     </a><br/>
     <p>Made with ❤</p>
 </div>

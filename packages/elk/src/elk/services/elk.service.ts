@@ -18,14 +18,15 @@ export class ElkService {
   ) {}
 
   get clientRef() {
-    return this.elkClient;
+    /* istanbul ignore next */
+    return this.elkClient ? this.elkClient : null;
   }
 
   /*
    * Create index document
    */
   public async createIndexDocument(elkDocument: any): Promise<void> {
-    await this.clientRef.index({
+    await this.clientRef?.index({
       index: this.options.name,
       body: elkDocument,
     });
@@ -74,6 +75,7 @@ export class ElkService {
       }
 
       const elkDocument = {
+        '@timestamp': new Date(_timeRequest).toISOString(),
         application,
         applicationVersion,
         appStage,
