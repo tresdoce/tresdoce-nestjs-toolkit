@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/utils",
-  "version": "0.1.0-beta.2",
+  "version": "0.1.0",
   "description": "Tresdoce NestJS Toolkit - Utilitarios para proyectos y librerías",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",

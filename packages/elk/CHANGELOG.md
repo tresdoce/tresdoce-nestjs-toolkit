@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@0.5.0...@tresdoce-nestjs-toolkit/elk@0.6.0) (2023-07-08)
+
+### ✨ Features
+
+- **elk:** add timestamp field to document ([435fe5a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/435fe5adb0a18cd97046d061ceec929d6bf05ecd))
+- **utils:** add utils module ([c714351](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c714351bca58b04b22f003dd932826a7bf444d80))
+
+### 📝 Docs
+
+- edit readme ([5cf8db6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/5cf8db655ec587b6b52b8a9cc3cd283964ccd9bc))
+
 ## [0.5.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@0.4.1...@tresdoce-nestjs-toolkit/elk@0.5.0) (2023-06-13)
 
 ### ✨ Features
