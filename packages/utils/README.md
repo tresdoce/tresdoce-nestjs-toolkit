@@ -284,12 +284,12 @@ Luego hay que inyectar el `FormatService` en el servicio.
 
 ```typescript
 // ./src/my.service.ts
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { FormatService } from '@tresdoce-nestjs-toolkit/paas';
 
 @Injectable()
 export class MyService {
-  constructor(private readonly formatService: FormatService) {}
+  constructor(@Inject(FormatService) private readonly formatService: FormatService) {}
 
   formatNumberToUSDCurrency() {
     const formatOptions = {
@@ -299,7 +299,7 @@ export class MyService {
     };
 
     return this.formatService.formatNumber({ num: 123456.789, formatOptions, locale: 'es-AR' });
-    // Retorna: $ 123.456,79
+    // Return: $ 123.456,79
   }
 }
 ```
