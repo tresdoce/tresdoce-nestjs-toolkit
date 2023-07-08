@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/dynamoose@0.1.1...@tresdoce-nestjs-toolkit/dynamoose@0.1.2) (2023-07-08)
+
+### 📝 Docs
+
+- edit readme ([5cf8db6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/5cf8db655ec587b6b52b8a9cc3cd283964ccd9bc))
+
 ## [0.1.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/dynamoose@0.1.0...@tresdoce-nestjs-toolkit/dynamoose@0.1.1) (2023-05-25)
 
 ### 👨‍💻 Chores
