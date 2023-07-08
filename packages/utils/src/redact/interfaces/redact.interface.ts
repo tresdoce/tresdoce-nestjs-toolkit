@@ -1,12 +1,12 @@
 import { ModuleMetadata, Type } from '@nestjs/common';
 
 export interface RedactOptions {
-  paths?: string[] | undefined;
-  censor?: string | ((v: any) => any) | undefined;
-  remove?: boolean | undefined;
-  serialize?: boolean | ((v: any) => any) | undefined;
-  strict?: boolean | undefined;
-  obfuscateFrom?: 'left' | 'right' | undefined;
+  paths?: string[];
+  censor?: string | ((v: any) => any);
+  remove?: boolean;
+  serialize?: boolean | ((v: any) => any);
+  strict?: boolean;
+  obfuscateFrom?: 'left' | 'right';
 }
 
 export type RedactModuleOptions = RedactOptions;
