@@ -59,10 +59,11 @@ Esta librería contiene de manera centralizada los recursos necesarios para el d
 - [`@tresdoce-nestjs-toolkit/filters`](../filters)
 - [`@tresdoce-nestjs-toolkit/health`](../health)
 - [`@tresdoce-nestjs-toolkit/response-parser`](../response-parser)
+- [`@tresdoce-nestjs-toolkit/tracing`](../tracing)
+- [`@tresdoce-nestjs-toolkit/utils`](../utils)
 
 ```typescript
-import { Typings } from '@tresdoce-nestjs-toolkit/paas';
-import { HealthModule } from '@tresdoce-nestjs-toolkit/paas';
+import { Typings, HealthModule } from '@tresdoce-nestjs-toolkit/paas';
 ```
 
 ## 📄 Changelog

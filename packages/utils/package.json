@@ -1,7 +1,7 @@
 {
-  "name": "@tresdoce-nestjs-toolkit/paas",
-  "version": "0.4.0",
-  "description": "Tresdoce NestJS Toolkit - Librería centralizada de funcionalidades cross",
+  "name": "@tresdoce-nestjs-toolkit/utils",
+  "version": "0.0.0",
+  "description": "Tresdoce NestJS Toolkit - Utilitarios para proyectos y librerías",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
     "email": "mdelgado@tresdoce.com.ar",
@@ -13,8 +13,7 @@
   },
   "keywords": [
     "nestjs",
-    "paas",
-    "cross"
+    "utils"
   ],
   "repository": {
     "type": "git",
@@ -27,29 +26,23 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "prebuild": "rimraf ../../dist/paas",
-    "build": "pika build --out ../../dist/paas",
-    "test": "echo \"Error: no test specified\"",
+    "prebuild": "rimraf ../../dist/utils",
+    "build": "pika build --out ../../dist/utils",
+    "test": "jest --runInBand --coverage --forceExit",
     "clean": "rimraf .turbo coverage test-results node_modules test-report.xml"
   },
   "publishConfig": {
     "access": "public",
-    "directory": "../../dist/paas"
+    "directory": "../../dist/utils"
   },
   "peerDependencies": {
     "@nestjs/common": "^9.4.2",
     "@nestjs/core": "^9.4.2",
     "@nestjs/platform-express": "^9.4.2",
+    "fast-redact": "^3.1.2",
+    "luxon": "^3.3.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
-  },
-  "dependencies": {
-    "@tresdoce-nestjs-toolkit/core": "^0.6.0",
-    "@tresdoce-nestjs-toolkit/filters": "^0.3.1",
-    "@tresdoce-nestjs-toolkit/health": "^0.4.1",
-    "@tresdoce-nestjs-toolkit/response-parser": "^0.4.1",
-    "@tresdoce-nestjs-toolkit/tracing": "^0.1.0",
-    "@tresdoce-nestjs-toolkit/utils": "^0.0.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.3.0",
