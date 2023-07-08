@@ -18,7 +18,7 @@
   "private": true,
   "scripts": {
     "prebuild": "rimraf ./dist",
-    "build": "turbo run build",
+    "build": "turbo run build --concurrency=1",
     "test": "turbo run test --concurrency=1",
     "test:husky": "turbo run test --concurrency=1",
     "clean": "turbo run clean",
