@@ -66,11 +66,11 @@ jobs:
         run: yarn lint
 
       - name: "🔨 Build"
-        run: yarn build && node sonar-args.js
+        run: yarn build --force && node sonar-args.js
 
       - name: "👨‍💻 Run Test"
         run: |
-          yarn test
+          yarn test --force
           yarn report
         env:
           NODE_ENV: 'test'
