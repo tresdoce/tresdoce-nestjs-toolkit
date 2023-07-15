@@ -31,8 +31,8 @@ sonar.projectName=${sonarProjectKey}
 sonar.projectVersion=1.0
 sonar.sourceEncoding=UTF-8
 sonar.sources=${sonarSources.join() || '.'}
-sonar.exclusions=**/*.bin,node_modules/**,test/**,**/__test__/**,**/__mocks__/**,src/index.ts
-sonar.coverage.exclusions=node_modules/**,test/**,**/__test__/**,**/__mocks__/**,src/index.ts
+sonar.exclusions=**/*.bin,node_modules/**,test/**,**/__test__/**,**/__mocks__/**,src/index.ts,webpack.config.js
+sonar.coverage.exclusions=node_modules/**,test/**,**/__test__/**,**/__mocks__/**,src/index.ts,webpack.config.js
 sonar.testExecutionReportPaths=${sonarTestExecutionReportPaths.join()}
 sonar.javascript.lcov.reportPaths=${sonarLcovReportPath.join()}`;
 
