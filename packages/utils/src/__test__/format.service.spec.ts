@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FormatService } from '../format/services/format.service';
-import { DEFAULT_TIMEZONE_LOCALE } from '../format/constants/format.constant';
+import { DEFAULT_FORMAT_DATE, DEFAULT_TIMEZONE_LOCALE } from '../format/constants/format.constant';
 
 describe('FormatService', () => {
   let service: FormatService;
@@ -107,23 +107,28 @@ describe('FormatService', () => {
 
     it('should format date correctly with only format date', () => {
       const date = new Date(mockDate);
-      expect(service.formatDate({ date, formatDate: 'fff' })).toBe(
-        '20 de diciembre de 2022 14:37 UTC',
+      expect(service.formatDate({ date, formatDate: DEFAULT_FORMAT_DATE })).toBe(
+        '20/12/2022 14:37:17.020',
       );
     });
 
     it('should format date correctly with format date and timezone', () => {
       const date = new Date(mockDate);
-      expect(service.formatDate({ date, formatDate: 'fff', timezone: 'Europe/Paris' })).toBe(
-        '20 de diciembre de 2022 15:37 GMT+1',
-      );
+      expect(
+        service.formatDate({ date, formatDate: DEFAULT_FORMAT_DATE, timezone: 'Europe/Paris' }),
+      ).toBe('20/12/2022 15:37:17.020');
     });
 
     it('should format date correctly with format date, timezone and locale', () => {
       const date = new Date(mockDate);
       expect(
-        service.formatDate({ date, formatDate: 'fff', timezone: 'Europe/Paris', locale: 'fr' }),
-      ).toBe('20 décembre 2022, 15:37 UTC+1');
+        service.formatDate({
+          date,
+          formatDate: DEFAULT_FORMAT_DATE,
+          timezone: 'America/New_York',
+          locale: 'en',
+        }),
+      ).toBe('20/12/2022 09:37:17.020');
     });
 
     it('should format date correctly to ISO with default configs', () => {
