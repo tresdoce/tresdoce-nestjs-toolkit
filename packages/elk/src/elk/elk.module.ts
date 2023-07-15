@@ -1,26 +1,52 @@
 import { DynamicModule, Global, Inject, Module, OnModuleDestroy } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import {
+  FormatService,
+  RedactModule,
+  RedactOptions,
+  RedactService,
+} from '@tresdoce-nestjs-toolkit/utils';
+import { Client, ClientOptions } from '@elastic/elasticsearch';
+import * as _ from 'lodash';
 
-import { ELK_MODULE_OPTIONS, ELK_CLIENT } from './constants/elk.constant';
+import {
+  ELK_MODULE_OPTIONS,
+  ELK_CLIENT,
+  ELK_MODULE_CLIENT_OPTIONS,
+  ELK_OMITS_IN_OPTIONS,
+} from './constants/elk.constant';
 import { createElkClient } from './providers/elk-client.provider';
 import { ElkService } from './services/elk.service';
-import { Client, ClientOptions } from '@elastic/elasticsearch';
+import { ElasticsearchOptions } from './interfaces/elk.interface';
 
 @Global()
 @Module({
-  imports: [ConfigModule],
+  imports: [
+    ConfigModule,
+    RedactModule.registerAsync({
+      useFactory: (options: ElasticsearchOptions): RedactOptions => options?.redact || {},
+      inject: [ELK_MODULE_OPTIONS],
+    }),
+  ],
   providers: [
     createElkClient(),
     ElkService,
+    RedactService,
+    FormatService,
     {
       provide: ELK_MODULE_OPTIONS,
-      useFactory: async (configService: ConfigService) =>
-        configService.get<Typings.AppConfig>('config.elasticsearch'),
+      useFactory: async (configService: ConfigService): Promise<ElasticsearchOptions> =>
+        configService.get<ElasticsearchOptions>('config.elasticsearch'),
       inject: [ConfigService],
     },
+    {
+      provide: ELK_MODULE_CLIENT_OPTIONS,
+      useFactory: (options: ElasticsearchOptions): ClientOptions =>
+        _.omit(options, ELK_OMITS_IN_OPTIONS),
+      inject: [ELK_MODULE_OPTIONS],
+    },
   ],
-  exports: [ELK_CLIENT, ElkService],
+  exports: [ELK_MODULE_OPTIONS, ELK_CLIENT, ElkService],
 })
 export class ElkModule implements OnModuleDestroy {
   constructor(
@@ -28,19 +54,33 @@ export class ElkModule implements OnModuleDestroy {
     @Inject(ELK_CLIENT) private readonly elkClient: Client,
   ) {}
 
-  static register(options: ClientOptions): DynamicModule {
+  static register(options: ElasticsearchOptions): DynamicModule {
     return {
       global: true,
       module: ElkModule,
+      imports: [
+        RedactModule.registerAsync({
+          useFactory: (options: ElasticsearchOptions): RedactOptions => options?.redact || {},
+          inject: [ELK_MODULE_OPTIONS],
+        }),
+      ],
       providers: [
         createElkClient(),
         ElkService,
+        RedactService,
+        FormatService,
         {
           provide: ELK_MODULE_OPTIONS,
           useValue: options,
         },
+        {
+          provide: ELK_MODULE_CLIENT_OPTIONS,
+          useFactory: (options: ElasticsearchOptions): ClientOptions =>
+            _.omit(options, ELK_OMITS_IN_OPTIONS),
+          inject: [ELK_MODULE_OPTIONS],
+        },
       ],
-      exports: [ELK_CLIENT, ElkService],
+      exports: [ELK_MODULE_OPTIONS, ELK_CLIENT, ElkService],
     };
   }
 

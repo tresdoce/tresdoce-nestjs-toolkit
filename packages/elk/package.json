@@ -44,7 +44,8 @@
     "rxjs": "^7.5.5"
   },
   "dependencies": {
-    "@elastic/elasticsearch": "^8.6.0"
+    "@elastic/elasticsearch": "^8.6.0",
+    "@tresdoce-nestjs-toolkit/utils": "^0.1.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.3.0",
