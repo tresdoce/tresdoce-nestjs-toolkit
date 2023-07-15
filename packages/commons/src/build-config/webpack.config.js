@@ -1,7 +1,7 @@
 const nodeExternals = require('webpack-node-externals');
 const TerserPlugin = require('terser-webpack-plugin');
 
-export const buildConfig = (options, newConfig) => {
+module.exports = (options) => {
   const isProductionMode = process.env.NODE_ENV === 'build';
   return {
     ...options,
@@ -41,6 +41,5 @@ export const buildConfig = (options, newConfig) => {
       nodeEnv: isProductionMode ? 'production' : false,
     },
     devtool: isProductionMode ? 'hidden-source-map' : 'source-map',
-    ...newConfig,
   };
 };

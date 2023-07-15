@@ -35,6 +35,14 @@
     "access": "public",
     "directory": "../../dist/commons"
   },
+  "peerDependencies": {
+    "terser-webpack-plugin": "^5.3.9",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "dependencies": {
+    "terser-webpack-plugin": "^5.3.9",
+    "webpack-node-externals": "^3.0.0"
+  },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.3.0",
     "@types/tresdoce-nestjs-toolkit": "^0.2.0"
