@@ -85,7 +85,6 @@ export class ElkService {
     const url = `${req.url}`;
     const method = `${req.method}`;
     let statusCode: number = res.statusCode;
-    //let response = typeof _response === 'string' ? _response : JSON.stringify(_response);
     let response: any = _response;
 
     if (_.isUndefined(excludePaths().find((path) => _.startsWith(req.path, path)))) {
