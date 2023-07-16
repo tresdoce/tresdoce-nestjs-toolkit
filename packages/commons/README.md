@@ -110,14 +110,10 @@ o bien dentro del archivo `webpack.config.js` escribir tu propia configuración.
 const { buildConfig } = require('@tresdoce-nestjs-toolkit/commons');
 module.exports = (options) => {
   const newConfig = {
-    ...options,
-    output: {
-      ...options.output,
-      filename: 'sarasa.js',
-    },
+    entry: './src/serverless.ts',
   };
 
-  return buildConfig(options, newConfig);
+  return buildConfig(newConfig);
 };
 ```
 
