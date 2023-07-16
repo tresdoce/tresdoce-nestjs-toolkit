@@ -35,7 +35,10 @@ export class ElkService {
     const indexName: string = _suffix
       ? [`${name.toString()}`, _suffix].join('-')
       : `${name.toString()}`;
-    const currentDate: string = new Date().toISOString().slice(0, 10).replace(/-/g, '.');
+    const currentDate: string = this.formatService.formatDate({
+      date: new Date(),
+      formatDate: 'yyyy.LL.dd',
+    });
     return indexDate ? `${indexName}-${currentDate}` : `${indexName}`;
   }
 
