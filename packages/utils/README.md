@@ -59,13 +59,12 @@ como asi también en el uso de una aplicación.
 Este módulo utiliza como base [`fast-redact`](https://github.com/davidmarkclements/fast-redact), pero se implementaron
 algunas mejoras.
 
-<a name="-configuración-redact"></a>
+<a name="configuración-redact"></a>
 
 ### ⚙️ Configuración
 
 Agregar los parámetros de configuración de **fast-redact** en `configuration.ts` utilizando el key `redact` y que
-contenga
-el objeto con todas sus propiedades para utilizar en el ofuscamiento.
+contenga el objeto con todas sus propiedades para utilizar en el ofuscamiento.
 
 ```typescript
 //./src/config/configuration.ts
@@ -223,7 +222,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 export class AppModule {}
 ```
 
-<a name="-uso-redact"></a>
+<a name="uso-redact"></a>
 
 ### 👨‍💻 Uso
 
@@ -257,7 +256,7 @@ que es un objeto integrado en JavaScript que permite el formateo numérico sensi
 Proporciona una forma flexible de convertir un número en una cadena con formato, teniendo en cuenta las convenciones
 locales de formateo numérico cómo asi también soporta opciones personalizadas de formateo.
 
-<a name="-uso-format-number"></a>
+<a name="uso-format-number"></a>
 
 ### 👨‍💻 Uso
 
@@ -325,6 +324,222 @@ admite es recomendable leer la [Documentación de Intl.NumberFormat](https://dev
 - Type: `String`
 - Default: `'es-AR'`
 - Example: `'en-US' | 'de-DE' | 'en-IN' | 'en-GB'`
+
+</details>
+
+## Format Date
+
+El servicio `FormatService` tiene disponible funciones que tiene como fin trabajar y manipular fechas utilizando
+[Luxon](https://moment.github.io/luxon/#/) como dependencia base.
+
+#### Funciones disponibles
+
+- `.dateTimeRef()`: Retorna la instancia `DateTime` de **Luxon**.
+- `.formatDate()`: Formatea un valor de tipo `Date`.
+- `.dateToISO()`: Convierte un valor de tipo `Date` a formato ISO 8601 (Default zone: 0)
+- `.calculateTimestampDiff()`: Calcula la diferencia entre dos valores `timestamp`.
+
+<a name="uso-format-date"></a>
+
+### 👨‍💻 Uso
+
+Importar el `FormatService` como provider en el módulo que va a hacer uso de este servicio.
+
+```typescript
+// ./src/my.module.ts
+import { Module } from '@nestjs/common';
+import { FormatService } from '@tresdoce-nestjs-toolkit/paas';
+
+@Module({
+  //...
+  providers: [
+    //...
+    FormatService,
+    //...
+  ],
+  //...
+})
+export class MyModule {}
+```
+
+Luego hay que inyectar el `FormatService` en el servicio.
+
+### .dateTimeRef()
+
+```typescript
+// ./src/my.service.ts
+import { Inject, Injectable } from '@nestjs/common';
+import {
+  FormatService,
+  DEFAULT_TIMEZONE, // utc
+  DEFAULT_TIMEZONE_LOCALE, // 'America/Argentina/Buenos_Aires'
+} from '@tresdoce-nestjs-toolkit/paas';
+
+@Injectable()
+export class MyService {
+  constructor(@Inject(FormatService) private readonly formatService: FormatService) {}
+
+  myFunction() {
+    const cDate = this.formatService.dateTimeRef().now();
+    return {
+      '1': cDate, // Return: Object DateTime
+      '2': cDate.toISO(), // Return: 2023-07-13T16:12:09.470+00:00
+      '3': cDate.setZone(DEFAULT_TIMEZONE).toISO(), // Return: 2023-07-13T16:12:09.473Z
+      '4': cDate.setZone(DEFAULT_TIMEZONE_LOCALE).toISO(), // Return: 2023-07-13T13:12:09.473-03:00
+    };
+  }
+}
+```
+
+### .formatDate()
+
+```typescript
+// ./src/my.service.ts
+import { Inject, Injectable } from '@nestjs/common';
+import { FormatService } from '@tresdoce-nestjs-toolkit/paas';
+
+@Injectable()
+export class MyService {
+  constructor(@Inject(FormatService) private readonly formatService: FormatService) {}
+
+  myFunction() {
+    const cDate = new Date();
+
+    const formatDateOpts = {
+      formatDate: 'fff',
+      timezone: 'Europe/Paris',
+      locale: 'fr'
+    };
+
+    return {
+      '1':this.formatService.formatDate({ date: cDate }) },// Return: 20/12/2022 14:37:17.020
+      '2':this.formatService.formatDate({ date: cDate, ...formatDateOpts}) }, // Return: 20 décembre 2022, 15:37.020 UTC+1
+  }
+}
+```
+
+<details>
+<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+
+La función `.formatDate()` admite un objeto con cuatro parámetros los cuales se detallan a continuación.
+
+`date`: Es la fecha a formatear.
+
+- Type: `Date`
+- Example: `'2022-12-20T14:37:17.020Z'`
+
+`formatDate`: Es el formato a convertir la fecha ingresada, Para más información sobre que formato puedes revisar la
+[documentación de Luxon](https://moment.github.io/luxon/#/formatting?id=table-of-tokens)
+
+- Type: `String`
+- Default: `'dd/LL/yyyy TT.SSS'`
+
+`timezone`: Es la zona horaria para ajustar la fecha ingresada.
+
+- Type: `String`
+- Default: `'utc'`
+- Example: ` 'America/Argentina/Buenos_Aires' | 'Europe/Paris'`
+
+`locale`: Este parámetro sirve para configurar la internalización para el formateo. [Locales](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#locales)
+
+- Type: `String`
+- Default: `'es-AR'`
+- Example: `'en-US' | 'de-DE' | 'en-IN' | 'en-GB'`
+
+</details>
+
+### .dateToISO()
+
+```typescript
+// ./src/my.service.ts
+import { Inject, Injectable } from '@nestjs/common';
+import { FormatService, DEFAULT_TIMEZONE_LOCALE } from '@tresdoce-nestjs-toolkit/paas';
+
+@Injectable()
+export class MyService {
+  constructor(@Inject(FormatService) private readonly formatService: FormatService) {}
+
+  myFunction() {
+    const cDate = new Date();
+    return {
+      '1': this.formatService.dateToISO({ date: cDate }), // Return: 2023-07-12T12:06:29.957Z
+      '2': this.formatService.dateToISO({ date: cDate, timezone: DEFAULT_TIMEZONE_LOCALE }), // Return: 2023-07-12T09:06:29.957-03:00
+    };
+  }
+}
+```
+
+<details>
+<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+
+La función `.dateToISO()` admite un objeto con dos parámetros los cuales se detallan a continuación.
+
+`date`: Es la fecha a formatear.
+
+- Type: `Date`
+- Example: `'2022-12-20T14:37:17.020Z'`
+
+`timezone`: Es la zona horaria para ajustar la fecha ingresada.
+
+- Type: `String`
+- Default: `'utc'`
+- Example: ` 'America/Argentina/Buenos_Aires' | 'Europe/Paris'`
+
+</details>
+
+### .calculateTimestampDiff()
+
+```typescript
+// ./src/my.service.ts
+import { Inject, Injectable } from '@nestjs/common';
+import { FormatService } from '@tresdoce-nestjs-toolkit/paas';
+
+@Injectable()
+export class MyService {
+  constructor(@Inject(FormatService) private readonly formatService: FormatService) {}
+
+  myFunction() {
+    const startTimestamp = 1689208308510;
+    const endTimestamp = 1689208308525;
+    const optionsCalculate = { unit: 'seconds', addSuffix: true };
+
+    return {
+      '1': this.formatService.calculateTimestampDiff({
+        startTime: startTimestamp,
+        endTime: endTimestamp,
+      }), //Return: 15
+      '2': this.formatService.calculateTimestampDiff({
+        startTime: startTimestamp,
+        endTime: endTimestamp,
+        options: optionsCalculate,
+      }), //Return: '0.015s'
+    };
+  }
+}
+```
+
+<details>
+<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+
+La función `.calculateTimestampDiff()` admite un objeto con tres parámetros los cuales se detallan a continuación.
+
+`startTime`: Es el `timestamp` de inicio o más viejo a comparar y obtener la diferencia.
+
+- Type: `number`
+- Example: `1689208308510`
+
+`endTime`: Es el `timestamp` más reciente a comparar y obtener la diferencia con el `startTime`.
+
+- Type: `number`
+- Example: `1689208308525`
+
+`options`: Es un objeto de configuración el cual admite dos propiedades. `unit` es la unidad a retornar la diferencia
+entre los datos ingresados y `addSuffix` agrega la unidad en la salida, dependiendo el valor de este último, la salida
+puede ser de tipo `number` o `string`
+
+- Type: `Object`
+- Default: `{ unit: 'milliseconds', addSuffix: false }`
+- Example: ` { unit: 'seconds', addSuffix: true }`
 
 </details>
 

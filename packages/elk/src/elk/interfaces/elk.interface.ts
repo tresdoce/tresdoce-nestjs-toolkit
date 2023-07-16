@@ -1,3 +1,7 @@
 import { ClientOptions } from '@elastic/elasticsearch';
+import { RedactOptions } from 'fast-redact';
 
-export type ElasticsearchOptions = ClientOptions;
+export interface ElasticsearchOptions extends ClientOptions {
+  indexDate?: boolean;
+  redact?: RedactOptions;
+}
