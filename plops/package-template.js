@@ -1,15 +1,15 @@
 module.exports = {
-  description: 'Generate new Package',
+  description: '✨ Generate new Package',
   prompts: [
     {
       type: 'input',
       name: 'packageName',
-      message: 'Package name please',
+      message: '📦 Package name: ',
     },
     {
       type: 'input',
       name: 'packageDescription',
-      message: 'Package description please',
+      message: '🗒️ Package description: ',
     },
   ],
   actions: () => {

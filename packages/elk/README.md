@@ -70,13 +70,110 @@ export default registerAs('config', (): Typings.AppConfig => {
   return {
     //...
     elasticsearch: {
-      name: PACKAGE_JSON.name,
+      indexDate: true,
+      name: `${PACKAGE_JSON.name}`,
       node: process.env.ELASTICSEARCH_NODE, // Default: 'http://localhost:9200',
+      redact: {
+        paths: process.env.ELK_DOCUMENT_OBFUSCATE
+          ? process.env.ELK_DOCUMENT_OBFUSCATE.split(',')
+          : [],
+        censor: '****',
+      },
+      /*auth: {
+        username: process.env.ELK_NODE_USERNAME,
+        password: process.env.ELK_NODE_PASSWORD,
+      },*/
     },
     //...
   };
 });
 ```
+
+<details>
+<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+
+`indexDate`: Agrega como sufijo al index del documento la fecha en formato `YYYY.MM.DD`.
+
+- Type: `String`
+- Default: `true`
+- Example: `index-name-2023.03.23`
+
+`name`: Es el nombre destinado para el `index` del documento.
+
+- Type: `String`
+- Default: `PACKAGE_JSON.name`
+
+`node`: Es el endpoint del servicio para enviar los documentos.
+
+- Type: `String`
+- Default: `http://localhost:9200`
+
+`auth`: Es un objeto que requiere los datos de `username` y `password` para conectarse al cliente.
+
+```typescript
+{
+    //...
+    auth: {
+        username: 'admin',
+        password: 'pass123456',
+    }
+    //...
+}
+```
+
+Podés encontrar más información en la
+[documentación de ElasticSearch](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/client-configuration.html)
+
+### Ofuscamiento de datos
+
+Para ofuscar los datos sensibles que se van a enviar al servicio, hay que agregar el key `redact`.
+
+`paths`: Es un array de string, en el que se recomienda ser seteado por variables de entorno como strings
+separados por coma para que pueda impactar rápidamente en la aplicación sin requerir ser re-despliegue.
+El path sigue la sintaxis standard de EcmaScript. [Más info](https://github.com/davidmarkclements/fast-redact#paths--array)
+
+- `a.b.c`
+- `a['b'].c`
+- `a["b-c"].d`
+- `["a-b"].c`
+- `a.b.*`
+- `a[*].c`
+- `*.b`
+- `a[0].b`
+
+> 💬 Recomendable revisar el [Document Schema](#elasticsearch-document-schema) para poder armar los paths.
+
+- Type: `String[]`
+- Example: `body.email,headers.request["x-b3-spanid"],headers.response["x-b3-spanid"],query.gender,response.results[0].name`
+
+`censor`: Es el valor por el cual va a reemplazar el dato sensible, considerar que la longitud del censor es la
+cantidad de caracteres que va a reemplazar al valor a ofuscar, es decir, si la longitud del censor es de 4 caracteres,
+al valor a ofuscar va a reemplazar los últimos 4 caracteres con el valor seteado.
+
+- Type: `String`
+- Default: `****`
+- Example: `400012345678****`
+
+`obfuscateFrom`: Indica de qué lado del valor a ofuscar va a realizarse el ofuscamiento, considerar que esta opción se
+aplica a todos los datos a ofuscar, y no por path.
+
+- Type: `String`
+- Default: `right`
+- Values: `left | right`
+- Example: `****123456784126 | 400012345678****`
+
+`remove`: Remueve la key con su valor.
+
+- Type: `Boolean`
+- Default: `false`
+
+`serialize`: Maneja la salida del ofuscamiento. Si se proporciona una función, se utilizará para serializar el objeto
+redactado, en caso de configurarlo en `true` devuelve un `JSON.stringify`, de lo contrario devuelve el `JSON`.
+
+- Type: `Boolean|Function`
+- Default: `false`
+
+</details>
 
 Instanciar el módulo `ElkModule` en el archivo `app.module.ts`, e instanciar en los providers el `ElkInterceptor` para
 que pueda interceptar los **requests** y **responses** y los
@@ -118,6 +215,50 @@ async function bootstrap() {
   //...
   app.useGlobalInterceptors(new ElkInterceptor(app.get<ElkService>(ElkService)));
   //...
+}
+```
+
+<a name="elasticsearch-document-schema"></a>
+
+### Elasticsearch Document Schema
+
+```js
+{
+   "@timestamp":  "2023-06-28T21:35:31.882Z",
+   "application": "<app-name>",
+   "applicationVersion": "<app-version>",
+   "appStage": "<app-stage>",
+   "path": "<req.path>",
+   "url": "<req.url>",
+   "controller": "<handler.class.name>",
+   "handler": "<handler.name>",
+   "type": "http",
+   "method": "<req.method>",
+   "query": {
+     // <req.query>
+   },
+   "params":{
+     // <req.params>
+   },
+   "body": {
+    // <req.body>
+   },
+   "headers":{
+      "request":{
+        // <req.headers>
+      },
+      "response":{
+        // <res.headers>
+      }
+   },
+   "cookies":{
+      // <req.cookies>
+   },
+   "requestDuration": 570, // milliseconds
+   "statusCode": 200, // <res.statusCode>
+   "response":{
+      // <response>
+   }
 }
 ```
 
@@ -165,7 +306,7 @@ Todos los cambios notables de este paquete se documentarán en el archivo [Chang
 
 <div align="center">
     <a href="mailto:mdelgado@tresdoce.com.ar" target="_blank" alt="Send an email">
-        <img src="../../.readme-static/logo-mex-red.svg" width="120" alt="Mex" />
+        <img src="https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/ab924d5bdd9a9b9acb3ca5721d4ce977c6b7f680/.readme-static/logo-mex-red.svg" width="120" alt="Mex" />
     </a><br/>
     <p>Made with ❤</p>
 </div>

@@ -79,6 +79,44 @@ dotenv.config({
 module.exports = jestConfig;
 ```
 
+### Webpack config
+
+#### Default Webpack Config
+
+```json
+//./nest-cli.json
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "plugins": ["@nestjs/swagger"],
+    "webpack": true,
+    "webpackConfigPath": "./node_modules/@tresdoce-nestjs-toolkit/commons/dist-src/build-config/webpack.config.js"
+  }
+}
+```
+
+#### Custom Webpack Config
+
+> ⚠️ El starter ya cuenta con una configuración para `webpack`, por lo que implementar una nueva configuración podría llegar a afectar el correcto funcionamiento del buildeado de la aplicación.
+
+Para enviar una configuración custom al webpack de NestJS, se requiere crear un archivo `webpack.config.js` en el root
+del proyecto, y en el archivo `nest-cli.json` borrar la línea de `webpackConfigPath` que está dentro del `compilerOptions`,
+o bien dentro del archivo `webpack.config.js` escribir tu propia configuración.
+
+```typescript
+//./webpack.config.js
+const { buildConfig } = require('@tresdoce-nestjs-toolkit/commons');
+module.exports = (options) => {
+  const newConfig = {
+    entry: './src/serverless.ts',
+  };
+
+  return buildConfig(newConfig);
+};
+```
+
 ## 📄 Changelog
 
 Todos los cambios notables de este paquete se documentarán en el archivo [Changelog](./CHANGELOG.md).
@@ -87,7 +125,7 @@ Todos los cambios notables de este paquete se documentarán en el archivo [Chang
 
 <div align="center">
     <a href="mailto:mdelgado@tresdoce.com.ar" target="_blank" alt="Send an email">
-        <img src="../../.readme-static/logo-mex-red.svg" width="120" alt="Mex" />
+        <img src="https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/ab924d5bdd9a9b9acb3ca5721d4ce977c6b7f680/.readme-static/logo-mex-red.svg" width="120" alt="Mex" />
     </a><br/>
     <p>Made with ❤</p>
 </div>

@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/paas@0.5.0...@tresdoce-nestjs-toolkit/paas@0.5.1) (2023-07-17)
+
+**Note:** Version bump only for package @tresdoce-nestjs-toolkit/paas
+
+## [0.5.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/paas@0.4.0...@tresdoce-nestjs-toolkit/paas@0.5.0) (2023-07-08)
+
+### ✨ Features
+
+- **utils:** add utils module ([c714351](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c714351bca58b04b22f003dd932826a7bf444d80))
+
+### 📝 Docs
+
+- edit readme ([5cf8db6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/5cf8db655ec587b6b52b8a9cc3cd283964ccd9bc))
+- **utils:** edit documentation ([9d77d2c](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/9d77d2cd8090374bc3304f1f193ef8bc6a38c024))
+
 ## [0.4.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/paas@0.3.1...@tresdoce-nestjs-toolkit/paas@0.4.0) (2023-06-13)
 
 ### ✨ Features

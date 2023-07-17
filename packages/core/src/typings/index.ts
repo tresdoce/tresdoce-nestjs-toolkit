@@ -5,6 +5,7 @@ import { DatabaseOptions } from '@tresdoce-nestjs-toolkit/typeorm';
 import { CamundaOptions } from '@tresdoce-nestjs-toolkit/camunda';
 import { ElasticsearchOptions } from '@tresdoce-nestjs-toolkit/elk';
 import { AxiosRequestConfig } from 'axios';
+import { RedactOptions } from '@tresdoce-nestjs-toolkit/utils';
 
 export type TAppStage = 'local' | 'test' | 'snd' | 'dev' | 'qa' | 'homo' | 'prod';
 
@@ -80,5 +81,6 @@ export interface AppConfig {
   camunda?: CamundaOptions;
   elasticsearch?: ElasticsearchOptions;
   tracing?: TracingOptions;
+  redact?: RedactOptions;
   [key: string]: any;
 }

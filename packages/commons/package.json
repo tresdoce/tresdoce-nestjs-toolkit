@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/commons",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "Tresdoce NestJS Toolkit - Centralización de configuraciones",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -35,8 +35,18 @@
     "access": "public",
     "directory": "../../dist/commons"
   },
+  "peerDependencies": {
+    "terser-webpack-plugin": "^5.3.9",
+    "webpack-merge": "^5.9.0",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "dependencies": {
+    "terser-webpack-plugin": "^5.3.9",
+    "webpack-merge": "^5.9.0",
+    "webpack-node-externals": "^3.0.0"
+  },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.3.0",
+    "@tresdoce-nestjs-toolkit/config": "^0.3.1",
     "@types/tresdoce-nestjs-toolkit": "^0.2.0"
   },
   "prettier": {

@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@0.6.0...@tresdoce-nestjs-toolkit/elk@0.7.0) (2023-07-17)
+
+### ✨ Features
+
+- **elk:** add redact data sensible to elk document ([3d96e6a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/3d96e6a97af75471c92deed8b5530a6f70630bd1))
+
+### 🐛 Bug Fixes
+
+- **elk:** remove comment to solve code smell ([81e3aba](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/81e3abaa283fb41999fdd323a4d0ba8b8ef6903b))
+
+### 👨‍💻 Chores
+
+- **elk:** add format service to index name with index date ([4172a9f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/4172a9fdbd0ecce0818a41b74c618458284de865))
+
+## [0.6.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@0.5.0...@tresdoce-nestjs-toolkit/elk@0.6.0) (2023-07-08)
+
+### ✨ Features
+
+- **elk:** add timestamp field to document ([435fe5a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/435fe5adb0a18cd97046d061ceec929d6bf05ecd))
+- **utils:** add utils module ([c714351](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c714351bca58b04b22f003dd932826a7bf444d80))
+
+### 📝 Docs
+
+- edit readme ([5cf8db6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/5cf8db655ec587b6b52b8a9cc3cd283964ccd9bc))
+
 ## [0.5.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@0.4.1...@tresdoce-nestjs-toolkit/elk@0.5.0) (2023-06-13)
 
 ### ✨ Features

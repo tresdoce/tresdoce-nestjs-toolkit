@@ -114,6 +114,7 @@ el [NestJs Starter](https://github.com/rudemex/nestjs-starter), siguiendo los li
 | [`@tresdoce-nestjs-toolkit/test-utils`](./packages/test-utils)           | Utilities para testing                            | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/test-utils.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/test-utils)           | [Changelog](./packages/test-utils/CHANGELOG.md)      |
 | [`@tresdoce-nestjs-toolkit/tracing`](./packages/tracing)                 | Módulo de traza con OpenTelemetry                 | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/tracing.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/tracing)                 | [Changelog](./packages/tracing/CHANGELOG.md)         |
 | [`@tresdoce-nestjs-toolkit/typeorm`](./packages/typeorm)                 | Módulo de ORM para base de datos                  | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/typeorm.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/typeorm)                 | [Changelog](./packages/typeorm/CHANGELOG.md)         |
+| [`@tresdoce-nestjs-toolkit/utils`](./packages/utils)                     | Utilitarios para proyectos y librerías            | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/utils.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/utils)                     | [Changelog](./packages/utils/CHANGELOG.md)           |
 <!---PLOP-TOOLKIT-TABLE-->
 
 <a name="commits"></a>
@@ -151,7 +152,7 @@ git commit -am 'feat!: changes in application'
 
 <div align="center">
     <a href="mailto:mdelgado@tresdoce.com.ar" target="_blank" alt="Send an email">
-        <img src="./.readme-static/logo-mex-red.svg" width="120" alt="Mex" />
+        <img src="https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/ab924d5bdd9a9b9acb3ca5721d4ce977c6b7f680/.readme-static/logo-mex-red.svg" width="120" alt="Mex" />
     </a><br/>
     <p>Made with ❤</p>
 </div>
