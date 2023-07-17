@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/utils@0.1.0...@tresdoce-nestjs-toolkit/utils@0.2.0) (2023-07-17)
+
+### ✨ Features
+
+- **utils:** add format date ([c15c719](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c15c719e91d9a326582f37cafa2574cea5ee3bd8))
+
+### 🧪 Tests
+
+- **utils:** edit test to format date ([22e6d0a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/22e6d0afa567b6af5e9239b09854c04194c71fd2))
+
 ## 0.1.0 (2023-07-08)
 
 ### ✨ Features

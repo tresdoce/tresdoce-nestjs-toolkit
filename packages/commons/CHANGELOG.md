@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@0.2.1...@tresdoce-nestjs-toolkit/commons@0.2.2) (2023-07-17)
+
+### 🧪 Tests
+
+- **commons:** edit build config tests ([cab8ac3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/cab8ac3d95dfd1068cbc7470b750e47a226c87a6))
+
+### ♻️Refactors
+
+- **commons:** change build webpack config ([12ba37e](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/12ba37e2bd8e6d8e45d46772b1e3c8b3200becf8))
+
+### 👨‍💻 Chores
+
+- **commons:** edit readme and webpack config file ([5cd117e](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/5cd117e2ace103ce89fc76e98e3397c4aec6bbd1))
+
+### 🐛 Bug Fixes
+
+- **commons:** resolve problem with webpack config default ([a52e148](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a52e1480e61a66644f7f0a077cacf6e0b5f1b901))
+
 ## [0.2.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@0.2.0...@tresdoce-nestjs-toolkit/commons@0.2.1) (2023-07-08)
 
 ### 📝 Docs
