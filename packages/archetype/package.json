@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/archetype",
-  "version": "0.4.3-beta.1",
+  "version": "0.4.3",
   "description": "Tresdoce NestJS Toolkit - Módulo informativo de la app",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -43,7 +43,7 @@
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.3.1-beta.1",
+    "@tresdoce-nestjs-toolkit/config": "^0.3.1",
     "@types/tresdoce-nestjs-toolkit": "^0.2.0"
   },
   "prettier": {

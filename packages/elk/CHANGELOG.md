@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@0.6.0...@tresdoce-nestjs-toolkit/elk@0.7.0) (2023-07-17)
+
+### ✨ Features
+
+- **elk:** add redact data sensible to elk document ([3d96e6a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/3d96e6a97af75471c92deed8b5530a6f70630bd1))
+
+### 🐛 Bug Fixes
+
+- **elk:** remove comment to solve code smell ([81e3aba](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/81e3abaa283fb41999fdd323a4d0ba8b8ef6903b))
+
+### 👨‍💻 Chores
+
+- **elk:** add format service to index name with index date ([4172a9f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/4172a9fdbd0ecce0818a41b74c618458284de865))
+
 ## [0.6.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@0.5.0...@tresdoce-nestjs-toolkit/elk@0.6.0) (2023-07-08)
 
 ### ✨ Features
