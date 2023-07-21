@@ -86,7 +86,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5",
     "shx": "^0.3.4",
-    "testcontainers": "^9.5.0",
+    "testcontainers": "9.5.0",
     "typeorm": "^0.3.15",
     "uuid": "^9.0.0"
   },
@@ -148,7 +148,7 @@
     "prettier": "^2.8.7",
     "rimraf": "^5.0.1",
     "supertest": "^6.2.2",
-    "testcontainers": "^9.5.0",
+    "testcontainers": "9.5.0",
     "ts-jest": "^29.1.0",
     "ts-loader": "^9.4.3",
     "ts-node": "^10.9.0",
