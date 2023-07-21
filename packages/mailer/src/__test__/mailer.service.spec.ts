@@ -33,25 +33,23 @@ async function getMailerServiceForOptions(options: MailerOptions): Promise<Maile
 }
 
 function spyOnSmtpSend(onMail: (mail: MailMessage) => void) {
-  return jest
-    .spyOn(SMTPTransport.prototype, 'send')
-    .mockImplementation(function (
-      mail: MailMessage,
-      callback: (err: Error | null, info: SMTPTransport.SentMessageInfo) => void,
-    ): void {
-      onMail(mail);
-      callback(null, {
-        envelope: {
-          from: mail.data.from as string,
-          to: [mail.data.to as string],
-        },
-        messageId: 'ABCD',
-        accepted: [],
-        rejected: [],
-        pending: [],
-        response: 'ok',
-      });
+  return jest.spyOn(SMTPTransport.prototype, 'send').mockImplementation(function (
+    mail: MailMessage,
+    callback: (err: Error | null, info: SMTPTransport.SentMessageInfo) => void,
+  ): void {
+    onMail(mail);
+    callback(null, {
+      envelope: {
+        from: mail.data.from as string,
+        to: [mail.data.to as string],
+      },
+      messageId: 'ABCD',
+      accepted: [],
+      rejected: [],
+      pending: [],
+      response: 'ok',
     });
+  });
 }
 
 async function getMailerServiceWithCustomTransport(options: MailerOptions): Promise<MailerService> {
