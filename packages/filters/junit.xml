@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="14" failures="0" errors="0" time="3.881">
-  <testsuite name="@tresdoce-nestjs-toolkit/filters" errors="0" failures="0" skipped="0" timestamp="2023-07-29T20:08:29" time="3.568" tests="11">
-    <testcase classname="filters › code exception" name="should map a regular code exception" time="0.001" file="src/__test__/exceptions.filter.spec.ts">
+<testsuites name="jest tests" tests="14" failures="0" errors="0" time="4.002">
+  <testsuite name="@tresdoce-nestjs-toolkit/filters" errors="0" failures="0" skipped="0" timestamp="2023-07-29T20:09:48" time="3.683" tests="11">
+    <testcase classname="filters › code exception" name="should map a regular code exception" time="0.002" file="src/__test__/exceptions.filter.spec.ts">
     </testcase>
-    <testcase classname="filters › HttpExceptions › Default HttpExceptions" name="should map default exception when thrown with not parameters" time="0.001" file="src/__test__/exceptions.filter.spec.ts">
+    <testcase classname="filters › HttpExceptions › Default HttpExceptions" name="should map default exception when thrown with not parameters" time="0" file="src/__test__/exceptions.filter.spec.ts">
     </testcase>
     <testcase classname="filters › HttpExceptions › Default HttpExceptions" name="should map default exception when thrown with error details" time="0.001" file="src/__test__/exceptions.filter.spec.ts">
     </testcase>
-    <testcase classname="filters › HttpExceptions › Default HttpExceptions" name="should map default exception when thrown with error details and description" time="0" file="src/__test__/exceptions.filter.spec.ts">
+    <testcase classname="filters › HttpExceptions › Default HttpExceptions" name="should map default exception when thrown with error details and description" time="0.001" file="src/__test__/exceptions.filter.spec.ts">
     </testcase>
     <testcase classname="filters › HttpExceptions › Default HttpExceptions" name="should map HttpException response when called with an object" time="0.001" file="src/__test__/exceptions.filter.spec.ts">
     </testcase>
@@ -21,10 +21,10 @@
     </testcase>
     <testcase classname="filters › when used outside a module" name="should map default exception when thrown with not parameters" time="0.001" file="src/__test__/exceptions.filter.spec.ts">
     </testcase>
-    <testcase classname="filters › configuration is defined with values" name="should be return application info" time="0" file="src/__test__/exceptions.filter.spec.ts">
+    <testcase classname="filters › configuration is defined with values" name="should be return application info" time="0.001" file="src/__test__/exceptions.filter.spec.ts">
     </testcase>
   </testsuite>
-  <testsuite name="@tresdoce-nestjs-toolkit/filters" errors="0" failures="0" skipped="0" timestamp="2023-07-29T20:08:33" time="0.239" tests="3">
+  <testsuite name="@tresdoce-nestjs-toolkit/filters" errors="0" failures="0" skipped="0" timestamp="2023-07-29T20:09:52" time="0.248" tests="3">
     <testcase classname="error.utils" name="should be return code in string" time="0.002" file="src/__test__/error.utils.spec.ts">
     </testcase>
     <testcase classname="error.utils" name="should be return code in string obj" time="0" file="src/__test__/error.utils.spec.ts">
