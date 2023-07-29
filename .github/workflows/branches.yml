@@ -72,10 +72,11 @@ jobs:
           NODE_ENV: 'test'
 
       - name: "📊 Publish Test Report"
-        uses: mikepenz/action-junit-report@v2
+        uses: mikepenz/action-junit-report@v3
         if: always()
         with:
-          report_paths: '/packages/**/junit.xml'
+          report_paths: '**/junit.xml'
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: "📊 Upload coverage report to Codecov"
         uses: codecov/codecov-action@v1
