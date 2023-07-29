@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { renderFile } from 'pug';
 import inlineCss from 'inline-css';
 

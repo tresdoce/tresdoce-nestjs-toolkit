@@ -1,5 +1,5 @@
 import path from 'path';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { TemplateAdapterConfig } from '../interfaces/template-adapter-config.interface';
 
 export const getTemplatePath = (

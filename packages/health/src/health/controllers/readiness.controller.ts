@@ -9,7 +9,7 @@ import {
   MicroserviceHealthIndicator,
 } from '@nestjs/terminus';
 import { Typings } from '@tresdoce-nestjs-toolkit/core';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { URL } from 'url';
 
 import { CONFIG_OPTIONS } from '../constants';
