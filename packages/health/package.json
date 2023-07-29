@@ -28,8 +28,9 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/health",
     "build": "pika build --out ../../dist/health",
+    "pretest": "yarn clean",
     "test": "jest --runInBand --coverage --forceExit",
-    "clean": "rimraf .turbo coverage test-results node_modules test-report.xml junit.xml"
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml"
   },
   "publishConfig": {
     "access": "public",

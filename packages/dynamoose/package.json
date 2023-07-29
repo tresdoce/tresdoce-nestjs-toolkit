@@ -30,7 +30,7 @@
     "prebuild": "rimraf ../../dist/dynamoose",
     "build": "pika build --out ../../dist/dynamoose",
     "test": "jest --runInBand --coverage --forceExit --passWithNoTests",
-    "clean": "rimraf .turbo coverage test-results node_modules test-report.xml junit.xml"
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml"
   },
   "publishConfig": {
     "access": "public",

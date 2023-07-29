@@ -22,8 +22,20 @@ module.exports = {
   preset: 'ts-jest',
   testResultsProcessor: 'jest-sonar-reporter',
   displayName: `${process.env.npm_package_name}`,
+  coverageReporters: ['html', 'text', 'text-summary', 'cobertura', 'clover', 'json', 'lcov'],
   reporters: [
     'default',
+    [
+      'jest-junit',
+      {
+        classNameTemplate: `{classname}`,
+        titleTemplate: '{title}',
+        ancestorSeparator: ' › ',
+        suiteNameTemplate: `${process.env.npm_package_name}`,
+        includeConsoleOutput: true,
+        addFileAttribute: 'true',
+      },
+    ],
     [
       path.join(__dirname, './jest-mochawesome-reporter.js'),
       {
