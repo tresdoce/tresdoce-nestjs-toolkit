@@ -5,15 +5,12 @@ on:
     branches: [ "feat/*", "fix/*", "refactor/*", "chore/*", "docs/*", "test/*", "build/*", "perf/*", "style/*", "revert/*" ]
   workflow_dispatch:
 
-env:
-  NODE_VERSIONS: [ '16.14.2', '18.17.0' ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ${{ env.NODE_VERSIONS }}
+        node: [ '16.14.2', '18.17.0' ]
     name: "Build"
     steps:
       - name: "⚙ Set up Node.js v${{ matrix.node }}"
