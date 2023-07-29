@@ -29,9 +29,11 @@ coverage
 /coverage
 /.nyc_output
 test-report.xml
-junit.xml
+#junit.xml
 packages/*/test-report.xml
-packages/*/junit.xml
+./packages/*/test-report.xml
+#packages/*/junit.xml
+#./packages/*/junit.xml
 packages/*/test-results
 ./packages/*/test-results
 packages/*/test-results/*

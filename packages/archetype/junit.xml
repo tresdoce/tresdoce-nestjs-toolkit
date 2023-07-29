@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="9" failures="0" errors="0" time="6.649">
-  <testsuite name="@tresdoce-nestjs-toolkit/archetype" errors="0" failures="0" skipped="0" timestamp="2023-07-29T19:51:14" time="4.995" tests="5">
+<testsuites name="jest tests" tests="9" failures="0" errors="0" time="5.626">
+  <testsuite name="@tresdoce-nestjs-toolkit/archetype" errors="0" failures="0" skipped="0" timestamp="2023-07-29T20:08:17" time="4" tests="5">
     <testcase classname="ArchetypeService" name="should be defined" time="0.017" file="src/__test__/archetype.service.spec.ts">
     </testcase>
-    <testcase classname="ArchetypeService" name="should be read package file" time="0.006" file="src/__test__/archetype.service.spec.ts">
+    <testcase classname="ArchetypeService" name="should be read package file" time="0.005" file="src/__test__/archetype.service.spec.ts">
     </testcase>
     <testcase classname="ArchetypeService" name="should be return archetype version" time="0.005" file="src/__test__/archetype.service.spec.ts">
     </testcase>
@@ -12,17 +12,17 @@
     <testcase classname="ArchetypeService" name="should be return manifest" time="0.004" file="src/__test__/archetype.service.spec.ts">
     </testcase>
   </testsuite>
-  <testsuite name="@tresdoce-nestjs-toolkit/archetype" errors="0" failures="0" skipped="0" timestamp="2023-07-29T19:51:19" time="0.819" tests="1">
-    <testcase classname="ArchetypeModule" name="should be define" time="0.349" file="src/__test__/archetype.module.spec.ts">
+  <testsuite name="@tresdoce-nestjs-toolkit/archetype" errors="0" failures="0" skipped="0" timestamp="2023-07-29T20:08:21" time="0.741" tests="1">
+    <testcase classname="ArchetypeModule" name="should be define" time="0.197" file="src/__test__/archetype.module.spec.ts">
     </testcase>
   </testsuite>
-  <testsuite name="@tresdoce-nestjs-toolkit/archetype" errors="0" failures="0" skipped="0" timestamp="2023-07-29T19:51:19" time="0.483" tests="2">
-    <testcase classname="ArchetypeController" name="should be defined" time="0.016" file="src/__test__/archetype.controller.spec.ts">
+  <testsuite name="@tresdoce-nestjs-toolkit/archetype" errors="0" failures="0" skipped="0" timestamp="2023-07-29T20:08:22" time="0.552" tests="2">
+    <testcase classname="ArchetypeController" name="should be defined" time="0.018" file="src/__test__/archetype.controller.spec.ts">
     </testcase>
-    <testcase classname="ArchetypeController" name="should be return manifest json" time="0.005" file="src/__test__/archetype.controller.spec.ts">
+    <testcase classname="ArchetypeController" name="should be return manifest json" time="0.007" file="src/__test__/archetype.controller.spec.ts">
     </testcase>
   </testsuite>
-  <testsuite name="@tresdoce-nestjs-toolkit/archetype" errors="0" failures="0" skipped="0" timestamp="2023-07-29T19:51:20" time="0.224" tests="1">
+  <testsuite name="@tresdoce-nestjs-toolkit/archetype" errors="0" failures="0" skipped="0" timestamp="2023-07-29T20:08:22" time="0.239" tests="1">
     <testcase classname="Constants" name="should be return exclude to prefix global" time="0.003" file="src/__test__/constants.spec.ts">
     </testcase>
   </testsuite>
