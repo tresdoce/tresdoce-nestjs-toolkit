@@ -1,7 +1,7 @@
 import { DockerComposeEnvironment } from 'testcontainers';
 import { DockerComposeDownOptions } from 'testcontainers/dist/src/docker-compose/docker-compose-options';
 import { StartedDockerComposeEnvironment } from 'testcontainers/dist/src/docker-compose-environment/started-docker-compose-environment';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 let environment: StartedDockerComposeEnvironment;
 

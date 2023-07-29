@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Typings } from '@tresdoce-nestjs-toolkit/core';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as path from 'path';
 import * as fs from 'fs';
 

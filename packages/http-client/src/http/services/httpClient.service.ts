@@ -6,8 +6,8 @@ import Axios, {
   AxiosError,
   InternalAxiosRequestConfig,
 } from 'axios';
+import _ from 'lodash';
 import { AXIOS_INSTANCE_TOKEN, RequestMethod } from '../constants/http.constants';
-import * as _ from 'lodash';
 
 @Injectable()
 export class HttpClientService {
@@ -20,7 +20,6 @@ export class HttpClientService {
       (
         config: InternalAxiosRequestConfig<any>,
       ): InternalAxiosRequestConfig<any> | Promise<InternalAxiosRequestConfig<any>> => config,
-      //(error: AxiosError): Promise<AxiosError> => Promise.reject(error),
     );
     this.axiosRef.interceptors.response.use(
       (response: AxiosResponse): AxiosResponse => response,

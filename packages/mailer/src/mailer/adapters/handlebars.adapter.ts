@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as handlebars from 'handlebars';
 import inlineCss from 'inline-css';
 import * as glob from 'glob';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { HelperDeclareSpec } from 'handlebars';
 
 import { MailerOptions } from '../interfaces/mailer-options.interface';

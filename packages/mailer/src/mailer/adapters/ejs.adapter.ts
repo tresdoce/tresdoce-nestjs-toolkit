@@ -1,5 +1,5 @@
 import { AsyncTemplateFunction, ClientFunction, compile, TemplateFunction } from 'ejs';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as fs from 'fs';
 import * as path from 'path';
 import inlineCss from 'inline-css';

@@ -3,7 +3,7 @@ const path = require('path');
 process.env.NODE_ENV = 'test';
 
 module.exports = {
-  moduleFileExtensions: ['js', 'json', 'ts'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   forceExit: true,
   verbose: true,
   rootDir: '.',
@@ -17,7 +17,7 @@ module.exports = {
   coverageDirectory: './coverage',
   coveragePathIgnorePatterns: ['node_modules', 'node_modules/*', 'dist', 'dist/*', 'src/index.ts'],
   testEnvironment: 'node',
-  setupFilesAfterEnv: [path.join(__dirname, 'jest.setup.js'), 'jest-extended/all'],
+  setupFilesAfterEnv: [path.join(__dirname, './jest.setup.js'), 'jest-extended/all'],
   moduleDirectories: ['node_modules'],
   preset: 'ts-jest',
   testResultsProcessor: 'jest-sonar-reporter',

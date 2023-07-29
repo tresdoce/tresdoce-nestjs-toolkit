@@ -1,6 +1,6 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import { SentMessageInfo, Transporter } from 'nodemailer';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import { MAILER_OPTIONS, MAILER_TRANSPORT_FACTORY } from '../constants/mailer.constant';
 import { MailerTransportFactory } from '../factories/mailer-transport.factory';
