@@ -31,9 +31,9 @@ coverage
 test-report.xml
 packages/*/test-report.xml
 ./packages/*/test-report.xml
-#junit.xml
-#packages/*/junit.xml
-#./packages/*/junit.xml
+junit.xml
+packages/*/junit.xml
+./packages/*/junit.xml
 packages/*/test-results
 ./packages/*/test-results
 packages/*/test-results/*
