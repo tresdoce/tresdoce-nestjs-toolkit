@@ -11,12 +11,17 @@
     "dist",
     "test",
     "__test__",
+    "coverage",
+    ".turbo",
+    "test-results",
+    "src/__test__/*",
     "**/__test__/**/*",
     "**/*spec.ts",
     "**/*it.ts",
     "**/*test.ts",
     "**/*e2e.ts",
     "**/*e2e-spec.ts",
-    "coverage"
+    "junit.xml",
+    "test-report.xml"
   ]
 }

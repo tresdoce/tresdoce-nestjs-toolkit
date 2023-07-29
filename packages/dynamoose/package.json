@@ -30,24 +30,24 @@
     "prebuild": "rimraf ../../dist/dynamoose",
     "build": "pika build --out ../../dist/dynamoose",
     "test": "jest --runInBand --coverage --forceExit --passWithNoTests",
-    "clean": "rimraf .turbo coverage test-results node_modules test-report.xml"
+    "clean": "rimraf .turbo coverage test-results node_modules test-report.xml junit.xml"
   },
   "publishConfig": {
     "access": "public",
     "directory": "../../dist/dynamoose"
   },
   "peerDependencies": {
-    "@aws-sdk/client-dynamodb": "^3.360.0",
-    "@nestjs/common": "^10.1.0",
-    "@nestjs/core": "^10.1.0",
-    "@nestjs/platform-express": "^10.1.0",
+    "@aws-sdk/client-dynamodb": "^3.378.0",
+    "@nestjs/common": "^10.1.2",
+    "@nestjs/core": "^10.1.2",
+    "@nestjs/platform-express": "^10.1.2",
     "dynamoose": "^3.2.0",
     "dynamoose-logger": "^3.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.360.0",
+    "@aws-sdk/client-dynamodb": "^3.378.0",
     "dynamoose": "^3.2.0",
     "dynamoose-logger": "^3.2.0"
   },

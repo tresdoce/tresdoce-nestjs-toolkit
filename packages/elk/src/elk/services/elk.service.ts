@@ -5,7 +5,7 @@ import { getCode, getErrorMessage } from '@tresdoce-nestjs-toolkit/filters';
 import { excludePaths } from '@tresdoce-nestjs-toolkit/core';
 import { FormatService, RedactService } from '@tresdoce-nestjs-toolkit/utils';
 import { Request, Response } from 'express';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import { ELK_MODULE_OPTIONS, ELK_CLIENT } from '../constants/elk.constant';
 import { ElasticsearchOptions } from '../interfaces/elk.interface';

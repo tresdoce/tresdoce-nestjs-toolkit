@@ -7,7 +7,7 @@ import {
   RedactService,
 } from '@tresdoce-nestjs-toolkit/utils';
 import { Client, ClientOptions } from '@elastic/elasticsearch';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import {
   ELK_MODULE_OPTIONS,

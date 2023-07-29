@@ -3,29 +3,17 @@ name: "Branches"
 on:
   push:
     branches: [ "feat/*", "fix/*", "refactor/*", "chore/*", "docs/*", "test/*", "build/*", "perf/*", "style/*", "revert/*" ]
+  workflow_dispatch:
+
+env:
+  NODE_VERSIONS: [ '16.14.2', '18.17.0' ]
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [ '16.14.2', '18.17.0' ]
-    name: "Setup"
-    steps:
-      - name: "⚙ Set up Node.js v${{ matrix.node }}"
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: "✅ Checkout repository"
-        uses: actions/checkout@v3
-
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ '16.14.2', '18.17.0' ]
-    needs: setup
+        node: ${{ env.NODE_VERSIONS }}
     name: "Build"
     steps:
       - name: "⚙ Set up Node.js v${{ matrix.node }}"
@@ -58,7 +46,7 @@ jobs:
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
 
       - name: "📦 Install Dependencies"
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
       - name: "💅 Lint"
         run: yarn lint
@@ -72,12 +60,12 @@ jobs:
           NODE_ENV: 'test'
 
       - name: "📊 Upload coverage report to Codecov"
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: "📊 SonarCloud Scan"
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarcloud-github-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

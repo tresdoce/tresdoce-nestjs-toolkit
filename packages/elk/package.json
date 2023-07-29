@@ -29,7 +29,7 @@
     "prebuild": "rimraf ../../dist/elk",
     "build": "pika build --out ../../dist/elk",
     "test": "jest --runInBand --coverage --forceExit",
-    "clean": "rimraf .turbo coverage test-results node_modules test-report.xml"
+    "clean": "rimraf .turbo coverage test-results node_modules test-report.xml junit.xml"
   },
   "publishConfig": {
     "access": "public",
@@ -37,9 +37,9 @@
   },
   "peerDependencies": {
     "@elastic/elasticsearch": "^8.8.1",
-    "@nestjs/common": "^10.1.0",
-    "@nestjs/core": "^10.1.0",
-    "@nestjs/platform-express": "^10.1.0",
+    "@nestjs/common": "^10.1.2",
+    "@nestjs/core": "^10.1.2",
+    "@nestjs/platform-express": "^10.1.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },
