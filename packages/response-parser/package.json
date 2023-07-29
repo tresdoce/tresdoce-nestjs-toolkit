@@ -28,7 +28,6 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/response-parser",
     "build": "pika build --out ../../dist/response-parser",
-    "pretest": "yarn clean",
     "test": "jest --runInBand --coverage --forceExit",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml"
   },

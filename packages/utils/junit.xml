@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="30" failures="0" errors="0" time="3.258">
-  <testsuite name="@tresdoce-nestjs-toolkit/utils" errors="0" failures="0" skipped="0" timestamp="2023-07-29T19:47:15" time="2.122" tests="6">
-    <testcase classname="RedactModule › default" name="should define the REDACT_PROVIDER" time="0.016" file="src/__test__/redact.module.spec.ts">
+<testsuites name="jest tests" tests="30" failures="0" errors="0" time="3.48">
+  <testsuite name="@tresdoce-nestjs-toolkit/utils" errors="0" failures="0" skipped="0" timestamp="2023-07-29T19:53:33" time="2.306" tests="6">
+    <testcase classname="RedactModule › default" name="should define the REDACT_PROVIDER" time="0.015" file="src/__test__/redact.module.spec.ts">
     </testcase>
     <testcase classname="RedactModule › default" name="should define the REDACT_PROVIDER with configModule" time="0.007" file="src/__test__/redact.module.spec.ts">
     </testcase>
-    <testcase classname="RedactModule › register" name="should provide the REDACT_PROVIDER" time="0.004" file="src/__test__/redact.module.spec.ts">
+    <testcase classname="RedactModule › register" name="should provide the REDACT_PROVIDER" time="0.003" file="src/__test__/redact.module.spec.ts">
     </testcase>
     <testcase classname="RedactModule › register" name="should provide the REDACT_PROVIDER values empty" time="0.002" file="src/__test__/redact.module.spec.ts">
     </testcase>
     <testcase classname="RedactModule › registerAsync" name="should provide the REDACT_PROVIDER using useFactory" time="0.003" file="src/__test__/redact.module.spec.ts">
     </testcase>
-    <testcase classname="RedactModule › registerAsync" name="should provide the REDACT_PROVIDER using useClass" time="0.003" file="src/__test__/redact.module.spec.ts">
+    <testcase classname="RedactModule › registerAsync" name="should provide the REDACT_PROVIDER using useClass" time="0.002" file="src/__test__/redact.module.spec.ts">
     </testcase>
   </testsuite>
-  <testsuite name="@tresdoce-nestjs-toolkit/utils" errors="0" failures="0" skipped="0" timestamp="2023-07-29T19:47:17" time="0.686" tests="3">
-    <testcase classname="RedactService" name="should be defined" time="0.186" file="src/__test__/redact.service.spec.ts">
+  <testsuite name="@tresdoce-nestjs-toolkit/utils" errors="0" failures="0" skipped="0" timestamp="2023-07-29T19:53:36" time="0.707" tests="3">
+    <testcase classname="RedactService" name="should be defined" time="0.185" file="src/__test__/redact.service.spec.ts">
     </testcase>
-    <testcase classname="RedactService" name="should be obfuscate sensitive data" time="0.006" file="src/__test__/redact.service.spec.ts">
+    <testcase classname="RedactService" name="should be obfuscate sensitive data" time="0.007" file="src/__test__/redact.service.spec.ts">
     </testcase>
-    <testcase classname="RedactService" name="should be obfuscate sensitive data with serialize" time="0.005" file="src/__test__/redact.service.spec.ts">
+    <testcase classname="RedactService" name="should be obfuscate sensitive data with serialize" time="0.004" file="src/__test__/redact.service.spec.ts">
     </testcase>
   </testsuite>
-  <testsuite name="@tresdoce-nestjs-toolkit/utils" errors="0" failures="0" skipped="0" timestamp="2023-07-29T19:47:18" time="0.372" tests="21">
-    <testcase classname="FormatService › formatNumber" name="should be defined" time="0.012" file="src/__test__/format.service.spec.ts">
+  <testsuite name="@tresdoce-nestjs-toolkit/utils" errors="0" failures="0" skipped="0" timestamp="2023-07-29T19:53:36" time="0.378" tests="21">
+    <testcase classname="FormatService › formatNumber" name="should be defined" time="0.015" file="src/__test__/format.service.spec.ts">
     </testcase>
-    <testcase classname="FormatService › formatNumber" name="should format a number correctly with no options and no locale" time="0.009" file="src/__test__/format.service.spec.ts">
+    <testcase classname="FormatService › formatNumber" name="should format a number correctly with no options and no locale" time="0.007" file="src/__test__/format.service.spec.ts">
     </testcase>
     <testcase classname="FormatService › formatNumber" name="should format a number correctly with no options" time="0.002" file="src/__test__/format.service.spec.ts">
     </testcase>
@@ -41,9 +41,9 @@
     </testcase>
     <testcase classname="FormatService › formatDate" name="should be defined" time="0.002" file="src/__test__/format.service.spec.ts">
     </testcase>
-    <testcase classname="FormatService › formatDate" name="should format date with ref of DateTime" time="0.002" file="src/__test__/format.service.spec.ts">
+    <testcase classname="FormatService › formatDate" name="should format date with ref of DateTime" time="0.003" file="src/__test__/format.service.spec.ts">
     </testcase>
-    <testcase classname="FormatService › formatDate" name="should format date correctly with default configs" time="0.004" file="src/__test__/format.service.spec.ts">
+    <testcase classname="FormatService › formatDate" name="should format date correctly with default configs" time="0.005" file="src/__test__/format.service.spec.ts">
     </testcase>
     <testcase classname="FormatService › formatDate" name="should format date correctly with only timezone" time="0.003" file="src/__test__/format.service.spec.ts">
     </testcase>
@@ -51,19 +51,19 @@
     </testcase>
     <testcase classname="FormatService › formatDate" name="should format date correctly with format date and timezone" time="0.002" file="src/__test__/format.service.spec.ts">
     </testcase>
-    <testcase classname="FormatService › formatDate" name="should format date correctly with format date, timezone and locale" time="0.004" file="src/__test__/format.service.spec.ts">
+    <testcase classname="FormatService › formatDate" name="should format date correctly with format date, timezone and locale" time="0.003" file="src/__test__/format.service.spec.ts">
     </testcase>
     <testcase classname="FormatService › formatDate" name="should format date correctly to ISO with default configs" time="0.002" file="src/__test__/format.service.spec.ts">
     </testcase>
     <testcase classname="FormatService › formatDate" name="should format date correctly to ISO with only timezone" time="0.002" file="src/__test__/format.service.spec.ts">
     </testcase>
-    <testcase classname="FormatService › formatDate" name="should calculate diff between two timestamps in milliseconds" time="0.003" file="src/__test__/format.service.spec.ts">
+    <testcase classname="FormatService › formatDate" name="should calculate diff between two timestamps in milliseconds" time="0.002" file="src/__test__/format.service.spec.ts">
     </testcase>
-    <testcase classname="FormatService › formatDate" name="should calculate diff between two timestamps in milliseconds with suffix" time="0.001" file="src/__test__/format.service.spec.ts">
+    <testcase classname="FormatService › formatDate" name="should calculate diff between two timestamps in milliseconds with suffix" time="0.002" file="src/__test__/format.service.spec.ts">
     </testcase>
-    <testcase classname="FormatService › formatDate" name="should calculate diff between two timestamps in seconds" time="0.002" file="src/__test__/format.service.spec.ts">
+    <testcase classname="FormatService › formatDate" name="should calculate diff between two timestamps in seconds" time="0.001" file="src/__test__/format.service.spec.ts">
     </testcase>
-    <testcase classname="FormatService › formatDate" name="should calculate diff between two timestamps in seconds with suffix" time="0.001" file="src/__test__/format.service.spec.ts">
+    <testcase classname="FormatService › formatDate" name="should calculate diff between two timestamps in seconds with suffix" time="0.002" file="src/__test__/format.service.spec.ts">
     </testcase>
   </testsuite>
 </testsuites>

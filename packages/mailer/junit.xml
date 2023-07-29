@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="27" failures="0" errors="0" time="5.472">
-  <testsuite name="@tresdoce-nestjs-toolkit/mailer" errors="0" failures="0" skipped="0" timestamp="2023-07-29T19:47:07" time="4.595" tests="25">
+<testsuites name="jest tests" tests="27" failures="0" errors="0" time="5.515">
+  <testsuite name="@tresdoce-nestjs-toolkit/mailer" errors="0" failures="0" skipped="0" timestamp="2023-07-29T19:53:52" time="4.73" tests="25">
     <testcase classname="MailerService" name="should not be defined if a transport is not provided" time="0.013" file="src/__test__/mailer.service.spec.ts">
     </testcase>
     <testcase classname="MailerService" name="should accept a smtp transport string" time="0.007" file="src/__test__/mailer.service.spec.ts">
@@ -9,41 +9,41 @@
     </testcase>
     <testcase classname="MailerService" name="should accept smtp transport options" time="0.002" file="src/__test__/mailer.service.spec.ts">
     </testcase>
-    <testcase classname="MailerService" name="should accept a smtp transport instance" time="0.006" file="src/__test__/mailer.service.spec.ts">
+    <testcase classname="MailerService" name="should accept a smtp transport instance" time="0.007" file="src/__test__/mailer.service.spec.ts">
     </testcase>
-    <testcase classname="MailerService" name="should send emails with nodemailer" time="0.007" file="src/__test__/mailer.service.spec.ts">
+    <testcase classname="MailerService" name="should send emails with nodemailer" time="0.008" file="src/__test__/mailer.service.spec.ts">
     </testcase>
-    <testcase classname="MailerService" name="should send emails with nodemailer transports" time="0.003" file="src/__test__/mailer.service.spec.ts">
+    <testcase classname="MailerService" name="should send emails with nodemailer transports" time="0.004" file="src/__test__/mailer.service.spec.ts">
     </testcase>
     <testcase classname="MailerService" name="should send emails with nodemailer with different transports name" time="0.002" file="src/__test__/mailer.service.spec.ts">
     </testcase>
-    <testcase classname="MailerService" name="should send emails with nodemailer without transports" time="0.003" file="src/__test__/mailer.service.spec.ts">
+    <testcase classname="MailerService" name="should send emails with nodemailer without transports" time="0.002" file="src/__test__/mailer.service.spec.ts">
     </testcase>
     <testcase classname="MailerService" name="should use mailerOptions.defaults when send emails" time="0.003" file="src/__test__/mailer.service.spec.ts">
     </testcase>
-    <testcase classname="MailerService" name="should use custom transport to send mail" time="0.006" file="src/__test__/mailer.service.spec.ts">
+    <testcase classname="MailerService" name="should use custom transport to send mail" time="0.005" file="src/__test__/mailer.service.spec.ts">
     </testcase>
-    <testcase classname="MailerService" name="should compile template with the handlebars adapter" time="0.02" file="src/__test__/mailer.service.spec.ts">
+    <testcase classname="MailerService" name="should compile template with the handlebars adapter" time="0.022" file="src/__test__/mailer.service.spec.ts">
     </testcase>
-    <testcase classname="MailerService" name="should compile template with the handlebars adapter with relative path" time="0.008" file="src/__test__/mailer.service.spec.ts">
+    <testcase classname="MailerService" name="should compile template with the handlebars adapter with relative path" time="0.009" file="src/__test__/mailer.service.spec.ts">
     </testcase>
     <testcase classname="MailerService" name="should compile template with the handlebars adapter with error template path" time="0.002" file="src/__test__/mailer.service.spec.ts">
     </testcase>
-    <testcase classname="MailerService" name="should compile template with the handlebars adapter with disabled inline-css" time="0.003" file="src/__test__/mailer.service.spec.ts">
+    <testcase classname="MailerService" name="should compile template with the handlebars adapter with disabled inline-css" time="0.004" file="src/__test__/mailer.service.spec.ts">
     </testcase>
     <testcase classname="MailerService" name="should compile template with the handlebars adapter with enabled inline-css and media query" time="0.007" file="src/__test__/mailer.service.spec.ts">
     </testcase>
-    <testcase classname="MailerService" name="should compile template with the pug adapter" time="0.028" file="src/__test__/mailer.service.spec.ts">
+    <testcase classname="MailerService" name="should compile template with the pug adapter" time="0.026" file="src/__test__/mailer.service.spec.ts">
     </testcase>
-    <testcase classname="MailerService" name="should compile template with the pug adapter with relative path" time="0.006" file="src/__test__/mailer.service.spec.ts">
+    <testcase classname="MailerService" name="should compile template with the pug adapter with relative path" time="0.007" file="src/__test__/mailer.service.spec.ts">
     </testcase>
-    <testcase classname="MailerService" name="should compile template with the pug adapter with error to read template" time="0.003" file="src/__test__/mailer.service.spec.ts">
+    <testcase classname="MailerService" name="should compile template with the pug adapter with error to read template" time="0.004" file="src/__test__/mailer.service.spec.ts">
     </testcase>
-    <testcase classname="MailerService" name="should compile template with the pug adapter without inline css" time="0.003" file="src/__test__/mailer.service.spec.ts">
+    <testcase classname="MailerService" name="should compile template with the pug adapter without inline css" time="0.005" file="src/__test__/mailer.service.spec.ts">
     </testcase>
     <testcase classname="MailerService" name="should compile template with the ejs adapter" time="0.004" file="src/__test__/mailer.service.spec.ts">
     </testcase>
-    <testcase classname="MailerService" name="should compile template with the ejs adapter with error to read template" time="0.001" file="src/__test__/mailer.service.spec.ts">
+    <testcase classname="MailerService" name="should compile template with the ejs adapter with error to read template" time="0.002" file="src/__test__/mailer.service.spec.ts">
     </testcase>
     <testcase classname="MailerService" name="should compile template with the ejs adapter read template relative url" time="0.002" file="src/__test__/mailer.service.spec.ts">
     </testcase>
@@ -52,8 +52,8 @@
     <testcase classname="MailerService" name="should compile template with the ejs adapter with css inline" time="0.003" file="src/__test__/mailer.service.spec.ts">
     </testcase>
   </testsuite>
-  <testsuite name="@tresdoce-nestjs-toolkit/mailer" errors="0" failures="0" skipped="0" timestamp="2023-07-29T19:47:11" time="0.808" tests="2">
-    <testcase classname="MailerModule › forRoot" name="should be defined" time="0.312" file="src/__test__/mailer.module.spec.ts">
+  <testsuite name="@tresdoce-nestjs-toolkit/mailer" errors="0" failures="0" skipped="0" timestamp="2023-07-29T19:53:57" time="0.708" tests="2">
+    <testcase classname="MailerModule › forRoot" name="should be defined" time="0.179" file="src/__test__/mailer.module.spec.ts">
     </testcase>
     <testcase classname="MailerModule › forRootAsync" name="should be defined" time="0.008" file="src/__test__/mailer.module.spec.ts">
     </testcase>
