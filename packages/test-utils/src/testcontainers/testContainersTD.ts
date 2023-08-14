@@ -1,6 +1,11 @@
-import { GenericContainer, StartedTestContainer, TestContainer, Wait } from 'testcontainers';
-import { RandomUuid } from 'testcontainers/dist/src/uuid';
-import { StopOptions } from 'testcontainers/dist/src/test-container';
+import {
+  GenericContainer,
+  RandomUuid,
+  StartedTestContainer,
+  StopOptions,
+  TestContainer,
+  Wait,
+} from 'testcontainers';
 import _ from 'lodash';
 
 import { ITestContainerOptions, Env } from './types';
@@ -23,6 +28,7 @@ export default class TestContainersTD {
   /**
    * Get instance
    */
+
   /* istanbul ignore next */
   public static getInstance(_image?: string, _options?: ITestContainerOptions): TestContainersTD {
     return (
@@ -119,6 +125,7 @@ export default class TestContainersTD {
   /**
    * Get envs
    */
+
   /* istanbul ignore next */
   public getEnvs(): Env {
     return _.has(this._options, 'envs') ? this._options.envs : null;
