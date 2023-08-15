@@ -5,11 +5,11 @@
   "main": "",
   "types": "index",
   "dependencies": {
-    "jest-extended": "^3.2.4"
+    "jest-extended": "^4.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\"",
-    "clean": "rimraf .turbo coverage test-results node_modules test-report.xml"
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml"
   },
   "private": true
 }

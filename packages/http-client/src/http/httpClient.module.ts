@@ -2,7 +2,7 @@ import { DynamicModule, Module, Provider, Global } from '@nestjs/common';
 import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
 import Axios from 'axios';
 import axiosRetry from 'axios-retry';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import {
   AXIOS_INSTANCE_TOKEN,
   HTTP_MODULE_ID,

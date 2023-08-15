@@ -12,7 +12,7 @@ import { ConfigService } from '@nestjs/config';
 import { Observable, tap } from 'rxjs';
 import { Span } from '@opentelemetry/api';
 import { Request, Response } from 'express';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import { TracingService } from '../services/tracing.service';
 import {

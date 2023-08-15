@@ -29,23 +29,23 @@
     "prebuild": "rimraf ../../dist/redis",
     "build": "pika build --out ../../dist/redis",
     "test": "jest --runInBand --coverage --forceExit",
-    "clean": "rimraf .turbo coverage test-results node_modules test-report.xml"
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml"
   },
   "publishConfig": {
     "access": "public",
     "directory": "../../dist/redis"
   },
   "peerDependencies": {
-    "@nestjs/common": "^9.4.2",
-    "@nestjs/core": "^9.4.2",
-    "@nestjs/platform-express": "^9.4.2",
-    "redis": "^4.1.0",
+    "@nestjs/common": "^10.1.2",
+    "@nestjs/core": "^10.1.2",
+    "@nestjs/platform-express": "^10.1.2",
+    "redis": "^4.6.7",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5",
     "uuid": "^9.0.0"
   },
   "dependencies": {
-    "redis": "^4.1.0",
+    "redis": "^4.6.7",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

@@ -1,7 +1,6 @@
-import { DockerComposeEnvironment } from 'testcontainers';
-import { DockerComposeDownOptions } from 'testcontainers/dist/src/test-container';
-import * as _ from 'lodash';
-import { StartedDockerComposeEnvironment } from 'testcontainers/dist/src/docker-compose-environment/started-docker-compose-environment';
+import { DockerComposeEnvironment, StartedDockerComposeEnvironment } from 'testcontainers';
+import { ComposeDownOptions } from 'testcontainers/build/container-runtime';
+import _ from 'lodash';
 
 let environment: StartedDockerComposeEnvironment;
 
@@ -29,7 +28,7 @@ export const initDockerCompose = (
   };
 };
 
-export const closeDockerCompose = (_options?: Partial<DockerComposeDownOptions>) => {
+export const closeDockerCompose = (_options?: Partial<ComposeDownOptions>) => {
   return async (): Promise<void> => {
     console.info('🐳 Terminate docker-compose...');
     try {

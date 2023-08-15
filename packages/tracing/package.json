@@ -29,16 +29,16 @@
     "prebuild": "rimraf ../../dist/tracing",
     "build": "pika build --out ../../dist/tracing",
     "test": "jest --runInBand --coverage --forceExit",
-    "clean": "rimraf .turbo coverage test-results node_modules test-report.xml"
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml"
   },
   "publishConfig": {
     "access": "public",
     "directory": "../../dist/tracing"
   },
   "peerDependencies": {
-    "@nestjs/common": "^9.4.2",
-    "@nestjs/core": "^9.4.2",
-    "@nestjs/platform-express": "^9.4.2",
+    "@nestjs/common": "^10.1.2",
+    "@nestjs/core": "^10.1.2",
+    "@nestjs/platform-express": "^10.1.2",
     "@opentelemetry/core": "^1.14.0",
     "@opentelemetry/exporter-trace-otlp-proto": "0.40.0",
     "@opentelemetry/id-generator-aws-xray": "1.1.2",
