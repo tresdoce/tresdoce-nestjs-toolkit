@@ -36,10 +36,10 @@
     "directory": "../../dist/http-client"
   },
   "peerDependencies": {
-    "@nestjs/common": "^10.1.2",
+    "@nestjs/common": "^10.1.3",
     "@nestjs/config": "^3.0.0",
-    "@nestjs/core": "^10.1.2",
-    "@nestjs/platform-express": "^10.1.2",
+    "@nestjs/core": "^10.1.3",
+    "@nestjs/platform-express": "^10.1.3",
     "axios": "^1.4.0",
     "axios-retry": "^3.5.1",
     "lodash": "^4.17.21",
