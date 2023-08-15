@@ -6,7 +6,7 @@
 <div align="center">
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v18.17.0&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="Node.js"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v9.6.7&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="Npm"/>
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v10.1.2&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/><br/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v10.1.3&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/><br/>
     <img alt="GitHub license" src="https://img.shields.io/github/license/tresdoce/tresdoce-nestjs-toolkit?style=flat">
     <img alt="Release" src="https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/test-utils.svg">
     <br/>
@@ -45,7 +45,7 @@ esta librería que maneja de manera centralizada todo lo necesario para nuestros
 - Node.js v18.17.0 or higher ([Download](https://nodejs.org/es/download/))
 - YARN v1.22.18 or higher
 - NPM v9.6.7 or higher
-- NestJS v10.1.2 or higher ([Documentación](https://nestjs.com/))
+- NestJS v10.1.3 or higher ([Documentación](https://nestjs.com/))
 
 <a name="install-dependencies"></a>
 
