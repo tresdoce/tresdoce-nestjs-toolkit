@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/filters@0.3.3...@tresdoce-nestjs-toolkit/filters@1.0.0) (2023-08-16)
+
+### ⚠ BREAKING CHANGES
+
+- upgrade to nestjs 10.1.3 and others libs
+
+### ✨ Features
+
+- upgrade to nestjs 10.1.3 and others libs ([81db096](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/81db0969ee543ab2ca89e4538da4f7ed7a7bbd9f))
+
+### 🐛 Bug Fixes
+
+- update libs and resolve problem with testcontainers ([b79d094](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/b79d094a517274f82b5499f012fb163c39bc8837))
+
+### 👨‍💻 Chores
+
+- add jest junit ([4962608](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/49626084ead565b007dc3b447bd2517bbd184f61))
+- delete junit.xml file ([d9f1c8e](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d9f1c8ef8a84ebd823140ff70af437134349f0fb))
+- edit gitigno ([ca57424](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/ca57424994746a80786600665d3e0cff7bafb25e))
+- remove all junit files ([c38cf51](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c38cf51e6a09395ae073742c7e551877a3dae610))
+- remove pretest script in packages ([668c420](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/668c4206834ce365fa34d82ceb056742b055023f))
+- update dependencies to latest versions ([3babf06](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/3babf066dd7d58e8471643b0ddb207a31b211d94))
+- work with eslint ([140515a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/140515a3fd5e739ec2bdb6dd5d3cd4bd11637ede))
+
+### 📝 Docs
+
+- edit versions in readmes ([a966161](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a96616185061a06cc68ce2c60b51a07e2ca68574))
+
 ## [0.3.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/filters@0.3.2...@tresdoce-nestjs-toolkit/filters@0.3.3) (2023-07-17)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/filters

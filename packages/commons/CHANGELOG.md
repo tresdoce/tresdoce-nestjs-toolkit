@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@0.2.2...@tresdoce-nestjs-toolkit/commons@1.0.0) (2023-08-16)
+
+### ⚠ BREAKING CHANGES
+
+- upgrade to nestjs 10.1.3 and others libs
+
+### ✨ Features
+
+- **commons:** add junit report to test ([a309ee8](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a309ee8116788fddbce2bf1eb7ce361ee1bcb9cc))
+- upgrade to nestjs 10.1.3 and others libs ([81db096](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/81db0969ee543ab2ca89e4538da4f7ed7a7bbd9f))
+
+### 👨‍💻 Chores
+
+- add jest junit ([4962608](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/49626084ead565b007dc3b447bd2517bbd184f61))
+- remove pretest script in packages ([668c420](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/668c4206834ce365fa34d82ceb056742b055023f))
+- work with eslint ([140515a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/140515a3fd5e739ec2bdb6dd5d3cd4bd11637ede))
+
+### 📝 Docs
+
+- edit versions in readmes ([a966161](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a96616185061a06cc68ce2c60b51a07e2ca68574))
+
 ## [0.2.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@0.2.1...@tresdoce-nestjs-toolkit/commons@0.2.2) (2023-07-17)
 
 ### 🧪 Tests

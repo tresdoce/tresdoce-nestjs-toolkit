@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/config@0.3.1...@tresdoce-nestjs-toolkit/config@0.3.2) (2023-08-16)
+
+### 👨‍💻 Chores
+
+- add jest junit ([4962608](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/49626084ead565b007dc3b447bd2517bbd184f61))
+- work with eslint ([140515a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/140515a3fd5e739ec2bdb6dd5d3cd4bd11637ede))
+
 ## [0.3.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/config@0.3.0...@tresdoce-nestjs-toolkit/config@0.3.1) (2023-07-17)
 
 ### 🧪 Tests

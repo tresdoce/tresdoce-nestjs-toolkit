@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/tracing@0.1.2...@tresdoce-nestjs-toolkit/tracing@1.0.0) (2023-08-16)
+
+### ⚠ BREAKING CHANGES
+
+- upgrade to nestjs 10.1.3 and others libs
+
+### ✨ Features
+
+- upgrade to nestjs 10.1.3 and others libs ([81db096](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/81db0969ee543ab2ca89e4538da4f7ed7a7bbd9f))
+
+### 🐛 Bug Fixes
+
+- update libs and resolve problem with testcontainers ([b79d094](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/b79d094a517274f82b5499f012fb163c39bc8837))
+
+### 👨‍💻 Chores
+
+- add jest junit ([4962608](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/49626084ead565b007dc3b447bd2517bbd184f61))
+- remove pretest script in packages ([668c420](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/668c4206834ce365fa34d82ceb056742b055023f))
+- **tracing:** update dependencies otel ([e82d76b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/e82d76b0a6881be0bf0c562c2b596b5dbd30460e))
+- update dependencies to latest versions ([3babf06](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/3babf066dd7d58e8471643b0ddb207a31b211d94))
+- work with eslint ([140515a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/140515a3fd5e739ec2bdb6dd5d3cd4bd11637ede))
+
+### 📝 Docs
+
+- edit versions in readmes ([a966161](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a96616185061a06cc68ce2c60b51a07e2ca68574))
+
 ## [0.1.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/tracing@0.1.1...@tresdoce-nestjs-toolkit/tracing@0.1.2) (2023-07-17)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/tracing
