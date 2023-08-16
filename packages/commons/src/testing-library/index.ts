@@ -8,7 +8,7 @@ export const jestConfig = () => ({
     '^.+\\.(t|j)s$': 'ts-jest',
   },
   roots: ['<rootDir>/test/', '<rootDir>/src/'],
-  //collectCoverage: true,
+  collectCoverage: true,
   collectCoverageFrom: ['**/*.(t|j)s', '!**/*.entity.(t|j)s'],
   coverageDirectory: './coverage',
   coveragePathIgnorePatterns: [
@@ -20,10 +20,26 @@ export const jestConfig = () => ({
     'src/*/entities/*',
   ],
   testEnvironment: 'node',
-  setupFilesAfterEnv: ['./jest.setup.ts', 'jest-extended'],
+  setupFilesAfterEnv: ['./jest.setup.ts', 'jest-extended/all'],
   moduleDirectories: ['node_modules'],
   preset: 'ts-jest',
   testResultsProcessor: 'jest-sonar-reporter',
+  displayName: `${process.env.npm_package_name}`,
+  coverageReporters: ['html', 'text', 'text-summary', 'cobertura', 'clover', 'json', 'lcov'],
+  reporters: [
+    'default',
+    [
+      'jest-junit',
+      {
+        classNameTemplate: `{classname}`,
+        titleTemplate: '{title}',
+        ancestorSeparator: ' › ',
+        suiteNameTemplate: `${process.env.npm_package_name}`,
+        includeConsoleOutput: true,
+        addFileAttribute: 'true',
+      },
+    ],
+  ],
   coverageThreshold: {
     global: {
       branches: 80,
