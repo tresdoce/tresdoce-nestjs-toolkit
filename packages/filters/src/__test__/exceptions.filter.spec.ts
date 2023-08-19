@@ -14,6 +14,7 @@ const mockType = jest.fn().mockImplementation(() => ({
 
 const mockGetResponse = jest.fn().mockImplementation(() => ({
   type: mockType,
+  status: mockStatus,
 }));
 
 const mockUrl = jest.fn().mockImplementation(() => ({
@@ -37,6 +38,10 @@ const mockArgumentsHost = {
   switchToRpc: jest.fn(),
   switchToWs: jest.fn(),
 };
+
+jest.mock('@tresdoce-nestjs-toolkit/core', () => ({
+  excludePaths: jest.fn(() => ['/excluded']),
+}));
 
 describe('filters', () => {
   describe('code exception', () => {
@@ -254,6 +259,30 @@ describe('filters', () => {
 
     filter.catch(new BadRequestException(), mockArgumentsHost);
     assertResponse(status, expectation);
+  });
+
+  describe('Exclude Paths', () => {
+    const appConfig = config();
+    const filter = new ExceptionsFilter(appConfig);
+
+    it('should exclude paths correctly', () => {
+      mockJson.mockClear();
+      mockStatus.mockClear();
+      mockType.mockClear();
+      mockGetResponse.mockClear();
+      mockUrl.mockClear();
+      mockGetRequest.mockClear();
+      mockHttpArgumentsHost.mockClear();
+
+      mockGetRequest.mockImplementation(() => ({ url: '/excluded' }));
+
+      const exception = new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      filter.catch(exception, mockArgumentsHost);
+
+      expect(mockStatus).toHaveBeenCalledWith(HttpStatus.NOT_FOUND);
+      expect(mockJson).toHaveBeenCalledWith(exception.getResponse());
+      expect(mockType).not.toHaveBeenCalled();
+    });
   });
 });
 
