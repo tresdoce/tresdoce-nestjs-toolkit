@@ -16,14 +16,6 @@ import { CONFIG_OPTIONS } from '../constants';
 
 @Controller('health')
 export class ReadinessController {
-  constructor(
-    @Inject(CONFIG_OPTIONS) private readonly appConfig: Typings.AppConfig,
-    private health: HealthCheckService,
-    private http: HttpHealthIndicator,
-    private typeOrm: TypeOrmHealthIndicator,
-    private microservice: MicroserviceHealthIndicator,
-  ) {}
-
   @Get('readiness')
   @ApiExcludeEndpoint()
   @HealthCheck()
@@ -92,4 +84,12 @@ export class ReadinessController {
       ...camundaCheckList,
     ]);
   }
+
+  constructor(
+    @Inject(CONFIG_OPTIONS) private readonly appConfig: Typings.AppConfig,
+    private health: HealthCheckService,
+    private http: HttpHealthIndicator,
+    private typeOrm: TypeOrmHealthIndicator,
+    private microservice: MicroserviceHealthIndicator,
+  ) {}
 }
