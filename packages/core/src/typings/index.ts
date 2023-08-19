@@ -49,10 +49,10 @@ export interface IServerConfig {
   port: number;
   context: string;
   origins: string[] | string;
+  propagateHeaders?: string[];
   exposedHeaders?: string;
   allowedHeaders: string;
   allowedMethods: string;
-  propagateHeaders?: string[];
   corsEnabled: boolean;
   corsCredentials: boolean;
 }

@@ -22,6 +22,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, any> {
         response.setHeader(headerName, request.headers[headerName]);
       }
     }
+
     return _next.handle().pipe(
       map((res) => {
         return _.isArray(res) ? { data: res } : res;
