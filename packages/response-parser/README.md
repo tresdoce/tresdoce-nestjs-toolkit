@@ -57,19 +57,29 @@ yarn add @tresdoce-nestjs-toolkit/response-parser
 
 ## ⚙️ Configuración
 
-Para utilizar este interceptor, es necesario instanciarlo en la creación de la `app` con su global interceptor.
+Para utilizar este interceptor, es necesario instanciarlo como **provider** en el módulo principal (`app.module.ts`),
+ya que este tiene integrado el uso del `ConfigService` para realizar la propagación de custom headers en la respuesta.
+
 La implementación del formato de respuesta está implícito en cada respuesta de los controladores.
 
 ```typescript
-//./src/main.ts
+//./src/app.module.ts
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from '@tresdoce-nestjs-toolkit/response-parser';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+@Module({
   //...
-  app.useGlobalInterceptors(new ResponseInterceptor());
+  providers: [
+    //...
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseInterceptor,
+    },
+    //...
+  ],
   //...
-}
+})
+export class AppModule {}
 ```
 
 <a name="response"></a>
@@ -104,6 +114,39 @@ async function bootstrap() {
     //...
   ]
 }
+```
+
+### Propagación de Headers
+
+Para realizar la propagación de headers en la respuesta, solo se requiere agregar la propiedad `propagateHeaders` en la
+configuración centralizada, esta propiedad admite un array de strings que puede ser configurada desde variables de entorno
+como un string separado por comas.
+
+```typescript
+//./src/config/configuration.ts
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import { registerAs } from '@nestjs/config';
+
+export default registerAs('config', (): Typings.AppConfig => {
+  return {
+    //...
+    server: {
+      //...
+      propagateHeaders: process.env.PROPAGATE_HEADERS
+        ? process.env.PROPAGATE_HEADERS.split(',')
+        : [],
+      //...
+    },
+    //...
+  };
+});
+```
+
+```dotenv
+#.env
+#...
+PROPAGATE_HEADERS=x-custom-header-1,x-custom-header-2,x-custom-header-n
+#...
 ```
 
 ## 📄 Changelog
