@@ -96,6 +96,8 @@ yarn test
 Los módulos de la siguiente lista, están pensados para ser consumidos por
 el [NestJS Starter](https://github.com/rudemex/nestjs-starter), siguiendo los lineamientos de `schematics`.
 
+> ⚠️ Es recomendable utilizar las versiones `stables`, ya que las versiones `beta` están pensadas para ser utilizadas a modo de testing y pueden generar conflictos en el código.
+
 | Package                                                                  | Descripción                                       | Versión                                                                                                                                                         | Changelog                                            |
 |--------------------------------------------------------------------------|---------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
 | [`@tresdoce-nestjs-toolkit/archetype`](./packages/archetype)             | Módulo informativo de la app                      | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/archetype.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/archetype)             | [Changelog](./packages/archetype/CHANGELOG.md)       |
