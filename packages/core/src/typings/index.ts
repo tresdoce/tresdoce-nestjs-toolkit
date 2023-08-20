@@ -4,10 +4,20 @@ import { TracingOptions } from '@tresdoce-nestjs-toolkit/tracing';
 import { DatabaseOptions } from '@tresdoce-nestjs-toolkit/typeorm';
 import { CamundaOptions } from '@tresdoce-nestjs-toolkit/camunda';
 import { ElasticsearchOptions } from '@tresdoce-nestjs-toolkit/elk';
-import { AxiosRequestConfig } from 'axios';
 import { RedactOptions } from '@tresdoce-nestjs-toolkit/utils';
+import { AxiosRequestConfig } from 'axios';
 
 export type TAppStage = 'local' | 'test' | 'snd' | 'dev' | 'qa' | 'homo' | 'prod';
+
+export enum EAppStage {
+  local = 'local',
+  test = 'test',
+  snd = 'snd',
+  dev = 'dev',
+  qa = 'qa',
+  homo = 'homo',
+  prod = 'prod',
+}
 
 declare global {
   namespace NodeJS {
