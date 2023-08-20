@@ -55,6 +55,26 @@ yarn add @tresdoce-nestjs-toolkit/core
 
 ## 👨‍💻 Uso
 
+### Validation Schema
+
+La validación del los parámetros (`envs`) que requiere la aplicación son validados por medio de la función
+`validateSchemaForApp`, esta tienen integrado la validación los schemas obligatorios y base para la app.
+
+#### ValidationSchema for App
+
+```typescript
+// ./src/config/validationSchema.ts
+import Joi from 'joi';
+import { validateSchemaForApp } from '@tresdoce-nestjs-toolkit/core';
+
+export const validationSchema = validateSchemaForApp({
+  // Custom parameters
+  TEST_KEY: Joi.string().optional(),
+  RICK_AND_MORTY_API_URL: Joi.string().required(),
+  RICK_AND_MORTY_API_URL_LIVENESS: Joi.string().required(),
+});
+```
+
 ### corePathsExcludes
 
 Es una variable que contiene una lista de `paths` con sus `methods` con el fin de ser excluidos tanto del `prefix` de la
