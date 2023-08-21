@@ -18,7 +18,7 @@ const mockedConfig = {
       timeout: 3000,
     },
     demoApi: {
-      url: 'https://nestjs-starter.up.railway.app',
+      url: 'https://nestjs-starter.tresdoce.com.ar',
       timeout: 3000,
       healthPath: '/v1/health/liveness',
     },
