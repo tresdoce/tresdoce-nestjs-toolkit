@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ '16.14.2', '18.17.0' ]
+        node: [ '18.17.0' ]
     name: "Setup"
     steps:
       - name: "⚙ Set up Node.js v${{ matrix.node }}"
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ '16.14.2', '18.17.0' ]
+        node: [ '18.17.0' ]
     needs: setup
     name: "Build"
     steps:
