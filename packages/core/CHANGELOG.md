@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@1.0.0...@tresdoce-nestjs-toolkit/core@1.1.0) (2023-08-29)
+
+### ✨ Features
+
+- **core:** add validation schema for apps ([2f476b7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/2f476b72d44594eb151adeff077307461e4af45c))
+- **response-parser:** add propagate custom headers ([fdbf86b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/fdbf86b5affa4833edc202c51cb82f003ca88786))
+- **response-parser:** add propagate headers in response ([0459616](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/04596160a8688d942a0ca412dc09d251212c10bc))
+
+### 🐛 Bug Fixes
+
+- **filter:** exclude health paths of exception errors ([f209c18](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/f209c18a37076c92d90d290a8fd6d77f422cf7b5))
+
+### 👨‍💻 Chores
+
+- **core:** add export validations ([6560ced](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/6560ced0828c1cbc42b3c1f582334f34c1b96cdb))
+- update dependencies ([15fc47c](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/15fc47cff697d1a80c7e2cd618db17f7438575f4))
+
+### 📝 Docs
+
+- edit link to demo nestjs starter ([3371a42](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/3371a42c6da4d1c3d576843a60d33c77df8cd294))
+
 ## [1.0.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@0.7.1...@tresdoce-nestjs-toolkit/core@1.0.0) (2023-08-16)
 
 ### ⚠ BREAKING CHANGES

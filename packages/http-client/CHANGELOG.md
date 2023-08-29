@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@1.0.0...@tresdoce-nestjs-toolkit/http-client@1.0.1) (2023-08-29)
+
+### 👨‍💻 Chores
+
+- update dependencies ([15fc47c](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/15fc47cff697d1a80c7e2cd618db17f7438575f4))
+
+### 📝 Docs
+
+- edit link to demo nestjs starter ([3371a42](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/3371a42c6da4d1c3d576843a60d33c77df8cd294))
+
 ## [1.0.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@0.2.3...@tresdoce-nestjs-toolkit/http-client@1.0.0) (2023-08-16)
 
 ### ⚠ BREAKING CHANGES
