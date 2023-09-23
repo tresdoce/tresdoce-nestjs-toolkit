@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/typeorm@1.0.1...@tresdoce-nestjs-toolkit/typeorm@1.0.2) (2023-09-23)
+
+### 👨‍💻 Chores
+
+- update nestjs dependencies ([8ad00ff](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/8ad00ff2c0825d9d269c6d3c20d7a5730d6a0bc0))
+- **update:** update mongodb dependencie ([667474e](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/667474eb6f3598c923869d2509e9477f3a8f240e))
+- **update:** update mysql2 dependencie ([bb1286b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/bb1286becfdb8f5fa4aba00b78660feb4931ef6e))
+
 ## [1.0.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/typeorm@1.0.0...@tresdoce-nestjs-toolkit/typeorm@1.0.1) (2023-08-29)
 
 ### 👨‍💻 Chores
