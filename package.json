@@ -101,7 +101,7 @@
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
     "@elastic/elasticsearch-mock": "^2.0.0",
-    "@nestjs/cli": "^10.1.16",
+    "@nestjs/cli": "^10.1.18",
     "@nestjs/schematics": "^10.0.2",
     "@nestjs/testing": "^10.2.2",
     "@pika/cli": "^0.2.0",
