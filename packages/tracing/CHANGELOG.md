@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/tracing@1.0.1...@tresdoce-nestjs-toolkit/tracing@1.0.2) (2023-09-23)
+
+### 👨‍💻 Chores
+
+- **tracing:** update opentelemetry dependencies ([9c44552](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/9c4455290949576b51926f1633167bcfc47bb251))
+- update luxon dependencie ([067b857](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/067b8571a51a9ea6524cfb6e3ffdc233e7601b61))
+- update nestjs dependencies ([8ad00ff](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/8ad00ff2c0825d9d269c6d3c20d7a5730d6a0bc0))
+
 ## [1.0.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/tracing@1.0.0...@tresdoce-nestjs-toolkit/tracing@1.0.1) (2023-08-29)
 
 ### 👨‍💻 Chores

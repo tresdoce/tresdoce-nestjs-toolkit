@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/response-parser@1.1.0...@tresdoce-nestjs-toolkit/response-parser@1.1.1) (2023-09-23)
+
+### 👨‍💻 Chores
+
+- update nestjs dependencies ([8ad00ff](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/8ad00ff2c0825d9d269c6d3c20d7a5730d6a0bc0))
+
 ## [1.1.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/response-parser@1.0.0...@tresdoce-nestjs-toolkit/response-parser@1.1.0) (2023-08-29)
 
 ### ✨ Features

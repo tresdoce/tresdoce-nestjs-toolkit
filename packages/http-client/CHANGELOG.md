@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@1.0.1...@tresdoce-nestjs-toolkit/http-client@1.0.2) (2023-09-23)
+
+### 👨‍💻 Chores
+
+- **http-client:** update axios retry dependencie ([c00069f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c00069f614aabeaf57500ec91bfd4711b1222a2d))
+- update nestjs dependencies ([8ad00ff](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/8ad00ff2c0825d9d269c6d3c20d7a5730d6a0bc0))
+
 ## [1.0.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@1.0.0...@tresdoce-nestjs-toolkit/http-client@1.0.1) (2023-08-29)
 
 ### 👨‍💻 Chores
