@@ -44,7 +44,7 @@
     "handlebars": "^4.7.6",
     "inline-css": "4.0.2",
     "mjml": "^4.14.0",
-    "nodemailer": "6.9.4",
+    "nodemailer": "6.9.5",
     "pug": "^3.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
@@ -55,7 +55,7 @@
     "handlebars": "^4.7.6",
     "inline-css": "4.0.2",
     "mjml": "^4.14.0",
-    "nodemailer": "6.9.4",
+    "nodemailer": "6.9.5",
     "pug": "^3.0.1"
   },
   "devDependencies": {
