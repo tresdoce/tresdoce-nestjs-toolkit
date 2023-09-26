@@ -1,4 +1,11 @@
-import { ExecutionContext, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import {
+  ExecutionContext,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { ConfigService } from '@nestjs/config';
 import { getCode, getErrorMessage } from '@tresdoce-nestjs-toolkit/filters';
@@ -46,10 +53,15 @@ export class ElkService {
    * Create index document
    */
   public async createIndexDocument(elkDocument: any, _suffix?: string): Promise<void> {
-    await this.clientRef?.index({
-      index: this.generateIndexDocument(_suffix),
-      body: elkDocument,
-    });
+    try {
+      await this.clientRef?.index({
+        index: this.generateIndexDocument(_suffix),
+        body: elkDocument,
+      });
+    } catch (_error) {
+      /* istanbul ignore next */
+      Logger.error(`Create document: ${_error.message}`, 'ElkModule');
+    }
   }
 
   /*
@@ -59,7 +71,7 @@ export class ElkService {
     _timeRequest: number,
     _context: ExecutionContext,
     _response: any,
-    _isException,
+    _isException: any,
   ): Promise<void> {
     const application = `${this.configService.get('config.project.name')}`;
     const applicationVersion = `v${this.configService.get('config.project.version')}`;
@@ -124,14 +136,14 @@ export class ElkService {
     }
   }
 
-  public responseException(_request, _exception) {
+  public responseException(_request: Request, _exception: any) {
     const apiPrefix: string = this.configService.get('config.project.apiPrefix');
     const instance = `${_.toUpper(_request.method)} ${_request.url}`;
 
     let status: number = HttpStatus.INTERNAL_SERVER_ERROR;
 
-    let message;
-    let detail;
+    let message: any;
+    let detail: any;
 
     if (_exception instanceof HttpException) {
       status = _exception.getStatus();
@@ -153,7 +165,7 @@ export class ElkService {
   }
 
   /* Redact ELK Document*/
-  private redactElkDocument(_document) {
+  private redactElkDocument(_document: any) {
     const tempDocument = this.redactService.obfuscate(_document);
 
     tempDocument['query'] = JSON.stringify(tempDocument['query']);
