@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@1.0.2...@tresdoce-nestjs-toolkit/elk@1.0.3) (2023-09-26)
+
+### 🐛 Bug Fixes
+
+- **elk:** add logs to catch error when fail to create document ([fd72b79](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/fd72b7952438af1b6568665f5354a4c99aa67d4c))
+
 ## [1.0.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/elk@1.0.1...@tresdoce-nestjs-toolkit/elk@1.0.2) (2023-09-23)
 
 ### 👨‍💻 Chores
