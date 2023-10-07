@@ -1,0 +1,80 @@
+{
+  "name": "@tresdoce-nestjs-toolkit/prometheus",
+  "version": "0.0.0",
+  "description": "Tresdoce NestJS Toolkit - Módulo de monitoreo con Prometheus",
+  "author": {
+    "name": "Maximiliano \"Mex\" Delgado",
+    "email": "mdelgado@tresdoce.com.ar",
+    "url": "https://rudemex.github.io/"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "keywords": [
+    "nestjs",
+    "prometheus"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tresdoce/tresdoce-nestjs-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tresdoce/tresdoce-nestjs-toolkit/issues"
+  },
+  "homepage": "https://github.com/tresdoce/tresdoce-nestjs-toolkit#readme",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf ../../dist/prometheus",
+    "build": "pika build --out ../../dist/prometheus",
+    "test": "jest --runInBand --coverage --forceExit --passWithNoTests",
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "../../dist/prometheus"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^10.2.6",
+    "@nestjs/core": "^10.2.6",
+    "@nestjs/platform-express": "^10.2.6",
+    "prom-client": "^14.2.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.5.5"
+  },
+  "dependencies": {
+    "prom-client": "^14.2.0"
+  },
+  "devDependencies": {
+    "@tresdoce-nestjs-toolkit/config": "^0.3.2",
+    "@types/tresdoce-nestjs-toolkit": "^0.2.1"
+  },
+  "prettier": {
+    "semi": true,
+    "tabWidth": 2,
+    "singleQuote": true,
+    "printWidth": 100,
+    "trailingComma": "all"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-ts-standard-pkg",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-node",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ]
+    ]
+  }
+}

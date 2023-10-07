@@ -117,6 +117,7 @@ el [NestJS Starter](https://github.com/rudemex/nestjs-starter), siguiendo los li
 | [`@tresdoce-nestjs-toolkit/tracing`](./packages/tracing)                 | Módulo de traza con OpenTelemetry                 | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/tracing.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/tracing)                 | [Changelog](./packages/tracing/CHANGELOG.md)         |
 | [`@tresdoce-nestjs-toolkit/typeorm`](./packages/typeorm)                 | Módulo de ORM para base de datos                  | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/typeorm.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/typeorm)                 | [Changelog](./packages/typeorm/CHANGELOG.md)         |
 | [`@tresdoce-nestjs-toolkit/utils`](./packages/utils)                     | Utilitarios para proyectos y librerías            | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/utils.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/utils)                     | [Changelog](./packages/utils/CHANGELOG.md)           |
+| [`@tresdoce-nestjs-toolkit/prometheus`](./packages/prometheus) | Módulo de monitoreo con Prometheus | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/prometheus.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/prometheus) | [Changelog](./packages/prometheus/CHANGELOG.md) |
 <!---PLOP-TOOLKIT-TABLE-->
 
 <a name="commits"></a>
