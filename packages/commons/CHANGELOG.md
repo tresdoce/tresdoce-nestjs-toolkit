@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@1.0.2...@tresdoce-nestjs-toolkit/commons@1.1.0) (2023-10-23)
+
+### ✨ Features
+
+- **test-utils:** add create mock to http requests ([200af19](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/200af193df7317bc9b7f9963c244f630ab44af53))
+
 ## [1.0.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@1.0.1...@tresdoce-nestjs-toolkit/commons@1.0.2) (2023-09-23)
 
 ### 👨‍💻 Chores
