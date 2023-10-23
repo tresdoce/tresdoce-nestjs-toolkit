@@ -31,6 +31,7 @@ esta librería que maneja de manera centralizada todo lo necesario para nuestros
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [👨‍💻 Uso](#use)
+- [😝 CreateMock](#create-mock)
 - [🧪 TestContainers](#testcontainers)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
@@ -119,6 +120,45 @@ describe('Suite for dynamic config', () => {
 
     app = module.createNestApplication();
     await app.init();
+  });
+  //...
+});
+```
+
+<a name="create-mock"></a>
+
+## 😝 CreateMock
+
+`CreateMock` es una función que facilita la creación de mocks para peticiones HTTP utilizando **Nock** como base.
+
+```typescript
+import { createMock, cleanAllMock } from '@tresdoce-nestjs-toolkit/test-utils';
+
+describe('MyController', () => {
+  beforeEach(async () => {
+    //...
+    cleanAllMock();
+  });
+  //...
+  it('should be return user data from mock', async () => {
+    createMock({
+      baseUrl: 'https://test.com',
+      method: 'get',
+      endpoint: '/api/user/1',
+      statusCode: 200,
+      responseBody: {
+        id: 1,
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john.doe@email.com',
+      },
+    });
+
+    const user = await controller.getUser();
+    //console.log(user); //Return mock response
+    expect(user).toHaveProperty('firstName', 'John');
+    expect(user).toHaveProperty('lastName', 'Doe');
+    expect(user).toHaveProperty('email', 'john.doe@email.com');
   });
   //...
 });
