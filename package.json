@@ -22,7 +22,7 @@
     "test": "turbo run test --concurrency=1",
     "test:husky": "turbo run test --concurrency=1",
     "clean": "turbo run clean",
-    "postclean": "rimraf ./yarn.lock ./package-lock.json ./dist ./mochawesome-report ./mochawesome.json ./node_modules",
+    "postclean": "rimraf ./yarn.lock ./package-lock.json ./dist ./.turbo ./mochawesome-report ./mochawesome.json ./node_modules",
     "lint": "lint-staged",
     "prepublishOnly": "yarn build",
     "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,md,json}\"",
@@ -155,7 +155,7 @@
     "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
-    "turbo": "^1.10.14",
+    "turbo": "^1.10.16",
     "typescript": "^4.9.5"
   }
 }
