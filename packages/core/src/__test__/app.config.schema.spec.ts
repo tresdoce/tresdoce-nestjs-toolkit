@@ -45,6 +45,18 @@ describe('appConfigValidationSchema', () => {
       expect(() => validateSchema(validationSchema, input)).toThrow(Error);
     });
 
+    it('should throw an error for invalid SKIP_HEALTH_CHECKS value in base schema', () => {
+      const validationSchema = {
+        ...baseValidationSchemaApp,
+      };
+      const input = {
+        ...baseInput,
+        SKIP_HEALTH_CHECKS: 'sarasa',
+        field: 123,
+      };
+      expect(() => validateSchema(validationSchema, input)).toThrow(Error);
+    });
+
     it('should validate the base schema with a new input correctly', () => {
       const validationSchema = {
         ...baseValidationSchemaApp,

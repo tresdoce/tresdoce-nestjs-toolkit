@@ -10,6 +10,14 @@ import { AxiosRequestConfig } from 'axios';
 
 export type TAppStage = 'local' | 'test' | 'snd' | 'dev' | 'qa' | 'homo' | 'prod';
 
+export type TSkipHealthChecks =
+  | 'storage'
+  | 'memory'
+  | 'elasticsearch'
+  | 'camunda'
+  | 'typeorm'
+  | 'redis';
+
 export enum EAppStage {
   local = 'local',
   test = 'test',
@@ -18,6 +26,15 @@ export enum EAppStage {
   qa = 'qa',
   homo = 'homo',
   prod = 'prod',
+}
+
+export enum ESkipHealthChecks {
+  storage = 'storage',
+  memory = 'memory',
+  elasticsearch = 'elasticsearch',
+  camunda = 'camunda',
+  typeorm = 'typeorm',
+  redis = 'redis',
 }
 
 declare global {
@@ -74,7 +91,7 @@ export interface IServerConfig {
 }
 
 export interface IHealthConfig {
-  skipChecks?: string[];
+  skipChecks?: TSkipHealthChecks[];
   storage?: DiskHealthIndicatorOptions;
   memory?: IHealthMemory;
 }
