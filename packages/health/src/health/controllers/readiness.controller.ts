@@ -152,10 +152,17 @@ export class ReadinessController {
     const { elasticsearch } = this.appConfig;
     /* istanbul ignore next */
     if (!Object.keys(elasticsearch).length) return [];
+
+    /* istanbul ignore next */
+    const options =
+      _.has(elasticsearch, 'auth') && !_.isEmpty(elasticsearch.auth)
+        ? { auth: elasticsearch.auth }
+        : {};
+
     /* istanbul ignore next */
     return [
       async (): Promise<HealthIndicatorResult> =>
-        this.http.pingCheck(`elasticsearch`, `${elasticsearch.node}`),
+        this.http.pingCheck(`elasticsearch`, `${elasticsearch.node}`, options),
     ];
   }
 
