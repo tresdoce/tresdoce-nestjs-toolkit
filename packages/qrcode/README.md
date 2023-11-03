@@ -299,7 +299,7 @@ createQrCode({
 ```typescript
 createQrCode({
   type: 'crypto',
-  currency: 'Bitcoin',
+  currency: 'bitcoin',
   address: '1BoatSLRHtKNngkdXEeobR76b53LETtpyT',
 });
 ```

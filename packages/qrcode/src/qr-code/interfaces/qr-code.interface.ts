@@ -68,7 +68,7 @@ export interface EventQR {
 export interface CryptoQR {
   type: 'crypto';
   address: string;
-  currency: 'Bitcoin' | 'Ethereum' | 'Litecoin' | 'Other' | string;
+  currency: string;
 }
 
 // Unión de todos los tipos de QR

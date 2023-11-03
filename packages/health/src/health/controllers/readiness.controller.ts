@@ -131,10 +131,15 @@ export class ReadinessController {
     const { redis } = this.appConfig;
     /* istanbul ignore next */
     if (!Object.keys(redis).length) return [];
+
+    /* istanbul ignore next */
+    const redisName =
+      _.has(redis, 'name') && !_.isEmpty(redis.name) ? `redis-${redis.name}` : 'redis';
+
     /* istanbul ignore next */
     return [
       async (): Promise<HealthIndicatorResult> =>
-        this.microservice.pingCheck(`${redis.name ? `redis-${redis.name}` : 'redis'}`, {
+        this.microservice.pingCheck(redisName, {
           transport: Transport.REDIS,
           options: { ...redis },
         }),

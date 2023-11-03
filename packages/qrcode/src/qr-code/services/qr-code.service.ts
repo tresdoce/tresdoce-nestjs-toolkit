@@ -187,7 +187,7 @@ export class QrCodeService {
    * // Generar un código QR de Criptomoneda como base64
    * createQrCode({
    *   type: 'crypto',
-   *   currency: 'Bitcoin',
+   *   currency: 'bitcoin',
    *   address: '1BoatSLRHtKNngkdXEeobR76b53LETtpyT'
    * })
    */
@@ -294,7 +294,7 @@ export class QrCodeService {
    * // Generar un código QR de Criptomoneda como Buffer
    * createQrCodeBuffer({
    *   type: 'crypto',
-   *   currency: 'Bitcoin',
+   *   currency: 'bitcoin',
    *   address: '1BoatSLRHtKNngkdXEeobR76b53LETtpyT'
    * })
    */
