@@ -20,6 +20,7 @@ const baseInput = {
   SWAGGER_ENABLED: false,
   TRACING_ENDPOINT: 'http://docker:4318/v1/traces',
   TRACING_AUTH_TOKEN: 'test-token',
+  SKIP_HEALTH_CHECKS: 'storage,memory',
 };
 
 describe('appConfigValidationSchema', () => {

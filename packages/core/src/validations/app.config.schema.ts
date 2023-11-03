@@ -31,6 +31,12 @@ export const baseValidationSchema = {
   CORS_CREDENTIALS: Joi.boolean().required(),
   SWAGGER_PATH: Joi.string().required(),
   SWAGGER_ENABLED: Joi.boolean().required(),
+  SKIP_HEALTH_CHECKS: Joi.string().optional(),
+  HEALTH_CHECK_STORAGE_PATH: Joi.string().optional(),
+  HEALTH_CHECK_STORAGE_THRESHOLD: Joi.number().optional(),
+  HEALTH_CHECK_STORAGE_THRESHOLD_PERCENT: Joi.number().optional(),
+  HEALTH_CHECK_MEMORY_HEAP: Joi.number().optional(),
+  HEALTH_CHECK_MEMORY_RSS: Joi.number().optional(),
 };
 
 export const baseValidationSchemaApp = {

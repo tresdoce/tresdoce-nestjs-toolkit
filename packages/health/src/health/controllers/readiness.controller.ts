@@ -1,95 +1,179 @@
 import { Controller, Get, Inject } from '@nestjs/common';
-import { ApiExcludeEndpoint } from '@nestjs/swagger';
-import { RedisOptions, Transport } from '@nestjs/microservices';
 import {
   HealthCheck,
   HealthCheckService,
   HttpHealthIndicator,
   TypeOrmHealthIndicator,
   MicroserviceHealthIndicator,
+  HealthCheckResult,
+  HealthIndicatorResult,
+  MemoryHealthIndicator,
+  DiskHealthIndicator,
 } from '@nestjs/terminus';
+import { ApiExcludeEndpoint } from '@nestjs/swagger';
+import { Transport } from '@nestjs/microservices';
+import { SkipTrace } from '@tresdoce-nestjs-toolkit/tracing';
 import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import _ from 'lodash';
 import { URL } from 'url';
 
-import { CONFIG_OPTIONS } from '../constants';
+import { CONFIG_OPTIONS, DEFAULT_SERVICE_LIVENESS_PATH } from '../constants';
 
 @Controller('health')
 export class ReadinessController {
-  @Get('readiness')
-  @ApiExcludeEndpoint()
-  @HealthCheck()
-  async check() {
-    /** HealthChecks Services */
-    const servicesPingCheckList = _.has(this.appConfig, 'services')
-      ? Object.keys(this.appConfig.services).map((_key) => {
-          const {
-            url,
-            timeout = 0,
-            healthPath = '/health/liveness',
-          } = this.appConfig.services[_key];
-          const urlService = new URL(url);
-          /* istanbul ignore next */
-          return () =>
-            this.http.pingCheck(`${_key}`, `${urlService.origin}${healthPath}`, { timeout });
-        })
-      : /* istanbul ignore next */ [];
-
-    /** HealthChecks TypeORM */
-    const typeormCheckList = _.has(this.appConfig, 'database')
-      ? Object.keys(this.appConfig.database).map((_key) => {
-          /* istanbul ignore next */
-          return () => this.typeOrm.pingCheck(`typeorm_${this.appConfig.database.typeorm.type}`);
-        })
-      : /* istanbul ignore next */ [];
-
-    /** HealthChecks Redis */
-    const redisCheckList = _.has(this.appConfig, 'redis')
-      ? Object.keys(this.appConfig.redis).map((_key) => {
-          /* istanbul ignore next */
-          return () =>
-            this.microservice.pingCheck<RedisOptions>(`${this.appConfig.redis.name}` || 'redis', {
-              transport: Transport.REDIS,
-              options: {
-                host: this.appConfig.redis.host,
-                port: this.appConfig.redis.port,
-                password: this.appConfig.redis.password,
-                username: this.appConfig.redis.username,
-              },
-            });
-        })
-      : /* istanbul ignore next */ [];
-
-    /** HealthChecks ElasticSearch */
-    const elkCheckList = _.has(this.appConfig, 'elasticsearch')
-      ? Object.keys(this.appConfig.elasticsearch).map((_key) => {
-          /* istanbul ignore next */
-          return () => this.http.pingCheck('elasticsearch', `${this.appConfig.elasticsearch.node}`);
-        })
-      : /* istanbul ignore next */ [];
-
-    /** HealthChecks Camunda */
-    const camundaCheckList = _.has(this.appConfig, 'camunda')
-      ? Object.keys(this.appConfig.camunda).map((_key) => {
-          /* istanbul ignore next */
-          return () => this.http.pingCheck('camunda', `${this.appConfig.camunda.baseUrl}/version`);
-        })
-      : /* istanbul ignore next */ [];
-
-    return this.health.check([
-      ...servicesPingCheckList,
-      ...typeormCheckList,
-      ...redisCheckList,
-      ...elkCheckList,
-      ...camundaCheckList,
-    ]);
-  }
-
   constructor(
     @Inject(CONFIG_OPTIONS) private readonly appConfig: Typings.AppConfig,
+    private readonly disk: DiskHealthIndicator,
+    private readonly memory: MemoryHealthIndicator,
     private health: HealthCheckService,
     private http: HttpHealthIndicator,
     private typeOrm: TypeOrmHealthIndicator,
     private microservice: MicroserviceHealthIndicator,
   ) {}
+
+  @Get('readiness')
+  @ApiExcludeEndpoint()
+  @HealthCheck()
+  @SkipTrace()
+  async check(): Promise<HealthCheckResult> {
+    return this.health.check([
+      ...this.getDiskChecks(),
+      ...this.getMemoryChecks(),
+      ...this.getServicesPingChecks(),
+      ...this.getTypeOrmChecks(),
+      ...this.getRedisChecks(),
+      ...this.getElkChecks(),
+      ...this.getCamundaChecks(),
+    ]);
+  }
+
+  private getDiskChecks() {
+    if (
+      !_.has(this.appConfig.health, 'storage') ||
+      _.isEmpty(this.appConfig.health.storage) ||
+      _.includes(this.appConfig.health.skipChecks, 'storage')
+    )
+      return [];
+
+    const { storage } = this.appConfig.health;
+    /* istanbul ignore next */
+    if (!Object.keys(storage).length) return [];
+    /* istanbul ignore next */
+    return [
+      async (): Promise<HealthIndicatorResult> => this.disk.checkStorage('storage', { ...storage }),
+    ];
+  }
+
+  private getMemoryChecks() {
+    if (
+      !_.has(this.appConfig.health, 'memory') ||
+      _.isEmpty(this.appConfig.health.memory) ||
+      _.includes(this.appConfig.health.skipChecks, 'memory')
+    )
+      return [];
+
+    const { memory } = this.appConfig.health;
+    /* istanbul ignore next */
+    if (!Object.keys(memory).length) return [];
+    /* istanbul ignore next */
+    return [
+      async (): Promise<HealthIndicatorResult> => this.memory.checkHeap('memory_heap', memory.heap),
+      async (): Promise<HealthIndicatorResult> => this.memory.checkRSS('memory_rss', memory.rss),
+    ];
+  }
+
+  private getServicesPingChecks() {
+    /* istanbul ignore next */
+    if (!_.has(this.appConfig, 'services') || _.isEmpty(this.appConfig.services)) return [];
+
+    const { services } = this.appConfig;
+    /* istanbul ignore next */
+    if (!Object.keys(services).length) return [];
+    /* istanbul ignore next */
+    return Object.entries(services).map(([_key, _service]) => {
+      const { url, timeout = 0, healthPath = DEFAULT_SERVICE_LIVENESS_PATH } = _service;
+      const urlService = new URL(url);
+
+      return async (): Promise<HealthIndicatorResult> =>
+        this.http.pingCheck(`service-${_key}`, `${urlService.origin}${healthPath}`, {
+          timeout,
+        });
+    });
+  }
+
+  private getTypeOrmChecks() {
+    if (
+      !_.has(this.appConfig, 'database.typeorm') ||
+      _.isEmpty(this.appConfig.database.typeorm) ||
+      _.includes(this.appConfig.health.skipChecks, 'typeorm')
+    )
+      return [];
+
+    const {
+      database: { typeorm },
+    } = this.appConfig;
+    /* istanbul ignore next */
+    if (!Object.keys(typeorm).length) return [];
+    /* istanbul ignore next */
+    return [
+      async (): Promise<HealthIndicatorResult> => this.typeOrm.pingCheck(`typeorm-${typeorm.type}`),
+    ];
+  }
+
+  private getRedisChecks() {
+    if (
+      !_.has(this.appConfig, 'redis') ||
+      _.isEmpty(this.appConfig.redis) ||
+      _.includes(this.appConfig.health.skipChecks, 'redis')
+    )
+      return [];
+
+    const { redis } = this.appConfig;
+    /* istanbul ignore next */
+    if (!Object.keys(redis).length) return [];
+    /* istanbul ignore next */
+    return [
+      async (): Promise<HealthIndicatorResult> =>
+        this.microservice.pingCheck(`${redis.name ? `redis-${redis.name}` : 'redis'}`, {
+          transport: Transport.REDIS,
+          options: { ...redis },
+        }),
+    ];
+  }
+
+  private getElkChecks() {
+    if (
+      !_.has(this.appConfig, 'elasticsearch') ||
+      _.isEmpty(this.appConfig.elasticsearch) ||
+      _.includes(this.appConfig.health.skipChecks, 'elasticsearch')
+    )
+      return [];
+
+    const { elasticsearch } = this.appConfig;
+    /* istanbul ignore next */
+    if (!Object.keys(elasticsearch).length) return [];
+    /* istanbul ignore next */
+    return [
+      async (): Promise<HealthIndicatorResult> =>
+        this.http.pingCheck(`elasticsearch`, `${elasticsearch.node}`),
+    ];
+  }
+
+  private getCamundaChecks() {
+    if (
+      !_.has(this.appConfig, 'camunda') ||
+      _.isEmpty(this.appConfig.camunda) ||
+      _.includes(this.appConfig.health.skipChecks, 'camunda')
+    )
+      return [];
+
+    const { camunda } = this.appConfig;
+    /* istanbul ignore next */
+    if (!Object.keys(camunda).length) return [];
+    /* istanbul ignore next */
+    return [
+      async (): Promise<HealthIndicatorResult> =>
+        this.http.pingCheck(`camunda`, `${camunda.baseUrl}/version`),
+    ];
+  }
 }

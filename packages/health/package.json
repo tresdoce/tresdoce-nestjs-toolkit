@@ -55,7 +55,6 @@
     "@nestjs/swagger": "^7.1.12",
     "@nestjs/terminus": "^10.1.1",
     "@nestjs/typeorm": "^10.0.0",
-    "@tresdoce-nestjs-toolkit/core": "^1.1.1",
     "lodash": "^4.17.21",
     "typeorm": "^0.3.17"
   },
