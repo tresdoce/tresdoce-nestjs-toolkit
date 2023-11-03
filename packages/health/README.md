@@ -60,7 +60,8 @@ El módulo tiene la capacidad de utilizar la configuración centralizada para po
 correspondientes a los servicios configurados.
 
 Siguiendo la arquitectura del [NestJS Starter](https://github.com/rudemex/nestjs-starter), la información que se agrega
-en la configuración de los `services` impacta en los health checks para él `readiness`.
+en la configuración de los `services` impacta en los health checks para él `readiness`, como
+asi también el uso de ciertos servicios como `elasticsearch`, `typeORM`, `Redis`, `Camunda`, etc.
 
 Utilizando la propiedad `timeout` para configurar el tiempo de respuesta del servicio, como también la
 propiedad `healthPath` para configurar la `url` a la cual realizar el ping check, si no se completa este campo, por
@@ -68,12 +69,15 @@ defecto realiza el ping al dominio de la url.
 
 ```typescript
 //./src/config/configuration.ts
-import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import { getSkipHealthChecks, Typings } from '@tresdoce-nestjs-toolkit/core';
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('config', (): Typings.AppConfig => {
   return {
     //...
+    health: {
+      skipChecks: getSkipHealthChecks(process.env.SKIP_HEALTH_CHECKS),
+    },
     services: {
       myApi: {
         url: process.env.MY_API_URL,
@@ -89,11 +93,37 @@ export default registerAs('config', (): Typings.AppConfig => {
 });
 ```
 
+<details>
+<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+
+### Health
+
+`skipChecks`: Lista de servicios predefinida por arquitectura para skipear los ping checks del readiness,
+si no se requiere realizar un skipeo, lo recomendable es remover la variable y su configuración.
+
+- Type: `String[]`
+- Values: `storage | memory | elasticsearch | redis | camunda | typeorm`
+- Example: `elasticsearch,memory`
+
+### Services
+
+`timeout`: Es tiempo de respuesta del servicio a consumir.
+
+- Type: `Number`
+- Default: `0`
+
+`healthPath`: Endpoint a realizar el ping check del servicio
+
+- Type: `String`
+- Default: `/health/liveness`
+
+</details>
+
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-Solamente hay que instanciar él `healthModule` en módulo principal de nuestra aplicación.
+Importar `healthModule` en módulo principal de nuestra aplicación.
 
 ```typescript
 //./src/app.module.ts
@@ -117,10 +147,69 @@ Para visualizar las respuestas de los endpoints, basta con navegar a `/health/li
 **Schema:** `<http|https>://<server_url><:port>/<app-context>/health/liveness`<br/>
 **Example:** `http://localhost:8080/v1/health/liveness`
 
+#### Response
+
+```json
+{
+  "status": "up"
+}
+```
+
 ### Readiness
 
 **Schema:** `<http|https>://<server_url><:port>/<app-context>/health/readiness`<br/>
 **Example:** `http://localhost:8080/v1/health/readiness`
+
+#### Response
+
+```json
+{
+  "status": "ok",
+  "info": {
+    "myApi": {
+      "status": "up"
+    },
+    "myApiTwo": {
+      "status": "up"
+    }
+  },
+  "error": {},
+  "details": {
+    "myApi": {
+      "status": "up"
+    },
+    "myApiTwo": {
+      "status": "up"
+    }
+  }
+}
+```
+
+```json
+{
+  "status": "error",
+  "info": {
+    "myApi": {
+      "status": "up"
+    }
+  },
+  "error": {
+    "myApiTwo": {
+      "status": "down",
+      "message": "connect ECONNREFUSED myApiTwo.example.com"
+    }
+  },
+  "details": {
+    "myApi": {
+      "status": "up"
+    },
+    "myApiTwo": {
+      "status": "down",
+      "message": "connect ECONNREFUSED myApiTwo.example.com"
+    }
+  }
+}
+```
 
 ## 📄 Changelog
 
