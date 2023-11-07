@@ -5,9 +5,18 @@ import { DatabaseOptions } from '@tresdoce-nestjs-toolkit/typeorm';
 import { CamundaOptions } from '@tresdoce-nestjs-toolkit/camunda';
 import { ElasticsearchOptions } from '@tresdoce-nestjs-toolkit/elk';
 import { RedactOptions } from '@tresdoce-nestjs-toolkit/utils';
+import { DiskHealthIndicatorOptions } from '@nestjs/terminus';
 import { AxiosRequestConfig } from 'axios';
 
 export type TAppStage = 'local' | 'test' | 'snd' | 'dev' | 'qa' | 'homo' | 'prod';
+
+export type TSkipHealthChecks =
+  | 'storage'
+  | 'memory'
+  | 'elasticsearch'
+  | 'camunda'
+  | 'typeorm'
+  | 'redis';
 
 export enum EAppStage {
   local = 'local',
@@ -17,6 +26,15 @@ export enum EAppStage {
   qa = 'qa',
   homo = 'homo',
   prod = 'prod',
+}
+
+export enum ESkipHealthChecks {
+  storage = 'storage',
+  memory = 'memory',
+  elasticsearch = 'elasticsearch',
+  camunda = 'camunda',
+  typeorm = 'typeorm',
+  redis = 'redis',
 }
 
 declare global {
@@ -40,6 +58,11 @@ export interface IProjectConfigRepository {
 
 export interface IProjectConfigBugs {
   url: string;
+}
+
+export interface IHealthMemory {
+  heap: number;
+  rss: number;
 }
 
 export interface IProjectConfig {
@@ -67,6 +90,12 @@ export interface IServerConfig {
   corsCredentials: boolean;
 }
 
+export interface IHealthConfig {
+  skipChecks?: TSkipHealthChecks[];
+  storage?: DiskHealthIndicatorOptions;
+  memory?: IHealthMemory;
+}
+
 export interface ISwaggerConfig {
   path: string;
   enabled: boolean;
@@ -84,6 +113,7 @@ export interface IServicesConfig extends AxiosRequestConfig {
 export interface AppConfig {
   project: IProjectConfig;
   server: IServerConfig;
+  health?: IHealthConfig;
   swagger: ISwaggerConfig;
   params?: IParamsConfig;
   services?: Record<string, IServicesConfig>;

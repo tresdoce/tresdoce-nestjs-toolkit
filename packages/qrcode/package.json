@@ -1,7 +1,7 @@
 {
-  "name": "@tresdoce-nestjs-toolkit/health",
-  "version": "1.0.2",
-  "description": "Tresdoce NestJS Toolkit - Módulo health checks liveness y readiness",
+  "name": "@tresdoce-nestjs-toolkit/qrcode",
+  "version": "0.0.0",
+  "description": "Tresdoce NestJS Toolkit - Módulo para crear códigos QR",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
     "email": "mdelgado@tresdoce.com.ar",
@@ -13,7 +13,7 @@
   },
   "keywords": [
     "nestjs",
-    "health"
+    "qrcode"
   ],
   "repository": {
     "type": "git",
@@ -26,37 +26,25 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "prebuild": "rimraf ../../dist/health",
-    "build": "pika build --out ../../dist/health",
+    "prebuild": "rimraf ../../dist/qrcode",
+    "build": "pika build --out ../../dist/qrcode",
     "test": "jest --runInBand --coverage --forceExit",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml"
   },
   "publishConfig": {
     "access": "public",
-    "directory": "../../dist/health"
+    "directory": "../../dist/qrcode"
   },
   "peerDependencies": {
-    "@nestjs/axios": "^3.0.0",
     "@nestjs/common": "^10.2.6",
     "@nestjs/core": "^10.2.6",
-    "@nestjs/microservices": "^10.2.6",
     "@nestjs/platform-express": "^10.2.6",
-    "@nestjs/swagger": "^7.1.12",
-    "@nestjs/terminus": "^10.1.1",
-    "@nestjs/typeorm": "^10.0.0",
-    "lodash": "^4.17.21",
+    "qrcode": "^1.5.3",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.5.5",
-    "typeorm": "^0.3.17"
+    "rxjs": "^7.5.5"
   },
   "dependencies": {
-    "@nestjs/axios": "^3.0.0",
-    "@nestjs/microservices": "^10.2.6",
-    "@nestjs/swagger": "^7.1.12",
-    "@nestjs/terminus": "^10.1.1",
-    "@nestjs/typeorm": "^10.0.0",
-    "lodash": "^4.17.21",
-    "typeorm": "^0.3.17"
+    "qrcode": "^1.5.3"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.3.2",

@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { EAppStage } from '../typings';
+import { EAppStage, ESkipHealthChecks } from '../typings';
 
 export const validateSchema = (validationSchema: object, input: any) => {
   const result = Joi.object(validationSchema).validate(input);
@@ -14,6 +14,16 @@ const validateAdditionType = (_appStage: EAppStage, _helpers: any) => {
     return _helpers.error('APP_STAGE.invalid');
   }
   return _appStage;
+};
+
+const validateSkipHealthChecksType = (_skipHealthChecks: string, _helpers: any) => {
+  const skipHealthChecks = _skipHealthChecks.split(',').map((_item) => _item.trim().toLowerCase());
+  for (const skipItem of skipHealthChecks) {
+    if (!Object.values(ESkipHealthChecks as any).includes(skipItem)) {
+      return _helpers.error('SKIP_HEALTH_CHECKS.invalid');
+    }
+  }
+  return _skipHealthChecks;
 };
 
 export const baseValidationSchema = {
@@ -31,6 +41,14 @@ export const baseValidationSchema = {
   CORS_CREDENTIALS: Joi.boolean().required(),
   SWAGGER_PATH: Joi.string().required(),
   SWAGGER_ENABLED: Joi.boolean().required(),
+  SKIP_HEALTH_CHECKS: Joi.string()
+    .optional()
+    .custom(validateSkipHealthChecksType, 'SKIP_HEALTH_CHECKS validation'),
+  HEALTH_CHECK_STORAGE_PATH: Joi.string().optional(),
+  HEALTH_CHECK_STORAGE_THRESHOLD: Joi.number().optional(),
+  HEALTH_CHECK_STORAGE_THRESHOLD_PERCENT: Joi.number().optional(),
+  HEALTH_CHECK_MEMORY_HEAP: Joi.number().optional(),
+  HEALTH_CHECK_MEMORY_RSS: Joi.number().optional(),
 };
 
 export const baseValidationSchemaApp = {
