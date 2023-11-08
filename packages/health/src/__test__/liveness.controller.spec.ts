@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LivenessController } from '../health/controllers/liveness.controller';
 
-describe('Health - Live controller', () => {
+describe('LivenessController', () => {
   let controller: LivenessController;
 
   beforeEach(async () => {
