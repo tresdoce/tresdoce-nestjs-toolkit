@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@1.1.1...@tresdoce-nestjs-toolkit/core@1.1.2) (2023-11-09)
+
+### 👨‍💻 Chores
+
+- **core:** add validation skip health check ([c79222d](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c79222de855d7c983c24c99a8f6850cef5a87df9))
+- **health:** refactor in readiness controller ([421b560](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/421b5604371bd16573e28a774b496c6f9f0028bd))
+
+### 📝 Docs
+
+- **health:** edit documentation ([72e6489](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/72e6489d8c15e7cb827b44620a2c577f1c47f3c0))
+
 ## [1.1.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@1.1.0...@tresdoce-nestjs-toolkit/core@1.1.1) (2023-09-23)
 
 ### 👨‍💻 Chores
