@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@1.0.2...@tresdoce-nestjs-toolkit/health@1.0.3) (2023-11-09)
+
+### 🐛 Bug Fixes
+
+- **health:** add auth to elasticsearch ([470d098](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/470d0984796479f31656e8ae2ecbb12a9a2cf003))
+- resolve code smells to sonar ([fcea081](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/fcea081cc6c2a4c5df38313383f898baf2414bc7))
+
+### 👨‍💻 Chores
+
+- **health:** refactor in readiness controller ([421b560](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/421b5604371bd16573e28a774b496c6f9f0028bd))
+
+### 📝 Docs
+
+- **health:** edit documentation ([72e6489](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/72e6489d8c15e7cb827b44620a2c577f1c47f3c0))
+
 ## [1.0.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@1.0.1...@tresdoce-nestjs-toolkit/health@1.0.2) (2023-09-23)
 
 ### 👨‍💻 Chores
