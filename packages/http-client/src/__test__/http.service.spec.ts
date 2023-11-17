@@ -23,13 +23,13 @@ describe('HttpService', () => {
         HttpClientModule.registerAsync({
           imports: [ConfigModule],
           useFactory: async (configService: ConfigService) =>
-            configService.get('config.httpOptions'),
+            configService.get('config.httpClient.httpOptions'),
           inject: [ConfigService],
         }),
       ],
     }).compile();
     app = module.createNestApplication();
-    await app.init;
+    await app.init();
     service = module.get<HttpClientService>(HttpClientService);
   });
 
@@ -49,7 +49,7 @@ describe('HttpService', () => {
         'uber-trace-id': 'ef083b253ad4792827d19be437195454:3c5bd7e941c53cfc:0:01',
         'x-amzn-trace-id':
           'Root=1-ef083b25-3ad4792827d19be437195454;Parent=3c5bd7e941c53cfc;Sampled=1',
-        my_header: 'test-header',
+        'x-custom-header': 'test-header',
       },
       url: `${API_NESTJS_STARTER}/users?limit=5`,
       method: 'GET',
@@ -57,6 +57,41 @@ describe('HttpService', () => {
     expect(status).toBe(200);
     expect(data.length).toBeGreaterThan(0);
     expect(data.length).toEqual(5);
+  });
+
+  it('should be return status 200 - request with initAxios', async () => {
+    const headers = {
+      'Content-Type': 'application/json',
+      'x-custom-header-propagate': 'test-value-propagate',
+    };
+    const ip = '127.0.0.1';
+    const request = { headers, ip } as any;
+    service.initAxios(request);
+    const { status, data } = await service.request({
+      url: `${API_NESTJS_STARTER}/posts`,
+      method: 'GET',
+    });
+    expect(status).toBe(200);
+    expect(data.length).toBeGreaterThan(0);
+  });
+
+  it('should be return status 200 - request', async () => {
+    const { status, data } = await service.request({
+      url: `${API_NESTJS_STARTER}/posts`,
+      method: 'GET',
+    });
+    expect(status).toBe(200);
+    expect(data.length).toBeGreaterThan(0);
+  });
+
+  it('should be return status 200 - request with params', async () => {
+    const { status, data } = await service.get(`${API_NESTJS_STARTER}/users`, {
+      params: {
+        userid: 1,
+      },
+    });
+    expect(status).toBe(200);
+    expect(data.length).toBeGreaterThan(0);
   });
 
   it('should be return status 200 - get', async () => {
