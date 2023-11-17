@@ -142,9 +142,8 @@ describe('MyController', () => {
   //...
   it('should be return user data from mock', async () => {
     createMock({
-      baseUrl: 'https://test.com',
+      url: 'https://test.com/api/user/1',
       method: 'get',
-      endpoint: '/api/user/1',
       statusCode: 200,
       responseBody: {
         id: 1,
@@ -153,7 +152,6 @@ describe('MyController', () => {
         email: 'john.doe@email.com',
       },
     });
-
     const user = await controller.getUser();
     //console.log(user); //Return mock response
     expect(user).toHaveProperty('firstName', 'John');
@@ -161,6 +159,77 @@ describe('MyController', () => {
     expect(user).toHaveProperty('email', 'john.doe@email.com');
   });
   //...
+});
+```
+
+El `responseBody` del `createMock` admite también otros tipos de respuesta además de `JSON`.
+
+#### Response body as JSON
+
+```typescript
+createMock({
+  url: 'http://example.com/api/data',
+  method: 'get',
+  statusCode: 200,
+  responseBody: { success: true },
+});
+```
+
+#### Response body as string
+
+```typescript
+createMock({
+  url: 'http://example.com/api/message',
+  method: 'get',
+  statusCode: 200,
+  responseBody: 'Success message',
+});
+```
+
+#### Response body as Buffer
+
+```typescript
+createMock({
+  url: 'http://example.com/api/file',
+  method: 'get',
+  statusCode: 200,
+  responseBody: Buffer.from('Some binary data'),
+});
+```
+
+#### Response body as function
+
+Esta funcionalidad es ideal para tener fixtures de respuestas en archivos json y retornarlos.
+
+```typescript
+createMock({
+  url: 'http://example.com/api/dynamicData',
+  method: 'get',
+  statusCode: 200,
+  responseBody: () =>
+    JSON.parse(fs.readFileSync(path.resolve(__dirname, '../path/to/fixture.json'), 'utf8')),
+});
+```
+
+En el caso de que tengas muchos fixtures y asi evitar duplicidad de código, pódes abstraer la función que retorna el `JSON`
+con el siguiente código.
+
+```typescript
+const readFixtureFile = (filePath: string) => {
+  const absolutePath = path.resolve(__dirname, filePath);
+  const fileContents = fs.readFileSync(absolutePath, 'utf8');
+  return JSON.parse(fileContents);
+};
+```
+
+y luego pódes utilizarlo de la siguiente manera, ya que la respuesta es un `JSON`.
+
+```typescript
+createMock({
+  url: 'http://example.com/api/dynamicData',
+  method: 'get',
+  statusCode: 200,
+  responseBody: readFixtureFile('../path/to/fixture.json'),
 });
 ```
 
