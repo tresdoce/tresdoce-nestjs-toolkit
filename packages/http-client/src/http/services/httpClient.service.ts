@@ -7,15 +7,28 @@ import Axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 import _ from 'lodash';
-import { AXIOS_INSTANCE_TOKEN, RequestMethod } from '../constants/http.constants';
+import { Request } from 'express';
+
+import {
+  AXIOS_INSTANCE_TOKEN,
+  defaultConfigInstanceAxios,
+  HTTP_MODULE_PROPAGATE_HEADERS,
+  propagateDefaultHeaders,
+  RequestMethod,
+} from '../constants/http.constants';
 
 @Injectable()
 export class HttpClientService {
   private ip: string;
-  private headers: any;
+  private headers: any = defaultConfigInstanceAxios.headers;
+  private readonly propagateHeadersList: string[];
 
   /* istanbul ignore next */
-  constructor(@Inject(AXIOS_INSTANCE_TOKEN) private readonly _instance: AxiosInstance = Axios) {
+  constructor(
+    @Inject(AXIOS_INSTANCE_TOKEN) private readonly _instance: AxiosInstance = Axios,
+    @Inject(HTTP_MODULE_PROPAGATE_HEADERS) private readonly httpPropagateHeaders: string[] = [],
+  ) {
+    this.propagateHeadersList = _.union(propagateDefaultHeaders, this.httpPropagateHeaders);
     this.axiosRef.interceptors.request.use(
       (
         config: InternalAxiosRequestConfig<any>,
@@ -31,9 +44,12 @@ export class HttpClientService {
     return this._instance;
   }
 
-  public initAxios(headers: any, ip: any): void {
+  public initAxios({ headers, ip }: Request): void {
+    const propagateHeaders = Object.keys(headers)
+      .filter((key) => this.propagateHeadersList.includes(key))
+      .reduce((obj, key) => ({ ...obj, [key]: headers[key] }), {});
     this.ip = ip;
-    this.headers = headers;
+    this.headers = _.merge(this.headers, propagateHeaders);
   }
 
   // Methods

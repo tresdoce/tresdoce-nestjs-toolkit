@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { CallHandler, ExecutionContext, INestApplication } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { HttpClientService } from '../http/services/httpClient.service';
@@ -7,13 +7,25 @@ import { HttpClientInterceptor } from '../http/interceptors/httpClient.intercept
 import { HttpClientModule } from '../http/httpClient.module';
 import { config } from './utils';
 
-const executionContext: any = {
-  switchToHttp: jest.fn().mockReturnThis(),
-  getRequest: jest.fn().mockReturnThis(),
-  getResponse: jest.fn().mockReturnThis(),
+const mockRequestHeaders = {
+  'some-header': 'header-value',
 };
 
-const callHandler: any = {
+const mockRequest = {
+  headers: mockRequestHeaders,
+};
+
+const executionContext: jest.Mocked<ExecutionContext> = {
+  switchToHttp: jest.fn().mockReturnValue({
+    getRequest: jest.fn().mockReturnValue(mockRequest),
+    getResponse: jest.fn().mockReturnThis(),
+    getType: jest.fn().mockReturnThis(),
+    getClass: jest.fn().mockReturnThis(),
+    getHandler: jest.fn().mockReturnThis(),
+  }),
+} as any;
+
+const callHandler: jest.Mocked<CallHandler> = {
   handle: jest.fn(),
 };
 
@@ -33,7 +45,7 @@ describe('HttpInterceptor', () => {
       ],
     }).compile();
     app = module.createNestApplication();
-    await app.init;
+    await app.init();
 
     service = module.get<HttpClientService>(HttpClientService);
     interceptor = new HttpClientInterceptor(service);

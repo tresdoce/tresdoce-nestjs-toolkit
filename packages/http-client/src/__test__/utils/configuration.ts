@@ -4,9 +4,12 @@ import { appConfigBase } from '@tresdoce-nestjs-toolkit/test-utils';
 export default registerAs('config', () => {
   return {
     ...appConfigBase,
-    httOptions: {
-      timeout: 5000,
-      maxRedirects: 5,
+    httpClient: {
+      httpOptions: {
+        timeout: 5000,
+        maxRedirects: 5,
+      },
+      propagateHeaders: ['x-custom-header', 'x-custom-header-propagate'],
     },
   };
 });

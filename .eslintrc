@@ -1,7 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "tsconfig.json",
+    "project": "<tsconfigRootDir>/**/*/tsconfig.json",
     "sourceType": "module",
     "createDefaultProgram": true
   },
@@ -19,6 +19,7 @@
   ],
   "root": true,
   "env": {
+    "es2020": true,
     "node": true,
     "jest": true
   },
@@ -30,6 +31,7 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/no-empty-function": "off",
-    "@typescript-eslint/no-unused-vars": "off"
+    "@typescript-eslint/no-unused-vars": "off",
+    "prefer-const": "off"
   }
 }
