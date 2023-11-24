@@ -1,4 +1,4 @@
-import { excludePaths } from '@tresdoce-nestjs-toolkit/core';
+import { excludePaths, corePathsExcludesGlobs } from '@tresdoce-nestjs-toolkit/core';
 import * as Tags from './tags.constant';
 
 export const defaultExcludePaths = excludePaths();
@@ -19,3 +19,10 @@ export const TAGS = {
   PROTOCAL: 'protocal',
   TRACING_TAG: 'tracing-tag',
 };
+
+export const DEFAULT_IGNORE_PATHS: string[] = [
+  ...corePathsExcludesGlobs,
+  '**/docs',
+  '**/docs/*',
+  '**/docs/**',
+];

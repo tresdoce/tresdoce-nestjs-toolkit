@@ -55,6 +55,7 @@ export const baseValidationSchemaApp = {
   ...baseValidationSchema,
   TRACING_ENDPOINT: Joi.string().optional(),
   TRACING_AUTH_TOKEN: Joi.string().optional(),
+  TRACING_IGNORE_PATHS: Joi.string().optional(),
 };
 
 export const validateSchemaForApp = (_validationSchema: object) => {

@@ -21,8 +21,8 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [🥳 Demo](https://nestjs-starter.tresdoce.com.ar/v1/docs)
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
-- [👨‍💻 Uso](#use)
 - [⚙️ Configuración](#configurations)
+- [👨‍💻 Uso](#use)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
 
@@ -50,91 +50,97 @@ npm install -S @tresdoce-nestjs-toolkit/http-client
 yarn add @tresdoce-nestjs-toolkit/http-client
 ```
 
-<a name="use"></a>
-
-## 👨‍💻 Uso
-
-Importar `HttpClientModule` en el módulo que requiera utilizarlo, o bien se puede utilizarla de manera global en
-el `app.module.ts`.
-
-```typescript
-// ./src/app.module.ts
-import { HttpClientModule } from '@tresdoce-nestjs-toolkit/http-client';
-
-@Module({
-  //...,
-  imports: [
-    //...,
-    HttpClientModule,
-    //...,
-  ],
-  //...,
-})
-export class AppModule {}
-```
-
-Luego inyecte `HttpClientService` en el constructor de la clase que requiere realizar requests.
-
-```typescript
-//./src/app.service.ts
-
-import { HttpClientService } from '@tresdoce-nestjs-toolkit/http-client';
-
-export class AppService {
-  constructor(private readonly httpClient: HttpClientService) {}
-}
-```
-
-Realice el request utilizando el servicio instanciando en el constructor.
-
-```typescript
-//./src/app.service.ts
-export class AppService {
-  //...
-
-  async getInfoFromApi() {
-    try {
-      const { status, data } = await this.httpClient.get(encodeURI('https://api.domain.com'));
-      return data;
-    } catch (error) {
-      throw new HttpException(
-        {
-          status: error.response.status,
-          error: error.message,
-        },
-        error.response.status,
-      );
-    }
-  }
-
-  //...
-}
-```
-
 <a name="configurations"></a>
 
 ## ⚙️ Configuración
 
+El objeto `httpClient` es opcional a la configuración, la cual admite el objeto de configuración para [**Axios**](https://github.com/axios/axios#request-config)
+y [**Axios-retry**](https://github.com/softonic/axios-retry#options) por medio de la propiedad `httpOptions`, y también es posible propagar headers a las peticiones
+por medio de la propiedad `propagateHeaders` que es un array de string.
+
+```typescript
+//./src/config/configuration.ts
+import { Typings } from '@tresdoce-nestjs-toolkit/paas';
+import { registerAs } from '@nestjs/config';
+
+export default registerAs('config', (): Typings.AppConfig => {
+  return {
+    //...
+    httpClient: {
+      httpOptions: {
+        timeout: 5000,
+        retries: 5,
+      },
+      propagateHeaders: process.env.PROPAGATE_HEADERS_HTTP
+        ? process.env.PROPAGATE_HEADERS_HTTP.split(',')
+        : [],
+    },
+    //...
+  };
+});
+```
+
+Importar `HttpClientModule` en el módulo que requiera utilizarlo, o bien se puede utilizarla de manera global en
+el `app.module.ts`.
+
+En cuanto al `HttpClientInterceptor` es importante instanciarlo para poder propagar los headers de la traza y cualquier
+otro header que se configure.
+
+```typescript
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { HttpClientModule, HttpClientInterceptor } from '@tresdoce-nestjs-toolkit/http-client';
+
+@Module({
+  imports: [
+    //...
+    HttpClientModule,
+    //...
+  ],
+  providers: [
+    //...
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: HttpClientInterceptor,
+    },
+    //...
+  ],
+  //...
+})
+export class AppModule {}
+```
+
+> ⚠️ En caso de que la propagación de headers no se realice correctamente, verificar el orden de los `APP_INTERCEPTOR`
+
 Este módulo utiliza **Axios** y **Axios-retry**, por lo que puedes pasarle cualquier configuración
 de [AxiosRequestConfig](https://github.com/axios/axios#request-config)
 y/o [AxiosRetryConfig](https://github.com/softonic/axios-retry#options) por medio del método `.register()` como si fuera
-el `httpModule` original de **NestJS**.
+el `httpModule` original de **NestJs**, además de utilizar la configuración centralizada.
 
 ```typescript
-import {HttpClientModule} from '@tresdoce-nestjs-toolkit/http-client';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { HttpClientModule, HttpClientInterceptor } from '@tresdoce-nestjs-toolkit/http-client';
 
 @Module({
-    imports: [
-        //...
-        HttpClientModule.register({
-            timeout: 1000,
-            retries: 5,
-            //...
-        }),
-        //...
-    ],
+  imports: [
     //...
+    HttpClientModule.register({
+      timeout: 1000,
+      retries: 5,
+      //...
+    }),
+    //...
+  ],
+  providers: [
+    //...
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: HttpClientInterceptor,
+    },
+    //...
+  ],
+  //...
 })
+export class AppModule {}
 ```
 
 ### Configuración async
@@ -204,6 +210,34 @@ HttpClientModule.registerAsync({
   imports: [ConfigModule],
   useExisting: ConfigService,
 });
+```
+
+<a name="use"></a>
+
+## 👨‍💻 Uso
+
+Inyectar el `HttpClientService` en el constructor de la clase y realice el request utilizando el servicio instanciando
+en el constructor.
+
+```typescript
+//./src/app.service.ts
+import { HttpClientService } from '@tresdoce-nestjs-toolkit/http-client';
+
+export class AppService {
+  constructor(private readonly httpClient: HttpClientService) {}
+  //...
+
+  async getInfoFromApi() {
+    try {
+      const { status, data } = await this.httpClient.get(encodeURI('https://api.domain.com'));
+      return data;
+    } catch (error) {
+      throw new HttpException(error.response.data, error.response.status);
+    }
+  }
+
+  //...
+}
 ```
 
 ## 📄 Changelog

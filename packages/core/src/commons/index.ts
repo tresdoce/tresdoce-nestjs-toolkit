@@ -1,1 +1,1 @@
-export { corePathsExcludes, excludePaths } from './corePaths';
+export { corePathsExcludes, excludePaths, corePathsExcludesGlobs } from './corePaths';
