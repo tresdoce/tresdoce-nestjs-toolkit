@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@1.1.2...@tresdoce-nestjs-toolkit/core@1.2.0) (2023-11-24)
+
+### ✨ Features
+
+- **http-client:** add support to propagate headers in request ([0bcb342](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/0bcb3424eb431320bfc6b51ee63417bed9a2e080))
+- **tracing:** exclude paths to trace ([38401cb](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/38401cbeeb59fb452f82d6be9357df7283f41981))
+
 ## [1.1.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@1.1.1...@tresdoce-nestjs-toolkit/core@1.1.2) (2023-11-09)
 
 ### 👨‍💻 Chores

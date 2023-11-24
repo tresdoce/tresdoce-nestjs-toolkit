@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@1.1.0...@tresdoce-nestjs-toolkit/test-utils@2.0.0) (2023-11-24)
+
+### ⚠ BREAKING CHANGES
+
+- **test-utils:** improvements in createMock parameters and added support for json fixtures
+
+### ✨ Features
+
+- **test-utils:** improvements in createMock parameters and added support for json fixtures ([0d31c78](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/0d31c7812359ca6f21b9eba256107ef363e254a4))
+
 ## [1.1.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@1.0.2...@tresdoce-nestjs-toolkit/test-utils@1.1.0) (2023-10-23)
 
 ### ✨ Features
