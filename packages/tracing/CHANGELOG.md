@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/tracing@1.0.2...@tresdoce-nestjs-toolkit/tracing@1.1.0) (2023-11-24)
+
+### ✨ Features
+
+- **tracing:** exclude paths to trace ([38401cb](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/38401cbeeb59fb452f82d6be9357df7283f41981))
+
+### 🐛 Bug Fixes
+
+- **tracing:** resolve code smells ([aa95dbd](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/aa95dbdd584fdb3e679eb3b4c02e321b941d74ab))
+
 ## [1.0.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/tracing@1.0.1...@tresdoce-nestjs-toolkit/tracing@1.0.2) (2023-09-23)
 
 ### 👨‍💻 Chores
