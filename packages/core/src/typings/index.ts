@@ -7,6 +7,7 @@ import { ElasticsearchOptions } from '@tresdoce-nestjs-toolkit/elk';
 import { RedactOptions } from '@tresdoce-nestjs-toolkit/utils';
 import { DiskHealthIndicatorOptions } from '@nestjs/terminus';
 import { AxiosRequestConfig } from 'axios';
+import { HttpModuleOptions } from '@tresdoce-nestjs-toolkit/http-client';
 
 export type TAppStage = 'local' | 'test' | 'snd' | 'dev' | 'qa' | 'homo' | 'prod';
 
@@ -105,6 +106,11 @@ export interface IParamsConfig {
   [key: string]: any;
 }
 
+export interface IHttpClientConfig {
+  httpOptions?: HttpModuleOptions;
+  propagateHeaders?: string[];
+}
+
 export interface IServicesConfig extends AxiosRequestConfig {
   healthPath?: string;
   [key: string]: any;
@@ -116,6 +122,7 @@ export interface AppConfig {
   health?: IHealthConfig;
   swagger: ISwaggerConfig;
   params?: IParamsConfig;
+  httpClient?: IHttpClientConfig;
   services?: Record<string, IServicesConfig>;
   database?: DatabaseOptions;
   redis?: RedisOptions;

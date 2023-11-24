@@ -8,22 +8,21 @@ describe('createMock', () => {
 
   it('should mock a GET request', async () => {
     createMock({
-      baseUrl: 'http://test.com',
+      url: 'http://test.com/api',
       method: 'get',
-      endpoint: '/api',
       statusCode: 200,
       responseBody: { success: true },
     });
 
     const res = await axios.get('http://test.com/api');
+    expect(res.status).toBe(200);
     expect(res.data).toEqual({ success: true });
   });
 
   it('should mock a POST request with body', async () => {
     createMock({
-      baseUrl: 'http://test.com',
+      url: 'http://test.com/api',
       method: 'post',
-      endpoint: '/api',
       statusCode: 201,
       responseBody: { success: true },
       reqBody: { key: 'value' },
@@ -36,78 +35,89 @@ describe('createMock', () => {
 
   it('should mock a PUT request with body', async () => {
     createMock({
-      baseUrl: 'http://test.com',
+      url: 'http://test.com/api',
       method: 'put',
-      endpoint: '/api',
       statusCode: 200,
       responseBody: { success: true },
       reqBody: { key: 'updatedValue' },
     });
 
     const res = await axios.put('http://test.com/api', { key: 'updatedValue' });
+    expect(res.status).toBe(200);
     expect(res.data).toEqual({ success: true });
   });
 
   it('should mock a PATCH request with body', async () => {
     createMock({
-      baseUrl: 'http://test.com',
+      url: 'http://test.com/api',
       method: 'patch',
-      endpoint: '/api',
       statusCode: 200,
       responseBody: { success: true },
       reqBody: { key: 'updatedValue' },
     });
 
     const res = await axios.patch('http://test.com/api', { key: 'updatedValue' });
+    expect(res.status).toBe(200);
     expect(res.data).toEqual({ success: true });
   });
 
-  it('should mock a DELETE request with body', async () => {
+  it('should mock a DELETE request', async () => {
     createMock({
-      baseUrl: 'http://test.com',
+      url: 'http://test.com/api',
       method: 'delete',
-      endpoint: '/api',
       statusCode: 200,
       responseBody: { success: true },
     });
 
     const res = await axios.delete('http://test.com/api');
+    expect(res.status).toBe(200);
     expect(res.data).toEqual({ success: true });
   });
 
   it('should create a POST mock with the provided request body as Buffer', async () => {
     createMock({
-      baseUrl: 'http://test.com',
+      url: 'http://test.com/test-buffer',
       method: 'post',
-      endpoint: '/test-buffer',
       statusCode: 200,
-      responseBody: { success: true },
-      reqBody: Buffer.from('Hello, World!'),
+      responseBody: Buffer.from('Buffer Response'),
     });
 
     const res = await axios.post('http://test.com/test-buffer', Buffer.from('Hello, World!'));
-    expect(res.data).toEqual({ success: true });
+    expect(res.status).toBe(200);
+    expect(res.data).toEqual('Buffer Response');
+  });
+
+  it('should mock a request with function as responseBody', async () => {
+    createMock({
+      url: 'http://test.com/api/dynamicData',
+      method: 'get',
+      statusCode: 200,
+      responseBody: () => ({ dynamic: 'data' }),
+    });
+
+    const res = await axios.get('http://test.com/api/dynamicData');
+    expect(res.status).toBe(200);
+    expect(res.data).toEqual({ dynamic: 'data' });
   });
 
   it('should mock with query parameters', async () => {
     createMock({
-      baseUrl: 'http://test.com',
+      url: 'http://test.com/api',
       method: 'get',
-      endpoint: '/api',
       statusCode: 200,
       responseBody: { success: true },
       queryParams: { key: 'value' },
     });
 
     const res = await axios.get('http://test.com/api', { params: { key: 'value' } });
+    expect(res.status).toBe(200);
     expect(res.data).toEqual({ success: true });
   });
 
   it('should handle options with headers', async () => {
     createMock({
-      baseUrl: 'http://test.com',
+      url: 'http://test.com/api',
       method: 'get',
-      endpoint: '/api',
       statusCode: 200,
       responseBody: { success: true },
       options: {
@@ -120,6 +130,7 @@ describe('createMock', () => {
     const res = await axios.get('http://test.com/api', {
       headers: { authorization: 'Bearer token' },
     });
+    expect(res.status).toBe(200);
     expect(res.data).toEqual({ success: true });
   });
 });

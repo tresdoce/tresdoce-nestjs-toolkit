@@ -16,7 +16,18 @@ export const corePathsExcludes = () => {
       path: `${apiContext}/info`,
       method: RequestMethod.GET,
     },
+    {
+      path: `${apiContext}/metrics`,
+      method: RequestMethod.GET,
+    },
   ];
 };
 
 export const excludePaths = () => corePathsExcludes().map((item) => item.path);
+
+export const corePathsExcludesGlobs: string[] = [
+  '**/health/liveness',
+  '**/health/readiness',
+  '**/info',
+  '**/metrics',
+];

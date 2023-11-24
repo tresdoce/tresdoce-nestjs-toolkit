@@ -79,6 +79,7 @@ export default registerAs('config', (): Typings.AppConfig => {
           Authorization: '<token>',
         },*/
       },
+      //ignorePaths: process.env.TRACING_IGNORE_PATHS ? process.env.TRACING_IGNORE_PATHS.split(',') : [],
     },
     //...
   };
@@ -125,6 +126,13 @@ valores admite revisando la documentación de [OTLP Exporter Configuration](http
 
 - Type: `Object`
 - Example: `{ Authorization: '<aspecto-io-token>' }`
+
+`ignorePaths`: Es una configuración opcional para excluir la traza por medio de los paths. Esta configuración es un array
+de strings, donde los valores se escriben en formato `globs` y se suman a los excludes por defecto.
+
+- Type: `Array`
+- Default: `['**/health/liveness', '**/health/readiness', '**/info', '**/metrics', '**/docs', '**/docs/*', '**/docs/**']`
+- Example: `['**/users/*', '**/test-env']`
 
 </details>
 

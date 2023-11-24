@@ -1,83 +1,112 @@
-import nock, { Interceptor } from 'nock';
+import nock, { Interceptor, Options, RequestHeaderMatcher } from 'nock';
 import { URL } from 'url';
 
 /**
- * Represents the supported HTTP methods for the mock.
+ * Supported HTTP methods for the mock.
  */
 type HttpMethod = 'get' | 'post' | 'put' | 'head' | 'patch' | 'delete' | 'options';
 
 /**
- * Represents the expected query parameters structure.
+ * Structure for expected query parameters.
  */
 type QueryParams = {
   [key: string]: string | number | boolean | string[] | number[] | boolean[] | null | undefined;
 };
 
 /**
- * Represents the types that can be used to match request headers.
- * It can be either a direct string match or a custom matcher function
- * provided by nock to offer more flexibility in header matching.
- *
- * @typedef {nock.RequestHeaderMatcher | string} RequestHeaderMatcherType
+ * Types for matching request headers. Can be a direct string match or a custom matcher function.
  */
-type RequestHeaderMatcherType = nock.RequestHeaderMatcher | string;
+type RequestHeaderMatcherType = RequestHeaderMatcher | string;
 
 /**
- * Interface for the configuration options to create a nock mock.
+ * Configuration options for creating a nock mock.
  *
- * @property {string | RegExp | URL} baseUrl - The base URL to intercept.
+ * @property {string} url - The complete URL to intercept.
  * @property {HttpMethod} method - The HTTP method to intercept.
- * @property {string} endpoint - The specific endpoint (path) to intercept.
  * @property {number} statusCode - The HTTP status code to respond with.
- * @property {string | Record<string, unknown>} responseBody - The response body to return.
- * @property {nock.Options & { reqheaders?: nock.RequestHeaderMatcher }} [options] - Optional nock configuration options for the interceptor.
- * @property {string | Record<string, unknown> | Buffer} [reqBody] - Optional expected request body, mainly for methods like POST, PUT, etc.
- * @property {QueryParams} [queryParams] - Optional expected query parameters in the request.
+ * @property {string | Record<string, unknown> | Buffer | (() => Record<string, unknown>)} responseBody - The response body. Can be a string, object, Buffer, or function returning an object.
+ * @property {Options & { reqheaders?: Record<string, RequestHeaderMatcherType> }} [options] - Optional nock configuration options.
+ * @property {string | Record<string, unknown> | Buffer} [reqBody] - Optional expected request body.
+ * @property {QueryParams} [queryParams] - Optional expected query parameters.
  */
 interface CreateMock {
-  baseUrl: string | RegExp | URL;
+  url: string;
   method: HttpMethod;
-  endpoint: string;
   statusCode: number;
-  responseBody: string | Record<string, unknown>;
-  options?: nock.Options & { reqheaders?: Record<string, RequestHeaderMatcherType> };
+  responseBody: string | Record<string, unknown> | Buffer | (() => Record<string, unknown>);
+  options?: Options & { reqheaders?: Record<string, RequestHeaderMatcherType> };
   reqBody?: string | Record<string, unknown> | Buffer;
   queryParams?: QueryParams;
 }
 
 /**
- * List of HTTP methods that expect a body in the request.
+ * HTTP methods that expect a body in the request.
  */
 const METHODS_WITH_BODY: HttpMethod[] = ['post', 'put', 'patch'];
 
 /**
- * Creates a nock mock based on the provided options.
+ * Creates a nock mock based on provided options.
  *
  * @param _options - Configuration options for the mock.
  * @returns A configured nock interceptor.
  * @example
  *
- * const mock = createMock({
- *   baseUrl: 'http://example.com',
+ * // Using a JSON object as responseBody
+ * const mock1 = createMock({
+ *   url: 'http://example.com/api/data',
  *   method: 'get',
- *   endpoint: '/api/data',
  *   statusCode: 200,
  *   responseBody: { success: true }
  * });
  *
- * // Now any GET request to 'http://example.com/api/data' will return { success: true } with a 200 status code.
+ * // Using a string as responseBody
+ * const mock2 = createMock({
+ *   url: 'http://example.com/api/message',
+ *   method: 'get',
+ *   statusCode: 200,
+ *   responseBody: 'Success message'
+ * });
+ *
+ * // Using a Buffer as responseBody
+ * const mock3 = createMock({
+ *   url: 'http://example.com/api/file',
+ *   method: 'get',
+ *   statusCode: 200,
+ *   responseBody: Buffer.from('Some binary data')
+ * });
+ *
+ * // Using a function returning a JSON object as responseBody
+ * const mock4 = createMock({
+ *   url: 'http://example.com/api/dynamicData',
+ *   method: 'get',
+ *   statusCode: 200,
+ *   responseBody: () => JSON.parse(fs.readFileSync('path/to/fixture.json', 'utf8'))
+ * });
  */
 export const createMock = (_options: CreateMock): Interceptor => {
-  const {
-    baseUrl,
-    options = {},
+  let {
+    url,
     method,
-    endpoint,
     statusCode,
     responseBody,
+    options = {},
     reqBody,
     queryParams,
-  } = _options;
+  }: CreateMock = _options;
+
+  const parsedUrl: URL = new URL(url);
+  const baseUrl: string = parsedUrl.origin;
+  const endpoint: string = parsedUrl.pathname;
+
+  /* istanbul ignore next */
+  if (!baseUrl || !method || !endpoint) {
+    /* istanbul ignore next */
+    throw new Error('Missing required parameters: baseUrl, method, and/or endpoint.');
+  }
+
+  if (typeof responseBody === 'function') {
+    responseBody = responseBody();
+  }
 
   const scope: nock.Scope = nock(baseUrl, options);
   let interceptor: nock.Interceptor;
@@ -100,4 +129,7 @@ export const createMock = (_options: CreateMock): Interceptor => {
   return interceptor;
 };
 
+/**
+ * Cleans all the mocks created by nock.
+ */
 export const cleanAllMock = () => nock.cleanAll();

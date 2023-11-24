@@ -13,4 +13,5 @@ export interface TracingOptions {
   resourceAttributes: IResourceAttributes;
   exporter: OTLPExporterNodeConfigBase;
   httpInstrumentation?: HttpInstrumentationConfig;
+  ignorePaths?: string[];
 }

@@ -1,4 +1,4 @@
-import { corePathsExcludes, excludePaths } from '../index';
+import { corePathsExcludes, excludePaths, corePathsExcludesGlobs } from '../index';
 import { RequestMethod } from '@nestjs/common';
 
 describe('commons', () => {
@@ -26,6 +26,11 @@ describe('commons', () => {
         path: `/v1/api-test/info`,
         method: RequestMethod.GET,
       });
+
+      expect(corePathsExcludes()).toContainObject({
+        path: `/v1/api-test/metrics`,
+        method: RequestMethod.GET,
+      });
     });
 
     it('should be return array of exclude paths with context', () => {
@@ -36,6 +41,19 @@ describe('commons', () => {
         `/v1/api-test/health/liveness`,
         `/v1/api-test/health/readiness`,
         `/v1/api-test/info`,
+        `/v1/api-test/metrics`,
+      ]);
+    });
+
+    it('should be return array of exclude paths with globs', () => {
+      expect(corePathsExcludesGlobs).not.toBe(null);
+      expect(corePathsExcludesGlobs).toBeDefined();
+      expect(corePathsExcludesGlobs).toBeInstanceOf(Array);
+      expect(corePathsExcludesGlobs).toEqual([
+        '**/health/liveness',
+        '**/health/readiness',
+        '**/info',
+        '**/metrics',
       ]);
     });
   });
@@ -64,13 +82,23 @@ describe('commons', () => {
         path: '/info',
         method: RequestMethod.GET,
       });
+
+      expect(corePathsExcludes()).toContainObject({
+        path: '/metrics',
+        method: RequestMethod.GET,
+      });
     });
 
     it('should be return array of exclude paths without context', () => {
       expect(excludePaths()).not.toBe(null);
       expect(excludePaths()).toBeDefined();
       expect(excludePaths()).toBeInstanceOf(Array);
-      expect(excludePaths()).toEqual(['/health/liveness', '/health/readiness', '/info']);
+      expect(excludePaths()).toEqual([
+        '/health/liveness',
+        '/health/readiness',
+        '/info',
+        '/metrics',
+      ]);
     });
   });
 });

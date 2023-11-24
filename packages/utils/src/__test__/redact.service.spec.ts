@@ -28,7 +28,7 @@ describe('RedactService', () => {
     }).compile();
 
     app = module.createNestApplication();
-    await app.init;
+    await app.init();
     service = module.get<RedactService>(RedactService);
   });
 

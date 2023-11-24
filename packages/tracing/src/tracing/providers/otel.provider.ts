@@ -14,7 +14,11 @@ import { JaegerPropagator } from '@opentelemetry/propagator-jaeger';
 import { AWSXRayPropagator } from '@opentelemetry/propagator-aws-xray';
 import { B3InjectEncoding, B3Propagator } from '@opentelemetry/propagator-b3';
 import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
+import { minimatch } from 'minimatch';
+import _ from 'lodash';
+
 import { TracingOptions } from '../interfaces/tracing.interface';
+import { DEFAULT_IGNORE_PATHS } from '../constants/tracing.constant';
 
 export const otelProvider = (_options: TracingOptions): void => {
   try {
@@ -22,7 +26,11 @@ export const otelProvider = (_options: TracingOptions): void => {
       exporter,
       resourceAttributes,
       httpInstrumentation = { requireParentforIncomingSpans: false },
+      ignorePaths = [],
     } = _options;
+
+    const ignorePathsToTracing = _.union(DEFAULT_IGNORE_PATHS, ignorePaths);
+
     const traceExporter = new OTLPTraceExporter({
       ...exporter,
     });
@@ -51,6 +59,11 @@ export const otelProvider = (_options: TracingOptions): void => {
       }),
       instrumentations: [
         new HttpInstrumentation({
+          /* istanbul ignore next */
+          ignoreIncomingRequestHook(req) {
+            /* istanbul ignore next */
+            return ignorePathsToTracing.some((ignorePath) => minimatch(req.url, ignorePath));
+          },
           ...httpInstrumentation,
         }),
       ],

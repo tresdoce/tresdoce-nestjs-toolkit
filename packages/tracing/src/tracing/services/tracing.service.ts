@@ -1,23 +1,30 @@
-import { Injectable } from '@nestjs/common';
-import { DateTime } from 'luxon';
+import { Inject, Injectable } from '@nestjs/common';
+import { FormatService } from '@tresdoce-nestjs-toolkit/utils';
 import { context, Context, propagation, Span, SpanOptions, trace } from '@opentelemetry/api';
 import { IncomingHttpHeaders } from 'http';
 
-import { DEFAULT_TIME_FORMAT, DEFAULT_TIMEZONE, TAGS } from '../constants/tracing.constant';
+import { TAGS } from '../constants/tracing.constant';
 
 @Injectable()
 export class TracingService {
   public spanContext: Context;
 
-  generateDuration(_timestamp_start, _timestamp_end): string {
-    const start = DateTime.fromMillis(_timestamp_start);
-    const end = DateTime.fromMillis(_timestamp_end);
-    const duration = end.diff(start).as('seconds');
-    return `${duration}s`;
+  constructor(@Inject(FormatService) private readonly formatService: FormatService) {}
+
+  generateDuration(_timestamp_start, _timestamp_end): string | number {
+    return this.formatService.calculateTimestampDiff({
+      startTime: _timestamp_start,
+      endTime: _timestamp_end,
+      options: {
+        addSuffix: true,
+      },
+    });
   }
 
   formatDate(_timestamp): string {
-    return DateTime.fromMillis(_timestamp).setZone(DEFAULT_TIMEZONE).toFormat(DEFAULT_TIME_FORMAT);
+    return this.formatService.formatDate({
+      date: new Date(_timestamp),
+    });
   }
 
   getTracer() {
