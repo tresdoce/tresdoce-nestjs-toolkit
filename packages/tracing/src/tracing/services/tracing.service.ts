@@ -3,7 +3,7 @@ import { FormatService } from '@tresdoce-nestjs-toolkit/utils';
 import { context, Context, propagation, Span, SpanOptions, trace } from '@opentelemetry/api';
 import { IncomingHttpHeaders } from 'http';
 
-import { DEFAULT_TIME_FORMAT, DEFAULT_TIMEZONE, TAGS } from '../constants/tracing.constant';
+import { TAGS } from '../constants/tracing.constant';
 
 @Injectable()
 export class TracingService {
