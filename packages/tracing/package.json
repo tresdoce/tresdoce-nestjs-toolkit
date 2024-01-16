@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/tracing",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Tresdoce NestJS Toolkit - Módulo de traza con OpenTelemetry",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -66,7 +66,7 @@
     "@opentelemetry/sdk-node": "0.47.0",
     "@opentelemetry/sdk-trace-base": "1.20.0",
     "@opentelemetry/semantic-conventions": "1.20.0",
-    "@tresdoce-nestjs-toolkit/utils": "^1.1.0",
+    "@tresdoce-nestjs-toolkit/utils": "^1.1.1",
     "minimatch": "^9.0.3"
   },
   "devDependencies": {

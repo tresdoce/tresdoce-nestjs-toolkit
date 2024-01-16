@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/mailer@1.0.2...@tresdoce-nestjs-toolkit/mailer@1.0.3) (2024-01-16)
+
+### 👨‍💻 Chores
+
+- update dependencies to fix vulnerabilities ([fa96999](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/fa969992ec1c3e8b18c5958e00d7cea40bafe3de))
+
 ## [1.0.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/mailer@1.0.1...@tresdoce-nestjs-toolkit/mailer@1.0.2) (2023-09-23)
 
 ### 👨‍💻 Chores
