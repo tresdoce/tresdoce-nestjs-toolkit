@@ -1,5 +1,5 @@
 <div align="center">
-    <img alt="nestjs-logo" width="250" height="auto" src="https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/ab924d5bdd9a9b9acb3ca5721d4ce977c6b7f680/.readme-static/logo-nestjs.svg" />
+    <img alt="nestjs-logo" width="250" height="auto" src="https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/master/.readme-static/logo-nestjs.svg" />
     <h1>Tresdoce NestJS Toolkit</h1>
 </div>
 
@@ -155,7 +155,7 @@ git commit -am 'feat!: changes in application'
 
 <div align="center">
     <a href="mailto:mdelgado@tresdoce.com.ar" target="_blank" alt="Send an email">
-        <img src="https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/ab924d5bdd9a9b9acb3ca5721d4ce977c6b7f680/.readme-static/logo-mex-red.svg" width="120" alt="Mex" />
+        <img src="https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/master/.readme-static/logo-mex-red.svg" width="120" alt="Mex" />
     </a><br/>
-    <p>Made with ❤</p>
+    <p>Made with ❤️</p>
 </div>
