@@ -216,8 +216,8 @@ export class UsersController {
 valor máximo de 100 items por repuesta.
 
 - Type: `number`
-- Default: `10`
-- Example: `25`
+- Default: `20`
+- Example: `10`
 
 </details>
 

@@ -19,14 +19,14 @@ describe('Pagination Decorator', () => {
     const mockPagination = {
       switchToHttp: () => ({
         getRequest: () => ({
-          query: {}, // No se proporcionan parámetros
+          query: {},
         }),
       }),
     };
     const result = factory(null, mockPagination);
     expect(result).toBeDefined();
-    expect(result.page).toBe(1); // Verificar el valor por defecto de page
-    expect(result.size).toBe(10); // Verificar el valor por defecto de size
+    expect(result.page).toBe(1);
+    expect(result.size).toBe(20);
   });
 
   it('should return the correct page and size from query params', () => {

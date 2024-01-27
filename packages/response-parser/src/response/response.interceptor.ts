@@ -23,6 +23,35 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, any> {
       }
     }
 
+    /*const page = Number(request.query.page);
+    const size = Number(request.query.size);
+    const hasPagination = page != null && size != null;
+    console.log("page: ", page)
+    console.log("size: ", size)
+    console.log("hasPagination: ", hasPagination)*/
+
+    /*return _next.handle().pipe(
+      map((res) => {
+
+        const { pagination, data } = res;
+        const totalPages = Math.ceil(pagination.total / size);
+        const hasNext = page < totalPages;
+        const hasPrevious = page > 1;
+
+        return hasPagination ? {
+          ...(_.isArray(res.data) ? { data: res.data } : res.data),
+          meta: {
+            page,
+            size,
+            total: pagination.total,
+            totalPages,
+            hasNext,
+            hasPrevious
+          }
+        } : (_.isArray(res) ? { data: res } : res);
+      }),
+    );*/
+
     return _next.handle().pipe(
       map((res) => {
         return _.isArray(res) ? { data: res } : res;

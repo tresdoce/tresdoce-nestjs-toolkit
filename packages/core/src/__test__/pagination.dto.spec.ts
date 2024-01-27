@@ -18,7 +18,7 @@ describe('PaginationParamsDto', () => {
 
     // Check if default values are set
     expect(dto.page).toBe(1);
-    expect(dto.size).toBe(10);
+    expect(dto.size).toBe(20);
 
     const errors = await validate(dto);
 

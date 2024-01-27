@@ -4,9 +4,9 @@ import { Type } from '@nestjs/class-transformer';
 import { FilteringCriteriaDto } from './filtering-criteria.dto';
 
 export class FilteringParamsDto {
-  @ApiProperty({ type: [FilteringCriteriaDto], description: 'List of filtering criteria' })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => FilteringCriteriaDto)
+  @ApiProperty({ type: [FilteringCriteriaDto], description: 'List of filtering criteria' })
   filters: FilteringCriteriaDto[];
 }
