@@ -74,10 +74,7 @@ export const Sorting = createParamDecorator(
     }
 
     const sortFields: SortCriteria[] = sortParam.split(',').map((sortField) => {
-      //const sortPattern = /^([a-zA-Z0-9_]+)(?::(asc|desc))?$/;
       const sortPattern = /^(\w+)(?::(asc|desc))?$/;
-
-      //if (!sortField.match(sortPattern)) {
       if (!sortPattern.exec(sortField)) {
         throw new BadRequestException(
           `Invalid sort parameter: "${sortField}". It must be in the format 'field_name[:direction]' where direction is 'asc' or 'desc' and is optional.`,
