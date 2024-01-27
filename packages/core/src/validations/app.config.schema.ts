@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { EAppStage, ESkipHealthChecks } from '../typings';
+import { EAppStage, ESkipHealthChecks } from '../typings/index';
 
 export const validateSchema = (validationSchema: object, input: any) => {
   const result = Joi.object(validationSchema).validate(input);
