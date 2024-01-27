@@ -154,11 +154,22 @@ export const FilteringParams = createParamDecorator(
         throw new BadRequestException(`Invalid filter rule: ${rule}`);
       }
 
-      const values = valueString
+      /*const values = valueString
         ? rule === FilterRule.IN || rule === FilterRule.NOT_IN
           ? valueString.split(',').map((value) => convertFilterValue(rule as FilterRule, value))
           : [convertFilterValue(rule as FilterRule, valueString)]
-        : [];
+        : [];*/
+      let values = [];
+
+      if (valueString) {
+        if (rule === FilterRule.IN || rule === FilterRule.NOT_IN) {
+          values = valueString
+            .split(',')
+            .map((value) => convertFilterValue(rule as FilterRule, value));
+        } else {
+          values = [convertFilterValue(rule as FilterRule, valueString)];
+        }
+      }
       return { property, rule: rule as FilterRule, values: values.filter((v) => v !== undefined) };
     });
   },
