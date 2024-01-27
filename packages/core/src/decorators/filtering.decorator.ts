@@ -132,8 +132,10 @@ export const FilteringParams = createParamDecorator(
     const filters = parseFilters(filterParam);
 
     return filters.map((filter) => {
+      //const regex = /^([a-zA-Z0-9_]+):(eq|neq|gt|gte|lt|lte|like|nlike|in|nin|isnull|isnotnull)(?::((?:[^,:]+(?:,[^,:]+)*)?))?$/i;
       const regex =
-        /^([a-zA-Z0-9_]+):(eq|neq|gt|gte|lt|lte|like|nlike|in|nin|isnull|isnotnull)(?::((?:[^,:]+(?:,[^,:]+)*)?))?$/i;
+        /^([a-zA-Z0-9_]+):(eq|neq|gt|gte|lt|lte|like|nlike|in|nin|isnull|isnotnull)(?::([^:]+))?$/i;
+
       const match = filter.match(regex);
       if (!match) {
         throw new BadRequestException(`Invalid filter format: ${filter}`);
