@@ -5,18 +5,12 @@
     "sourceType": "module",
     "createDefaultProgram": true
   },
-  "plugins": [
-    "@typescript-eslint/eslint-plugin"
-  ],
+  "plugins": ["@typescript-eslint/eslint-plugin"],
   "extends": [
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
-  "ignorePatterns": [
-    "**/__test__/**/*",
-    "*.json",
-    "*.md"
-  ],
+  "ignorePatterns": ["**/__test__/**/*", "*.json", "*.md"],
   "root": true,
   "env": {
     "es2020": true,

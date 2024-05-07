@@ -1,10 +1,10 @@
 import fs from 'fs';
 
-export const setHttpsOptions = (crPath, pkPath) => {
-  if (fs.existsSync(crPath) && fs.existsSync(pkPath)) {
+export const setHttpsOptions = (certPath: string, publicKeyPath: string) => {
+  if (fs.existsSync(certPath) && fs.existsSync(publicKeyPath)) {
     return {
-      cert: fs.readFileSync(crPath),
-      key: fs.readFileSync(pkPath),
+      cert: fs.readFileSync(certPath),
+      key: fs.readFileSync(publicKeyPath),
     };
   }
 

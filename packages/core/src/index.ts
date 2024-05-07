@@ -4,4 +4,4 @@ export * from './decorators/index';
 export * from './https-certificate/index';
 export * from './validations/index';
 export * from './utils/index';
-export * from './decorators/dtos/index';
+export * from './guards/index';

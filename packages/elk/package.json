@@ -36,7 +36,7 @@
     "directory": "../../dist/elk"
   },
   "peerDependencies": {
-    "@elastic/elasticsearch": "^8.11.0",
+    "@elastic/elasticsearch": "^8.13.1",
     "@nestjs/common": "^10.3.0",
     "@nestjs/core": "^10.3.0",
     "@nestjs/platform-express": "^10.3.0",
@@ -44,7 +44,7 @@
     "rxjs": "^7.5.5"
   },
   "dependencies": {
-    "@elastic/elasticsearch": "^8.11.0",
+    "@elastic/elasticsearch": "^8.13.1",
     "@tresdoce-nestjs-toolkit/utils": "^1.1.1"
   },
   "devDependencies": {

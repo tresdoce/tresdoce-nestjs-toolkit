@@ -1,13 +1,12 @@
 import { Pagination, PaginationParams } from '../decorators';
 import { BadRequestException } from '@nestjs/common';
 import { ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
+import { DEFAULT_SIZE, DEFAULT_PAGE } from '../decorators/constants/pagination.constant';
 
 describe('Pagination Decorator', () => {
   function getParamDecoratorFactory(decorator: Function) {
     class Test {
-      @decorator()
-      public test(paginationParams: PaginationParams) {}
-      //public test(@decorator() paginationParams: PaginationParams) {}
+      public test(@decorator() paginationParams: PaginationParams) {}
     }
 
     const args = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, 'test');
@@ -19,14 +18,14 @@ describe('Pagination Decorator', () => {
     const mockPagination = {
       switchToHttp: () => ({
         getRequest: () => ({
-          query: {},
+          query: {}, // No se proporcionan parámetros
         }),
       }),
     };
     const result = factory(null, mockPagination);
     expect(result).toBeDefined();
-    expect(result.page).toBe(1);
-    expect(result.size).toBe(20);
+    expect(result.page).toBe(DEFAULT_PAGE);
+    expect(result.size).toBe(DEFAULT_SIZE);
   });
 
   it('should return the correct page and size from query params', () => {

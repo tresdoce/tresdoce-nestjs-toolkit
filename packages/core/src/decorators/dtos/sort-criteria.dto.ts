@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsIn } from '@nestjs/class-validator';
+import { DEFAULT_SORT_DIRECTION } from '../constants/sorting.constant';
 
 export class SortCriteriaDto {
   @IsString()
@@ -10,7 +11,7 @@ export class SortCriteriaDto {
   @ApiProperty({
     description: `The order of sorting, either 'asc' or 'desc'.`,
     enum: ['asc', 'desc'],
-    default: 'asc',
+    default: DEFAULT_SORT_DIRECTION,
   })
-  order: 'asc' | 'desc' = 'asc';
+  order: 'asc' | 'desc' = DEFAULT_SORT_DIRECTION;
 }

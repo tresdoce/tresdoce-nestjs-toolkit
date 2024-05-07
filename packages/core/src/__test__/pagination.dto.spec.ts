@@ -1,6 +1,7 @@
 import { PaginationParamsDto } from '../decorators';
 import { validate } from '@nestjs/class-validator';
 import { plainToClass } from '@nestjs/class-transformer';
+import { DEFAULT_SIZE, DEFAULT_PAGE, MAX_SIZE } from '../decorators/constants/pagination.constant';
 
 describe('PaginationParamsDto', () => {
   it('should validate a valid DTO', async () => {
@@ -16,13 +17,10 @@ describe('PaginationParamsDto', () => {
   it('should set default values for missing fields', async () => {
     const dto = plainToClass(PaginationParamsDto, {});
 
-    // Check if default values are set
-    expect(dto.page).toBe(1);
-    expect(dto.size).toBe(20);
+    expect(dto.page).toBe(DEFAULT_PAGE);
+    expect(dto.size).toBe(DEFAULT_SIZE);
 
     const errors = await validate(dto);
-
-    // Check if there are no validation errors
     expect(errors.length).toBe(0);
   });
 
@@ -35,8 +33,14 @@ describe('PaginationParamsDto', () => {
     const errors = await validate(dto);
 
     expect(errors.length).toBeGreaterThan(0);
-    expect(errors[0].constraints).toHaveProperty('isPositive', 'Page must be a positive integer');
-    expect(errors[1].constraints).toHaveProperty('max', 'Size must not exceed 100');
+    expect(errors[0].constraints).toHaveProperty(
+      'isPositive',
+      'The page parameter is invalid. It must be a positive',
+    );
+    expect(errors[1].constraints).toHaveProperty(
+      'max',
+      `The size parameter is invalid. It must be a positive integer and cannot be more than ${MAX_SIZE}`,
+    );
   });
 
   it('should not validate when page is undefined', async () => {

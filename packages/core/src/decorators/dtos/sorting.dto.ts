@@ -1,15 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from '@nestjs/class-transformer';
-import { IsArray, ValidateNested } from '@nestjs/class-validator';
-import { SortCriteriaDto } from './sort-criteria.dto';
+import { IsString } from '@nestjs/class-validator';
 
 export class SortingParamsDto {
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => SortCriteriaDto)
+  @IsString()
   @ApiProperty({
-    description: 'An array of sorting criteria.',
-    type: [SortCriteriaDto],
+    name: 'sort',
+    description:
+      'Sorting criteria in the format "field:direction". Multiple criteria can be separated by commas.\nExample: id:desc',
+    required: false,
   })
-  fields: SortCriteriaDto[];
+  sort: string;
 }

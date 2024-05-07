@@ -1,12 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ValidateNested, IsArray } from '@nestjs/class-validator';
-import { Type } from '@nestjs/class-transformer';
-import { FilteringCriteriaDto } from './filtering-criteria.dto';
+import { IsString } from '@nestjs/class-validator';
 
 export class FilteringParamsDto {
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => FilteringCriteriaDto)
-  @ApiProperty({ type: [FilteringCriteriaDto], description: 'List of filtering criteria' })
-  filters: FilteringCriteriaDto[];
+  @IsString()
+  @ApiProperty({
+    name: 'filters',
+    description:
+      'Filter criteria in the format property:rule:values. Multiple criteria can be separated by commas. Example: age:gt:30,status:in:active,inactive',
+    required: false,
+  })
+  filters: string;
 }

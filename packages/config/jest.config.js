@@ -36,13 +36,13 @@ module.exports = {
         addFileAttribute: 'true',
       },
     ],
-    [
+    /*[
       path.join(__dirname, './jest-mochawesome-reporter.js'),
       {
         reportDir: 'test-results',
         reportFilename: 'test-report.json',
       },
-    ],
+    ],*/
   ],
   coverageThreshold: {
     global: {

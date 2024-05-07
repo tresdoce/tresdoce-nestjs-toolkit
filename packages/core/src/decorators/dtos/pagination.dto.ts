@@ -1,31 +1,39 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from '@nestjs/class-transformer';
 import { IsOptional, IsPositive, Max, IsInt } from '@nestjs/class-validator';
+import { DEFAULT_PAGE, DEFAULT_SIZE, MAX_SIZE } from '../constants/pagination.constant';
 
 export class PaginationParamsDto {
   @IsOptional()
   @Type(() => Number)
-  @IsInt({ message: 'Page must be a positive integer' })
-  @IsPositive({ message: 'Page must be a positive integer' })
+  @IsInt({ message: 'The page parameter is invalid. It must be an integer' })
+  @IsPositive({ message: 'The page parameter is invalid. It must be a positive' })
   @ApiProperty({
+    name: 'page',
     description: 'The current page number',
-    default: 1,
+    default: DEFAULT_PAGE,
+    minimum: 1,
     example: 1,
     required: false,
+    type: Number,
   })
-  page: number = 1;
+  page: number = DEFAULT_PAGE;
 
   @IsOptional()
   @Type(() => Number)
-  @IsInt({ message: 'Size must be a positive integer' })
-  @IsPositive({ message: 'Size must be a positive integer' })
-  @Max(100, { message: 'Size must not exceed 100' })
-  @ApiProperty({
-    description: 'The number of items per page',
-    maximum: 100,
-    default: 20,
-    example: 20,
-    required: false,
+  @IsInt({ message: 'The size parameter is invalid. It must be an integer' })
+  @IsPositive({ message: 'The size parameter is invalid. It must be a positive' })
+  @Max(MAX_SIZE, {
+    message: `The size parameter is invalid. It must be a positive integer and cannot be more than ${MAX_SIZE}`,
   })
-  size: number = 20;
+  @ApiProperty({
+    name: 'size',
+    description: 'The number of items per page',
+    default: DEFAULT_SIZE,
+    maximum: MAX_SIZE,
+    example: 10,
+    required: false,
+    type: Number,
+  })
+  size: number = DEFAULT_SIZE;
 }

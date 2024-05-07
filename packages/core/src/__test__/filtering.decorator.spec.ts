@@ -5,9 +5,7 @@ import { ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
 describe('Filtering Decorator', () => {
   function getParamDecoratorFactory(decorator: Function) {
     class Test {
-      @decorator()
-      public test(filteringParams: Filtering<any>[]) {}
-      //public test(@decorator() filteringParams: Filtering<any>[]) {}
+      public test(@decorator() filteringParams: Filtering<any>[]) {}
     }
 
     const args = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, 'test');
@@ -29,13 +27,13 @@ describe('Filtering Decorator', () => {
   });
 
   it('should return the correct fields, rules, and values from query params', () => {
-    const filter = 'age:gte:30,name:like:John';
+    const filters = 'age:gte:30,name:like:John';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
           query: {
-            filter,
+            filters,
           },
         }),
       }),
@@ -48,12 +46,12 @@ describe('Filtering Decorator', () => {
   });
 
   it('should properly handle the filter rule EQUALS', () => {
-    const filter = 'property:eq:value';
+    const filters = 'property:eq:value';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
-          query: { filter },
+          query: { filters },
         }),
       }),
     };
@@ -62,12 +60,12 @@ describe('Filtering Decorator', () => {
   });
 
   it('should properly handle the filter rule NOT_EQUALS', () => {
-    const filter = 'property:neq:value';
+    const filters = 'property:neq:value';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
-          query: { filter },
+          query: { filters },
         }),
       }),
     };
@@ -78,12 +76,12 @@ describe('Filtering Decorator', () => {
   });
 
   it('should properly handle the filter rule GREATER_THAN', () => {
-    const filter = 'property:gt:100';
+    const filters = 'property:gt:100';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
-          query: { filter },
+          query: { filters },
         }),
       }),
     };
@@ -94,12 +92,12 @@ describe('Filtering Decorator', () => {
   });
 
   it('should properly handle the filter rule GREATER_THAN_OR_EQUALS', () => {
-    const filter = 'property:gte:100';
+    const filters = 'property:gte:100';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
-          query: { filter },
+          query: { filters },
         }),
       }),
     };
@@ -110,12 +108,12 @@ describe('Filtering Decorator', () => {
   });
 
   it('should properly handle the filter rule LESS_THAN', () => {
-    const filter = 'property:lt:50';
+    const filters = 'property:lt:50';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
-          query: { filter },
+          query: { filters },
         }),
       }),
     };
@@ -124,12 +122,12 @@ describe('Filtering Decorator', () => {
   });
 
   it('should properly handle the filter rule LESS_THAN_OR_EQUALS', () => {
-    const filter = 'property:lte:50';
+    const filters = 'property:lte:50';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
-          query: { filter },
+          query: { filters },
         }),
       }),
     };
@@ -140,12 +138,12 @@ describe('Filtering Decorator', () => {
   });
 
   it('should properly handle the filter rule LIKE', () => {
-    const filter = 'property:like:value';
+    const filters = 'property:like:value';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
-          query: { filter },
+          query: { filters },
         }),
       }),
     };
@@ -154,12 +152,12 @@ describe('Filtering Decorator', () => {
   });
 
   it('should properly handle the filter rule NOT_LIKE', () => {
-    const filter = 'property:nlike:value';
+    const filters = 'property:nlike:value';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
-          query: { filter },
+          query: { filters },
         }),
       }),
     };
@@ -170,12 +168,12 @@ describe('Filtering Decorator', () => {
   });
 
   it('should properly handle the filter rule IN', () => {
-    const filter = 'property:in:value1,value2';
+    const filters = 'property:in:value1,value2';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
-          query: { filter },
+          query: { filters },
         }),
       }),
     };
@@ -186,12 +184,12 @@ describe('Filtering Decorator', () => {
   });
 
   it('should properly handle the filter rule NOT_IN', () => {
-    const filter = 'property:nin:value1,value2';
+    const filters = 'property:nin:value1,value2';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
-          query: { filter },
+          query: { filters },
         }),
       }),
     };
@@ -202,12 +200,12 @@ describe('Filtering Decorator', () => {
   });
 
   it('should properly handle the filter rule IS_NULL', () => {
-    const filter = 'property:isnull';
+    const filters = 'property:isnull';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
-          query: { filter },
+          query: { filters },
         }),
       }),
     };
@@ -216,12 +214,12 @@ describe('Filtering Decorator', () => {
   });
 
   it('should properly handle the filter rule IS_NOT_NULL', () => {
-    const filter = 'property:isnotnull';
+    const filters = 'property:isnotnull';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
-          query: { filter },
+          query: { filters },
         }),
       }),
     };
@@ -230,13 +228,13 @@ describe('Filtering Decorator', () => {
   });
 
   it('should throw BadRequestException if filter parameter format is invalid', () => {
-    const filter = 'invalid_format';
+    const filters = 'invalid_format';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
           query: {
-            filter,
+            filters,
           },
         }),
       }),
@@ -247,13 +245,13 @@ describe('Filtering Decorator', () => {
   });
 
   it('should throw BadRequestException if property is not included in validProperties', () => {
-    const filter = 'invalid_property:eq:value';
+    const filters = 'invalid_property:eq:value';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
           query: {
-            filter,
+            filters,
           },
         }),
       }),
@@ -264,13 +262,13 @@ describe('Filtering Decorator', () => {
   });
 
   it('should throw BadRequestException if validProperties is not an array', () => {
-    const filter = 'age:eq:30';
+    const filters = 'age:eq:30';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
           query: {
-            filter,
+            filters,
           },
         }),
       }),
@@ -284,13 +282,13 @@ describe('Filtering Decorator', () => {
   });
 
   it('should throw BadRequestException if filter parameter is in incorrect format', () => {
-    const filter = 'ageeq30';
+    const filters = 'ageeq30';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
           query: {
-            filter,
+            filters,
           },
         }),
       }),
@@ -301,13 +299,13 @@ describe('Filtering Decorator', () => {
   });
 
   it('should throw BadRequestException if filter rule is not a valid FilterRule', () => {
-    const filter = 'age:invalid_rule:value';
+    const filters = 'age:invalid_rule:value';
     const factory = getParamDecoratorFactory(FilteringParams);
     const mockFiltering = {
       switchToHttp: () => ({
         getRequest: () => ({
           query: {
-            filter,
+            filters,
           },
         }),
       }),

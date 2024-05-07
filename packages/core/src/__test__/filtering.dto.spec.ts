@@ -40,51 +40,40 @@ describe('Filtering Dto', () => {
   });
 
   describe('FilteringParamsDto', () => {
-    it('should validate a valid FilteringParamsDto', async () => {
-      const dto = plainToClass(FilteringParamsDto, {
-        filters: [
-          { property: 'age', rule: 'gte', values: ['30'] },
-          { property: 'name', rule: 'like', values: ['John'] },
-        ],
-      });
-
-      const errors = await validate(dto);
-      expect(errors.length).toBe(0);
+  it('should validate a valid FilteringParamsDto', async () => {
+    const filters = 'age:gt:30,name:like:John,status:in:active,inactive';
+    const dto = plainToClass(FilteringParamsDto, {
+      filters,
     });
 
-    it('should not validate an invalid FilteringParamsDto with invalid rule', async () => {
-      const dto = plainToClass(FilteringParamsDto, {
-        filters: [
-          { property: 'age', rule: 'gte', values: ['30'] },
-          { property: 'name', rule: 'invalid_rule', values: ['John'] },
-        ],
-      });
+    const errors = await validate(dto);
+    expect(errors.length).toBe(0);
+  });
 
-      const errors = await validate(dto);
+  it('should not validate an invalid FilteringParamsDto with invalid rule', async () => {
+    const filters = {
+      property: 'age',
+      rule: 'eq',
+      value: ['30'],
+    };
 
-      expect(errors.length).toBeGreaterThan(0);
-
-      const ruleError = errors
-        .flatMap((error) => error.children)
-        .flatMap((child) => child.children)
-        .find(
-          (child) => child.property === 'rule' && child.constraints && child.constraints.isEnum,
-        );
-
-      if (ruleError && ruleError.constraints) {
-        expect(ruleError.constraints.isEnum).toContain('rule must be a valid enum value');
-      } else {
-        throw new Error('Expected to find a rule constraint error');
-      }
+    const dto = plainToClass(FilteringParamsDto, {
+      filters,
     });
 
-    it('should validate an empty filters array', async () => {
-      const dto = plainToClass(FilteringParamsDto, {
-        filters: [],
-      });
+    const errors = await validate(dto);
+    expect(errors.length).toBeGreaterThan(0);
+  });
 
-      const errors = await validate(dto);
-      expect(errors.length).toBe(0);
+  it('should validate an empty filters array', async () => {
+    const filters = '';
+
+    const dto = plainToClass(FilteringParamsDto, {
+      filters,
     });
+
+    const errors = await validate(dto);
+    expect(errors.length).toBe(0);
+  });
   });
 });

@@ -1,13 +1,11 @@
-import { Sorting, SortingParams } from '../decorators';
+import { Sorting, SortCriteria } from '../decorators';
 import { BadRequestException } from '@nestjs/common';
 import { ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
 
 describe('Sorting Decorator', () => {
   function getParamDecoratorFactory(decorator: Function) {
     class Test {
-      @decorator()
-      public test(sortingParams: SortingParams) {}
-      //public test(@decorator() sortingParams: SortingParams) {}
+      public test(@decorator() sortingParams: SortCriteria) {}
     }
 
     const args = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, 'test');
@@ -25,7 +23,7 @@ describe('Sorting Decorator', () => {
     };
     const result = factory(['user_id', 'first_name'], mockSorting);
     expect(result).toBeDefined();
-    expect(result.fields).toEqual([]);
+    expect(result).toEqual([]);
   });
 
   it('should return the correct fields and order from query params', () => {
@@ -41,7 +39,7 @@ describe('Sorting Decorator', () => {
       }),
     };
     const result = factory(['user_id', 'first_name'], mockSorting);
-    expect(result.fields).toEqual([
+    expect(result).toEqual([
       { field: 'user_id', order: 'asc' },
       { field: 'first_name', order: 'desc' },
     ]);
@@ -116,11 +114,6 @@ describe('Sorting Decorator', () => {
     expect(() => {
       factory(['user_id', 'first_name'], mockSorting as any);
     }).toThrow(BadRequestException);
-    /*expect(() => {
-      factory(['user_id', 'first_name'], mockSorting as any);
-    }).toThrowError(
-      `Invalid sort parameter: "user_idasc". It must be in the format 'field_name[:direction]' where direction is 'asc' or 'desc' and is optional.`,
-    );*/
   });
 
   it('should throw BadRequestException if sort direction is not "asc" or "desc"', () => {
@@ -141,7 +134,7 @@ describe('Sorting Decorator', () => {
     expect(() => {
       factory(['user_id', 'first_name'], mockSorting as any);
     }).toThrowError(
-      `Invalid sort parameter: "user_id:ascending". It must be in the format 'field_name[:direction]' where direction is 'asc' or 'desc' and is optional.`,
+      `The sorting parameter "user_id:ascending" is invalid. It should have the format 'field_name[:direction]', where direction is 'asc' or 'desc' and is optional.`,
     );
   });
 });

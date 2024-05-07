@@ -42,51 +42,51 @@ describe('Sorting Dto', () => {
   });
 
   describe('SortingParamsDto', () => {
-    it('should validate a valid SortingParamsDto', async () => {
-      const dto = plainToClass(SortingParamsDto, {
-        fields: [
-          { field: 'user_id', order: 'asc' },
-          { field: 'first_name', order: 'desc' },
-        ],
-      });
-
-      const errors = await validate(dto);
-      expect(errors.length).toBe(0);
+  it('should validate a valid SortingParamsDto', async () => {
+    const sort = 'user_id:asc,first_name:desc';
+    const dto = plainToClass(SortingParamsDto, {
+      sort,
     });
 
-    it('should not validate an invalid SortingParamsDto', async () => {
-      const dto = plainToClass(SortingParamsDto, {
-        fields: [
-          { field: 'user_id', order: 'asc' },
-          { field: 'first_name', order: 'ascending' },
-        ],
-      });
-
-      const errors = await validate(dto);
-
-      expect(errors.length).toBeGreaterThan(0);
-
-      const orderError = errors
-        .flatMap((error) => error.children)
-        .flatMap((child) => child.children)
-        .find((child) => child.property === 'order' && child.constraints && child.constraints.isIn);
-
-      if (orderError && orderError.constraints) {
-        expect(orderError.constraints.isIn).toContain(
-          'order must be one of the following values: asc, desc',
-        );
-      } else {
-        throw new Error('Expected to find an order constraint error');
-      }
-    });
-
-    it('should validate an empty fields array', async () => {
-      const dto = plainToClass(SortingParamsDto, {
-        fields: [],
-      });
-
-      const errors = await validate(dto);
-      expect(errors.length).toBe(0);
-    });
+    const errors = await validate(dto);
+    expect(errors.length).toBe(0);
   });
+
+  it('should not validate an invalid SortingParamsDto', async () => {
+    const sort = {
+      field: 'user_id',
+      order: 'asc',
+    };
+    const dto = plainToClass(SortingParamsDto, {
+      sort,
+    });
+
+    const errors = await validate(dto);
+
+    expect(errors.length).toBeGreaterThan(0);
+
+    /*const orderError = errors
+      .flatMap((error) => error.children)
+      .flatMap((child) => child.children)
+      .find((child) => child.property === 'order' && child.constraints && child.constraints.isIn);
+
+    if (orderError && orderError.constraints) {
+      expect(orderError.constraints.isIn).toContain(
+        'order must be one of the following values: asc, desc',
+      );
+    } else {
+      throw new Error('Expected to find an order constraint error');
+    }*/
+  });
+
+  it('should validate an empty fields array', async () => {
+    const sort = '';
+    const dto = plainToClass(SortingParamsDto, {
+      sort,
+    });
+
+    const errors = await validate(dto);
+    expect(errors.length).toBe(0);
+  });
+});
 });

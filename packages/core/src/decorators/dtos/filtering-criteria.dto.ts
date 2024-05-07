@@ -4,7 +4,7 @@ import { FilterRule } from '../filtering.decorator';
 
 export class FilteringCriteriaDto {
   @IsString()
-  @ApiProperty({ example: 'age', description: 'The property to filter by.' })
+  @ApiProperty({ example: 'name', description: 'The property to filter by.' })
   property: string;
 
   @IsEnum(FilterRule)
@@ -19,7 +19,7 @@ export class FilteringCriteriaDto {
   @IsString({ each: true })
   @IsOptional()
   @ApiProperty({
-    example: ['30'],
+    example: ['morty'],
     description: 'The value(s) for the filtering criterion.',
     type: [String],
   })

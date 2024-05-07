@@ -42,11 +42,11 @@
     "nock": "^13.3.4",
     "reflect-metadata": "^0.2.1",
     "rxjs": "^7.5.5",
-    "testcontainers": "^10.6.0"
+    "testcontainers": "^10.9.0"
   },
   "dependencies": {
     "nock": "^13.3.4",
-    "testcontainers": "^10.6.0"
+    "testcontainers": "^10.9.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.3.2",

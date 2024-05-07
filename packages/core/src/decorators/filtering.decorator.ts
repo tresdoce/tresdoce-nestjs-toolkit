@@ -1,5 +1,6 @@
 import { createParamDecorator, ExecutionContext, BadRequestException } from '@nestjs/common';
 import { Request } from 'express';
+import { formatRegex, ruleRegex } from './constants/filtering.constant';
 
 /**
  * Enum representing valid filter rules for query parameters.
@@ -35,7 +36,7 @@ export interface Filtering<T = string | number | boolean | string[]> {
  * @param value - The string value to convert.
  * @returns The value converted to the appropriate type, or undefined for IS_NULL and IS_NOT_NULL rules.
  */
-const convertFilterValue = (rule: FilterRule, value: string): any => {
+export const convertFilterValue = (rule: FilterRule, value: string): any => {
   /* istanbul ignore next */
   switch (rule) {
     case FilterRule.IN:
@@ -65,7 +66,7 @@ const convertFilterValue = (rule: FilterRule, value: string): any => {
  * @param {string} filterParam - La cadena de parámetros de filtro completa de la solicitud.
  * @returns {string[]} Un array de cadenas, cada una representando un filtro individual.
  */
-const parseFilters = (filterParam: string): string[] => {
+export const parseFilters = (filterParam: string): string[] => {
   const filters: string[] = [];
   let buffer: string = '';
   let isInValue: boolean = false;
@@ -122,7 +123,7 @@ const parseFilters = (filterParam: string): string[] => {
 export const FilteringParams = createParamDecorator(
   (validProperties: string[], ctx: ExecutionContext): Filtering<any>[] => {
     const request: Request = ctx.switchToHttp().getRequest<Request>();
-    const filterParam = request.query.filter as string;
+    const filterParam = request.query.filters as string;
     if (!filterParam) return [];
 
     if (!Array.isArray(validProperties)) {
@@ -132,34 +133,28 @@ export const FilteringParams = createParamDecorator(
     const filters = parseFilters(filterParam);
 
     return filters.map((filter) => {
-      const regex =
-        /^(\w+):(eq|neq|gt|gte|lt|lte|like|nlike|in|nin|isnull|isnotnull)(?::([^:]+))?$/i;
-      const match = regex.exec(filter);
-      if (!match) {
-        throw new BadRequestException(`Invalid filter format: ${filter}`);
+      const formatMatch = filter.match(formatRegex);
+      if (!formatMatch) {
+        throw new BadRequestException(
+          `Invalid filter format, expected 'property:rule[:value]: ${filter}`,
+        );
       }
 
-      const [, property, rule, valueString] = match;
+      const [, property, rule, valueString] = formatMatch;
       if (!validProperties.includes(property)) {
         throw new BadRequestException(`Invalid filter property: ${property}`);
       }
       /* istanbul ignore next */
-      if (!Object.values(FilterRule).includes(rule as FilterRule)) {
+      if (!Object.values(FilterRule).includes(rule as FilterRule) && !rule.match(ruleRegex)) {
         /* istanbul ignore next */
         throw new BadRequestException(`Invalid filter rule: ${rule}`);
       }
 
-      let values = [];
-
-      if (valueString) {
-        if (rule === FilterRule.IN || rule === FilterRule.NOT_IN) {
-          values = valueString
-            .split(',')
-            .map((value) => convertFilterValue(rule as FilterRule, value));
-        } else {
-          values = [convertFilterValue(rule as FilterRule, valueString)];
-        }
-      }
+      const values = valueString
+        ? rule === FilterRule.IN || rule === FilterRule.NOT_IN
+          ? valueString.split(',').map((value) => convertFilterValue(rule as FilterRule, value))
+          : [convertFilterValue(rule as FilterRule, valueString)]
+        : [];
       return { property, rule: rule as FilterRule, values: values.filter((v) => v !== undefined) };
     });
   },
