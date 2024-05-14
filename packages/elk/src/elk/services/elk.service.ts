@@ -54,11 +54,16 @@ export class ElkService {
    */
   public async createIndexDocument(elkDocument: any, _suffix?: string): Promise<void> {
     try {
+      /*await this.clientRef?.index({
+        index: this.generateIndexDocument(_suffix),
+        body: elkDocument,
+      });*/
       await this.clientRef?.index({
         index: this.generateIndexDocument(_suffix),
         body: elkDocument,
       });
     } catch (_error) {
+      console.log(_error)
       /* istanbul ignore next */
       Logger.error(`Create document: ${_error.message}`, 'ElkModule');
     }

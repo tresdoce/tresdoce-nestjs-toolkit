@@ -179,7 +179,7 @@ describe('TestContainers', () => {
     let container: testContainers;
 
     beforeAll(async () => {
-      container = await new testContainers('elasticsearch:8.8.1', {
+      container = await new testContainers('elasticsearch:8.13.4', {
         ...TCElasticSearchOptions,
         ports: [
           {

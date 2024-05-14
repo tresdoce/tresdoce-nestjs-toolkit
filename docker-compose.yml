@@ -65,7 +65,7 @@ services:
       AWS_REGION: us-east-1
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
     container_name: tresdoce-test-utils-global-elasticsearch
     restart: always
     ports:
