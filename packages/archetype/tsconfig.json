@@ -1,7 +1,7 @@
 {
   "extends": "@tresdoce-nestjs-toolkit/config",
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDir": "./src"
   },
   "include": ["src/**/*"],
   "exclude": [
@@ -15,6 +15,6 @@
     "**/*test.ts",
     "**/*e2e.ts",
     "**/*e2e-spec.ts",
-    "coverage",
-  ],
+    "coverage"
+  ]
 }

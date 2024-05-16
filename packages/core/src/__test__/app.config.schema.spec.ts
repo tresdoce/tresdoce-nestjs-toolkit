@@ -1,5 +1,10 @@
 import Joi from 'joi';
-import { validateSchema, baseValidationSchemaApp, validateSchemaForApp, validationSchemaCsrf } from '../validations';
+import {
+  validateSchema,
+  baseValidationSchemaApp,
+  validateSchemaForApp,
+  validationSchemaCsrf,
+} from '../validations';
 
 const baseInput = {
   NODE_ENV: 'test',

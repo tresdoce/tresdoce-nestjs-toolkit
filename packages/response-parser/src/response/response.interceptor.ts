@@ -8,8 +8,7 @@ import _ from 'lodash';
 
 @Injectable()
 export class ResponseInterceptor<T> implements NestInterceptor<T, any> {
-  constructor(private configService: ConfigService) {
-  }
+  constructor(private configService: ConfigService) {}
 
   intercept(_context: ExecutionContext, _next: CallHandler): Observable<any> {
     const ctx: HttpArgumentsHost = _context.switchToHttp();

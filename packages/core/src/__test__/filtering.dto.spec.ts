@@ -40,40 +40,40 @@ describe('Filtering Dto', () => {
   });
 
   describe('FilteringParamsDto', () => {
-  it('should validate a valid FilteringParamsDto', async () => {
-    const filters = 'age:gt:30,name:like:John,status:in:active,inactive';
-    const dto = plainToClass(FilteringParamsDto, {
-      filters,
+    it('should validate a valid FilteringParamsDto', async () => {
+      const filters = 'age:gt:30,name:like:John,status:in:active,inactive';
+      const dto = plainToClass(FilteringParamsDto, {
+        filters,
+      });
+
+      const errors = await validate(dto);
+      expect(errors.length).toBe(0);
     });
 
-    const errors = await validate(dto);
-    expect(errors.length).toBe(0);
-  });
+    it('should not validate an invalid FilteringParamsDto with invalid rule', async () => {
+      const filters = {
+        property: 'age',
+        rule: 'eq',
+        value: ['30'],
+      };
 
-  it('should not validate an invalid FilteringParamsDto with invalid rule', async () => {
-    const filters = {
-      property: 'age',
-      rule: 'eq',
-      value: ['30'],
-    };
+      const dto = plainToClass(FilteringParamsDto, {
+        filters,
+      });
 
-    const dto = plainToClass(FilteringParamsDto, {
-      filters,
+      const errors = await validate(dto);
+      expect(errors.length).toBeGreaterThan(0);
     });
 
-    const errors = await validate(dto);
-    expect(errors.length).toBeGreaterThan(0);
-  });
+    it('should validate an empty filters array', async () => {
+      const filters = '';
 
-  it('should validate an empty filters array', async () => {
-    const filters = '';
+      const dto = plainToClass(FilteringParamsDto, {
+        filters,
+      });
 
-    const dto = plainToClass(FilteringParamsDto, {
-      filters,
+      const errors = await validate(dto);
+      expect(errors.length).toBe(0);
     });
-
-    const errors = await validate(dto);
-    expect(errors.length).toBe(0);
-  });
   });
 });
