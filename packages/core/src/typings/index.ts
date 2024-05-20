@@ -5,7 +5,7 @@ import { DatabaseOptions } from '@tresdoce-nestjs-toolkit/typeorm';
 import { CamundaOptions } from '@tresdoce-nestjs-toolkit/camunda';
 import { ElasticsearchOptions } from '@tresdoce-nestjs-toolkit/elk';
 import { HttpModuleOptions } from '@tresdoce-nestjs-toolkit/http-client';
-import { RedactOptions } from '@tresdoce-nestjs-toolkit/utils';
+import { RedactOptions, BcryptOptions } from '@tresdoce-nestjs-toolkit/utils';
 import { DiskHealthIndicatorOptions } from '@nestjs/terminus';
 import { AxiosRequestConfig } from 'axios';
 import { CsrfCookieOptions } from '../commons/index';
@@ -134,5 +134,6 @@ export interface AppConfig {
   elasticsearch?: ElasticsearchOptions;
   tracing?: TracingOptions;
   redact?: RedactOptions;
+  bcrypt?: BcryptOptions;
   [key: string]: any;
 }

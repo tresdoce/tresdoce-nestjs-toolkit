@@ -543,6 +543,220 @@ puede ser de tipo `number` o `string`
 
 </details>
 
+## Bcrypt
+
+El módulo Bcrypt proporciona funcionalidades para encriptar, hashear y comparar datos utilizando el algoritmo bcrypt.
+
+### ⚙️ Configuración
+
+Agregar los parámetros de configuración de **Bcrypt** en `configuration.ts` utilizando el key `bcrypt` y que
+contenga el objeto con todas sus propiedades para utilizar la encriptación y hash con valores custom, en caso contrario,
+no es necesario modificar el configuration.
+
+```typescript
+//./src/config/configuration.ts
+import { Typings } from '@tresdoce-nestjs-toolkit/paas';
+import { registerAs } from '@nestjs/config';
+
+export default registerAs('config', (): Typings.AppConfig => {
+  return {
+    //...
+    bcrypt: {
+      rounds: 16,
+      minor: 'b',
+    },
+    //...
+  };
+});
+```
+
+<details>
+<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+
+`rounds`: Número de rondas de sal para generar la sal
+
+- Type: `Number`
+- Default: `16`
+- Example: `10`
+
+`minor`: Versión menor de **bcrypt** a utilizar
+
+- Type: `String`
+- Default: `b`
+- Example: ` a`
+
+</details>
+
+### 👨‍💻 Uso
+
+Importar el `BcryptModule` en el módulo principal de la aplicación.
+
+```typescript
+// ./src/my.module.ts
+import { Module } from '@nestjs/common';
+import { BcryptModule } from '@tresdoce-nestjs-toolkit/paas';
+
+@Module({
+  //...
+  imports: [
+    //...
+    BcryptModule,
+    //...
+  ],
+  //...
+})
+export class MyModule {}
+```
+
+Luego hay que inyectar el `BcryptService` en el servicio para hacer uso de los métodos disponibles.
+
+#### encrypt
+
+Encripta los datos asincrónicamente.
+
+```typescript
+// ./src/my.service.ts
+import { Inject, Injectable } from '@nestjs/common';
+import { BcryptService } from '@tresdoce-nestjs-toolkit/paas';
+
+@Injectable()
+export class MyService {
+  constructor(private readonly bcryptService: BcryptService) {}
+
+  async encryptExample() {
+    const data = 'password';
+    const encryptedData = await this.bcryptService.encrypt(data);
+    console.log('Encrypted data:', encryptedData);
+  }
+}
+```
+
+#### compare
+
+Compara los datos con los datos encriptados asincrónicamente.
+
+```typescript
+// ./src/my.service.ts
+import { Inject, Injectable } from '@nestjs/common';
+import { BcryptService } from '@tresdoce-nestjs-toolkit/paas';
+
+@Injectable()
+export class MyService {
+  constructor(private readonly bcryptService: BcryptService) {}
+
+  async compareExample() {
+    const data = 'password';
+    const encryptedData = await this.bcryptService.encrypt(data);
+    const isMatch = await this.bcryptService.compare(data, encryptedData);
+    console.log('Data matches encrypted data:', isMatch);
+  }
+}
+```
+
+#### encryptSync
+
+Encripta los datos sincrónicamente.
+
+```typescript
+// ./src/my.service.ts
+import { Inject, Injectable } from '@nestjs/common';
+import { BcryptService } from '@tresdoce-nestjs-toolkit/paas';
+
+@Injectable()
+export class MyService {
+  constructor(private readonly bcryptService: BcryptService) {}
+
+  encryptSyncExample() {
+    const data = 'password';
+    const encryptedData = this.bcryptService.encryptSync(data);
+    console.log('Encrypted data:', encryptedData);
+  }
+}
+```
+
+#### compareSync
+
+Compara los datos con los datos encriptados sincrónicamente.
+
+```typescript
+// ./src/my.service.ts
+import { Inject, Injectable } from '@nestjs/common';
+import { BcryptService } from '@tresdoce-nestjs-toolkit/paas';
+
+@Injectable()
+export class MyService {
+  constructor(private readonly bcryptService: BcryptService) {}
+
+  compareSyncExample() {
+    const data = 'password';
+    const encryptedData = this.bcryptService.encryptSync(data);
+    const isMatch = this.bcryptService.compareSync(data, encryptedData);
+    console.log('Data matches encrypted data:', isMatch);
+  }
+}
+```
+
+#### generatePasswordHash
+
+Genera un hash seguro para una contraseña.
+
+```typescript
+// ./src/my.service.ts
+import { Inject, Injectable } from '@nestjs/common';
+import { BcryptService } from '@tresdoce-nestjs-toolkit/paas';
+
+@Injectable()
+export class MyService {
+  constructor(private readonly bcryptService: BcryptService) {}
+
+  generatePasswordHashExample() {
+    const password = 'password';
+    const hash = this.bcryptService.generatePasswordHash(password);
+    console.log('Password hash:', hash);
+  }
+}
+```
+
+#### validateHash
+
+Válida si un hash es válido para las rondas de sal actuales.
+
+```typescript
+// ./src/my.service.ts
+import { Inject, Injectable } from '@nestjs/common';
+import { BcryptService } from '@tresdoce-nestjs-toolkit/paas';
+
+@Injectable()
+export class MyService {
+  constructor(private readonly bcryptService: BcryptService) {}
+
+  validateHashExample() {
+    const password = 'password';
+    const hash = this.bcryptService.generatePasswordHash(password);
+    const isValid = this.bcryptService.validateHash(hash);
+    console.log('Is hash valid?', isValid);
+  }
+}
+```
+
+#### generateSalt
+
+Genera una nueva sal para usar en el proceso de hash.
+
+```typescript
+// ./src/my.service.ts
+import { Inject, Injectable } from '@nestjs/common';
+import { BcryptService } from '@tresdoce-nestjs-toolkit/paas';
+
+@Injectable()
+export class MyService {
+  constructor(private readonly bcryptService: BcryptService) {
+    this.bcryptService.generateSalt(10, 'a');
+  }
+  //...
+}
+```
+
 ## 📄 Changelog
 
 Todos los cambios notables de este paquete se documentarán en el archivo [Changelog](./CHANGELOG.md).
