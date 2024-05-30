@@ -4,8 +4,8 @@
 </div>
 
 <div align="center">
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v18.19.1&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="Node.js"/>
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v10.2.4&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="Npm"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v18.20.3&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="Node.js"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v10.7.0&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="Npm"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v10.3.8&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/>
     <img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg" alt="lerna">
     <a href="./license.md">
@@ -49,9 +49,9 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 ## 📝 Requerimientos básicos
 
 - [NestJS Starter](https://github.com/rudemex/nestjs-starter)
-- Node.js v18.19.1 or higher ([Download](https://nodejs.org/es/download/))
+- Node.js v18.20.3 or higher ([Download](https://nodejs.org/es/download/))
 - YARN v1.22.19 or higher
-- NPM v10.2.4 or higher
+- NPM v10.7.0 or higher
 - NestJS v10.3.8 or higher ([Documentación](https://nestjs.com/))
 - Lerna
 

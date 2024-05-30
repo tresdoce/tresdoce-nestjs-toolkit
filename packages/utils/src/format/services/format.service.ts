@@ -19,7 +19,7 @@ import {
 export class FormatService {
   /**
    * @Descripción: Return number with format
-   * @Param options {FormatNumberOptions}
+   * @Param _options {FormatNumberOptions}
    * @return: string
    */
   public formatNumber(_options: FormatNumberOptions): string {
