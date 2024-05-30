@@ -77,8 +77,17 @@ jobs:
         with:
           report_paths: '**/junit.xml'
 
+      - name: "📊 Publish Test Report (new action)"
+        uses: phoenix-actions/test-reporting@v8
+        id: "test-report-${{ github.sha }}"
+        if: success() || failure()
+        with:
+          name: "JEST Tests"
+          path: '**/junit.xml'
+          reporter: jest-junit
+
       - name: "📊 Upload coverage report to Codecov"
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
