@@ -79,7 +79,6 @@ jobs:
 
       - name: "📊 Publish Test Report"
         uses: phoenix-actions/test-reporting@v8
-        id: "test-report-${{ github.sha }}"
         if: success() || failure()
         with:
           name: "JEST Tests"
