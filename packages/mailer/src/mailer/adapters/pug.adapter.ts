@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { renderFile } from 'pug';
-import inlineCss from 'inline-css';
+import { inline } from '@css-inline/css-inline';
 
 import { MailerOptions } from '../interfaces/mailer-options.interface';
 import { TemplateAdapter } from '../interfaces/template-adapter.interface';
@@ -29,16 +29,16 @@ export class PugAdapter implements TemplateAdapter {
       }
 
       if (this.config.inlineCssEnabled) {
-        inlineCss(body, this.config.inlineCssOptions)
-          .then((html) => {
-            mail.data.html = html;
-            return callback();
-          })
-          .catch(callback);
+        try {
+          mail.data.html = inline(body, this.config.inlineCssOptions);
+        } catch (_error) {
+          /* istanbul ignore next */
+          callback(_error);
+        }
       } else {
         mail.data.html = body;
-        return callback();
       }
+      return callback();
     });
   }
 }

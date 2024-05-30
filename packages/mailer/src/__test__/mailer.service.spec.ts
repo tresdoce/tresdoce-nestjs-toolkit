@@ -422,7 +422,7 @@ describe('MailerService', () => {
       template: {
         adapter: new HandlebarsAdapter(undefined, {
           inlineCssEnabled: true,
-          inlineCssOptions: { url: ' ', preserveMediaQueries: true },
+          inlineCssOptions: { keepStyleTags: true },
         }),
       },
     });
@@ -439,7 +439,9 @@ describe('MailerService', () => {
 
     expect(send).toHaveBeenCalled();
     expect(lastMail.data.from).toBe('user1@example.test');
-    expect(lastMail.data.html).toContain('@media only screen and (max-width:350px)');
+    expect(lastMail.data.html).toContain(
+      '<style data-css-inline="keep" type="text/css">\n  @media only screen and (max-width:350px) { p { font-size: 20px; } }\n</style>',
+    );
     expect(lastMail.data.html).toContain('<p>Handlebars test template. by Nest-modules TM</p>');
   });
 
