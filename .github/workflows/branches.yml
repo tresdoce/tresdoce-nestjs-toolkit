@@ -81,7 +81,7 @@ jobs:
       #    report_paths: '**/junit.xml'
 
       - name: "📊 Publish Test Report"
-        uses: phoenix-actions/test-reporting@v8
+        uses: dorny/test-reporter@v1
         if: success() || failure()
         with:
           name: "Test Report"
