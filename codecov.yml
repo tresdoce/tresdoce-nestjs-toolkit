@@ -1,6 +1,9 @@
-parsers:
-  typescript:
-    enable_partials: yes
+codecov:
+  bot: "td-codecov-io"
+
+coverage:
+  range: 80..100
+  precision: 2
 
 ignore:
   - "./node_modules/*"
