@@ -35,12 +35,12 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 ## Glosario
 
 - [🥳 Demo](https://nestjs-starter.tresdoce.com.ar/v1/docs)
-- [📊 Test Reports](https://tresdoce.github.io/tresdoce-nestjs-toolkit/mochawesome-report)
 - [📝 Requerimientos básicos](#basic-requirements)
 - [💻 Scripts](#scripts)
 - [🧰 Toolkit](#toolkit)
 - [📤 Commits](#commits)
 - [📜 License MIT](license.md)
+<!-- - [📊 Test Reports](https://tresdoce.github.io/tresdoce-nestjs-toolkit/mochawesome-report) -->
 
 ---
 
