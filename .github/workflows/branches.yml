@@ -25,6 +25,9 @@ jobs:
     strategy:
       matrix:
         node: [ '18.20.3' ]
+    env:
+      DO_NOT_TRACK: 1
+      TURBO_TELEMETRY_DISABLED: 1
     needs: setup
     name: "Build"
     steps:
@@ -81,8 +84,8 @@ jobs:
         uses: phoenix-actions/test-reporting@v8
         if: success() || failure()
         with:
-          name: "JEST Tests"
-          path: '**/junit.xml'
+          name: "Test Report"
+          path: 'packages/**/junit.xml'
           reporter: jest-junit
 
       - name: "📊 Upload coverage report to Codecov"
