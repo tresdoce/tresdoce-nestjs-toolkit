@@ -1,5 +1,10 @@
 import Joi from 'joi';
-import { validateSchema, baseValidationSchemaApp, validateSchemaForApp } from '../validations';
+import {
+  validateSchema,
+  baseValidationSchemaApp,
+  validateSchemaForApp,
+  validationSchemaCsrf,
+} from '../validations';
 
 const baseInput = {
   NODE_ENV: 'test',
@@ -80,6 +85,46 @@ describe('appConfigValidationSchema', () => {
         field: 123,
       };
       expect(() => validateSchema(validationSchema, input)).toThrow(Error);
+    });
+
+    it('should validate CSRF_SECRET correctly in prod stage', () => {
+      const validationSchema = {
+        ...baseValidationSchemaApp,
+        ...validationSchemaCsrf,
+      };
+      const input = {
+        ...baseInput,
+        APP_STAGE: 'prod',
+        CSRF_SECRET: '9r@F5z!X8w*L3q&H2s^J7p#K1n$Y4m?A',
+      };
+      const result = validateSchema(validationSchema, input);
+      expect(result).toEqual(input);
+    });
+
+    it('should throw an error for invalid CSRF_SECRET in prod stage', () => {
+      const validationSchema = {
+        ...baseValidationSchemaApp,
+        ...validationSchemaCsrf,
+      };
+      const input = {
+        ...baseInput,
+        APP_STAGE: 'prod',
+        CSRF_SECRET: 'invalidsecret',
+      };
+      expect(() => validateSchema(validationSchema, input)).toThrow(Error);
+    });
+
+    it('should allow optional CSRF_SECRET in non-prod stages', () => {
+      const validationSchema = {
+        ...baseValidationSchemaApp,
+        ...validationSchemaCsrf,
+      };
+      const input = {
+        ...baseInput,
+        CSRF_SECRET: undefined,
+      };
+      const result = validateSchema(validationSchema, input);
+      expect(result).toEqual(input);
     });
   });
 

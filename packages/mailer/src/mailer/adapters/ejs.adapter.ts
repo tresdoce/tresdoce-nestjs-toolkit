@@ -2,7 +2,7 @@ import { AsyncTemplateFunction, ClientFunction, compile, TemplateFunction } from
 import _ from 'lodash';
 import * as fs from 'fs';
 import * as path from 'path';
-import inlineCss from 'inline-css';
+import { inline } from '@css-inline/css-inline';
 
 import { MailerOptions } from '../interfaces/mailer-options.interface';
 import { TemplateAdapter } from '../interfaces/template-adapter.interface';
@@ -42,16 +42,16 @@ export class EjsAdapter implements TemplateAdapter {
 
     const render = (html: string) => {
       if (this.config.inlineCssEnabled) {
-        inlineCss(html, this.config.inlineCssOptions)
-          .then((dataHtml) => {
-            mail.data.html = dataHtml;
-            return callback();
-          })
-          .catch(callback);
+        try {
+          mail.data.html = inline(html, this.config.inlineCssOptions);
+        } catch (_error) {
+          /* istanbul ignore next */
+          callback(_error);
+        }
       } else {
         mail.data.html = html;
-        return callback();
       }
+      return callback();
     };
 
     /* istanbul ignore next */

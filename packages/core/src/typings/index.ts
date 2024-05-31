@@ -4,10 +4,11 @@ import { TracingOptions } from '@tresdoce-nestjs-toolkit/tracing';
 import { DatabaseOptions } from '@tresdoce-nestjs-toolkit/typeorm';
 import { CamundaOptions } from '@tresdoce-nestjs-toolkit/camunda';
 import { ElasticsearchOptions } from '@tresdoce-nestjs-toolkit/elk';
-import { RedactOptions } from '@tresdoce-nestjs-toolkit/utils';
+import { HttpModuleOptions } from '@tresdoce-nestjs-toolkit/http-client';
+import { RedactOptions, BcryptOptions } from '@tresdoce-nestjs-toolkit/utils';
 import { DiskHealthIndicatorOptions } from '@nestjs/terminus';
 import { AxiosRequestConfig } from 'axios';
-import { HttpModuleOptions } from '@tresdoce-nestjs-toolkit/http-client';
+import { CsrfCookieOptions } from '../commons/index';
 
 export type TAppStage = 'local' | 'test' | 'snd' | 'dev' | 'qa' | 'homo' | 'prod';
 
@@ -75,6 +76,7 @@ export interface IProjectConfig {
   repository: IProjectConfigRepository;
   bugs: IProjectConfigBugs;
   homepage: string;
+  [key: string]: any;
 }
 
 export interface IServerConfig {
@@ -89,6 +91,7 @@ export interface IServerConfig {
   allowedMethods: string;
   corsEnabled: boolean;
   corsCredentials: boolean;
+  csrf?: CsrfCookieOptions;
 }
 
 export interface IHealthConfig {
@@ -131,5 +134,6 @@ export interface AppConfig {
   elasticsearch?: ElasticsearchOptions;
   tracing?: TracingOptions;
   redact?: RedactOptions;
+  bcrypt?: BcryptOptions;
   [key: string]: any;
 }

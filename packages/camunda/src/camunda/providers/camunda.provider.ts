@@ -6,11 +6,11 @@ import { CONFIG_MODULE_OPTIONS } from '../constants/camunda.constants';
 
 @Injectable()
 export class CamundaTaskConnector extends Server implements CustomTransportStrategy {
-  private client;
+  private client: Client;
 
   constructor(@Inject(CONFIG_MODULE_OPTIONS) private readonly clientConfig: ClientConfig) {
     super();
-    this.client = new Client(clientConfig);
+    this.client = new Client(this.clientConfig);
   }
 
   public async listen(callback: () => void) {

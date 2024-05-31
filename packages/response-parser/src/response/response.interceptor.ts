@@ -24,8 +24,8 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, any> {
     }
 
     return _next.handle().pipe(
-      map((res) => {
-        return _.isArray(res) ? { data: res } : res;
+      map((_res) => {
+        return _.isArray(_res) ? { data: _res } : _res;
       }),
     );
   }

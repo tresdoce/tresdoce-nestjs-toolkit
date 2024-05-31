@@ -11,7 +11,9 @@ import { ConfigService } from '@nestjs/config';
 import { getCode, getErrorMessage } from '@tresdoce-nestjs-toolkit/filters';
 import { excludePaths } from '@tresdoce-nestjs-toolkit/core';
 import { FormatService, RedactService } from '@tresdoce-nestjs-toolkit/utils';
+import { Client } from '@elastic/elasticsearch';
 import { Request, Response } from 'express';
+import { v4 as uuid } from 'uuid';
 import _ from 'lodash';
 
 import { ELK_MODULE_OPTIONS, ELK_CLIENT } from '../constants/elk.constant';
@@ -24,7 +26,7 @@ export class ElkService {
     @Inject(FormatService) private readonly formatService: FormatService,
     @Inject(RedactService) private readonly redactService: RedactService,
     @Inject(ELK_MODULE_OPTIONS) private readonly options: ElasticsearchOptions,
-    @Inject(ELK_CLIENT) private readonly elkClient,
+    @Inject(ELK_CLIENT) private readonly elkClient: Client,
   ) {}
 
   get clientRef() {
@@ -56,7 +58,8 @@ export class ElkService {
     try {
       await this.clientRef?.index({
         index: this.generateIndexDocument(_suffix),
-        body: elkDocument,
+        id: `${uuid()}`,
+        document: elkDocument,
       });
     } catch (_error) {
       /* istanbul ignore next */

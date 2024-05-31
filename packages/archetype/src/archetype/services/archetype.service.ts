@@ -10,7 +10,7 @@ import { CONFIG_OPTIONS } from '../constants/archetype.constants';
 export class ArchetypeService {
   constructor(@Inject(CONFIG_OPTIONS) private readonly configService: Typings.AppConfig) {}
 
-  async readFile(pathSegment, filename) {
+  async readFile(pathSegment: string, filename: string): Promise<any> {
     const file = path.resolve(pathSegment, filename);
     return JSON.parse(fs.readFileSync(file, 'utf8'));
   }

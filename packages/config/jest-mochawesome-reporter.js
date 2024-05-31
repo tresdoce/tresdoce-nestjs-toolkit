@@ -151,7 +151,7 @@ const createSuite = (_isRoot = false) => {
 const findTestCase = (_testCaseName, _suitTitle, _testFileContent) => {
   const ast = parser.parse(_testFileContent, {
     sourceType: 'module',
-    plugins: ['jsx', 'typescript'],
+    plugins: ['jsx', 'typescript', ['decorators', { decoratorsBeforeExport: true, legacy: true }]],
   });
   let testCaseCode = '';
   let hasDescribe = false;

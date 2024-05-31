@@ -8,6 +8,7 @@ export const initDockerCompose = (
   _services?: Array<string>,
   _composeFilePath = '.',
   _composeFile = 'docker-compose.yml',
+  _startupTimeout = 60000,
 ) => {
   return async (): Promise<StartedDockerComposeEnvironment> => {
     console.info(`🐳 Initialize docker-compose...`);
@@ -15,9 +16,9 @@ export const initDockerCompose = (
       ? console.log(`• All services from ${_composeFile}`)
       : console.log(`• Services from ${_composeFile}: ${_services.join(', ')}`);
     try {
-      environment = await new DockerComposeEnvironment(_composeFilePath, _composeFile).up(
-        _services,
-      );
+      environment = await new DockerComposeEnvironment(_composeFilePath, _composeFile)
+        .withStartupTimeout(_startupTimeout)
+        .up(_services);
       global.__TESTCONTAINERS__ = environment;
       console.info(`✨ Container(s) initialized.`);
       return environment;

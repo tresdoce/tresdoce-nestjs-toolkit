@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/qrcode",
-  "version": "0.0.2",
+  "version": "0.1.0-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo para crear códigos QR",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -36,19 +36,19 @@
     "directory": "../../dist/qrcode"
   },
   "peerDependencies": {
-    "@nestjs/common": "^10.3.0",
-    "@nestjs/core": "^10.3.0",
-    "@nestjs/platform-express": "^10.3.0",
+    "@nestjs/common": "^10.3.8",
+    "@nestjs/core": "^10.3.8",
+    "@nestjs/platform-express": "^10.3.8",
     "qrcode": "^1.5.3",
-    "reflect-metadata": "^0.2.1",
-    "rxjs": "^7.5.5"
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
   },
   "dependencies": {
     "qrcode": "^1.5.3"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.3.2",
-    "@types/tresdoce-nestjs-toolkit": "^0.2.1"
+    "@tresdoce-nestjs-toolkit/config": "^0.4.0-beta.0",
+    "@types/tresdoce-nestjs-toolkit": "^0.2.2-beta.0"
   },
   "prettier": {
     "semi": true,

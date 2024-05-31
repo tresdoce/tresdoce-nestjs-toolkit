@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/commons",
-  "version": "1.1.1",
+  "version": "1.2.0-beta.0",
   "description": "Tresdoce NestJS Toolkit - Centralización de configuraciones",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -36,26 +36,26 @@
     "directory": "../../dist/commons"
   },
   "peerDependencies": {
-    "jest-extended": "^4.0.1",
+    "jest-extended": "^4.0.2",
     "jest-junit": "^16.0.0",
-    "jest-mock-extended": "^3.0.5",
+    "jest-mock-extended": "^3.0.7",
     "jest-sonar-reporter": "^2.0.0",
     "terser-webpack-plugin": "^5.3.10",
     "webpack-merge": "^5.9.0",
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
-    "jest-extended": "^4.0.1",
+    "jest-extended": "^4.0.2",
     "jest-junit": "^16.0.0",
-    "jest-mock-extended": "^3.0.5",
+    "jest-mock-extended": "^3.0.7",
     "jest-sonar-reporter": "^2.0.0",
     "terser-webpack-plugin": "^5.3.10",
     "webpack-merge": "^5.9.0",
     "webpack-node-externals": "^3.0.0"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.3.2",
-    "@types/tresdoce-nestjs-toolkit": "^0.2.1"
+    "@tresdoce-nestjs-toolkit/config": "^0.4.0-beta.0",
+    "@types/tresdoce-nestjs-toolkit": "^0.2.2-beta.0"
   },
   "prettier": {
     "semi": true,
