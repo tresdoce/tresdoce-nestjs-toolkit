@@ -59,7 +59,6 @@ describe('CamundaModule', () => {
 
   it('should be Subscription decorator is defined with options', async () => {
     const decorator = Subscription('test-topic', { lockDuration: 500 });
-    console.log(decorator);
     expect(decorator).toBeDefined();
   });
 });

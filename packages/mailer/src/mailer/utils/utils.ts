@@ -17,6 +17,6 @@ export const getTemplatePath = (
 };
 
 export const defaultConfigMailer: TemplateAdapterConfig = {
-  inlineCssOptions: { url: ' ' },
+  inlineCssOptions: {},
   inlineCssEnabled: true,
 };

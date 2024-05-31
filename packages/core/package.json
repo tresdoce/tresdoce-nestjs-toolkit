@@ -36,14 +36,28 @@
     "directory": "../../dist/core"
   },
   "peerDependencies": {
-    "@nestjs/common": "^10.3.0",
-    "@nestjs/core": "^10.3.0",
-    "@nestjs/platform-express": "^10.3.0",
+    "@nestjs/class-transformer": "^0.4.0",
+    "@nestjs/class-validator": "^0.13.4",
+    "@nestjs/common": "^10.3.8",
+    "@nestjs/core": "^10.3.8",
+    "@nestjs/platform-express": "^10.3.8",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "cookie": "^0.6.0",
+    "cookie-signature": "^1.2.1",
+    "csrf": "^3.1.0",
     "joi": "^17.11.1",
-    "reflect-metadata": "^0.2.1",
-    "rxjs": "^7.5.5"
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
   },
   "dependencies": {
+    "@nestjs/class-transformer": "^0.4.0",
+    "@nestjs/class-validator": "^0.13.4",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "cookie": "^0.6.0",
+    "cookie-signature": "^1.2.1",
+    "csrf": "^3.1.0",
     "joi": "^17.11.1"
   },
   "devDependencies": {
@@ -60,7 +74,7 @@
   "@pika/pack": {
     "pipeline": [
       [
-        "@pika/plugin-standard-pkg",
+        "@pika/plugin-ts-standard-pkg",
         {
           "exclude": [
             "**/__test__/*",
@@ -71,16 +85,6 @@
       ],
       [
         "@pika/plugin-build-node",
-        {
-          "exclude": [
-            "**/__test__/*",
-            "**/__test__/**/*.crt",
-            "**/__test__/**/*.key"
-          ]
-        }
-      ],
-      [
-        "@pika/plugin-build-types",
         {
           "exclude": [
             "**/__test__/*",

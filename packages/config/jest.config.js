@@ -31,18 +31,20 @@ module.exports = {
         classNameTemplate: `{classname}`,
         titleTemplate: '{title}',
         ancestorSeparator: ' › ',
-        suiteNameTemplate: `${process.env.npm_package_name}`,
+        //suiteNameTemplate: `${process.env.npm_package_name}`,
+        uniqueOutputName: 'false',
+        suiteNameTemplate: '{filepath}',
         includeConsoleOutput: true,
         addFileAttribute: 'true',
       },
     ],
-    [
+    /*[
       path.join(__dirname, './jest-mochawesome-reporter.js'),
       {
         reportDir: 'test-results',
         reportFilename: 'test-report.json',
       },
-    ],
+    ],*/
   ],
   coverageThreshold: {
     global: {

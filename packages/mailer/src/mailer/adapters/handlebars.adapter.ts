@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as handlebars from 'handlebars';
-import inlineCss from 'inline-css';
+import { inline } from '@css-inline/css-inline';
 import * as glob from 'glob';
 import _ from 'lodash';
 import { HelperDeclareSpec } from 'handlebars';
@@ -86,15 +86,15 @@ export class HandlebarsAdapter implements TemplateAdapter {
     });
 
     if (this.config.inlineCssEnabled) {
-      inlineCss(rendered, this.config.inlineCssOptions)
-        .then((html) => {
-          mail.data.html = html;
-          return callback();
-        })
-        .catch(callback);
+      try {
+        mail.data.html = inline(rendered, this.config.inlineCssOptions);
+      } catch (_error) {
+        /* istanbul ignore next */
+        callback(_error);
+      }
     } else {
       mail.data.html = rendered;
-      return callback();
     }
+    return callback();
   }
 }

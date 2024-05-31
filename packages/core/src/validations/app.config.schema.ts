@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { EAppStage, ESkipHealthChecks } from '../typings';
+import { EAppStage, ESkipHealthChecks } from '../typings/index';
 
 export const validateSchema = (validationSchema: object, input: any) => {
   const result = Joi.object(validationSchema).validate(input);
@@ -36,7 +36,7 @@ export const baseValidationSchema = {
   EXPOSED_HEADERS: Joi.string().optional(),
   ALLOWED_HEADERS: Joi.string().required(),
   ALLOWED_METHODS: Joi.string().required(),
-  PROPAGATE_HEADERS: Joi.string().optional(),
+  PROPAGATE_HEADERS: Joi.string().optional().default([]),
   CORS_ENABLED: Joi.boolean().required(),
   CORS_CREDENTIALS: Joi.boolean().required(),
   SWAGGER_PATH: Joi.string().required(),
@@ -49,6 +49,23 @@ export const baseValidationSchema = {
   HEALTH_CHECK_STORAGE_THRESHOLD_PERCENT: Joi.number().optional(),
   HEALTH_CHECK_MEMORY_HEAP: Joi.number().optional(),
   HEALTH_CHECK_MEMORY_RSS: Joi.number().optional(),
+};
+
+export const validationSchemaCsrf = {
+  CSRF_SECRET: Joi.string().when('APP_STAGE', {
+    is: 'prod',
+    then: Joi.string()
+      .required()
+      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{32}$/)
+      .messages({
+        'string.empty':
+          '"CSRF_SECRET" cannot be empty. Request a valid "CSRF_SECRET" from the IT security team.',
+        'string.pattern.base': '"CSRF_SECRET" is invalid.',
+        'any.required':
+          '"CSRF_SECRET" is required. Request a valid "CSRF_SECRET" from the IT security team.',
+      }),
+    otherwise: Joi.string().optional(),
+  }),
 };
 
 export const baseValidationSchemaApp = {
