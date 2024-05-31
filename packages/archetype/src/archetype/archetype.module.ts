@@ -17,7 +17,7 @@ import { CONFIG_OPTIONS } from './constants/archetype.constants';
     ArchetypeService,
     {
       provide: CONFIG_OPTIONS,
-      useFactory: async (configService: ConfigService) =>
+      useFactory: async (configService: ConfigService): Promise<Typings.AppConfig> =>
         configService.get<Typings.AppConfig>('config'),
       inject: [ConfigService],
     },
