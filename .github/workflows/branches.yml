@@ -3,6 +3,7 @@ name: "Branches"
 on:
   push:
     branches: [ "feat/*", "fix/*", "refactor/*", "chore/*", "docs/*", "test/*", "build/*", "perf/*", "style/*", "revert/*" ]
+  workflow_dispatch:
 
 jobs:
   setup:
