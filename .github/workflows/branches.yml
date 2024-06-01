@@ -8,12 +8,12 @@ on:
   workflow_dispatch: # Permite la ejecución manual
 
 jobs:
-  common-steps:
+  commons:
     uses: ./.github/workflows/commons.yml
 
   extra-steps:
     runs-on: ubuntu-latest
-    needs: common-steps
+    needs: commons
     steps:
       - name: "🔍 Code Analysis"
         run: echo "Running additional code analysis tools..."
