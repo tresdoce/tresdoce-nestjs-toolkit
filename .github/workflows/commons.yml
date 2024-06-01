@@ -1,0 +1,95 @@
+name: "Commons CI"
+
+on: workflow_call
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ '18.20.3' ]
+    steps:
+      - name: "⚙ Set up Node.js v${{ matrix.node }}"
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: "✅ Checkout repository"
+        uses: actions/checkout@v4
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ '18.20.3' ]
+    env:
+      DO_NOT_TRACK: 1
+      TURBO_TELEMETRY_DISABLED: 1
+    needs: setup
+    steps:
+      - name: "⚙ Set up Node.js v${{ matrix.node }}"
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: "✅ Checkout repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "💾 Restore Dependencies from cache"
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: "🦉 GitGuardian scan"
+        uses: GitGuardian/ggshield-action@master
+        env:
+          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
+          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
+          GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GITHUB_DEFAULT_BRANCH: ${GITHUB_REF##*/}
+          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+
+      - name: "📦 Install Dependencies"
+        run: yarn install
+
+      - name: "💅 Lint"
+        run: yarn lint
+
+      - name: "🔨 Build"
+        run: yarn build --force && node sonar-args.js
+
+      - name: "👨‍💻 Run Test"
+        run: yarn test --force
+        env:
+          NODE_ENV: 'test'
+
+      - name: "📊 Publish Test Report"
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: "Test Report"
+          path: 'packages/**/junit.xml'
+          reporter: jest-junit
+
+      - name: "📊 Upload coverage report to Codecov"
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: "📊 SonarCloud Scan"
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          
+      #- name: "🦠 Snyk to check for vulnerabilities"
+      #  uses: snyk/actions/node@master
+      #  env:
+      #    SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
