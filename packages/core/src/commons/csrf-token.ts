@@ -8,11 +8,11 @@ import { CookieOptions, Request, Response, NextFunction } from 'express';
  */
 export interface CsrfCookieOptions extends CookieOptions {
   /** Clave para la cookie CSRF. Usada como nombre de la cookie en la respuesta y la solicitud. */
-  key?: string | undefined;
+  key?: string;
   /** Nombre de la cookie CSRF. */
-  cookieName?: string | undefined;
+  cookieName?: string;
   /** Frase secreta para firmar la cookie CSRF. */
-  secret?: string | undefined;
+  secret?: string;
 }
 
 /**
@@ -20,7 +20,7 @@ export interface CsrfCookieOptions extends CookieOptions {
  */
 export interface ICsrfRequest extends Request {
   /** Configuración de la cookie CSRF. */
-  cookieConfig?: CsrfCookieOptions | undefined;
+  cookieConfig?: CsrfCookieOptions;
   /** Función para obtener el token CSRF. */
   csrfToken?: () => string;
 }
