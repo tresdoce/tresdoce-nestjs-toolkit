@@ -133,7 +133,7 @@ export const FilteringParams = createParamDecorator(
     const filters = parseFilters(filterParam);
 
     return filters.map((filter) => {
-      const formatMatch = filter.match(formatRegex);
+      const formatMatch = formatRegex.exec(filter);
       if (!formatMatch) {
         throw new BadRequestException(
           `Invalid filter format, expected 'property:rule[:value]: ${filter}`,
@@ -145,16 +145,23 @@ export const FilteringParams = createParamDecorator(
         throw new BadRequestException(`Invalid filter property: ${property}`);
       }
       /* istanbul ignore next */
-      if (!Object.values(FilterRule).includes(rule as FilterRule) && !rule.match(ruleRegex)) {
+      if (!Object.values(FilterRule).includes(rule as FilterRule) && !ruleRegex.exec(rule)) {
         /* istanbul ignore next */
         throw new BadRequestException(`Invalid filter rule: ${rule}`);
       }
 
-      const values = valueString
-        ? rule === FilterRule.IN || rule === FilterRule.NOT_IN
-          ? valueString.split(',').map((value) => convertFilterValue(rule as FilterRule, value))
-          : [convertFilterValue(rule as FilterRule, valueString)]
-        : [];
+      let values: any[] = [];
+
+      if (valueString) {
+        if (rule === FilterRule.IN || rule === FilterRule.NOT_IN) {
+          values = valueString
+            .split(',')
+            .map((value) => convertFilterValue(rule as FilterRule, value));
+        } else {
+          values = [convertFilterValue(rule as FilterRule, valueString)];
+        }
+      }
+
       return { property, rule: rule as FilterRule, values: values.filter((v) => v !== undefined) };
     });
   },
