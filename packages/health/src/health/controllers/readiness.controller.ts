@@ -10,7 +10,7 @@ import {
   MemoryHealthIndicator,
   DiskHealthIndicator,
 } from '@nestjs/terminus';
-import { ApiExcludeEndpoint } from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Transport } from '@nestjs/microservices';
 import { SkipTrace } from '@tresdoce-nestjs-toolkit/tracing';
 import { Typings } from '@tresdoce-nestjs-toolkit/core';
@@ -32,7 +32,14 @@ export class ReadinessController {
   ) {}
 
   @Get('readiness')
+  @ApiTags('Monitoring')
   @ApiExcludeEndpoint()
+  @ApiOperation({
+    summary: 'Readiness check',
+    description:
+      'This endpoint returns the readiness status of the service. It is used to check if the service is ready to accept traffic.',
+    operationId: 'checkReadiness',
+  })
   @HealthCheck()
   @SkipTrace()
   async check(): Promise<HealthCheckResult> {
