@@ -36,15 +36,15 @@
     "directory": "../../dist/elk"
   },
   "peerDependencies": {
-    "@elastic/elasticsearch": "^8.13.1",
-    "@nestjs/common": "^10.3.8",
-    "@nestjs/core": "^10.3.8",
-    "@nestjs/platform-express": "^10.3.8",
+    "@elastic/elasticsearch": "^8.14.0",
+    "@nestjs/common": "^10.3.10",
+    "@nestjs/core": "^10.3.10",
+    "@nestjs/platform-express": "^10.3.10",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
   "dependencies": {
-    "@elastic/elasticsearch": "^8.13.1",
+    "@elastic/elasticsearch": "^8.14.0",
     "@tresdoce-nestjs-toolkit/utils": "^1.2.0-beta.3"
   },
   "devDependencies": {
