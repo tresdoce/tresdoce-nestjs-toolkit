@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { ApiExcludeEndpoint, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SkipTrace } from '@tresdoce-nestjs-toolkit/tracing';
 
 import { LivenessResponse } from '../entities/liveness.entity';
