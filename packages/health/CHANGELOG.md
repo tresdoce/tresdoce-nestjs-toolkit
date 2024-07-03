@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@1.0.4...@tresdoce-nestjs-toolkit/health@1.1.0) (2024-07-03)
+
+### ✨ Features
+
+- **core:** add params decorator to pagination, sorting and filter ([ef418e1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/ef418e12882fe36e276ab28d342e1991d3c3eab6))
+- **health:** expose liveness path ([1559b5f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/1559b5f268cedce98b0331be8af30be2fa915559))
+
+### 👨‍💻 Chores
+
+- add type yo archetype ([7f0b3d1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/7f0b3d100fefab67f8aa0ccaa90621295dc3655e))
+- change node to v18.20.3 ([4368ba4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/4368ba4f140903cd15a6a6ff83879233bf54815b))
+- update dependencies ([f8055ac](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/f8055ac49ad5f1108f79ce792ba6c952f8584f11))
+- update dependencies and documentation ([9e0435d](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/9e0435dbb95c82a2b5727d8c82ce885b3a6441aa))
+
+### 📝 Docs
+
+- update badges versions ([17a42ac](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/17a42acc41c67afe3f7b75fba82a2c4a0cb4ce94))
+
 ## [1.0.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@1.0.3...@tresdoce-nestjs-toolkit/health@1.0.4) (2024-01-16)
 
 ### 👨‍💻 Chores

@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@1.2.1...@tresdoce-nestjs-toolkit/core@1.3.0) (2024-07-03)
+
+### ✨ Features
+
+- **core:** add params decorator to pagination, sorting and filter ([ef418e1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/ef418e12882fe36e276ab28d342e1991d3c3eab6))
+- **utils:** add bcrypt module ([7e7b668](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/7e7b668eccdc9b536fec435fd915df0dd8608b07))
+
+### 🐛 Bug Fixes
+
+- resolve problems markend in sonar ([4e19e03](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/4e19e03d2024deff7a28324bf569d8235f991e70))
+
+### 👨‍💻 Chores
+
+- add type yo archetype ([7f0b3d1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/7f0b3d100fefab67f8aa0ccaa90621295dc3655e))
+- change node to v18.20.3 ([4368ba4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/4368ba4f140903cd15a6a6ff83879233bf54815b))
+- changes ([3860341](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/38603417417425c1ee0059dc3b407192a0cbed93))
+- **core:** change default size in pagination decorator param ([14b355c](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/14b355ca9903d36dd5902feb929117b21bdc8d78))
+- **core:** remove comments ([cbeacee](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/cbeaceed5d645592b73e7b87c3b2560c6e736e3c))
+- **core:** resolve issues in sonarqube ([8f01926](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/8f019262b14a113993ef69ae37c5cce46df3c431))
+- **core:** resolve issues in sonarqube ([9b5c214](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/9b5c214bedfb645441f599ec9863082105ecc3ef))
+- **core:** resolve issues in sonarqube ([83a2cda](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/83a2cda6ade8796b5e14cf00b3c1a72f9be8d18d))
+- update dependencies ([f8055ac](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/f8055ac49ad5f1108f79ce792ba6c952f8584f11))
+- update dependencies and documentation ([9e0435d](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/9e0435dbb95c82a2b5727d8c82ce885b3a6441aa))
+
+### 📝 Docs
+
+- update badges versions ([17a42ac](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/17a42acc41c67afe3f7b75fba82a2c4a0cb4ce94))
+
 ## [1.2.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@1.2.0...@tresdoce-nestjs-toolkit/core@1.2.1) (2024-01-16)
 
 ### 👨‍💻 Chores

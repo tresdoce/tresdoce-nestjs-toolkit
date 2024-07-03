@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/config@0.3.2...@tresdoce-nestjs-toolkit/config@0.4.0) (2024-07-03)
+
+### ✨ Features
+
+- **core:** add params decorator to pagination, sorting and filter ([ef418e1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/ef418e12882fe36e276ab28d342e1991d3c3eab6))
+
+### 👨‍💻 Chores
+
+- add type yo archetype ([7f0b3d1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/7f0b3d100fefab67f8aa0ccaa90621295dc3655e))
+- changes ([3860341](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/38603417417425c1ee0059dc3b407192a0cbed93))
+- edit test reports ([cb54e3f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/cb54e3f779ce133ae3b2295abe5bd0bd01a411c5))
+
 ## [0.3.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/config@0.3.1...@tresdoce-nestjs-toolkit/config@0.3.2) (2023-08-16)
 
 ### 👨‍💻 Chores
