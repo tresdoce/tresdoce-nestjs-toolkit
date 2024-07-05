@@ -54,16 +54,102 @@ yarn add @tresdoce-nestjs-toolkit/snowflake-uid
 
 ## ⚙️ Configuración
 
-```typescript
+Agregar la configuración del generador de Snowflake en `configuration.ts` utilizando el key `snowflakeUID` y que contenga el
+objeto con los datos necesarios desde las variables de entorno.
 
+```typescript
+//./src/config/configuration.ts
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import { registerAs } from '@nestjs/config';
+
+export default registerAs('config', (): Typings.AppConfig => {
+  return {
+    //...
+    snowflakeUID: {
+      epoch: BigInt(process.env.SNOWFLAKE_EPOCH) || 1577836800000n,
+      workerId: parseInt(process.env.SNOWFLAKE_WORKER_ID, 10) || 1,
+      processId: parseInt(process.env.SNOWFLAKE_PROCESS_ID, 10) || 1,
+      toString: process.env.SNOWFLAKE_TO_STRING.toLowerCase() === 'true',
+    },
+    //...
+  };
+});
 ```
+
+<details>
+<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+
+`epoch`: Es el tiempo de inicio en milisegundos desde el cual se generarán los IDs.
+
+- Type: `BigInt`
+- Required: `false`
+
+`workerId`: Es el ID del worker que generará los IDs.
+
+- Type: `Number`
+- Required: `false`
+- Default: `1`
+
+`processId`: Es el ID del proceso que generará los IDs.
+
+- Type: `Number`
+- Required: `false`
+- Default: `1`
+
+`toString`: Indica si el ID generado debe ser convertido a string.
+
+- Type: `Boolean`
+- Required: `false`
+- Default: `false`
+
+</details>
 
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-```typescript
+Importar el SnowflakeModule en el archivo `app.module.ts`, y el módulo se encargará de obtener la configuración y realizar
+la conexión automáticamente.
 
+```typescript
+//./src/app.module.ts
+import { SnowflakeModule } from '@tresdoce-nestjs-toolkit/snowflake-uid';
+
+@Module({
+  //...
+  imports: [
+    //...
+    SnowflakeModule,
+    //...
+  ],
+  //...
+})
+export class AppModule {}
+```
+
+Luego inyecte el `SnowflakeService` en su clase para poder generar y validar IDs de Snowflake.
+
+```typescript
+import { Injectable } from '@nestjs/common';
+import { SnowflakeService } from '@tresdoce-nestjs-toolkit/snowflake-uid';
+
+@Injectable()
+export class MyService {
+  constructor(private readonly snowflakeService: SnowflakeService) {}
+
+  generateId() {
+    return this.snowflakeService.generate();
+  }
+
+  validateId(id: string | bigint) {
+    return this.snowflakeService.isSnowflake(id);
+  }
+
+  parseId(id: string) {
+    return this.snowflakeService.parse(id);
+  }
+  //...
+}
 ```
 
 ## 📄 Changelog
