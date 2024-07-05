@@ -23,20 +23,18 @@ export class SnowflakeService {
   constructor(@Inject(SNOWFLAKE_MODULE_OPTIONS) private readonly options: SnowFlakeOptions) {
     const { epoch, workerId, processId, toString } = this.options;
 
-    const currentTimestamp: bigint = BigInt(Date.now());
-
-    if (workerId! < 0 || workerId! > MAX_WORKER_ID) {
+    if (workerId === undefined || workerId < 0 || workerId > MAX_WORKER_ID) {
       throw new Error(`Worker ID must be between 0 and ${MAX_WORKER_ID}`);
     }
 
-    if (processId! < 0 || processId! > MAX_PROCESS_ID) {
-      throw new Error(`Process ID must be between 0 y ${MAX_PROCESS_ID}`);
+    if (processId === undefined || processId < 0 || processId > MAX_PROCESS_ID) {
+      throw new Error(`Process ID must be between 0 and ${MAX_PROCESS_ID}`);
     }
 
     this.EPOCH = epoch;
-    this.workerId = workerId!;
-    this.processId = processId!;
-    this.toString = toString!;
+    this.workerId = workerId;
+    this.processId = processId;
+    this.toString = toString;
   }
 
   generate(date: Date = new Date()): string | bigint {
@@ -61,7 +59,7 @@ export class SnowflakeService {
 
     SnowflakeService.lastTimestamp = timestamp;
 
-    const timestampOffset: bigint = BigInt(timestamp) - this.EPOCH;
+    const timestampOffset: bigint = timestamp - this.EPOCH;
     const id: bigint =
       (timestampOffset << 22n) |
       (BigInt(this.workerId) << 17n) |
@@ -74,34 +72,28 @@ export class SnowflakeService {
   isSnowflake(id: string | bigint): id is Snowflake {
     try {
       const idBigInt = BigInt(id.toString());
-      const binaryId = idBigInt.toString(2).padStart(64, '0');
 
-      const timestampBits = binaryId.slice(0, 42);
-      const timestamp = BigInt('0b' + timestampBits) + this.EPOCH;
+      const timestamp = (idBigInt >> 22n) + this.EPOCH;
       if (timestamp <= this.EPOCH || timestamp > BigInt(Date.now())) {
         return false;
       }
 
-      const workerIdBits = binaryId.slice(42, 47);
-      const workerId = parseInt(workerIdBits, 2);
+      const workerId = Number((idBigInt >> 17n) & 0x1fn);
+      /* istanbul ignore next */
       if (workerId < 0 || workerId > MAX_WORKER_ID) {
         return false;
       }
 
-      const processIdBits = binaryId.slice(47, 52);
-      const processId = parseInt(processIdBits, 2);
+      const processId = Number((idBigInt >> 12n) & 0x1fn);
+      /* istanbul ignore next */
       if (processId < 0 || processId > MAX_PROCESS_ID) {
         return false;
       }
 
-      const sequenceBits = binaryId.slice(52);
-      const sequence = parseInt(sequenceBits, 2);
-      if (sequence < 0 || sequence > SEQUENCE_MASK) {
-        return false;
-      }
-
-      return true;
+      const sequence = Number(idBigInt & BigInt(SEQUENCE_MASK));
+      return sequence >= 0 && sequence <= SEQUENCE_MASK;
     } catch {
+      /* istanbul ignore next */
       return false;
     }
   }
@@ -119,6 +111,7 @@ export class SnowflakeService {
   private waitUntilNextMillis(lastTimestamp: bigint): bigint {
     let timestamp: bigint = BigInt(Date.now());
     while (timestamp <= lastTimestamp) {
+      /* istanbul ignore next */
       timestamp = BigInt(Date.now());
     }
     return timestamp;
