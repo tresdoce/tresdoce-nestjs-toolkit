@@ -98,7 +98,7 @@ export class SnowflakeService {
     }
   }
 
-  parse(snowflake: Snowflake): SnowflakeParseResult {
+  parse(snowflake: string | bigint): SnowflakeParseResult {
     const id = BigInt(snowflake);
     const timestamp: number = Number((id >> 22n) + this.EPOCH);
     const workerId: number = Number((id & 0x3e0000n) >> 17n);
