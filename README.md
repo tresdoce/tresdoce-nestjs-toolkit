@@ -1,5 +1,5 @@
 <div align="center">
-    <img alt="nestjs-logo" width="250" height="auto" src="https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/master/.readme-static/logo-nestjs.svg" />
+    <img alt="nestjs-logo" width="150" height="auto" src="https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/master/.readme-static/iso-nestjs.svg" />
     <h1>Tresdoce NestJS Toolkit</h1>
 </div>
 
