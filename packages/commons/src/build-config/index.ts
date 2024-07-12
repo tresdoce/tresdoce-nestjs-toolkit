@@ -34,7 +34,7 @@ const devConfig = {
 
 const prodConfig = {
   mode: 'production',
-  devtool: 'hidden-source-map',
+  devtool: false,
   optimization: {
     minimize: true,
     nodeEnv: 'production',
