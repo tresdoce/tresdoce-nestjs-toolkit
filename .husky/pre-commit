@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-. "$(dirname "$0")/h"
-
-yarn test
-yarn lint
-yarn format
-git add .
