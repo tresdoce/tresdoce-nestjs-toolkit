@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@1.3.0...@tresdoce-nestjs-toolkit/core@1.4.0) (2024-07-22)
+
+### ✨ Features
+
+- **snowflake:** add new module to generate snowflake id ([a1419de](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a1419ded4a7b5dc7bed2e764515b128fb8385983))
+
+### 👨‍💻 Chores
+
+- edit to changes ([69a03c1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/69a03c1a60b6cd41ff76a051d5762f6ba43e3eef))
+- update dependencies ([5b05a58](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/5b05a5835961c6f9111a861f94f34f80d57c330a))
+
+### 📝 Docs
+
+- **core:** add documentation of csrf token ([53a71fe](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/53a71fecea96fb21e59d174be7e918c905276daa))
+- **readmes:** edit isologo nestjs of documentation ([2a3c2b9](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/2a3c2b96785eeda0f9ecd20847cd334cb51ba428))
+
 ## [1.3.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@1.2.1...@tresdoce-nestjs-toolkit/core@1.3.0) (2024-07-03)
 
 ### ✨ Features

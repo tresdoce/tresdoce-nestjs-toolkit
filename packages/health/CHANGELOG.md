@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@1.1.0...@tresdoce-nestjs-toolkit/health@1.1.1) (2024-07-22)
+
+### 👨‍💻 Chores
+
+- edit to changes ([69a03c1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/69a03c1a60b6cd41ff76a051d5762f6ba43e3eef))
+- update dependencies ([5b05a58](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/5b05a5835961c6f9111a861f94f34f80d57c330a))
+
+### 📝 Docs
+
+- **readmes:** edit isologo nestjs of documentation ([2a3c2b9](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/2a3c2b96785eeda0f9ecd20847cd334cb51ba428))
+
 ## [1.1.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@1.0.4...@tresdoce-nestjs-toolkit/health@1.1.0) (2024-07-03)
 
 ### ✨ Features
