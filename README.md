@@ -1,11 +1,11 @@
 <div align="center">
-    <img alt="nestjs-logo" width="250" height="auto" src="https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/master/.readme-static/logo-nestjs.svg" />
+    <img alt="nestjs-logo" width="150" height="auto" src="https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/master/.readme-static/iso-nestjs.svg" />
     <h1>Tresdoce NestJS Toolkit</h1>
 </div>
 
 <div align="center">
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v18.20.3&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="Node.js"/>
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v10.8.1&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="Npm"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v10.8.2&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="Npm"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v10.3.10&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/>
     <img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg" alt="lerna">
     <a href="./license.md">
@@ -51,7 +51,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [NestJS Starter](https://github.com/rudemex/nestjs-starter)
 - Node.js v18.20.3 or higher ([Download](https://nodejs.org/es/download/))
 - YARN v1.22.22 or higher
-- NPM v10.8.1 or higher
+- NPM v10.8.2 or higher
 - NestJS v10.3.10 or higher ([Documentación](https://nestjs.com/))
 - Lerna
 
@@ -114,6 +114,7 @@ el [NestJS Starter](https://github.com/rudemex/nestjs-starter), siguiendo los li
 | [`@tresdoce-nestjs-toolkit/qrcode`](./packages/qrcode)                   | Módulo para crear códigos QR                      | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/qrcode.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/qrcode)                   | [Changelog](./packages/qrcode/CHANGELOG.md)          |
 | [`@tresdoce-nestjs-toolkit/redis`](./packages/redis)                     | Módulo de Redis para cache                        | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/redis.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/redis)                     | [Changelog](./packages/redis/CHANGELOG.md)           |
 | [`@tresdoce-nestjs-toolkit/response-parser`](./packages/response-parser) | Interceptor de formateo de respuesta              | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/response-parser.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/response-parser) | [Changelog](./packages/response-parser/CHANGELOG.md) |
+| [`@tresdoce-nestjs-toolkit/snowflake-uid`](./packages/snowflake-uid)     | Módulo de SnowFlake ID                            | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/snowflake-uid.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/snowflake-uid)     | [Changelog](./packages/snowflake-uid/CHANGELOG.md)   |
 | [`@tresdoce-nestjs-toolkit/test-utils`](./packages/test-utils)           | Utilities para testing                            | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/test-utils.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/test-utils)           | [Changelog](./packages/test-utils/CHANGELOG.md)      |
 | [`@tresdoce-nestjs-toolkit/tracing`](./packages/tracing)                 | Módulo de traza con OpenTelemetry                 | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/tracing.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/tracing)                 | [Changelog](./packages/tracing/CHANGELOG.md)         |
 | [`@tresdoce-nestjs-toolkit/typeorm`](./packages/typeorm)                 | Módulo de ORM para base de datos                  | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/typeorm.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/typeorm)                 | [Changelog](./packages/typeorm/CHANGELOG.md)         |

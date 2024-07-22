@@ -37,6 +37,6 @@ module.exports = () => {
         : [],
       nodeEnv: isBuildMode ? 'production' : false,
     },
-    devtool: isBuildMode ? 'hidden-source-map' : 'source-map',
+    devtool: isBuildMode ? false : 'source-map',
   };
 };

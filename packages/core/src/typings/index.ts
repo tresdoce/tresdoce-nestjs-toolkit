@@ -6,6 +6,7 @@ import { CamundaOptions } from '@tresdoce-nestjs-toolkit/camunda';
 import { ElasticsearchOptions } from '@tresdoce-nestjs-toolkit/elk';
 import { HttpModuleOptions } from '@tresdoce-nestjs-toolkit/http-client';
 import { RedactOptions, BcryptOptions } from '@tresdoce-nestjs-toolkit/utils';
+import { SnowFlakeOptions } from '@tresdoce-nestjs-toolkit/snowflake-uid';
 import { DiskHealthIndicatorOptions } from '@nestjs/terminus';
 import { AxiosRequestConfig } from 'axios';
 import { CsrfCookieOptions } from '../commons/index';
@@ -135,5 +136,6 @@ export interface AppConfig {
   tracing?: TracingOptions;
   redact?: RedactOptions;
   bcrypt?: BcryptOptions;
+  snowflakeUID?: SnowFlakeOptions;
   [key: string]: any;
 }
