@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/camunda",
-  "version": "1.1.1-beta.4",
+  "version": "1.1.1",
   "description": "Tresdoce NestJS Toolkit - Módulo de procesos BPMN con Camunda",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",

@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@2.1.0...@tresdoce-nestjs-toolkit/test-utils@2.1.1) (2024-07-22)
+
+### 👨‍💻 Chores
+
+- edit to changes ([69a03c1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/69a03c1a60b6cd41ff76a051d5762f6ba43e3eef))
+- update dependencies ([5b05a58](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/5b05a5835961c6f9111a861f94f34f80d57c330a))
+- update dependencies ([19ee9c5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/19ee9c55f69981d96c39bcf2945a2d8f31970000))
+- update dependencies ([0745dfa](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/0745dfa42d868d3616505e431d9b00c3e10d7bbb))
+
+### 📝 Docs
+
+- **readmes:** edit isologo nestjs of documentation ([2a3c2b9](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/2a3c2b96785eeda0f9ecd20847cd334cb51ba428))
+
 ## [2.1.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@2.0.1...@tresdoce-nestjs-toolkit/test-utils@2.1.0) (2024-07-03)
 
 ### ✨ Features
