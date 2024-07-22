@@ -29,7 +29,7 @@
     "version:prerelease": "lerna version --conventional-commits --no-changelog --conventional-prerelease --no-git-tag-version --preid=beta --yes",
     "version:release": "lerna version --conventional-commits --force-git-tag --create-release github --conventional-graduate --yes",
     "publish:pkgs": "lerna publish from-package --no-verify-access --yes",
-    "postinstall": "husky init && lerna bootstrap",
+    "postinstall": "husky && lerna bootstrap",
     "bs": "lerna bootstrap",
     "hoist-deps": "lerna clean -y && lerna bootstrap",
     "plop": "plop",
