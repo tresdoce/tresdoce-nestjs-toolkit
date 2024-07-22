@@ -38,8 +38,7 @@
     "report": "yarn mochawesome:merge",
     "postreport": "yarn mochawesome:report-generator",
     "mochawesome:merge": "npx mochawesome-merge -f ./packages/*/test-results/*.json > mochawesome.json",
-    "mochawesome:report-generator": "npx marge -f index -t \"Tresdoce NestJS Toolkit\" -p \"Tresdoce NestJS Toolkit - Test Reports\" --saveJson --overwrite --charts --assetsDir ./mochawesome-report/assets mochawesome.json",
-    "prepare": "husky"
+    "mochawesome:report-generator": "npx marge -f index -t \"Tresdoce NestJS Toolkit\" -p \"Tresdoce NestJS Toolkit - Test Reports\" --saveJson --overwrite --charts --assetsDir ./mochawesome-report/assets mochawesome.json"
   },
   "workspaces": [
     "packages/*"
@@ -143,7 +142,7 @@
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "husky": "^9.1.1",
+    "husky": "^9.0.11",
     "jest": "^29.7.0",
     "jest-extended": "^4.0.2",
     "jest-junit": "^16.0.0",
