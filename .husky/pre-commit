@@ -1,1 +1,4 @@
-yarn
+yarn test
+yarn lint
+yarn format
+git add .
