@@ -29,7 +29,7 @@
     "version:prerelease": "lerna version --conventional-commits --no-changelog --conventional-prerelease --no-git-tag-version --preid=beta --yes",
     "version:release": "lerna version --conventional-commits --force-git-tag --create-release github --conventional-graduate --yes",
     "publish:pkgs": "lerna publish from-package --no-verify-access --yes",
-    "postinstall": "husky install && lerna bootstrap",
+    "postinstall": "husky init && lerna bootstrap",
     "bs": "lerna bootstrap",
     "hoist-deps": "lerna clean -y && lerna bootstrap",
     "plop": "plop",
@@ -38,7 +38,8 @@
     "report": "yarn mochawesome:merge",
     "postreport": "yarn mochawesome:report-generator",
     "mochawesome:merge": "npx mochawesome-merge -f ./packages/*/test-results/*.json > mochawesome.json",
-    "mochawesome:report-generator": "npx marge -f index -t \"Tresdoce NestJS Toolkit\" -p \"Tresdoce NestJS Toolkit - Test Reports\" --saveJson --overwrite --charts --assetsDir ./mochawesome-report/assets mochawesome.json"
+    "mochawesome:report-generator": "npx marge -f index -t \"Tresdoce NestJS Toolkit\" -p \"Tresdoce NestJS Toolkit - Test Reports\" --saveJson --overwrite --charts --assetsDir ./mochawesome-report/assets mochawesome.json",
+    "prepare": "husky"
   },
   "workspaces": [
     "packages/*"

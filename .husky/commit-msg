@@ -1,4 +1,1 @@
-#!/bin/sh
-. "$(dirname "$0")/h"
-
 npx --no-install commitlint --edit ""
