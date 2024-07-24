@@ -49,7 +49,7 @@ export class HttpClientService {
       .filter((key) => this.propagateHeadersList.includes(key))
       .reduce((obj, key) => ({ ...obj, [key]: headers[key] }), {});
     this.ip = ip;
-    this.headers = _.merge(this.headers, propagateHeaders);
+    this.headers = _.merge({}, defaultConfigInstanceAxios.headers, propagateHeaders);
   }
 
   // Methods
@@ -65,7 +65,7 @@ export class HttpClientService {
   ): Promise<AxiosResponse<T>> => {
     try {
       config = _.omit(config, ['url']);
-      config.headers = _.merge(this.headers, config.headers);
+      config.headers = _.merge({}, this.headers, config.headers);
       return await this.axiosRef.request({
         url: encodeURI(url),
         ...config,
