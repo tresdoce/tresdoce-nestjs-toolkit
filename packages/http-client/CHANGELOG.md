@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@1.2.1...@tresdoce-nestjs-toolkit/http-client@1.2.2) (2024-07-24)
+
+### 🐛 Bug Fixes
+
+- **http-client:** cache problem in the propagation of headers in the request is solved ([fb2e133](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/fb2e133eb6629cca831ca3d8a8a6dbb764f2ef4a))
+
 ## [1.2.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@1.2.0...@tresdoce-nestjs-toolkit/http-client@1.2.1) (2024-07-22)
 
 ### 👨‍💻 Chores
