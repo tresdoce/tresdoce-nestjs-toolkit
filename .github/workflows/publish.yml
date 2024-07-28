@@ -27,7 +27,6 @@ jobs:
       DO_NOT_TRACK: 1
       TURBO_TELEMETRY_DISABLED: 1
     name: "Publish"
-    needs: setup
     steps:
       - name: "⚙ Set up Node.js v${{ matrix.node }}"
         uses: actions/setup-node@v4

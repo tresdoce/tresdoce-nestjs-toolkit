@@ -13,7 +13,6 @@ jobs:
     env:
       DO_NOT_TRACK: 1
       TURBO_TELEMETRY_DISABLED: 1
-    needs: setup
     name: "Build"
     steps:
       - name: "⚙ Set up Node.js v${{ matrix.node }}"
