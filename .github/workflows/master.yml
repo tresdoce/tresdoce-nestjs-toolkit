@@ -7,33 +7,17 @@ on:
     branches: [ master ]
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [ '18.20.3' ]
-    name: "Setup"
-    steps:
-      - name: "⚙ Set up Node.js v${{ matrix.node }}"
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: "✅ Checkout repository"
-        uses: actions/checkout@v4
-
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ '18.20.3' ]
+        node: [ '18.20.4', '20.16.0', '22.5.1' ]
     env:
       DO_NOT_TRACK: 1
       TURBO_TELEMETRY_DISABLED: 1
-    needs: setup
     name: "Build"
     steps:
-      - name: "⚙ Set up Node.js v${{ matrix.node }}"
+      - name: "⚙ Set up NodeJS v${{ matrix.node }}"
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
@@ -80,7 +64,7 @@ jobs:
         uses: dorny/test-reporter@v1
         if: success() || failure()
         with:
-          name: "Test Report"
+          name: "Test Report (${{ matrix.node }})"
           path: 'packages/**/junit.xml'
           reporter: jest-junit
 
