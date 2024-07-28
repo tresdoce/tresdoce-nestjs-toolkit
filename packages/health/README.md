@@ -4,7 +4,7 @@
 </div>
 
 <div align="center">
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v18.20.3&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="Node.js"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v18.20.4&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="Node.js"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v10.8.2&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="Npm"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v10.3.10&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/><br/>
     <img src="https://img.shields.io/github/license/tresdoce/tresdoce-nestjs-toolkit?style=flat" alt="GitHub license" >
@@ -35,7 +35,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 ## 📝 Requerimientos básicos
 
 - [NestJS Starter](https://github.com/rudemex/nestjs-starter)
-- Node.js v18.20.3 or higher ([Download](https://nodejs.org/es/download/))
+- Node.js v18.20.4 or higher ([Download](https://nodejs.org/es/download/))
 - YARN v1.22.22 or higher
 - NPM v10.8.2 or higher
 - NestJS v10.3.10 or higher ([Documentación](https://nestjs.com/))
