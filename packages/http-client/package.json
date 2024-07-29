@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/http-client",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Tresdoce NestJS Toolkit - Módulo http request con axios y axios-retry",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",

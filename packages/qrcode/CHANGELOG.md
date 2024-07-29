@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/qrcode@0.1.1...@tresdoce-nestjs-toolkit/qrcode@0.1.2) (2024-07-29)
+
+### 👨‍💻 Chores
+
+- this project is compatible with node 18, 20 and 22 ([dcdeb1b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/dcdeb1bdcf108d1d1f84758d38a1608278cc0da2))
+
 ## [0.1.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/qrcode@0.1.0...@tresdoce-nestjs-toolkit/qrcode@0.1.1) (2024-07-22)
 
 ### 👨‍💻 Chores
