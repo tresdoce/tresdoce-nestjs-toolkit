@@ -1,0 +1,80 @@
+{
+  "name": "@tresdoce-nestjs-toolkit/authorizer",
+  "version": "0.0.0",
+  "description": "Tresdoce NestJS Toolkit - Módulo con SDK para usar la API de Authorizer",
+  "author": {
+    "name": "Maximiliano \"Mex\" Delgado",
+    "email": "mdelgado@tresdoce.com.ar",
+    "url": "https://rudemex.github.io/"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "keywords": [
+    "nestjs",
+    "authorizer"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tresdoce/tresdoce-nestjs-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tresdoce/tresdoce-nestjs-toolkit/issues"
+  },
+  "homepage": "https://github.com/tresdoce/tresdoce-nestjs-toolkit#readme",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf ../../dist/authorizer",
+    "build": "pika build --out ../../dist/authorizer",
+    "test": "jest --runInBand --coverage --forceExit",
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "../../dist/authorizer"
+  },
+  "peerDependencies": {
+    "@authorizerdev/authorizer-js": "^2.0.3",
+    "@nestjs/common": "^10.3.10",
+    "@nestjs/core": "^10.3.10",
+    "@nestjs/platform-express": "^10.3.10",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
+  },
+  "dependencies": {
+    "@authorizerdev/authorizer-js": "^2.0.3"
+  },
+  "devDependencies": {
+    "@tresdoce-nestjs-toolkit/config": "^0.4.0",
+    "@types/tresdoce-nestjs-toolkit": "^0.2.2"
+  },
+  "prettier": {
+    "semi": true,
+    "tabWidth": 2,
+    "singleQuote": true,
+    "printWidth": 100,
+    "trailingComma": "all"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-ts-standard-pkg",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-node",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ]
+    ]
+  }
+}
