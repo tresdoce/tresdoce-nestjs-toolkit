@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { GreetingModule } from '../greeting/greeting.module';
+import { AuthorizerModule } from '../authorizer/authorizer.module';
 
-describe('GreetingModule', () => {
+describe('AuthorizerModule', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [GreetingModule],
+      imports: [AuthorizerModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
