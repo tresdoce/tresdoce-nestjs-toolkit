@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/dynamoose@1.1.2...@tresdoce-nestjs-toolkit/dynamoose@1.1.3) (2024-07-30)
+
+### 🐛 Bug Fixes
+
+- **dynamoose:** remove increment minor version to fix vulnerability ([2057a05](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/2057a05ddd82c750cf44f6e596474b7ba33a7fea))
+- **dynamoose:** resolve problem with type of ddb ([c998608](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c998608190e984cc48ea8aa86aa58254654423f9))
+
 ## [1.1.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/dynamoose@1.1.1...@tresdoce-nestjs-toolkit/dynamoose@1.1.2) (2024-07-29)
 
 ### 👨‍💻 Chores
