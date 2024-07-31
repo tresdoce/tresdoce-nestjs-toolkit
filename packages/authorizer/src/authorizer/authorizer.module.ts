@@ -35,12 +35,8 @@ export class AuthorizerModule {
       global: true,
       module: AuthorizerModule,
       providers: [
-        AuthorizerProvider(),
-        AuthorizerService,
-        {
-          provide: AUTHORIZER_MODULE_OPTIONS,
-          useValue: options
-        }
+        ...this.commonProviders(),
+        this.getOptionsProvider(options),
       ],
       exports:[AUTHORIZER_CLIENT, AuthorizerService]
     };
@@ -52,8 +48,7 @@ export class AuthorizerModule {
       module: AuthorizerModule,
       imports: [...(options.imports || [])],
       providers: [
-        AuthorizerProvider(),
-        AuthorizerService,
+        ...this.commonProviders(),
         ...this.createAsyncProviders(options),
         ...(options.extraProviders || []),
       ],
@@ -66,12 +61,8 @@ export class AuthorizerModule {
       global: true,
       module: AuthorizerModule,
       providers: [
-        AuthorizerProvider(),
-        AuthorizerService,
-        {
-          provide: AUTHORIZER_MODULE_OPTIONS,
-          useValue: options
-        }
+        ...this.commonProviders(),
+        this.getOptionsProvider(options)
       ],
       exports:[AUTHORIZER_CLIENT, AuthorizerService]
     };
@@ -83,12 +74,25 @@ export class AuthorizerModule {
       module: AuthorizerModule,
       imports: [...(options.imports || [])],
       providers: [
-        AuthorizerProvider(),
-        AuthorizerService,
+        ...this.commonProviders(),
         ...this.createAsyncProviders(options),
         ...(options.extraProviders || []),
       ],
       exports:[AUTHORIZER_CLIENT, AuthorizerService]
+    }
+  }
+
+  private static commonProviders(): Provider[]{
+    return [
+      AuthorizerProvider(),
+      AuthorizerService,
+    ]
+  }
+
+  private static getOptionsProvider(options: AuthorizerModuleOptions): Provider {
+    return {
+      provide: AUTHORIZER_MODULE_OPTIONS,
+      useValue: options
     }
   }
 
