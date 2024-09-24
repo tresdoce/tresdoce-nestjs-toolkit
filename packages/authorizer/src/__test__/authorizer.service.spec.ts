@@ -10,8 +10,23 @@ import { AuthorizerService } from '../authorizer/services/authorizer.service';
 import { AUTHORIZER_CLIENT } from '../authorizer/constants/authorizer.constant';
 
 const getClientID = async (baseUrl = 'http://localhost:3001'): Promise<string> => {
-  const { data } = await axios.get(`${baseUrl}/.well-known/jwks.json`);
-  return data.keys[0].kid;
+  const query = `
+    query {
+      meta {
+        client_id
+      }
+    }
+  `;
+
+  const { data } = await axios.post(`${baseUrl}/graphql`,{
+    query
+  }, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  return data.data.meta.client_id;
 };
 
 const testEmail = 'test@example.com';
@@ -166,6 +181,7 @@ describe('AuthorizerService', () => {
       };
 
       const result = await service.signUp(signUpInput);
+      console.log(result)
       expect(result).toBeDefined();
       expect(result.data.message).toBe('Verification email has been sent. Please check your inbox');
       expect(result.errors.length).toBe(0);
@@ -211,23 +227,9 @@ describe('AuthorizerService', () => {
         password: wrongTestPassword,
       };
       const result = await service.login(loginInput);
-      console.log('result: ', result);
       expect(result).toBeDefined();
-      expect(result.data).toBeUndefined();
       expect(result.data.message).toBe('Please check email inbox for the OTP');
       expect(result.errors.length).toBe(0);
-    });
-
-    it('should successfully log in a user with correct credentials', async () => {
-      const loginInput: LoginInput = {
-        email: testEmail,
-        password: testPassword,
-      };
-
-      const result = await service.login(loginInput);
-      console.log('result: ', result);
-      expect(result.data).toBeDefined();
-      expect(result.data.access_token).toBeDefined();
     });
 
     it('should handle server errors gracefully', async () => {
@@ -240,6 +242,18 @@ describe('AuthorizerService', () => {
 
       await expect(service.login(loginInput)).rejects.toThrow(HttpException);
       await expect(service.login(loginInput)).rejects.toThrow('Internal server error');
+    });
+
+    it('should successfully log in a user with correct credentials', async () => {
+      const loginInput: LoginInput = {
+        email: testEmail,
+        password: testPassword,
+      };
+
+      const result = await service.login(loginInput);
+      console.log(result)
+      expect(result.data).toBeDefined();
+      expect(result.data.access_token).toBeDefined();
     });
   });
 

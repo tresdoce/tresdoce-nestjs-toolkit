@@ -224,10 +224,7 @@ export class AuthorizerService {
    *   authorization: 'Bearer yourAccessToken'
    * });
    */
-  async updateProfile(
-    data: UpdateProfileInput,
-    headers?: Headers,
-  ): Promise<ApiResponse<GenericResponse>> {
+  async updateProfile(data: UpdateProfileInput, headers?: Headers): Promise<ApiResponse<GenericResponse>> {
     try {
       return await this.authorizerClient.updateProfile(data, headers);
     } catch (error) {
@@ -387,9 +384,7 @@ export class AuthorizerService {
    * };
    * const response = await authorizerService.authorize(authData);
    */
-  async authorize(
-    data: AuthorizeInput,
-  ): Promise<ApiResponse<GetTokenResponse> | ApiResponse<AuthorizeResponse>> {
+  async authorize(data: AuthorizeInput): Promise<ApiResponse<GetTokenResponse> | ApiResponse<AuthorizeResponse>> {
     try {
       return await this.authorizerClient.authorize(data);
     } catch (error) {

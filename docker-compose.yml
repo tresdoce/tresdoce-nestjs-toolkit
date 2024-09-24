@@ -95,3 +95,72 @@ services:
     environment:
       TZ: 'America/Argentina/Buenos_Aires'
       COLLECTOR_OTLP_ENABLED: 'true'
+
+  authorizer:
+    image: lakhansamani/authorizer:latest
+    container_name: tresdoce-test-utils-global-authorizer
+    restart: always
+    ports:
+      - '3001:3001'
+    environment:
+      ENV: 'development'
+      ADMIN_SECRET: 'admin'
+      PORT: 3001
+      DATABASE_TYPE: postgres
+      DATABASE_URL: postgres://root:123456@postgres:5432/my_db
+      REDIS_URL: redis://:123456@redis:6379
+      CUSTOM_ACCESS_TOKEN_SCRIPT: function(user,tokenPayload){var data=tokenPayload;data.user=user;return data;}
+      DISABLE_PLAYGROUND: false
+      DISABLE_EMAIL_VERIFICATION: false
+      DISABLE_MAGIC_LINK_LOGIN: true
+      ROLES: user,admin,super_admin
+      DEFAULT_ROLES: user
+      PROTECTED_ROLES: admin,super_admin
+      #SMTP_HOST: smtp.resend.com
+      #SMTP_PORT: 465
+      #SMTP_USERNAME: resend
+      #SMTP_PASSWORD: re_7piVQeSo_9Jb3CseeT1EaLS1igVx2FFXp
+      #SENDER_EMAIL: onboarding@resend.dev
+      SMTP_HOST: smtp.sendgrid.net
+      SMTP_PORT: 587
+      SMTP_USERNAME: apikey
+      SMTP_PASSWORD: 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
+      SENDER_EMAIL: mdelgado@tresdoce.com.ar
+      SENDER_NAME: Test Authorizer (Resend)
+    depends_on:
+      - postgres
+      - redis
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.2
+    container_name: tresdoce-test-utils-global-keycloak
+    restart: always
+    ports:
+      - '8443:8443'
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/my_db
+      KC_DB_USERNAME: root
+      KC_DB_PASSWORD: 123456
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8443
+      KC_HOSTNAME_STRICT_BACKCHANNEL: true
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_LOG_LEVEL: info
+      KC_METRICS_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8443/health/ready" ]
+      interval: 15s
+      timeout: 2s
+      retries: 15
+    command: start-dev --http-port=8443
+    depends_on:
+      - postgres
+
+
+
+
