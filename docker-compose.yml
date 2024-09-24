@@ -119,12 +119,12 @@ services:
       #SMTP_HOST: smtp.resend.com
       #SMTP_PORT: 465
       #SMTP_USERNAME: resend
-      #SMTP_PASSWORD: re_7piVQeSo_9Jb3CseeT1EaLS1igVx2FFXp
+      #SMTP_PASSWORD: RESENDE_TOKEN
       #SENDER_EMAIL: onboarding@resend.dev
       SMTP_HOST: smtp.sendgrid.net
       SMTP_PORT: 587
       SMTP_USERNAME: apikey
-      SMTP_PASSWORD: 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
+      SMTP_PASSWORD: SEND_GRID_TOKEN
       SENDER_EMAIL: mdelgado@tresdoce.com.ar
       SENDER_NAME: Test Authorizer (Resend)
     depends_on:
