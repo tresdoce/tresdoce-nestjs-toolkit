@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { sign } from 'cookie-signature';
 import Tokens from 'csrf';
-import * as Cookie from 'cookie';
+import { serialize } from 'cookie';
 import { CsrfCookieOptions, csrfToken, getCsrfFromRequest, ICsrfRequest, verify } from '../commons';
 
 jest.mock('cookie-signature');
@@ -59,7 +59,7 @@ describe('CsrfToken', () => {
       cookieName: 'custom_cookie_name',
       secret: 'custom_secret',
     };
-    (Cookie.serialize as jest.Mock).mockReturnValue(options.cookieName);
+    (serialize as jest.Mock).mockReturnValue(options.cookieName);
 
     const middleware = csrfToken(options);
     middleware(mockRequest as ICsrfRequest, mockResponse as Response, nextFunction);
@@ -76,7 +76,7 @@ describe('CsrfToken', () => {
       secret: 'custom_secret',
       signed: true,
     };
-    (Cookie.serialize as jest.Mock).mockReturnValue(options.cookieName);
+    (serialize as jest.Mock).mockReturnValue(options.cookieName);
 
     const middleware = csrfToken(options);
     middleware(mockRequest as ICsrfRequest, mockResponse as Response, nextFunction);
@@ -92,7 +92,7 @@ describe('CsrfToken', () => {
       sameSite: 'strict',
     };
 
-    (Cookie.serialize as jest.Mock).mockImplementation((name, value, opts) => {
+    (serialize as jest.Mock).mockImplementation((name, value, opts) => {
       return `${name}=${value}; httpOnly; sameSite=${opts.sameSite}`;
     });
 
@@ -117,7 +117,7 @@ describe('CsrfToken', () => {
     const existingCookie = 'existing-cookie=existing-value';
     mockResponse.getHeader = jest.fn().mockReturnValue(existingCookie);
 
-    (Cookie.serialize as jest.Mock).mockImplementation((name, value, opts) => {
+    (serialize as jest.Mock).mockImplementation((name, value, opts) => {
       return `${name}=${value}; httpOnly; sameSite=${opts.sameSite}`;
     });
 
@@ -153,7 +153,7 @@ describe('CsrfToken', () => {
   });
 
   it('should generate a new secret if none is present', () => {
-    (Cookie.serialize as jest.Mock).mockReturnValue('_csrf');
+    (serialize as jest.Mock).mockReturnValue('_csrf');
     const middleware = csrfToken();
     middleware(mockRequest as ICsrfRequest, mockResponse as Response, nextFunction);
 

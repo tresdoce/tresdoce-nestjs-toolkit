@@ -1,4 +1,4 @@
-import Cookie from 'cookie';
+import { serialize } from 'cookie';
 import { sign } from 'cookie-signature';
 import Tokens from 'csrf';
 import { CookieOptions, Request, Response, NextFunction } from 'express';
@@ -226,7 +226,7 @@ const setCookie = (
   value: string,
   options: CsrfCookieOptions,
 ): void => {
-  const serializedCookie: string = Cookie.serialize(name, value, options);
+  const serializedCookie: string = serialize(name, value, options);
   let existingHeaders: string | number | string[] = res.getHeader('Set-Cookie') || [];
 
   let headerArray: string[] = [];
