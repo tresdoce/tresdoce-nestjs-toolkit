@@ -29,7 +29,6 @@
     "version:prerelease": "lerna version --conventional-commits --no-changelog --conventional-prerelease --no-git-tag-version --preid=beta --yes",
     "version:release": "lerna version --conventional-commits --force-git-tag --create-release github --conventional-graduate --yes",
     "publish:pkgs": "lerna publish from-package --no-verify-access --yes",
-    "postinstall": "lerna bootstrap",
     "bs": "lerna bootstrap",
     "hoist-deps": "lerna clean -y && lerna bootstrap",
     "plop": "plop",
@@ -39,7 +38,7 @@
     "postreport": "yarn mochawesome:report-generator",
     "mochawesome:merge": "npx mochawesome-merge -f ./packages/*/test-results/*.json > mochawesome.json",
     "mochawesome:report-generator": "npx marge -f index -t \"Tresdoce NestJS Toolkit\" -p \"Tresdoce NestJS Toolkit - Test Reports\" --saveJson --overwrite --charts --assetsDir ./mochawesome-report/assets mochawesome.json",
-    "prepare": "husky"
+    "prepare": "lerna bootstrap && husky"
   },
   "workspaces": [
     "packages/*"
@@ -61,8 +60,8 @@
     ]
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.620.1",
-    "@nestjs/axios": "^3.0.3",
+    "@aws-sdk/client-dynamodb": "^3.682.0",
+    "@nestjs/axios": "^3.1.1",
     "@nestjs/class-transformer": "^0.4.0",
     "@nestjs/class-validator": "^0.13.4",
     "@nestjs/common": "^10.4.4",
@@ -70,7 +69,7 @@
     "@nestjs/core": "^10.4.4",
     "@nestjs/microservices": "^10.4.4",
     "@nestjs/platform-express": "^10.4.4",
-    "@nestjs/swagger": "^8.0.0",
+    "@nestjs/swagger": "^8.0.1",
     "@nestjs/terminus": "^10.2.3",
     "@nestjs/typeorm": "^10.0.2",
     "axios": "^1.7.7",
@@ -129,11 +128,11 @@
     "@types/glob": "^8.1.0",
     "@types/inline-css": "^3.0.3",
     "@types/jest": "^29.5.13",
-    "@types/lodash": "^4.17.9",
+    "@types/lodash": "^4.17.13",
     "@types/luxon": "^3.4.2",
     "@types/mocha": "^10.0.8",
     "@types/mochawesome": "^6.2.4",
-    "@types/node": "^22.6.1",
+    "@types/node": "^22.8.4",
     "@types/nodemailer": "^6.4.16",
     "@types/pug": "^2.0.10",
     "@types/supertest": "^6.0.2",
@@ -151,7 +150,7 @@
     "jest-sonar-reporter": "^2.0.0",
     "lerna": "^4.0.0",
     "lint-staged": "^15.2.10",
-    "mocha": "^10.7.3",
+    "mocha": "^10.8.1",
     "mochawesome": "^7.1.3",
     "mochawesome-merge": "^4.3.0",
     "mochawesome-report-generator": "^6.2.0",
@@ -166,7 +165,7 @@
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "turbo": "2.1.2",
+    "turbo": "^2.2.3",
     "typescript": "^4.9.5"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"

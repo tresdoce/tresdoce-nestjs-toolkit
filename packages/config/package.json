@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.4.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\"",
+    "test": "jest --runInBand --coverage --forceExit --passWithNoTests",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml"
   }
 }
