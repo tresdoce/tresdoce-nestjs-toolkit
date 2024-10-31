@@ -1,0 +1,12 @@
+import { Inject, Injectable } from '@nestjs/common';
+
+import { {{constantCase moduleName}}_MODULE_OPTIONS } from '../constants/{{camelCase moduleName}}.constant';
+import { {{pascalCase moduleName}}ModuleOptions } from '../interfaces/{{camelCase moduleName}}.interface';
+
+@Injectable()
+export class {{pascalCase moduleName}}Service {
+  constructor(@Inject({{constantCase moduleName}}_MODULE_OPTIONS) private readonly options: {{pascalCase moduleName}}ModuleOptions) {}
+  getHello(): string {
+    return `¡Hello ${this.options.apiName} from the new module {{kebabCase moduleName}}!`;
+  }
+}

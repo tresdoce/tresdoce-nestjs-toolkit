@@ -1,0 +1,76 @@
+{
+  "name": "@tresdoce-nestjs-toolkit/{{kebabCase moduleName}}",
+  "version": "0.0.0",
+  "description": "Tresdoce NestJS Toolkit - {{moduleDescription}}",
+  "author": {
+    "name": "Maximiliano \"Mex\" Delgado",
+    "email": "mdelgado@tresdoce.com.ar",
+    "url": "https://rudemex.github.io/"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "keywords": [
+    "nestjs",
+    "{{kebabCase moduleName}}"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tresdoce/tresdoce-nestjs-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tresdoce/tresdoce-nestjs-toolkit/issues"
+  },
+  "homepage": "https://github.com/tresdoce/tresdoce-nestjs-toolkit#readme",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf ../../dist/{{kebabCase moduleName}}",
+    "build": "pika build --out ../../dist/{{kebabCase moduleName}}",
+    "test": "jest --runInBand --coverage --forceExit",
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "../../dist/{{kebabCase moduleName}}"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^10.4.6",
+    "@nestjs/core": "^10.4.6",
+    "@nestjs/platform-express": "^10.4.6",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@tresdoce-nestjs-toolkit/config": "^{{configVersion}}",
+    "@types/tresdoce-nestjs-toolkit": "^{{typesVersion}}"
+  },
+  "prettier": {
+    "semi": true,
+    "tabWidth": 2,
+    "singleQuote": true,
+    "printWidth": 100,
+    "trailingComma": "all"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-ts-standard-pkg",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-node",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ]
+    ]
+  }
+}
