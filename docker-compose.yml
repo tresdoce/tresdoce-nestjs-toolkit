@@ -171,6 +171,7 @@ services:
         exec /etc/confluent/docker/run
       "
 
+
   schema-registry:
     container_name: tresdoce-test-utils-global-kafka-schema-registry
     image: confluentinc/cp-schema-registry:5.5.3
@@ -222,10 +223,10 @@ services:
       ROLES: user,admin,super_admin
       DEFAULT_ROLES: user
       PROTECTED_ROLES: admin,super_admin
-      SMTP_HOST: smtp.resend.com
+      SMTP_HOST:
       SMTP_PORT: 465
-      SMTP_USERNAME: resend
-      SMTP_PASSWORD: re_xxxxx
+      SMTP_USERNAME:
+      SMTP_PASSWORD:
       SENDER_EMAIL: onboarding@resend.dev
       SENDER_NAME: Test Authorizer (Resend)
     depends_on:
