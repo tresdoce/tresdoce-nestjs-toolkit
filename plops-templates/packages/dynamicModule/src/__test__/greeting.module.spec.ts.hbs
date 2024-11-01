@@ -1,0 +1,239 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { config } from '@tresdoce-nestjs-toolkit/test-utils';
+
+import {
+  {{pascalCase moduleName}}Module,
+  {{pascalCase moduleName}}ModuleOptions,
+  {{pascalCase moduleName}}ModuleOptionsFactory,
+  {{pascalCase moduleName}}Service,
+} from '..';
+
+class {{pascalCase moduleName}}ConfigService implements {{pascalCase moduleName}}ModuleOptionsFactory {
+  createOptions(): {{pascalCase moduleName}}ModuleOptions {
+    const { project } = config();
+    return { apiPrefix: project.apiPrefix, apiName: project.name };
+  }
+}
+
+describe('{{pascalCase moduleName}}Module', (): void => {
+  let app: INestApplication;
+  let {{camelCase moduleName}}Service: {{pascalCase moduleName}}Service;
+
+  describe('Global', () => {
+    beforeEach(async () => {
+      const moduleFixture: TestingModule = await Test.createTestingModule({
+        imports: [
+          ConfigModule.forRoot({
+            isGlobal: true,
+            load: [config],
+          }),
+          {{pascalCase moduleName}}Module,
+        ],
+      }).compile();
+
+      app = moduleFixture.createNestApplication();
+      await app.init();
+    });
+
+    it('should be defined', () => {
+      expect(app).toBeDefined();
+    });
+
+    it('should be initialize global module', async () => {
+      {{camelCase moduleName}}Service = app.get<{{pascalCase moduleName}}Service>({{pascalCase moduleName}}Service);
+      expect({{camelCase moduleName}}Service).toBeDefined();
+    });
+  });
+
+  describe('Register', () => {
+    beforeEach(async () => {
+      const moduleFixture: TestingModule = await Test.createTestingModule({
+        imports: [
+          {{pascalCase moduleName}}Module.register({
+            apiPrefix: 'API-TEST',
+            apiName: 'nestjs-starter-test',
+          }),
+        ],
+      }).compile();
+
+      app = moduleFixture.createNestApplication();
+      await app.init();
+    });
+
+    it('should be defined', () => {
+      expect(app).toBeDefined();
+    });
+
+    it('should initialize with register (sync)', async () => {
+      {{camelCase moduleName}}Service = app.get<{{pascalCase moduleName}}Service>({{pascalCase moduleName}}Service);
+      expect({{camelCase moduleName}}Service).toBeDefined();
+    });
+  });
+
+  describe('RegisterAsync', () => {
+    beforeEach(async () => {
+      const moduleFixture: TestingModule = await Test.createTestingModule({
+        imports: [
+          ConfigModule.forRoot({
+            isGlobal: true,
+            load: [config],
+          }),
+          {{pascalCase moduleName}}Module.registerAsync({
+            useFactory: async (configService: ConfigService) => ({
+              apiPrefix: configService.get<string>('config.project.apiPrefix'),
+              apiName: configService.get<string>('config.project.name'),
+            }),
+            inject: [ConfigService],
+          }),
+        ],
+      }).compile();
+
+      app = moduleFixture.createNestApplication();
+      await app.init();
+    });
+
+    it('should be defined', () => {
+      expect(app).toBeDefined();
+    });
+
+    it('should initialize with registerAsync', async () => {
+      {{camelCase moduleName}}Service = app.get<{{pascalCase moduleName}}Service>({{pascalCase moduleName}}Service);
+      expect({{camelCase moduleName}}Service).toBeDefined();
+    });
+  });
+
+  describe('RegisterAsync without inject', () => {
+    beforeEach(async () => {
+      const moduleFixture: TestingModule = await Test.createTestingModule({
+        imports: [
+          {{pascalCase moduleName}}Module.registerAsync({
+            useFactory: () => ({
+              apiPrefix: config().project.apiPrefix,
+              apiName: config().project.name,
+            }),
+          }),
+        ],
+      }).compile();
+
+      app = moduleFixture.createNestApplication();
+      await app.init();
+    });
+
+    it('should be defined', () => {
+      expect(app).toBeDefined();
+    });
+
+    it('should initialize with registerAsync', async () => {
+      {{camelCase moduleName}}Service = app.get<{{pascalCase moduleName}}Service>({{pascalCase moduleName}}Service);
+      expect({{camelCase moduleName}}Service).toBeDefined();
+    });
+  });
+
+  describe('RegisterAsync with useClass', () => {
+    beforeEach(async () => {
+      const moduleFixture: TestingModule = await Test.createTestingModule({
+        imports: [
+          {{pascalCase moduleName}}Module.registerAsync({
+            useClass: {{pascalCase moduleName}}ConfigService,
+          }),
+        ],
+      }).compile();
+
+      app = moduleFixture.createNestApplication();
+      await app.init();
+    });
+
+    it('should be defined', () => {
+      expect(app).toBeDefined();
+    });
+
+    it('should initialize with registerAsync with useClass', async () => {
+      {{camelCase moduleName}}Service = app.get<{{pascalCase moduleName}}Service>({{pascalCase moduleName}}Service);
+      expect({{camelCase moduleName}}Service).toBeDefined();
+    });
+  });
+
+  describe('RegisterAsync with useExisting', () => {
+    beforeEach(async () => {
+      const moduleFixture: TestingModule = await Test.createTestingModule({
+        imports: [
+          {{pascalCase moduleName}}Module.registerAsync({
+            extraProviders: [{{pascalCase moduleName}}ConfigService],
+            useExisting: {{pascalCase moduleName}}ConfigService,
+          }),
+        ],
+      }).compile();
+
+      app = moduleFixture.createNestApplication();
+      await app.init();
+    });
+
+    it('should be defined', () => {
+      expect(app).toBeDefined();
+    });
+
+    it('should initialize with registerAsync with useExisting', async () => {
+      {{camelCase moduleName}}Service = app.get<{{pascalCase moduleName}}Service>({{pascalCase moduleName}}Service);
+      expect({{camelCase moduleName}}Service).toBeDefined();
+    });
+  });
+
+  describe('ForRoot', () => {
+    beforeEach(async () => {
+      const moduleFixture: TestingModule = await Test.createTestingModule({
+        imports: [
+          {{pascalCase moduleName}}Module.forRoot({
+            apiPrefix: 'API-TEST',
+            apiName: 'nestjs-starter-test',
+          }),
+        ],
+      }).compile();
+
+      app = moduleFixture.createNestApplication();
+      await app.init();
+    });
+
+    it('should be defined', () => {
+      expect(app).toBeDefined();
+    });
+
+    it('should initialize with forRoot (sync)', async () => {
+      {{camelCase moduleName}}Service = app.get<{{pascalCase moduleName}}Service>({{pascalCase moduleName}}Service);
+      expect({{camelCase moduleName}}Service).toBeDefined();
+    });
+  });
+
+  describe('ForRootAsync', () => {
+    beforeEach(async () => {
+      const moduleFixture: TestingModule = await Test.createTestingModule({
+        imports: [
+          ConfigModule.forRoot({
+            isGlobal: true,
+            load: [config],
+          }),
+          {{pascalCase moduleName}}Module.forRootAsync({
+            useFactory: async (configService: ConfigService) => ({
+              apiPrefix: configService.get<string>('config.project.apiPrefix'),
+              apiName: configService.get<string>('config.project.name'),
+            }),
+            inject: [ConfigService],
+          }),
+        ],
+      }).compile();
+
+      app = moduleFixture.createNestApplication();
+      await app.init();
+    });
+
+    it('should be defined', () => {
+      expect(app).toBeDefined();
+    });
+
+    it('should initialize with forRootAsync', async () => {
+      {{camelCase moduleName}}Service = app.get<{{pascalCase moduleName}}Service>({{pascalCase moduleName}}Service);
+      expect({{camelCase moduleName}}Service).toBeDefined();
+    });
+  });
+});

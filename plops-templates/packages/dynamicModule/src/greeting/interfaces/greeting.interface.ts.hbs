@@ -1,0 +1,22 @@
+import { DynamicModule, ModuleMetadata, Provider, Type } from '@nestjs/common';
+
+// Opciones básicas para el módulo.
+export interface {{pascalCase moduleName}}ModuleOptions {
+  apiPrefix: string;
+  apiName?: string;
+}
+
+// Interfaz para una clase de fábrica que genera opciones del módulo.
+export interface {{pascalCase moduleName}}ModuleOptionsFactory {
+  createOptions(): Promise<{{pascalCase moduleName}}ModuleOptions> | {{pascalCase moduleName}}ModuleOptions;
+}
+
+// Opciones para el registro asíncrono del módulo.
+export interface {{pascalCase moduleName}}ModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
+  useExisting?: Type<{{pascalCase moduleName}}ModuleOptionsFactory>;
+  useClass?: Type<{{pascalCase moduleName}}ModuleOptionsFactory>;
+  useFactory?: (...args: any[]) => Promise<{{pascalCase moduleName}}ModuleOptions> | {{pascalCase moduleName}}ModuleOptions;
+  inject?: any[];
+  imports?: ModuleMetadata['imports'];
+  extraProviders?: Provider[];
+}

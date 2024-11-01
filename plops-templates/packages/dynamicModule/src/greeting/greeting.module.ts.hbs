@@ -1,0 +1,115 @@
+import { DynamicModule, Global, Module, Provider, Type } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
+import {
+  {{pascalCase moduleName}}ModuleAsyncOptions,
+  {{pascalCase moduleName}}ModuleOptions,
+  {{pascalCase moduleName}}ModuleOptionsFactory,
+} from './interfaces/{{camelCase moduleName}}.interface';
+import { {{constantCase moduleName}}_MODULE_OPTIONS } from './constants/{{camelCase moduleName}}.constant';
+import { {{pascalCase moduleName}}Service } from './services/{{camelCase moduleName}}.service';
+
+@Global()
+@Module({
+  imports: [ConfigModule],
+  providers: [
+    {
+      provide: {{constantCase moduleName}}_MODULE_OPTIONS,
+      useFactory: async (configService: ConfigService): Promise<{{pascalCase moduleName}}ModuleOptions> => ({
+        apiPrefix: configService.get<string>('config.project.apiPrefix'),
+        apiName: configService.get<string>('config.project.name'),
+      }),
+      inject: [ConfigService],
+    },
+    {{pascalCase moduleName}}Service,
+  ],
+  exports: [{{pascalCase moduleName}}Service, {{constantCase moduleName}}_MODULE_OPTIONS],
+})
+export class {{pascalCase moduleName}}Module {
+  // Opción 1: Registro sincrónico.
+  static register(options: {{pascalCase moduleName}}ModuleOptions): DynamicModule {
+    return {
+      module: {{pascalCase moduleName}}Module,
+      providers: [{ provide: {{constantCase moduleName}}_MODULE_OPTIONS, useValue: options }, {{pascalCase moduleName}}Service],
+      exports: [{{pascalCase moduleName}}Service, {{constantCase moduleName}}_MODULE_OPTIONS],
+    };
+  }
+
+  // Opción 2: Registro asíncrono.
+  static registerAsync(options: {{pascalCase moduleName}}ModuleAsyncOptions): DynamicModule {
+    return {
+      module: {{pascalCase moduleName}}Module,
+      imports: [...(options.imports || [])],
+      providers: [
+        ...this.createAsyncProviders(options),
+        ...(options.extraProviders || []),
+        {{pascalCase moduleName}}Service,
+      ],
+      exports: [{{pascalCase moduleName}}Service, {{constantCase moduleName}}_MODULE_OPTIONS],
+    };
+  }
+
+  // Opción 3: Configuración global sincrónica (forRoot).
+  static forRoot(options: {{pascalCase moduleName}}ModuleOptions): DynamicModule {
+    return {
+      global: true,
+      module: {{pascalCase moduleName}}Module,
+      providers: [{ provide: {{constantCase moduleName}}_MODULE_OPTIONS, useValue: options }, {{pascalCase moduleName}}Service],
+      exports: [{{pascalCase moduleName}}Service, {{constantCase moduleName}}_MODULE_OPTIONS],
+    };
+  }
+
+  // Opción 4: Configuración global asíncrona (forRootAsync).
+  static forRootAsync(options: {{pascalCase moduleName}}ModuleAsyncOptions): DynamicModule {
+    return {
+      global: true,
+      module: {{pascalCase moduleName}}Module,
+      imports: options.imports || [],
+      providers: [
+        ...this.createAsyncProviders(options),
+        ...(options.extraProviders || []),
+        {{pascalCase moduleName}}Service,
+      ],
+      exports: [{{pascalCase moduleName}}Service, {{constantCase moduleName}}_MODULE_OPTIONS],
+    };
+  }
+
+  // Método privado para crear proveedores asíncronos.
+  private static createAsyncProviders(options: {{pascalCase moduleName}}ModuleAsyncOptions): Provider[] {
+    if (options.useExisting || options.useFactory) {
+      return [this.createAsyncOptionsProvider(options)];
+    }
+
+    const providers: Provider<any>[] = [this.createAsyncOptionsProvider(options)];
+
+    if (options.useClass)
+      providers.push({
+        provide: options.useClass,
+        useClass: options.useClass,
+      });
+
+    return providers;
+  }
+
+  private static createAsyncOptionsProvider(options: {{pascalCase moduleName}}ModuleAsyncOptions): Provider {
+    if (options.useFactory) {
+      return {
+        provide: {{constantCase moduleName}}_MODULE_OPTIONS,
+        useFactory: options.useFactory,
+        inject: options.inject || [],
+      };
+    }
+
+    let inject: Type<{{pascalCase moduleName}}ModuleOptionsFactory>[];
+    if (options.useExisting) inject = [options.useExisting];
+    else if (options.useClass) inject = [options.useClass];
+
+    return {
+      provide: {{constantCase moduleName}}_MODULE_OPTIONS,
+      useFactory: async (
+        optionsFactory: {{pascalCase moduleName}}ModuleOptionsFactory,
+      ): Promise<{{pascalCase moduleName}}ModuleOptions> => optionsFactory.createOptions(),
+      inject,
+    };
+  }
+}
