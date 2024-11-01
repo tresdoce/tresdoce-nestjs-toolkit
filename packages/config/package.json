@@ -1,7 +1,7 @@
 {
   "name": "@tresdoce-nestjs-toolkit/config",
   "private": true,
-  "version": "0.4.0",
+  "version": "0.4.1-beta.0",
   "scripts": {
     "test": "echo \"Error: no test specified\"",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
