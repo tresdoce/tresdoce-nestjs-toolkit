@@ -14,7 +14,7 @@ import { AwsSqsMessageHandler } from '../aws-sqs/decorators/aws-sqs-message-hand
 describe('AwsSqsListener (Integration)', () => {
   let listener: AwsSqsListener;
   let service: AwsSqsService;
-  const endpoint: string = 'http://docker:4566';
+  const endpoint: string = 'http://localhost:4566';
   const queueNames: string[] = ['orders', 'notifications'];
   const messageBody: string = 'Test message';
 

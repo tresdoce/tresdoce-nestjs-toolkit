@@ -6,7 +6,7 @@ import { SQSClient, CreateQueueCommand, ListQueuesCommand } from '@aws-sdk/clien
 
 import { AwsSqsModule, AwsSqsModuleOptions, AwsSqsModuleOptionsFactory, AwsSqsService } from '..';
 
-const endpoint: string = 'http://docker:4566';
+const endpoint: string = 'http://localhost:4566';
 const queueNames: string[] = ['orders', 'notifications'];
 
 class AwsSqsConfigService implements AwsSqsModuleOptionsFactory {
