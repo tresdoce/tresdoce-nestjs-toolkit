@@ -8,12 +8,12 @@
       "cache": true
     },
     "test": {
-      "outputs": ["coverage/**"],
+      "outputs": ["coverage/**", "test-report.xml", "junit.xml"],
       "dependsOn": [],
       "cache": true
     },
     "test:husky": {
-      "outputs": ["coverage/**"],
+      "outputs": ["coverage/**", "test-report.xml", "junit.xml"],
       "dependsOn": [],
       "cache": true
     },

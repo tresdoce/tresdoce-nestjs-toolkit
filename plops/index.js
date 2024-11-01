@@ -1,5 +1,7 @@
-const packageTemplate = require('./package-template');
+const dynamicModuleTemplate = require('./dynamic-module-template');
+const basicPackageTemplate = require('./basic-package-template');
 
 module.exports = {
-  packageTemplate,
+  dynamicModuleTemplate,
+  basicPackageTemplate,
 };

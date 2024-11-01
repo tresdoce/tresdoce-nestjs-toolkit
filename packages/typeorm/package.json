@@ -29,18 +29,18 @@
     "prebuild": "rimraf ../../dist/typeorm",
     "build": "pika build --out ../../dist/typeorm",
     "test": "jest --runInBand --coverage --forceExit",
-    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml"
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
     "access": "public",
     "directory": "../../dist/typeorm"
   },
   "peerDependencies": {
-    "@nestjs/common": "^10.4.4",
-    "@nestjs/core": "^10.4.4",
-    "@nestjs/platform-express": "^10.4.4",
+    "@nestjs/common": "^10.4.6",
+    "@nestjs/core": "^10.4.6",
+    "@nestjs/platform-express": "^10.4.6",
     "@nestjs/typeorm": "^10.0.2",
-    "mongodb": "^6.9.0",
+    "mongodb": "^6.10.0",
     "mysql": "^2.18.1",
     "mysql2": "^3.11.3",
     "pg": "^8.13.0",
@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@nestjs/typeorm": "^10.0.2",
-    "mongodb": "^6.9.0",
+    "mongodb": "^6.10.0",
     "mysql": "^2.18.1",
     "mysql2": "^3.11.3",
     "pg": "^8.13.0",
