@@ -30,7 +30,7 @@
     "prebuild": "rimraf ../../dist/paas",
     "build": "pika build --out ../../dist/paas",
     "test": "jest --runInBand --coverage --forceExit --passWithNoTests",
-    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml"
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
     "access": "public",

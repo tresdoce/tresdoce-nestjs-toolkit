@@ -1,14 +1,28 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { config } from '@tresdoce-nestjs-toolkit/test-utils';
+import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
+import { SQSClient, CreateQueueCommand, ListQueuesCommand } from '@aws-sdk/client-sqs';
 
 import { AwsSqsModule, AwsSqsModuleOptions, AwsSqsModuleOptionsFactory, AwsSqsService } from '..';
 
+const endpoint: string = 'http://docker:4566';
+const queueNames: string[] = ['orders', 'notifications'];
+
 class AwsSqsConfigService implements AwsSqsModuleOptionsFactory {
   createOptions(): AwsSqsModuleOptions {
-    const { project } = config();
-    return { apiPrefix: project.apiPrefix, apiName: project.name };
+    return {
+      region: 'us-east-1',
+      endpoint,
+      credentials: {
+        accessKeyId: 'test',
+        secretAccessKey: 'test',
+      },
+      queues: queueNames.map((queueName) => ({
+        name: queueName,
+        url: `${endpoint}/000000000000/${queueName}`,
+      })),
+    };
   }
 }
 
@@ -16,13 +30,55 @@ describe('AwsSqsModule', (): void => {
   let app: INestApplication;
   let awsSqsService: AwsSqsService;
 
+  const sqsClient: SQSClient = new SQSClient({
+    endpoint,
+    region: 'us-east-1',
+    credentials: {
+      accessKeyId: 'test',
+      secretAccessKey: 'test',
+    },
+  });
+
+  const createQueues = async (queueNames: string[]): Promise<void> => {
+    const existingQueues = await sqsClient.send(new ListQueuesCommand({}));
+
+    const existingQueueUrls: string[] = existingQueues.QueueUrls || [];
+
+    for (const queueName of queueNames) {
+      const queueExists: boolean = existingQueueUrls.some((url: string) => url.includes(queueName));
+
+      if (!queueExists) {
+        await sqsClient.send(new CreateQueueCommand({ QueueName: queueName }));
+      }
+    }
+  };
+
+  beforeAll(async (): Promise<void> => {
+    await createQueues(queueNames);
+  });
+
   describe('Global', () => {
     beforeEach(async () => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
         imports: [
           ConfigModule.forRoot({
             isGlobal: true,
-            load: [config],
+            load: [
+              dynamicConfig({
+                sqs: {
+                  region: 'us-east-1',
+                  endpoint,
+                  credentials: {
+                    accessKeyId: 'test',
+                    secretAccessKey: 'test',
+                  },
+                  queues: queueNames.map((queueName) => ({
+                    name: queueName,
+                    url: `${endpoint}/000000000000/${queueName}`,
+                  })),
+                },
+              }),
+            ],
           }),
           AwsSqsModule,
         ],
@@ -47,8 +103,16 @@ describe('AwsSqsModule', (): void => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
         imports: [
           AwsSqsModule.register({
-            apiPrefix: 'API-TEST',
-            apiName: 'nestjs-starter-test',
+            region: 'us-east-1',
+            endpoint,
+            credentials: {
+              accessKeyId: 'test',
+              secretAccessKey: 'test',
+            },
+            queues: queueNames.map((queueName) => ({
+              name: queueName,
+              url: `${endpoint}/000000000000/${queueName}`,
+            })),
           }),
         ],
       }).compile();
@@ -73,12 +137,37 @@ describe('AwsSqsModule', (): void => {
         imports: [
           ConfigModule.forRoot({
             isGlobal: true,
-            load: [config],
+            load: [
+              dynamicConfig({
+                sqs: {
+                  region: 'us-east-1',
+                  endpoint,
+                  credentials: {
+                    accessKeyId: 'test',
+                    secretAccessKey: 'test',
+                  },
+                  queues: queueNames.map((queueName) => ({
+                    name: queueName,
+                    url: `${endpoint}/000000000000/${queueName}`,
+                  })),
+                },
+              }),
+            ],
           }),
           AwsSqsModule.registerAsync({
             useFactory: async (configService: ConfigService) => ({
-              apiPrefix: configService.get<string>('config.project.apiPrefix'),
-              apiName: configService.get<string>('config.project.name'),
+              region: configService.get<string>('config.sqs.region'),
+              endpoint: configService.get<string>('config.sqs.endpoint'),
+              credentials: {
+                accessKeyId: configService.get<string>('config.sqs.credentials'),
+                secretAccessKey: configService.get<string>(
+                  'config.sqs.credentials.secretAccessKey',
+                ),
+              },
+              queues: queueNames.map((queueName) => ({
+                name: queueName,
+                url: `${endpoint}/000000000000/${queueName}`,
+              })),
             }),
             inject: [ConfigService],
           }),
@@ -105,8 +194,16 @@ describe('AwsSqsModule', (): void => {
         imports: [
           AwsSqsModule.registerAsync({
             useFactory: () => ({
-              apiPrefix: config().project.apiPrefix,
-              apiName: config().project.name,
+              region: 'us-east-1',
+              endpoint,
+              credentials: {
+                accessKeyId: 'test',
+                secretAccessKey: 'test',
+              },
+              queues: queueNames.map((queueName) => ({
+                name: queueName,
+                url: `${endpoint}/000000000000/${queueName}`,
+              })),
             }),
           }),
         ],
@@ -180,8 +277,16 @@ describe('AwsSqsModule', (): void => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
         imports: [
           AwsSqsModule.forRoot({
-            apiPrefix: 'API-TEST',
-            apiName: 'nestjs-starter-test',
+            region: 'us-east-1',
+            endpoint,
+            credentials: {
+              accessKeyId: 'test',
+              secretAccessKey: 'test',
+            },
+            queues: queueNames.map((queueName) => ({
+              name: queueName,
+              url: `${endpoint}/000000000000/${queueName}`,
+            })),
           }),
         ],
       }).compile();
@@ -206,12 +311,37 @@ describe('AwsSqsModule', (): void => {
         imports: [
           ConfigModule.forRoot({
             isGlobal: true,
-            load: [config],
+            load: [
+              dynamicConfig({
+                sqs: {
+                  region: 'us-east-1',
+                  endpoint,
+                  credentials: {
+                    accessKeyId: 'test',
+                    secretAccessKey: 'test',
+                  },
+                  queues: queueNames.map((queueName) => ({
+                    name: queueName,
+                    url: `${endpoint}/000000000000/${queueName}`,
+                  })),
+                },
+              }),
+            ],
           }),
           AwsSqsModule.forRootAsync({
             useFactory: async (configService: ConfigService) => ({
-              apiPrefix: configService.get<string>('config.project.apiPrefix'),
-              apiName: configService.get<string>('config.project.name'),
+              region: configService.get<string>('config.sqs.region'),
+              endpoint: configService.get<string>('config.sqs.endpoint'),
+              credentials: {
+                accessKeyId: configService.get<string>('config.sqs.credentials'),
+                secretAccessKey: configService.get<string>(
+                  'config.sqs.credentials.secretAccessKey',
+                ),
+              },
+              queues: queueNames.map((queueName) => ({
+                name: queueName,
+                url: `${endpoint}/000000000000/${queueName}`,
+              })),
             }),
             inject: [ConfigService],
           }),

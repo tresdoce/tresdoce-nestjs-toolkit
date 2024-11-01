@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\"",
-    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml"
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "private": true
 }

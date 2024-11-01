@@ -29,7 +29,7 @@
     "prebuild": "rimraf ../../dist/archetype",
     "build": "pika build --out ../../dist/archetype",
     "test": "jest --runInBand --coverage --forceExit",
-    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml"
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
     "access": "public",

@@ -1,6 +1,5 @@
-// export public api from here
-// for example:
-// export * from './decorators';
-export * from './awsSqs/awsSqs.module';
-export * from './awsSqs/services/awsSqs.service';
-export * from './awsSqs/interfaces/awsSqs.interface';
+export * from './aws-sqs/aws-sqs.module';
+export * from './aws-sqs/services/aws-sqs.service';
+export * from './aws-sqs/interfaces/aws-sqs.interface';
+export * from './aws-sqs/decorators/aws-sqs-message-handler.decorator';
+export { Message } from '@aws-sdk/client-sqs';

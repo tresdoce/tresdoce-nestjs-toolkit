@@ -1,1 +1,0 @@
-export const AWS_SQS_MODULE_OPTIONS = Symbol.for('AWS_SQS_MODULE_OPTIONS');
