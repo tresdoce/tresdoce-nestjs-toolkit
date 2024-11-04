@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/aws-sqs",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0-beta.2",
   "description": "Tresdoce NestJS Toolkit - Módulo de cola de mensajes de AWS Simple Queue Service",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -47,8 +47,8 @@
     "@aws-sdk/client-sqs": "^3.682.0"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.4.1-beta.1",
-    "@types/tresdoce-nestjs-toolkit": "^0.2.3-beta.1"
+    "@tresdoce-nestjs-toolkit/config": "^0.4.1-beta.2",
+    "@types/tresdoce-nestjs-toolkit": "^0.2.3-beta.2"
   },
   "prettier": {
     "semi": true,
