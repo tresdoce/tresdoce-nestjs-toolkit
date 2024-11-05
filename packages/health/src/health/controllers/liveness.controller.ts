@@ -6,6 +6,7 @@ import { LivenessResponse } from '../entities/liveness.entity';
 import { Public } from '@tresdoce-nestjs-toolkit/core';
 
 @Controller('health')
+@ApiTags('Monitoring')
 export class LivenessController {
   @Get('liveness')
   @Public()
