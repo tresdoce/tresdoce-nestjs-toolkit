@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/utils@1.2.3...@tresdoce-nestjs-toolkit/utils@1.2.4) (2024-11-05)
+
+### 👨‍💻 Chores
+
+- edit eslint config ([3952c6d](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/3952c6d2afc3b30c241696058e3be6f3b9a3569f))
+- update dependencies ([74862c6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/74862c676c416ffb0c1e3608b1f50fa50ee14d9f))
+
+### 📝 Docs
+
+- update version of node npm and nestjs ([d66dfd3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d66dfd3eac16ad27bc3865b5d4e3f7f1f72f61e3))
+
 ## [1.2.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/utils@1.2.2...@tresdoce-nestjs-toolkit/utils@1.2.3) (2024-09-24)
 
 ### 👨‍💻 Chores
