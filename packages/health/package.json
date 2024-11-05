@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/health",
-  "version": "1.1.4-beta.2",
+  "version": "1.1.4-beta.3",
   "description": "Tresdoce NestJS Toolkit - Módulo health checks liveness y readiness",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -37,11 +37,11 @@
   },
   "peerDependencies": {
     "@nestjs/axios": "^3.1.1",
-    "@nestjs/common": "^10.4.6",
-    "@nestjs/core": "^10.4.6",
-    "@nestjs/microservices": "^10.4.6",
-    "@nestjs/platform-express": "^10.4.6",
-    "@nestjs/swagger": "^7.4.2",
+    "@nestjs/common": "^10.4.7",
+    "@nestjs/core": "^10.4.7",
+    "@nestjs/microservices": "^10.4.7",
+    "@nestjs/platform-express": "^10.4.7",
+    "@nestjs/swagger": "^8.0.2",
     "@nestjs/terminus": "^10.2.3",
     "@nestjs/typeorm": "^10.0.2",
     "lodash": "^4.17.21",
@@ -51,16 +51,16 @@
   },
   "dependencies": {
     "@nestjs/axios": "^3.1.1",
-    "@nestjs/microservices": "^10.4.6",
-    "@nestjs/swagger": "^7.4.2",
+    "@nestjs/microservices": "^10.4.7",
+    "@nestjs/swagger": "^8.0.2",
     "@nestjs/terminus": "^10.2.3",
     "@nestjs/typeorm": "^10.0.2",
     "lodash": "^4.17.21",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.4.1-beta.2",
-    "@types/tresdoce-nestjs-toolkit": "^0.2.3-beta.2"
+    "@tresdoce-nestjs-toolkit/config": "^0.4.1-beta.3",
+    "@types/tresdoce-nestjs-toolkit": "^0.2.3-beta.3"
   },
   "prettier": {
     "semi": true,
