@@ -3,33 +3,38 @@ import { INestApplication } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { config } from '@tresdoce-nestjs-toolkit/test-utils';
 
-import {
-  RateLimitModule,
-  RateLimitModuleOptions,
-  RateLimitModuleOptionsFactory,
-  RateLimitService,
-} from '..';
+import { RateLimitModule } from '..';
+import { ThrottlerModuleOptions } from '@nestjs/throttler';
 
-class RateLimitConfigService implements RateLimitModuleOptionsFactory {
-  createOptions(): RateLimitModuleOptions {
-    const { project } = config();
-    return { apiPrefix: project.apiPrefix, apiName: project.name };
+// Implementación de un servicio de configuración de rate limit que devuelve ThrottlerModuleOptions
+class RateLimitConfigService {
+  createOptions(): ThrottlerModuleOptions {
+    return {
+      throttlers: [
+        {
+          limit: 10,
+          ttl: 60,
+          blockDuration: 30,
+        },
+      ],
+      ignoreUserAgents: [/googlebot/],
+      errorMessage: 'Too many requests. Please try again later.',
+    };
   }
 }
 
 describe('RateLimitModule', (): void => {
   let app: INestApplication;
-  let rateLimitService: RateLimitService;
 
   describe('Global', () => {
     beforeEach(async () => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
         imports: [
-          ConfigModule.forRoot({
+          await ConfigModule.forRoot({
             isGlobal: true,
             load: [config],
           }),
-          RateLimitModule,
+          RateLimitModule
         ],
       }).compile();
 
@@ -39,11 +44,6 @@ describe('RateLimitModule', (): void => {
 
     it('should be defined', () => {
       expect(app).toBeDefined();
-    });
-
-    it('should be initialize global module', async () => {
-      rateLimitService = app.get<RateLimitService>(RateLimitService);
-      expect(rateLimitService).toBeDefined();
     });
   });
 
@@ -52,8 +52,12 @@ describe('RateLimitModule', (): void => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
         imports: [
           RateLimitModule.register({
-            apiPrefix: 'API-TEST',
-            apiName: 'nestjs-starter-test',
+            throttlers: [
+              {
+                limit: 10,
+                ttl: 60,
+              },
+            ],
           }),
         ],
       }).compile();
@@ -66,25 +70,18 @@ describe('RateLimitModule', (): void => {
       expect(app).toBeDefined();
     });
 
-    it('should initialize with register (sync)', async () => {
-      rateLimitService = app.get<RateLimitService>(RateLimitService);
-      expect(rateLimitService).toBeDefined();
-    });
   });
 
   describe('RegisterAsync', () => {
     beforeEach(async () => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
         imports: [
-          ConfigModule.forRoot({
+          await ConfigModule.forRoot({
             isGlobal: true,
             load: [config],
           }),
           RateLimitModule.registerAsync({
-            useFactory: async (configService: ConfigService) => ({
-              apiPrefix: configService.get<string>('config.project.apiPrefix'),
-              apiName: configService.get<string>('config.project.name'),
-            }),
+            useFactory: async (configService: ConfigService) => configService.get<ThrottlerModuleOptions>('config.server.rateLimits'),
             inject: [ConfigService],
           }),
         ],
@@ -97,11 +94,6 @@ describe('RateLimitModule', (): void => {
     it('should be defined', () => {
       expect(app).toBeDefined();
     });
-
-    it('should initialize with registerAsync', async () => {
-      rateLimitService = app.get<RateLimitService>(RateLimitService);
-      expect(rateLimitService).toBeDefined();
-    });
   });
 
   describe('RegisterAsync without inject', () => {
@@ -109,10 +101,10 @@ describe('RateLimitModule', (): void => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
         imports: [
           RateLimitModule.registerAsync({
-            useFactory: () => ({
-              apiPrefix: config().project.apiPrefix,
-              apiName: config().project.name,
-            }),
+            useFactory: () => ([{
+              ttl: 60,
+              limit: 10,
+            }]),
           }),
         ],
       }).compile();
@@ -125,10 +117,6 @@ describe('RateLimitModule', (): void => {
       expect(app).toBeDefined();
     });
 
-    it('should initialize with registerAsync', async () => {
-      rateLimitService = app.get<RateLimitService>(RateLimitService);
-      expect(rateLimitService).toBeDefined();
-    });
   });
 
   describe('RegisterAsync with useClass', () => {
@@ -149,18 +137,16 @@ describe('RateLimitModule', (): void => {
       expect(app).toBeDefined();
     });
 
-    it('should initialize with registerAsync with useClass', async () => {
-      rateLimitService = app.get<RateLimitService>(RateLimitService);
-      expect(rateLimitService).toBeDefined();
-    });
   });
 
   describe('RegisterAsync with useExisting', () => {
     beforeEach(async () => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
+        providers: [
+          RateLimitConfigService,
+        ],
         imports: [
           RateLimitModule.registerAsync({
-            extraProviders: [RateLimitConfigService],
             useExisting: RateLimitConfigService,
           }),
         ],
@@ -173,21 +159,16 @@ describe('RateLimitModule', (): void => {
     it('should be defined', () => {
       expect(app).toBeDefined();
     });
-
-    it('should initialize with registerAsync with useExisting', async () => {
-      rateLimitService = app.get<RateLimitService>(RateLimitService);
-      expect(rateLimitService).toBeDefined();
-    });
   });
 
   describe('ForRoot', () => {
     beforeEach(async () => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
         imports: [
-          RateLimitModule.forRoot({
-            apiPrefix: 'API-TEST',
-            apiName: 'nestjs-starter-test',
-          }),
+          RateLimitModule.forRoot([{
+            ttl: 60,
+            limit: 10,
+          }]),
         ],
       }).compile();
 
@@ -199,25 +180,18 @@ describe('RateLimitModule', (): void => {
       expect(app).toBeDefined();
     });
 
-    it('should initialize with forRoot (sync)', async () => {
-      rateLimitService = app.get<RateLimitService>(RateLimitService);
-      expect(rateLimitService).toBeDefined();
-    });
   });
 
   describe('ForRootAsync', () => {
     beforeEach(async () => {
       const moduleFixture: TestingModule = await Test.createTestingModule({
         imports: [
-          ConfigModule.forRoot({
+          await ConfigModule.forRoot({
             isGlobal: true,
             load: [config],
           }),
           RateLimitModule.forRootAsync({
-            useFactory: async (configService: ConfigService) => ({
-              apiPrefix: configService.get<string>('config.project.apiPrefix'),
-              apiName: configService.get<string>('config.project.name'),
-            }),
+            useFactory: async (configService: ConfigService) => configService.get<ThrottlerModuleOptions>('config.server.rateLimits'),
             inject: [ConfigService],
           }),
         ],
@@ -229,11 +203,6 @@ describe('RateLimitModule', (): void => {
 
     it('should be defined', () => {
       expect(app).toBeDefined();
-    });
-
-    it('should initialize with forRootAsync', async () => {
-      rateLimitService = app.get<RateLimitService>(RateLimitService);
-      expect(rateLimitService).toBeDefined();
     });
   });
 });

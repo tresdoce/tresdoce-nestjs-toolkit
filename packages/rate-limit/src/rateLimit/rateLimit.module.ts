@@ -1,61 +1,73 @@
 import { DynamicModule, Global, Module, Provider, Type } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ThrottlerModuleOptions } from '@nestjs/throttler';
 
 import {
   RateLimitModuleAsyncOptions,
-  RateLimitModuleOptions,
   RateLimitModuleOptionsFactory,
 } from './interfaces/rateLimit.interface';
 import { RATE_LIMIT_MODULE_OPTIONS } from './constants/rateLimit.constant';
-import { RateLimitService } from './services/rateLimit.service';
+import { RateLimitCoreModule } from './rateLimit-core.module';
 
 @Global()
 @Module({
-  imports: [ConfigModule],
+  imports: [
+    ConfigModule,
+    RateLimitCoreModule.registerAsync(),
+  ],
   providers: [
     {
       provide: RATE_LIMIT_MODULE_OPTIONS,
-      useFactory: async (configService: ConfigService): Promise<RateLimitModuleOptions> => ({
-        apiPrefix: configService.get<string>('config.project.apiPrefix'),
-        apiName: configService.get<string>('config.project.name'),
-      }),
+      useFactory: async (configService: ConfigService): Promise<ThrottlerModuleOptions> => configService.get<ThrottlerModuleOptions>('config.server.rateLimits'),
       inject: [ConfigService],
     },
-    RateLimitService,
   ],
-  exports: [RateLimitService, RATE_LIMIT_MODULE_OPTIONS],
+  exports: [RATE_LIMIT_MODULE_OPTIONS],
 })
+
 export class RateLimitModule {
   // Opción 1: Registro sincrónico.
-  static register(options: RateLimitModuleOptions): DynamicModule {
+  static register(options: ThrottlerModuleOptions): DynamicModule {
     return {
       module: RateLimitModule,
-      providers: [{ provide: RATE_LIMIT_MODULE_OPTIONS, useValue: options }, RateLimitService],
-      exports: [RateLimitService, RATE_LIMIT_MODULE_OPTIONS],
+      imports:[RateLimitCoreModule.register(options)],
+      providers: [{ provide: RATE_LIMIT_MODULE_OPTIONS, useValue: options }],
+      exports: [RATE_LIMIT_MODULE_OPTIONS],
     };
   }
 
   // Opción 2: Registro asíncrono.
   static registerAsync(options: RateLimitModuleAsyncOptions): DynamicModule {
+    const providers = this.createAsyncProviders(options);
+
+    if (options.useExisting) {
+      // Registra `useExisting` como proveedor en el módulo para que esté disponible en el contexto
+      providers.push({
+        provide: options.useExisting,
+        useClass: options.useExisting,
+      });
+    }
+
     return {
       module: RateLimitModule,
-      imports: [...(options.imports || [])],
-      providers: [
-        ...this.createAsyncProviders(options),
-        ...(options.extraProviders || []),
-        RateLimitService,
+      imports: [
+        ConfigModule,
+        ...(options.imports || []),
+        RateLimitCoreModule.registerAsync(),
       ],
-      exports: [RateLimitService, RATE_LIMIT_MODULE_OPTIONS],
+      providers: [...providers, ...(options.extraProviders || [])],
+      exports: [RATE_LIMIT_MODULE_OPTIONS],
     };
   }
 
   // Opción 3: Configuración global sincrónica (forRoot).
-  static forRoot(options: RateLimitModuleOptions): DynamicModule {
+  static forRoot(options: ThrottlerModuleOptions): DynamicModule {
     return {
       global: true,
       module: RateLimitModule,
-      providers: [{ provide: RATE_LIMIT_MODULE_OPTIONS, useValue: options }, RateLimitService],
-      exports: [RateLimitService, RATE_LIMIT_MODULE_OPTIONS],
+      imports:[RateLimitCoreModule.register(options)],
+      providers: [{ provide: RATE_LIMIT_MODULE_OPTIONS, useValue: options }],
+      exports: [RATE_LIMIT_MODULE_OPTIONS],
     };
   }
 
@@ -64,13 +76,16 @@ export class RateLimitModule {
     return {
       global: true,
       module: RateLimitModule,
-      imports: options.imports || [],
+      imports: [
+        ConfigModule,
+        ...(options.imports || []),
+        RateLimitCoreModule.registerAsync(),
+      ],
       providers: [
         ...this.createAsyncProviders(options),
         ...(options.extraProviders || []),
-        RateLimitService,
       ],
-      exports: [RateLimitService, RATE_LIMIT_MODULE_OPTIONS],
+      exports: [RATE_LIMIT_MODULE_OPTIONS],
     };
   }
 
@@ -108,7 +123,7 @@ export class RateLimitModule {
       provide: RATE_LIMIT_MODULE_OPTIONS,
       useFactory: async (
         optionsFactory: RateLimitModuleOptionsFactory,
-      ): Promise<RateLimitModuleOptions> => optionsFactory.createOptions(),
+      ): Promise<ThrottlerModuleOptions> => optionsFactory.createOptions(),
       inject,
     };
   }
