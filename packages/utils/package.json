@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/utils",
-  "version": "1.2.4-beta.5",
+  "version": "1.2.4",
   "description": "Tresdoce NestJS Toolkit - Utilitarios para proyectos y librerías",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -51,8 +51,8 @@
     "luxon": "^3.5.0"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.4.1-beta.5",
-    "@types/tresdoce-nestjs-toolkit": "^0.2.3-beta.5"
+    "@tresdoce-nestjs-toolkit/config": "^0.4.1",
+    "@types/tresdoce-nestjs-toolkit": "^0.2.3"
   },
   "prettier": {
     "semi": true,
