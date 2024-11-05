@@ -32,7 +32,6 @@ export class ReadinessController {
   ) {}
 
   @Get('readiness')
-  @ApiTags('Monitoring')
   @ApiExcludeEndpoint()
   @ApiOperation({
     summary: 'Readiness check',

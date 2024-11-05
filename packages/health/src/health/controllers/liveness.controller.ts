@@ -10,7 +10,6 @@ export class LivenessController {
   @Get('liveness')
   @Public()
   @SkipTrace()
-  @ApiTags('Monitoring')
   @ApiOperation({
     summary: 'Liveness check',
     description:
