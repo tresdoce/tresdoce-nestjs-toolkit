@@ -20,6 +20,7 @@ import { URL } from 'url';
 import { CONFIG_OPTIONS, DEFAULT_SERVICE_LIVENESS_PATH } from '../constants';
 
 @Controller('health')
+@ApiTags('Monitoring')
 export class ReadinessController {
   constructor(
     @Inject(CONFIG_OPTIONS) private readonly appConfig: Typings.AppConfig,
@@ -32,7 +33,6 @@ export class ReadinessController {
   ) {}
 
   @Get('readiness')
-  @ApiTags('Monitoring')
   @ApiExcludeEndpoint()
   @ApiOperation({
     summary: 'Readiness check',
