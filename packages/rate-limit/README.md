@@ -208,6 +208,28 @@ export class TestController {
 }
 ```
 
+#### Saltear rate limit
+
+El decorador `@SkipThrottle()` se usa para omitir temporalmente el rate limit en métodos o controladores específicos que,
+de otro modo, estarían protegidos por el `ThrottlerGuard`. Esto permite marcar ciertas rutas o acciones que no deberían
+verse afectadas por el límite de solicitudes configurado en `RateLimitModule`.
+
+```typescript
+@SkipThrottle()
+@Controller('users')
+export class UsersController {
+  // Rate limiting is applied to this route.
+  @SkipThrottle({ default: false })
+  dontSkip() {
+    return 'List users work with Rate limiting.';
+  }
+  // This route will skip rate limiting.
+  doSkip() {
+    return 'List users work without Rate limiting.';
+  }
+}
+```
+
 ## 📄 Changelog
 
 Todos los cambios notables de este paquete se documentarán en el archivo [Changelog](./CHANGELOG.md).
