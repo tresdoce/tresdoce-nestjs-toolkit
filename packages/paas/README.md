@@ -58,6 +58,7 @@ Esta librería contiene de manera centralizada los recursos necesarios para el d
 - [`@tresdoce-nestjs-toolkit/core`](../core)
 - [`@tresdoce-nestjs-toolkit/filters`](../filters)
 - [`@tresdoce-nestjs-toolkit/health`](../health)
+- [`@tresdoce-nestjs-toolkit/rate-limit`](../rate-limit)
 - [`@tresdoce-nestjs-toolkit/response-parser`](../response-parser)
 - [`@tresdoce-nestjs-toolkit/tracing`](../tracing)
 - [`@tresdoce-nestjs-toolkit/utils`](../utils)

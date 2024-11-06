@@ -8,6 +8,7 @@ import { HttpModuleOptions } from '@tresdoce-nestjs-toolkit/http-client';
 import { RedactOptions, BcryptOptions } from '@tresdoce-nestjs-toolkit/utils';
 import { SnowFlakeOptions } from '@tresdoce-nestjs-toolkit/snowflake-uid';
 import { AwsSqsModuleOptions } from '@tresdoce-nestjs-toolkit/aws-sqs';
+import { ThrottlerModuleOptions } from '@tresdoce-nestjs-toolkit/rate-limit';
 import { DiskHealthIndicatorOptions } from '@nestjs/terminus';
 import { AxiosRequestConfig } from 'axios';
 import { CsrfCookieOptions } from '../commons/index';
@@ -94,6 +95,7 @@ export interface IServerConfig {
   corsEnabled: boolean;
   corsCredentials: boolean;
   csrf?: CsrfCookieOptions;
+  rateLimits?: ThrottlerModuleOptions;
 }
 
 export interface IHealthConfig {
