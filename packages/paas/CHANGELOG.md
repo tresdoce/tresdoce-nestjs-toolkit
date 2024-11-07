@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/paas@1.1.4...@tresdoce-nestjs-toolkit/paas@1.2.0) (2024-11-07)
+
+### ✨ Features
+
+- **paas:** add rate limit module ([77eef64](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/77eef6453c98504efd5cd8fc1332f16feb1626e4))
+
 ## [1.1.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/paas@1.1.3...@tresdoce-nestjs-toolkit/paas@1.1.4) (2024-11-05)
 
 ### 👨‍💻 Chores

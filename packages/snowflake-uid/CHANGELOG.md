@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/snowflake-uid@0.1.3...@tresdoce-nestjs-toolkit/snowflake-uid@0.1.4) (2024-11-07)
+
+**Note:** Version bump only for package @tresdoce-nestjs-toolkit/snowflake-uid
+
 ## [0.1.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/snowflake-uid@0.1.2...@tresdoce-nestjs-toolkit/snowflake-uid@0.1.3) (2024-11-05)
 
 ### 👨‍💻 Chores

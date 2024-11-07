@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/aws-sqs@0.1.0...@tresdoce-nestjs-toolkit/aws-sqs@0.1.1) (2024-11-07)
+
+### 👨‍💻 Chores
+
+- update dependencies ([98aa4ad](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/98aa4adea6f3a86ea5d3114040d6d63b7b05a763))
+
 ## 0.1.0 (2024-11-05)
 
 ### ✨ Features

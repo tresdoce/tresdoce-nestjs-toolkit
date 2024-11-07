@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@1.4.3...@tresdoce-nestjs-toolkit/core@1.4.4) (2024-11-07)
+
+### ♻️Refactors
+
+- **rate-limit:** change module of rate limit ([94b7604](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/94b760460e3d08ddfcf4cd5f156a48b2e737271a))
+
 ## [1.4.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@1.4.2...@tresdoce-nestjs-toolkit/core@1.4.3) (2024-11-05)
 
 ### 🐛 Bug Fixes
