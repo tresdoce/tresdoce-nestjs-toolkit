@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/typeorm",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Tresdoce NestJS Toolkit - Módulo de ORM para base de datos",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -40,7 +40,7 @@
     "@nestjs/core": "^10.4.8",
     "@nestjs/platform-express": "^10.4.8",
     "@nestjs/typeorm": "^10.0.2",
-    "mongodb": "^6.10.0",
+    "mongodb": "^6.11.0",
     "mysql": "^2.18.1",
     "mysql2": "^3.11.4",
     "pg": "^8.13.1",
@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@nestjs/typeorm": "^10.0.2",
-    "mongodb": "^6.10.0",
+    "mongodb": "^6.11.0",
     "mysql": "^2.18.1",
     "mysql2": "^3.11.4",
     "pg": "^8.13.1",
