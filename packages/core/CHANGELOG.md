@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@1.4.4...@tresdoce-nestjs-toolkit/core@1.5.0) (2024-11-22)
+
+### ✨ Features
+
+- update dependencies and monorepo ([ee38f92](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/ee38f9210848d44ffa2a064207010ed6dcb667cb))
+
 ## [1.4.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/core@1.4.3...@tresdoce-nestjs-toolkit/core@1.4.4) (2024-11-07)
 
 ### ♻️Refactors
