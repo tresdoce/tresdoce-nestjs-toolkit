@@ -4,26 +4,22 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"],
+      "outputs": ["../../dist/**"],
       "cache": true
     },
     "test": {
       "outputs": ["coverage/**", "test-report.xml", "junit.xml"],
-      "dependsOn": [],
+      "dependsOn": ["^test"],
       "cache": true
     },
-    "test:husky": {
-      "outputs": ["coverage/**", "test-report.xml", "junit.xml"],
-      "dependsOn": [],
-      "cache": true
+    "clean": {
+      "dependsOn": ["^clean"],
+      "outputs": []
     },
     "lint": {
       "outputs": []
     },
     "format": {
-      "outputs": []
-    },
-    "clean": {
       "outputs": []
     },
     "dev": {
