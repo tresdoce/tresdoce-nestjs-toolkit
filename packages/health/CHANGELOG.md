@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@1.2.3...@tresdoce-nestjs-toolkit/health@1.2.4) (2024-11-22)
+
+### 📝 Docs
+
+- edit badges ([a146f14](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a146f147b7cc5ecf8a5230760457efff9fec4c0a))
+
+## [1.2.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@1.2.2...@tresdoce-nestjs-toolkit/health@1.2.3) (2024-11-22)
+
+**Note:** Version bump only for package @tresdoce-nestjs-toolkit/health
+
+## [1.2.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@1.2.1...@tresdoce-nestjs-toolkit/health@1.2.2) (2024-11-22)
+
+### 👨‍💻 Chores
+
+- edit versions ([d887fd7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d887fd7dab236d6bac2e70192c346207b777c0ac))
+
+## [1.2.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@1.2.0...@tresdoce-nestjs-toolkit/health@1.2.1) (2024-11-22)
+
+### 👨‍💻 Chores
+
+- edit versions ([2431c3e](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/2431c3eaa021e31b58f7c796738860e19677d3a3))
+
+## [1.2.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@1.1.6...@tresdoce-nestjs-toolkit/health@1.2.0) (2024-11-22)
+
+### ✨ Features
+
+- update dependencies and monorepo ([ee38f92](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/ee38f9210848d44ffa2a064207010ed6dcb667cb))
+
 ## [1.1.6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/health@1.1.5...@tresdoce-nestjs-toolkit/health@1.1.6) (2024-11-11)
 
 ### 👨‍💻 Chores

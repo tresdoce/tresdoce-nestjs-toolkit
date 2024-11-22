@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/tracing@1.3.3...@tresdoce-nestjs-toolkit/tracing@1.3.4) (2024-11-22)
+
+### 📝 Docs
+
+- edit badges ([a146f14](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a146f147b7cc5ecf8a5230760457efff9fec4c0a))
+
+## [1.3.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/tracing@1.3.2...@tresdoce-nestjs-toolkit/tracing@1.3.3) (2024-11-22)
+
+**Note:** Version bump only for package @tresdoce-nestjs-toolkit/tracing
+
+## [1.3.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/tracing@1.3.1...@tresdoce-nestjs-toolkit/tracing@1.3.2) (2024-11-22)
+
+### 👨‍💻 Chores
+
+- edit versions ([d887fd7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d887fd7dab236d6bac2e70192c346207b777c0ac))
+
+## [1.3.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/tracing@1.3.0...@tresdoce-nestjs-toolkit/tracing@1.3.1) (2024-11-22)
+
+### 👨‍💻 Chores
+
+- edit versions ([2431c3e](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/2431c3eaa021e31b58f7c796738860e19677d3a3))
+
+## [1.3.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/tracing@1.2.6...@tresdoce-nestjs-toolkit/tracing@1.3.0) (2024-11-22)
+
+### ✨ Features
+
+- update dependencies and monorepo ([ee38f92](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/ee38f9210848d44ffa2a064207010ed6dcb667cb))
+
+### 🐛 Bug Fixes
+
+- **tracing:** change semantics conventions ([a8624b9](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a8624b91cdb4047f985610a494e6119950a76842))
+
 ## [1.2.6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/tracing@1.2.5...@tresdoce-nestjs-toolkit/tracing@1.2.6) (2024-11-11)
 
 ### 👨‍💻 Chores
