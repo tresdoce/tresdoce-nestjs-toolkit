@@ -45,10 +45,7 @@ jobs:
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
 
       - name: "📦 Install Dependencies"
-        run: |
-          echo "${{ secrets }}"
-          echo "${{ secrets.GH_TOKEN }}"
-          yarn install
+        run: yarn install
 
       - name: "💅 Lint"
         run: yarn lint
