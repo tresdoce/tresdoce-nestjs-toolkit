@@ -3,10 +3,7 @@ import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { Resource } from '@opentelemetry/resources';
-import {
-  SEMRESATTRS_SERVICE_NAME,
-  SEMRESATTRS_SERVICE_VERSION,
-} from '@opentelemetry/semantic-conventions';
+import { ATTR_SERVICE_NAME, ATTR_SERVICE_VERSION } from '@opentelemetry/semantic-conventions';
 import { AWSXRayIdGenerator } from '@opentelemetry/id-generator-aws-xray';
 import {
   CompositePropagator,
@@ -41,8 +38,8 @@ export const otelProvider = (_options: TracingOptions): void => {
     const spanProcessor = new BatchSpanProcessor(traceExporter);
 
     const resource = new Resource({
-      [SEMRESATTRS_SERVICE_NAME]: resourceAttributes.serviceName,
-      [SEMRESATTRS_SERVICE_VERSION]: resourceAttributes.version,
+      [ATTR_SERVICE_NAME]: resourceAttributes.serviceName,
+      [ATTR_SERVICE_VERSION]: resourceAttributes.version,
       ...resourceAttributes,
     });
 
