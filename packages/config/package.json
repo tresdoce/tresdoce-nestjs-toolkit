@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.4.2",
   "scripts": {
-    "test": "echo \"Error: no test specified\"",
+    "tests": "echo \"Error: no test specified\"",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   }
 }
