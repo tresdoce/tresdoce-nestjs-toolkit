@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.10](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@1.2.9...@tresdoce-nestjs-toolkit/commons@1.2.10) (2024-11-22)
+
+### 📝 Docs
+
+- edit badges ([a146f14](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a146f147b7cc5ecf8a5230760457efff9fec4c0a))
+
 ## [1.2.9](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@1.2.8...@tresdoce-nestjs-toolkit/commons@1.2.9) (2024-11-22)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/commons
