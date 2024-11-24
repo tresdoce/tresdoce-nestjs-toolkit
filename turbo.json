@@ -5,7 +5,7 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**"],
-      "cache": true
+      "cache": false
     },
     "test": {
       "outputs": ["coverage/**", "test-report.xml", "junit.xml"],
