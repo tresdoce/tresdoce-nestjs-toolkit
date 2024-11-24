@@ -8,7 +8,7 @@
     "url": "https://rudemex.github.io/"
   },
   "directories": {
-    "lib": "lib",
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v10.9.1&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="npm"/>
     "test": "__tests__"
   },
   "keywords": [
