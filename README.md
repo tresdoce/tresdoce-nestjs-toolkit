@@ -5,7 +5,7 @@
 
 <div align="center">
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v20.18.1&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="NodeJS"/>
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v10.9.1&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="npm"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v10.9.1&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="NPM"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v10.4.8&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/>
     <img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg" alt="lerna">
     <a href="./license.md">
