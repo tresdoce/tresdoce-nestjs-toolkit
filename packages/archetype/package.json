@@ -11,6 +11,15 @@
     "lib": "lib",
     "test": "__tests__"
   },
+  "files": [
+    "dist-node/",
+    "dist-src/",
+    "dist-types/",
+    "CHANGELOG.md",
+    "LICENSE.md",
+    "package.json",
+    "README.md"
+  ],
   "keywords": [
     "nestjs",
     "archetype"
@@ -23,7 +32,8 @@
     "url": "https://github.com/tresdoce/tresdoce-nestjs-toolkit/issues"
   },
   "homepage": "https://github.com/tresdoce/tresdoce-nestjs-toolkit#readme",
-  "main": "src/index.ts",
+  "main": "dist-node/index.js",
+  "types": "dist-types/index.d.ts",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf ../../dist/archetype",
