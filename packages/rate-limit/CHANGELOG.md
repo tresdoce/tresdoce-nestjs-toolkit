@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/rate-limit@0.1.4...@tresdoce-nestjs-toolkit/rate-limit@0.1.5) (2024-11-25)
+
+### 🐛 Bug Fixes
+
+- resolve problem with package list to publish ([23fe12d](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/23fe12d184ff87a6d51b43aaab56320fec9da75d))
+- rollback ts version ([30e3d27](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/30e3d2746cd4c336f7b867d10c789b1f5cc47028))
+
+### 📝 Docs
+
+- edit badges ([c36edaa](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c36edaaf3632f7d991e3feada01e87b76b9adcba))
+
 ## [0.1.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/rate-limit@0.1.3...@tresdoce-nestjs-toolkit/rate-limit@0.1.4) (2024-11-22)
 
 ### 📝 Docs
