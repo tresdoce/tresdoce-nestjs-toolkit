@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/paas",
-  "version": "1.3.5-beta.8",
+  "version": "1.3.5-beta.9",
   "description": "Tresdoce NestJS Toolkit - Librería centralizada de funcionalidades cross",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -44,17 +44,17 @@
     "rxjs": "^7.8.1"
   },
   "dependencies": {
-    "@tresdoce-nestjs-toolkit/core": "^1.5.5-beta.8",
-    "@tresdoce-nestjs-toolkit/filters": "^1.2.5-beta.8",
-    "@tresdoce-nestjs-toolkit/health": "^1.2.5-beta.8",
-    "@tresdoce-nestjs-toolkit/rate-limit": "^0.1.5-beta.8",
-    "@tresdoce-nestjs-toolkit/response-parser": "^1.3.5-beta.8",
-    "@tresdoce-nestjs-toolkit/tracing": "^1.3.5-beta.8",
-    "@tresdoce-nestjs-toolkit/utils": "^1.3.5-beta.8"
+    "@tresdoce-nestjs-toolkit/core": "^1.5.5-beta.9",
+    "@tresdoce-nestjs-toolkit/filters": "^1.2.5-beta.9",
+    "@tresdoce-nestjs-toolkit/health": "^1.2.5-beta.9",
+    "@tresdoce-nestjs-toolkit/rate-limit": "^0.1.5-beta.9",
+    "@tresdoce-nestjs-toolkit/response-parser": "^1.3.5-beta.9",
+    "@tresdoce-nestjs-toolkit/tracing": "^1.3.5-beta.9",
+    "@tresdoce-nestjs-toolkit/utils": "^1.3.5-beta.9"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.1-beta.3",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.1-beta.3"
+    "@tresdoce-nestjs-toolkit/config": "^0.5.1-beta.4",
+    "@types/tresdoce-nestjs-toolkit": "^0.3.1-beta.4"
   },
   "prettier": {
     "semi": true,

@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/archetype",
-  "version": "1.2.5-beta.8",
+  "version": "1.2.5-beta.9",
   "description": "Tresdoce NestJS Toolkit - Módulo informativo de la app",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -11,6 +11,15 @@
     "lib": "lib",
     "test": "__tests__"
   },
+  "files": [
+    "dist-node/",
+    "dist-src/",
+    "dist-types/",
+    "CHANGELOG.md",
+    "LICENSE.md",
+    "package.json",
+    "README.md"
+  ],
   "keywords": [
     "nestjs",
     "archetype"
@@ -23,7 +32,8 @@
     "url": "https://github.com/tresdoce/tresdoce-nestjs-toolkit/issues"
   },
   "homepage": "https://github.com/tresdoce/tresdoce-nestjs-toolkit#readme",
-  "main": "src/index.ts",
+  "main": "dist-node/index.js",
+  "types": "dist-types/index.d.ts",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf ../../dist/archetype",
@@ -43,8 +53,8 @@
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.1-beta.3",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.1-beta.3"
+    "@tresdoce-nestjs-toolkit/config": "^0.5.1-beta.4",
+    "@types/tresdoce-nestjs-toolkit": "^0.3.1-beta.4"
   },
   "prettier": {
     "semi": true,
