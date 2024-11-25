@@ -8,7 +8,7 @@
     "url": "https://rudemex.github.io/"
   },
   "directories": {
-    "lib": "lib",
+    "src": "src",
     "test": "__tests__"
   },
   "keywords": [
@@ -30,6 +30,7 @@
     "prebuild": "rimraf ../../dist/dynamoose",
     "build": "pika build --out ../../dist/dynamoose",
     "test": "jest --runInBand --coverage --forceExit --passWithNoTests",
+    "prepare": "yarn build",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
