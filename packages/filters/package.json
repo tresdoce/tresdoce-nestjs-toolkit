@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/filters",
-  "version": "1.2.5-beta.4",
+  "version": "1.2.5-beta.5",
   "description": "Tresdoce NestJS Toolkit - Librería para filtrar y formatear las excepciones",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -8,7 +8,7 @@
     "url": "https://rudemex.github.io/"
   },
   "directories": {
-    "lib": "lib",
+    "src": "src",
     "test": "__tests__"
   },
   "keywords": [
@@ -29,6 +29,7 @@
     "prebuild": "rimraf ../../dist/filters",
     "build": "pika build --out ../../dist/filters",
     "test": "jest --runInBand --coverage --forceExit",
+    "prepare": "yarn build",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -44,11 +45,11 @@
     "rxjs": "^7.8.1"
   },
   "dependencies": {
-    "@tresdoce-nestjs-toolkit/core": "^1.5.5-beta.4"
+    "@tresdoce-nestjs-toolkit/core": "^1.5.5-beta.5"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.0",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.0"
+    "@tresdoce-nestjs-toolkit/config": "^0.5.1-beta.0",
+    "@types/tresdoce-nestjs-toolkit": "^0.3.1-beta.0"
   },
   "prettier": {
     "semi": true,
