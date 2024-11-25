@@ -27,6 +27,7 @@
       }
     },
     "publish": {
+      "prepublish": "yarn pack",
       "conventionalCommits": true,
       "allowBranch": ["master"],
       "includeMergedTags": true,

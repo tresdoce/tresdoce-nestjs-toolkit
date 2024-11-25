@@ -29,6 +29,7 @@
     "prebuild": "rimraf ../../dist/qrcode",
     "build": "pika build --out ../../dist/qrcode",
     "test": "jest --runInBand --coverage --forceExit",
+    "pack": "yarn pack",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {

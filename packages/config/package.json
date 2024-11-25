@@ -4,7 +4,7 @@
   "version": "0.5.1-beta.0",
   "scripts": {
     "tests": "echo \"Error: no test specified\"",
-    "prepare": "yarn build",
+    "pack": "yarn pack",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   }
 }

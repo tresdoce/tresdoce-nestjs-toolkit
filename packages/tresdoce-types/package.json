@@ -9,7 +9,7 @@
   },
   "scripts": {
     "tests": "echo \"Error: no test specified\"",
-    "prepare": "yarn build",
+    "pack": "yarn pack",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "private": true
