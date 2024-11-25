@@ -11,14 +11,6 @@
     "lib": "lib",
     "test": "__tests__"
   },
-  "files": [
-    "dist-node/",
-    "dist-src/",
-    "dist-types/",
-    "README.md",
-    "LICENSE.md",
-    "CHANGELOG.md"
-  ],
   "keywords": [
     "nestjs",
     "archetype"
@@ -31,8 +23,7 @@
     "url": "https://github.com/tresdoce/tresdoce-nestjs-toolkit/issues"
   },
   "homepage": "https://github.com/tresdoce/tresdoce-nestjs-toolkit#readme",
-  "main": "dist-node/index.js",
-  "types": "dist-types/index.d.ts",
+  "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf ../../dist/archetype",
@@ -77,6 +68,16 @@
         {
           "exclude": [
             "**/__test__/*"
+          ]
+        }
+      ],
+      [
+        "pika-plugin-package.json",
+        {
+          "*files": [
+            "-bin/",
+            "-dist-*/",
+            "+dist-*/*"
           ]
         }
       ]

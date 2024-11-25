@@ -79,6 +79,16 @@
             "**/__test__/*"
           ]
         }
+      ],
+      [
+        "pika-plugin-package.json",
+        {
+          "*files": [
+            "-bin/",
+            "-dist-*/",
+            "+dist-*/*"
+          ]
+        }
       ]
     ]
   }

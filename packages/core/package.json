@@ -92,6 +92,16 @@
             "**/__test__/**/*.key"
           ]
         }
+      ],
+      [
+        "pika-plugin-package.json",
+        {
+          "*files": [
+            "-bin/",
+            "-dist-*/",
+            "+dist-*/*"
+          ]
+        }
       ]
     ]
   }
