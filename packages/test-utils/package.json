@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/test-utils",
-  "version": "2.2.5-beta.5",
+  "version": "2.2.5-beta.6",
   "description": "Tresdoce NestJS Toolkit - Utilities para testing",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -29,7 +29,7 @@
     "prebuild": "rimraf ../../dist/test-utils",
     "build": "pika build --out ../../dist/test-utils",
     "test": "jest --runInBand --coverage --forceExit",
-    "prepare": "yarn build",
+    "pack": "yarn pack",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -50,8 +50,8 @@
     "testcontainers": "^10.15.0"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.1-beta.0",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.1-beta.0"
+    "@tresdoce-nestjs-toolkit/config": "^0.5.1-beta.1",
+    "@types/tresdoce-nestjs-toolkit": "^0.3.1-beta.1"
   },
   "prettier": {
     "semi": true,

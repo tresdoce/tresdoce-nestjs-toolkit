@@ -29,7 +29,8 @@
     "prebuild": "rimraf ../../dist/{{kebabCase moduleName}}",
     "build": "pika build --out ../../dist/{{kebabCase moduleName}}",
     "test": "jest --runInBand --coverage --forceExit",
-    "prepare": "yarn build","clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
+    "pack": "yarn pack",
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
     "access": "public",
