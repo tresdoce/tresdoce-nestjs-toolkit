@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/mailer",
-  "version": "1.2.5-beta.6",
+  "version": "1.2.5-beta.7",
   "description": "Tresdoce NestJS Toolkit - Módulo para envíos de mail",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -60,8 +60,8 @@
     "pug": "^3.0.3"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.1-beta.1",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.1-beta.1"
+    "@tresdoce-nestjs-toolkit/config": "^0.5.1-beta.2",
+    "@types/tresdoce-nestjs-toolkit": "^0.3.1-beta.2"
   },
   "prettier": {
     "semi": true,
