@@ -76,6 +76,10 @@ lerna-debug.log*
 *.zip
 *.rar
 *.sh
+./**/*/*.tgz
+./**/*/*.zip
+./**/*/*.rar
+./**/*/*.sh
 
 # DATA
 mongo_data

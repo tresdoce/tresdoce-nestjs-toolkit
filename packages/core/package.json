@@ -8,7 +8,7 @@
     "url": "https://rudemex.github.io/"
   },
   "directories": {
-    "src": "src",
+    "lib": "lib",
     "test": "__tests__"
   },
   "keywords": [
@@ -29,7 +29,6 @@
     "prebuild": "rimraf ../../dist/core",
     "build": "pika build --out ../../dist/core",
     "test": "jest --runInBand --coverage --forceExit",
-    "pack": "yarn pack",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
