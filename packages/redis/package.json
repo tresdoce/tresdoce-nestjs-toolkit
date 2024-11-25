@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/redis",
-  "version": "1.2.5-beta.6",
+  "version": "1.2.5-beta.8",
   "description": "Tresdoce NestJS Toolkit - Módulo de Redis para cache",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -8,7 +8,7 @@
     "url": "https://rudemex.github.io/"
   },
   "directories": {
-    "src": "src",
+    "lib": "lib",
     "test": "__tests__"
   },
   "keywords": [
@@ -29,7 +29,6 @@
     "prebuild": "rimraf ../../dist/redis",
     "build": "pika build --out ../../dist/redis",
     "test": "jest --runInBand --coverage --forceExit",
-    "pack": "yarn pack",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -50,8 +49,8 @@
     "uuid": "^11.0.3"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.1-beta.1",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.1-beta.1"
+    "@tresdoce-nestjs-toolkit/config": "^0.5.1-beta.3",
+    "@types/tresdoce-nestjs-toolkit": "^0.3.1-beta.3"
   },
   "prettier": {
     "semi": true,

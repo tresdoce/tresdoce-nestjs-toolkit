@@ -1,6 +1,6 @@
 {
   "name": "@types/tresdoce-nestjs-toolkit",
-  "version": "0.3.1-beta.1",
+  "version": "0.3.1-beta.3",
   "license": "MIT",
   "main": "",
   "types": "index",
@@ -9,7 +9,6 @@
   },
   "scripts": {
     "tests": "echo \"Error: no test specified\"",
-    "pack": "yarn pack",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "private": true

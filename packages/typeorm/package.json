@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/typeorm",
-  "version": "1.2.5-beta.6",
+  "version": "1.2.5-beta.8",
   "description": "Tresdoce NestJS Toolkit - Módulo de ORM para base de datos",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -8,7 +8,7 @@
     "url": "https://rudemex.github.io/"
   },
   "directories": {
-    "src": "src",
+    "lib": "lib",
     "test": "__tests__"
   },
   "keywords": [
@@ -29,7 +29,6 @@
     "prebuild": "rimraf ../../dist/typeorm",
     "build": "pika build --out ../../dist/typeorm",
     "test": "jest --runInBand --coverage --forceExit",
-    "pack": "yarn pack",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -58,8 +57,8 @@
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.1-beta.1",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.1-beta.1"
+    "@tresdoce-nestjs-toolkit/config": "^0.5.1-beta.3",
+    "@types/tresdoce-nestjs-toolkit": "^0.3.1-beta.3"
   },
   "prettier": {
     "semi": true,
