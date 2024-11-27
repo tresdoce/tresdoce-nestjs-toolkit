@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/redis@1.2.5...@tresdoce-nestjs-toolkit/redis@1.2.6) (2024-11-27)
+
+### 🐛 Bug Fixes
+
+- resolve files to pack ([915312c](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/915312cc2c280ea72dd5f95075e87a9f890e6118))
+
+### 👨‍💻 Chores
+
+- update dependencies ([5c2af4d](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/5c2af4d3906831dd6bcaa36f60cd12da4852c8a4))
+
+### 📝 Docs
+
+- edit versions ([132ea67](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/132ea674f400580abf70a7e3fb55322d7320ec1e))
+
 ## [1.2.5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/redis@1.2.4...@tresdoce-nestjs-toolkit/redis@1.2.5) (2024-11-25)
 
 ### 🐛 Bug Fixes
