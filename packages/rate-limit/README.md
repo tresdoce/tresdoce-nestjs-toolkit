@@ -36,7 +36,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 
 - [NestJS Starter](https://github.com/rudemex/nestjs-starter)
 - Node.js v20.18.1 or higher ([Download](https://nodejs.org/es/download/))
-- YARN v1.22.19 or higher
+- YARN v1.22.22 or higher
 - NPM v10.9.1 or higher
 - NestJS v10.4.6 or higher ([Documentación](https://nestjs.com/))
 
