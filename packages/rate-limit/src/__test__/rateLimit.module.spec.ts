@@ -29,10 +29,6 @@ describe('RateLimitModule', (): void => {
                         name: 'medium',
                         ttl: 10000,
                         limit: 20,
-                        scope: [
-                          { endpoint: 'cats', ttl: 60, limit: 5 },
-                          { endpoint: 'dogs', ttl: 60, limit: 10 },
-                        ],
                       },
                       {
                         name: 'long',
