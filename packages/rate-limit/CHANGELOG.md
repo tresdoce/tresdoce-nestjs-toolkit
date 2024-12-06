@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/rate-limit@0.1.6...@tresdoce-nestjs-toolkit/rate-limit@0.1.7) (2024-12-06)
+
+### 🐛 Bug Fixes
+
+- **test-utils:** add merge args into base config in dynamicConfig function ([e6da44a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/e6da44ac2f939bcae4e755ee2fd5bc847db239f4))
+
 ## [0.1.6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/rate-limit@0.1.5...@tresdoce-nestjs-toolkit/rate-limit@0.1.6) (2024-11-27)
 
 ### 🐛 Bug Fixes
