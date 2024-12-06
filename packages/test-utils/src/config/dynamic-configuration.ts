@@ -9,4 +9,4 @@ type DeepPartial<T> = {
 };
 
 export const dynamicConfig = ({ ...args }: DeepPartial<Typings.AppConfig> = {}) =>
-  registerAs('config', (): Typings.AppConfig => (_.mergeWith(_.cloneDeep(appConfigBase), args)));
+  registerAs('config', (): Typings.AppConfig => _.mergeWith(_.cloneDeep(appConfigBase), args));
