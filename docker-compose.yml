@@ -97,6 +97,7 @@ services:
   zookeeper:
     container_name: tresdoce-test-utils-global-zookeeper
     image: confluentinc/cp-zookeeper:5.5.3
+    #image: confluentinc/cp-zookeeper:7.8.0
     restart: always
     environment:
       TZ: 'America/Argentina/Buenos_Aires'
@@ -108,6 +109,7 @@ services:
   kafka:
     container_name: tresdoce-test-utils-global-kafka
     image: confluentinc/cp-kafka:5.5.3
+    #image: confluentinc/cp-kafka:7.8.0
     restart: always
     environment:
       TZ: 'America/Argentina/Buenos_Aires'
@@ -163,6 +165,11 @@ services:
         echo 'kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test.topic.a' >> startup.sh
         echo 'kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test.topic.b' >> startup.sh
         echo 'kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test.topic.c' >> startup.sh
+        # for kafka 7.8.0
+        #echo 'kafka-topics --create --if-not-exists --bootstrap-server docker:9092 --replication-factor 1 --partitions 1 --topic test.topic' >> startup.sh
+        #echo 'kafka-topics --create --if-not-exists --bootstrap-server docker:9092 --replication-factor 1 --partitions 1 --topic test.topic.a' >> startup.sh
+        #echo 'kafka-topics --create --if-not-exists --bootstrap-server docker:9092 --replication-factor 1 --partitions 1 --topic test.topic.b' >> startup.sh
+        #echo 'kafka-topics --create --if-not-exists --bootstrap-server docker:9092 --replication-factor 1 --partitions 1 --topic test.topic.c' >> startup.sh
         echo 'echo \"Successfully created the following topics:\"' >> startup.sh
         echo 'kafka-topics --bootstrap-server kafka:29092 --list' >> startup.sh
         chmod a+x startup.sh
@@ -175,6 +182,7 @@ services:
   schema-registry:
     container_name: tresdoce-test-utils-global-kafka-schema-registry
     image: confluentinc/cp-schema-registry:5.5.3
+    #image: confluentinc/cp-schema-registry:7.8.0
     restart: always
     depends_on:
       - kafka
