@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@2.2.6...@tresdoce-nestjs-toolkit/test-utils@2.2.7) (2024-12-06)
+
+### 🐛 Bug Fixes
+
+- **test-utils:** add merge args into base config in dynamicConfig function ([e6da44a](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/e6da44ac2f939bcae4e755ee2fd5bc847db239f4))
+- **test-utils:** merge config in dynamicConfig ([96abb0f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/96abb0f43d043d6b0f3759709f10ab4b0116ea83))
+
+### 👨‍💻 Chores
+
+- update dependencies ([30b3399](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/30b3399525d116aa315b6e7f30c16b8c171e213e))
+- update dependencies ([6291d15](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/6291d15f3b3bd3643d3f8c05fa9a8f980bbb7d14))
+
 ## [2.2.6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@2.2.5...@tresdoce-nestjs-toolkit/test-utils@2.2.6) (2024-11-27)
 
 ### 🐛 Bug Fixes
