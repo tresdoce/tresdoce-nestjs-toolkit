@@ -23,7 +23,7 @@
     "prebuild": "rimraf ./dist",
     "build": "turbo run build --concurrency=1",
     "test": "turbo run test --concurrency=1",
-    "clean": "turbo run clean",
+    "clean": "turbo run clean --concurrency=1",
     "preclean": "lerna clean -y",
     "postclean": "rimraf ./yarn.lock ./package-lock.json ./dist ./.turbo ./mochawesome-report ./mochawesome.json ./node_modules",
     "lint": "lint-staged",
