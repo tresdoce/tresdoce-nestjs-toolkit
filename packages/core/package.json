@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/core",
-  "version": "1.5.8",
+  "version": "2.0.0",
   "description": "Tresdoce NestJS Toolkit - Funcionalidades a nivel core",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -38,9 +38,9 @@
   "peerDependencies": {
     "@nestjs/class-transformer": "^0.4.0",
     "@nestjs/class-validator": "^0.13.4",
-    "@nestjs/common": "^10.4.15",
-    "@nestjs/core": "^10.4.15",
-    "@nestjs/platform-express": "^10.4.15",
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/core": "^11.0.1",
+    "@nestjs/platform-express": "^11.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cookie": "^1.0.2",

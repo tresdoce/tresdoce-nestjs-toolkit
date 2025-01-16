@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/utils@1.3.8...@tresdoce-nestjs-toolkit/utils@2.0.0) (2025-01-16)
+
+### ⚠ BREAKING CHANGES
+
+- update nestjs to v11
+
+### ✨ Features
+
+- update nestjs to v11 ([ed37cd6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/ed37cd6ca7f461c2104eb706dcf7e3d940d1d480))
+
+### 📝 Docs
+
+- edit versions of nestjs and npm ([668aa40](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/668aa40d7456f373103948e57e6e73344599273d))
+
 ## [1.3.8](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/utils@1.3.7...@tresdoce-nestjs-toolkit/utils@1.3.8) (2024-12-19)
 
 ### 👨‍💻 Chores
