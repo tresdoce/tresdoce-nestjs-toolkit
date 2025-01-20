@@ -36,10 +36,10 @@
     "directory": "../../dist/typeorm"
   },
   "peerDependencies": {
-    "@nestjs/common": "^11.0.1",
-    "@nestjs/core": "^11.0.1",
-    "@nestjs/platform-express": "^11.0.1",
-    "@nestjs/typeorm": "^10.0.2",
+    "@nestjs/common": "^11.0.3",
+    "@nestjs/core": "^11.0.3",
+    "@nestjs/platform-express": "^11.0.3",
+    "@nestjs/typeorm": "^11.0.0",
     "mongodb": "^6.12.0",
     "mysql": "^2.18.1",
     "mysql2": "^3.12.0",
@@ -49,7 +49,7 @@
     "typeorm": "^0.3.20"
   },
   "dependencies": {
-    "@nestjs/typeorm": "^10.0.2",
+    "@nestjs/typeorm": "^11.0.0",
     "mongodb": "^6.12.0",
     "mysql": "^2.18.1",
     "mysql2": "^3.12.0",
