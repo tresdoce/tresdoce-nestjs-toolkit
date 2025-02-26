@@ -36,14 +36,14 @@
     "directory": "../../dist/utils"
   },
   "peerDependencies": {
-    "@nestjs/common": "^11.0.3",
-    "@nestjs/core": "^11.0.3",
-    "@nestjs/platform-express": "^11.0.3",
+    "@nestjs/common": "^11.0.10",
+    "@nestjs/core": "^11.0.10",
+    "@nestjs/platform-express": "^11.0.10",
     "bcrypt": "^5.1.1",
     "fast-redact": "^3.5.0",
     "luxon": "^3.5.0",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.2"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

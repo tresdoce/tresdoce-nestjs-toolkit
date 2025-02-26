@@ -36,19 +36,19 @@
     "directory": "../../dist/test-utils"
   },
   "peerDependencies": {
-    "@nestjs/common": "^11.0.3",
-    "@nestjs/core": "^11.0.3",
-    "@nestjs/platform-express": "^11.0.3",
+    "@nestjs/common": "^11.0.10",
+    "@nestjs/core": "^11.0.10",
+    "@nestjs/platform-express": "^11.0.10",
     "lodash": "^4.17.21",
-    "nock": "^13.5.6",
+    "nock": "^14.0.1",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1",
-    "testcontainers": "^10.16.0"
+    "rxjs": "^7.8.2",
+    "testcontainers": "^10.18.0"
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "nock": "^13.5.6",
-    "testcontainers": "^10.16.0"
+    "nock": "^14.0.1",
+    "testcontainers": "^10.18.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.1",
