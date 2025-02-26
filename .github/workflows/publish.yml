@@ -48,6 +48,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
+      - name: "📦 Setup TestContainers"
+        uses: atomicjar/testcontainers-cloud-setup-action@v1
+        with:
+          token: ${{ secrets.TC_CLOUD_TOKEN }}
+
       - name: "🦉 GitGuardian scan"
         uses: GitGuardian/ggshield-action@master
         env:
