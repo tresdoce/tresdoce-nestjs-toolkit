@@ -82,7 +82,7 @@
     "redis": "^4.7.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
-    "testcontainers": "^10.16.0",
+    "testcontainers": "^10.18.0",
     "typeorm": "^0.3.20",
     "uuid": "^11.1.0"
   },
@@ -151,7 +151,7 @@
     "prettier": "^3.5.2",
     "rimraf": "^6.0.1",
     "supertest": "^7.0.0",
-    "testcontainers": "^10.16.0",
+    "testcontainers": "^10.18.0",
     "ts-jest": "^29.2.6",
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
