@@ -17,7 +17,7 @@ jobs:
       TURBO_TELEMETRY_DISABLED: 1
     name: "Build"
     steps:
-      - name: "⚙ Set up NodeJS v${{ matrix.node }}"
+      - name: "⚙ Setup NodeJS v${{ matrix.node }}"
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
@@ -37,11 +37,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: "📦 Setup TestContainers"
-        uses: atomicjar/testcontainers-cloud-setup-action@v1
-        with:
-          token: ${{ secrets.TC_CLOUD_TOKEN }}
-
       - name: "🦉 GitGuardian scan"
         uses: GitGuardian/ggshield-action@master
         env:
@@ -59,6 +54,11 @@ jobs:
 
       - name: "🔨 Build"
         run: yarn build --force && node sonar-args.js
+
+      - name: "⚙ Setup Testcontainers Cloud Client"
+        uses: atomicjar/testcontainers-cloud-setup-action@v1
+        with:
+          token: ${{ secrets.TC_CLOUD_TOKEN }}
 
       - name: "👨‍💻 Run Test"
         run: yarn test --force
