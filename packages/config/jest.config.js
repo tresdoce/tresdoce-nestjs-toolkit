@@ -2,6 +2,8 @@ const path = require('path');
 
 process.env.NODE_ENV = 'test';
 
+process.env.DEBUG = 'testcontainers*'
+
 module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   forceExit: true,

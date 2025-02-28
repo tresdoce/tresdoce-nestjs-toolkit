@@ -53,10 +53,22 @@ jobs:
       - name: "🔨 Build"
         run: yarn build --force && node sonar-args.js
 
+      - name: Setup Testcontainers Cloud Client
+        uses: atomicjar/testcontainers-cloud-setup-action@v1
+        with:
+          token: ${{ secrets.TC_CLOUD_TOKEN }}
+          action: 'prepare'
+          wait: 'true'
+
       - name: "👨‍💻 Run Test"
         run: yarn test --force
         env:
           NODE_ENV: 'test'
+
+      - name: Terminate Testcontainers Cloud Client active sessions
+        uses: atomicjar/testcontainers-cloud-setup-action@v1
+        with:
+          action: 'terminate'
 
       - name: "📊 Publish Test Report"
         uses: dorny/test-reporter@v1
