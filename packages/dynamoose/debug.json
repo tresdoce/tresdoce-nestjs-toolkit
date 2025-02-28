@@ -26,7 +26,7 @@
     "unmatched": 0,
     "updated": 0
   },
-  "startTime": 1740759727932,
+  "startTime": 1740764792585,
   "success": true,
   "testResults": [
     {
@@ -37,10 +37,10 @@
       "numTodoTests": 0,
       "openHandles": [],
       "perfStats": {
-        "end": 1740759730042,
-        "runtime": 2069,
+        "end": 1740764794623,
+        "runtime": 1996,
         "slow": false,
-        "start": 1740759727973
+        "start": 1740764792627
       },
       "skipped": false,
       "snapshot": {
@@ -59,7 +59,7 @@
             "MyModule",
             "DynamooseModule - forRoot"
           ],
-          "duration": 369,
+          "duration": 363,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "MyModule DynamooseModule - forRoot should be defined",
@@ -75,7 +75,7 @@
             "MyModule",
             "DynamooseModule - forRootAsync"
           ],
-          "duration": 8,
+          "duration": 7,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "MyModule DynamooseModule - forRootAsync should be defined",
@@ -101,10 +101,10 @@
       "numTodoTests": 0,
       "openHandles": [],
       "perfStats": {
-        "end": 1740759730635,
-        "runtime": 579,
+        "end": 1740764795185,
+        "runtime": 548,
         "slow": false,
-        "start": 1740759730056
+        "start": 1740764794637
       },
       "skipped": false,
       "snapshot": {
@@ -124,7 +124,7 @@
             "Basic configuration",
             "forRoot"
           ],
-          "duration": 68,
+          "duration": 79,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "DynamooseModule Basic configuration forRoot should return a dynamic module",
@@ -141,7 +141,7 @@
             "Basic configuration",
             "forRoot"
           ],
-          "duration": 5,
+          "duration": 9,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "DynamooseModule Basic configuration forRoot should create a module with forRoot method",
@@ -192,7 +192,7 @@
             "Basic configuration",
             "forFeature"
           ],
-          "duration": 9,
+          "duration": 6,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "DynamooseModule Basic configuration forFeature should return a dynamic module empty",
@@ -243,7 +243,7 @@
             "Basic configuration",
             "forFeature"
           ],
-          "duration": 4,
+          "duration": 5,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "DynamooseModule Basic configuration forFeature should create a module with forFeature method",
@@ -260,7 +260,7 @@
             "Basic configuration",
             "forFeatureAsync"
           ],
-          "duration": 6,
+          "duration": 8,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "DynamooseModule Basic configuration forFeatureAsync should return a dynamic module empty",
@@ -294,7 +294,7 @@
             "Basic configuration",
             "forFeatureAsync"
           ],
-          "duration": 5,
+          "duration": 8,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "DynamooseModule Basic configuration forFeatureAsync should provide and export dynamoose async providers",
@@ -328,7 +328,7 @@
             "Basic configuration",
             "providers"
           ],
-          "duration": 7,
+          "duration": 4,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "DynamooseModule Basic configuration providers should create dynamoose providers",
@@ -387,10 +387,10 @@
       "numTodoTests": 0,
       "openHandles": [],
       "perfStats": {
-        "end": 1740759730771,
-        "runtime": 114,
+        "end": 1740764795339,
+        "runtime": 125,
         "slow": false,
-        "start": 1740759730657
+        "start": 1740764795214
       },
       "skipped": false,
       "snapshot": {
@@ -409,7 +409,7 @@
             "Providers",
             "createDynamooseProviders"
           ],
-          "duration": 1,
+          "duration": 0,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "Providers createDynamooseProviders should create providers with no models",
@@ -425,7 +425,7 @@
             "Providers",
             "createDynamooseProviders"
           ],
-          "duration": 1,
+          "duration": 0,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "Providers createDynamooseProviders should create providers with no models array",
@@ -473,7 +473,7 @@
             "Providers",
             "createDynamooseAsyncProviders"
           ],
-          "duration": 0,
+          "duration": 1,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "Providers createDynamooseAsyncProviders should create async providers with no factories",
@@ -489,7 +489,7 @@
             "Providers",
             "createDynamooseAsyncProviders"
           ],
-          "duration": 1,
+          "duration": 0,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "Providers createDynamooseAsyncProviders should create async providers with no factories array",
@@ -505,7 +505,7 @@
             "Providers",
             "createDynamooseAsyncProviders"
           ],
-          "duration": 0,
+          "duration": 1,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "Providers createDynamooseAsyncProviders should return an empty array if no model factories are provided",
@@ -521,7 +521,7 @@
             "Providers",
             "createDynamooseAsyncProviders"
           ],
-          "duration": 2,
+          "duration": 1,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "Providers createDynamooseAsyncProviders should create async providers with factories returning schema",
@@ -563,10 +563,10 @@
       "numTodoTests": 0,
       "openHandles": [],
       "perfStats": {
-        "end": 1740759730842,
-        "runtime": 60,
+        "end": 1740764795414,
+        "runtime": 61,
         "slow": false,
-        "start": 1740759730782
+        "start": 1740764795353
       },
       "skipped": false,
       "snapshot": {
@@ -585,7 +585,7 @@
             "Decorator",
             "InjectModel"
           ],
-          "duration": 0,
+          "duration": 1,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "Decorator InjectModel should call Inject with correct token",
