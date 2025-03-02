@@ -1,0 +1,1900 @@
+{
+  "numFailedTestSuites": 2,
+  "numFailedTests": 16,
+  "numPassedTestSuites": 0,
+  "numPassedTests": 0,
+  "numPendingTestSuites": 0,
+  "numPendingTests": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "numTodoTests": 0,
+  "numTotalTestSuites": 2,
+  "numTotalTests": 16,
+  "openHandles": [],
+  "snapshot": {
+    "added": 0,
+    "didUpdate": false,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0
+  },
+  "startTime": 1740768391813,
+  "success": false,
+  "testResults": [
+    {
+      "leaks": false,
+      "numFailingTests": 3,
+      "numPassingTests": 0,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1740768395712,
+        "runtime": 3840,
+        "slow": false,
+        "start": 1740768391872
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.module.spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "RedisModule",
+            "with auth",
+            "forRootAsync"
+          ],
+          "duration": 24,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.module.spec.ts:45:19)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisModule with auth forRootAsync should be defined",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be defined"
+        },
+        {
+          "ancestorTitles": [
+            "RedisModule",
+            "with auth",
+            "register"
+          ],
+          "duration": 7,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.module.spec.ts:72:19)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisModule with auth register should be defined",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be defined"
+        },
+        {
+          "ancestorTitles": [
+            "RedisModule",
+            "without auth"
+          ],
+          "duration": 7,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.module.spec.ts:120:17)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisModule without auth should be defined",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be defined"
+        }
+      ],
+      "displayName": {
+        "color": "white",
+        "name": "@tresdoce-nestjs-toolkit/redis"
+      },
+      "failureMessage": "\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisModule › with auth › forRootAsync › should be defined\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisModule › with auth › forRootAsync › should be defined\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 43 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 44 |\u001b[39m       afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 45 |\u001b[39m         \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m                   \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 46 |\u001b[39m       })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 47 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 48 |\u001b[39m       it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.module.spec.ts\u001b[39m\u001b[0m\u001b[2m:45:19)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisModule › with auth › register › should be defined\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisModule › with auth › register › should be defined\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 70 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 71 |\u001b[39m       afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 72 |\u001b[39m         \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m                   \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 73 |\u001b[39m       })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 74 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 75 |\u001b[39m       it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.module.spec.ts\u001b[39m\u001b[0m\u001b[2m:72:19)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisModule › without auth › should be defined\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisModule › without auth › should be defined\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 118 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 119 |\u001b[39m     afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 120 |\u001b[39m       \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m     |\u001b[39m                 \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 121 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 122 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 123 |\u001b[39m     it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.module.spec.ts\u001b[39m\u001b[0m\u001b[2m:120:17)\u001b[22m\u001b[2m\u001b[22m\n"
+    },
+    {
+      "leaks": false,
+      "numFailingTests": 13,
+      "numPassingTests": 0,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1740768396289,
+        "runtime": 567,
+        "slow": false,
+        "start": 1740768395722
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.service.spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "RedisService"
+          ],
+          "duration": 10,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.service.spec.ts:45:15)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisService should be defined",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be defined"
+        },
+        {
+          "ancestorTitles": [
+            "RedisService"
+          ],
+          "duration": 6,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.service.spec.ts:45:15)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisService should be return echo",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be return echo"
+        },
+        {
+          "ancestorTitles": [
+            "RedisService"
+          ],
+          "duration": 5,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.service.spec.ts:45:15)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisService should be return false if key dont exist in redis",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be return false if key dont exist in redis"
+        },
+        {
+          "ancestorTitles": [
+            "RedisService"
+          ],
+          "duration": 5,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.service.spec.ts:45:15)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisService should be return OK when set value in redis",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be return OK when set value in redis"
+        },
+        {
+          "ancestorTitles": [
+            "RedisService"
+          ],
+          "duration": 5,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.service.spec.ts:45:15)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisService should be return value of key",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be return value of key"
+        },
+        {
+          "ancestorTitles": [
+            "RedisService"
+          ],
+          "duration": 4,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.service.spec.ts:45:15)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisService should be return true if key exist in redis",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be return true if key exist in redis"
+        },
+        {
+          "ancestorTitles": [
+            "RedisService"
+          ],
+          "duration": 4,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.service.spec.ts:45:15)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisService should be set value in redis with expiration date",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be set value in redis with expiration date"
+        },
+        {
+          "ancestorTitles": [
+            "RedisService"
+          ],
+          "duration": 4,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.service.spec.ts:45:15)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisService should be return true when copy key",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be return true when copy key"
+        },
+        {
+          "ancestorTitles": [
+            "RedisService"
+          ],
+          "duration": 4,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.service.spec.ts:45:15)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisService should be return false when copy key",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be return false when copy key"
+        },
+        {
+          "ancestorTitles": [
+            "RedisService"
+          ],
+          "duration": 4,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.service.spec.ts:45:15)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisService should be rename a key",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be rename a key"
+        },
+        {
+          "ancestorTitles": [
+            "RedisService"
+          ],
+          "duration": 6,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.service.spec.ts:45:15)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisService should be return false when delete a key",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be return false when delete a key"
+        },
+        {
+          "ancestorTitles": [
+            "RedisService"
+          ],
+          "duration": 4,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.service.spec.ts:45:15)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisService should be return true when delete a key",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be return true when delete a key"
+        },
+        {
+          "ancestorTitles": [
+            "RedisService"
+          ],
+          "duration": 4,
+          "failureDetails": [
+            {
+              "errno": -3008,
+              "code": "ENOTFOUND",
+              "syscall": "getaddrinfo",
+              "hostname": "undefined"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: getaddrinfo ENOTFOUND undefined\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/redis.service.spec.ts:45:15)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "RedisService should be flush all",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be flush all"
+        }
+      ],
+      "displayName": {
+        "color": "white",
+        "name": "@tresdoce-nestjs-toolkit/redis"
+      },
+      "failureMessage": "\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be defined\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be defined\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 43 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 44 |\u001b[39m   afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m               \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 46 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 47 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 48 |\u001b[39m   it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.service.spec.ts\u001b[39m\u001b[0m\u001b[2m:45:15)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return echo\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return echo\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 43 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 44 |\u001b[39m   afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m               \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 46 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 47 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 48 |\u001b[39m   it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.service.spec.ts\u001b[39m\u001b[0m\u001b[2m:45:15)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return false if key dont exist in redis\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return false if key dont exist in redis\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 43 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 44 |\u001b[39m   afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m               \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 46 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 47 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 48 |\u001b[39m   it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.service.spec.ts\u001b[39m\u001b[0m\u001b[2m:45:15)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return OK when set value in redis\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return OK when set value in redis\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 43 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 44 |\u001b[39m   afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m               \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 46 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 47 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 48 |\u001b[39m   it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.service.spec.ts\u001b[39m\u001b[0m\u001b[2m:45:15)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return value of key\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return value of key\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 43 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 44 |\u001b[39m   afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m               \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 46 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 47 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 48 |\u001b[39m   it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.service.spec.ts\u001b[39m\u001b[0m\u001b[2m:45:15)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return true if key exist in redis\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return true if key exist in redis\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 43 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 44 |\u001b[39m   afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m               \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 46 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 47 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 48 |\u001b[39m   it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.service.spec.ts\u001b[39m\u001b[0m\u001b[2m:45:15)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be set value in redis with expiration date\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be set value in redis with expiration date\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 43 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 44 |\u001b[39m   afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m               \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 46 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 47 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 48 |\u001b[39m   it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.service.spec.ts\u001b[39m\u001b[0m\u001b[2m:45:15)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return true when copy key\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return true when copy key\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 43 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 44 |\u001b[39m   afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m               \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 46 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 47 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 48 |\u001b[39m   it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.service.spec.ts\u001b[39m\u001b[0m\u001b[2m:45:15)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return false when copy key\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return false when copy key\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 43 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 44 |\u001b[39m   afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m               \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 46 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 47 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 48 |\u001b[39m   it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.service.spec.ts\u001b[39m\u001b[0m\u001b[2m:45:15)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be rename a key\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be rename a key\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 43 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 44 |\u001b[39m   afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m               \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 46 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 47 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 48 |\u001b[39m   it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.service.spec.ts\u001b[39m\u001b[0m\u001b[2m:45:15)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return false when delete a key\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return false when delete a key\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 43 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 44 |\u001b[39m   afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m               \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 46 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 47 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 48 |\u001b[39m   it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.service.spec.ts\u001b[39m\u001b[0m\u001b[2m:45:15)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return true when delete a key\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be return true when delete a key\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 43 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 44 |\u001b[39m   afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m               \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 46 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 47 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 48 |\u001b[39m   it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.service.spec.ts\u001b[39m\u001b[0m\u001b[2m:45:15)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be flush all\u001b[39m\u001b[22m\n\n    getaddrinfo ENOTFOUND undefined\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mRedisService › should be flush all\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 43 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 44 |\u001b[39m   afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m               \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 46 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 47 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 48 |\u001b[39m   it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/redis.service.spec.ts\u001b[39m\u001b[0m\u001b[2m:45:15)\u001b[22m\u001b[2m\u001b[22m\n"
+    }
+  ],
+  "wasInterrupted": false,
+  "coverageMap": {
+    "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/redis/redis.module.ts": {
+      "path": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/redis/redis.module.ts",
+      "statementMap": {
+        "0": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 88
+          }
+        },
+        "1": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 61
+          }
+        },
+        "2": {
+          "start": {
+            "line": 5,
+            "column": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 81
+          }
+        },
+        "3": {
+          "start": {
+            "line": 6,
+            "column": 0
+          },
+          "end": {
+            "line": 6,
+            "column": 56
+          }
+        },
+        "4": {
+          "start": {
+            "line": 7,
+            "column": 0
+          },
+          "end": {
+            "line": 7,
+            "column": 70
+          }
+        },
+        "5": {
+          "start": {
+            "line": 25,
+            "column": 24
+          },
+          "end": {
+            "line": 50,
+            "column": null
+          }
+        },
+        "6": {
+          "start": {
+            "line": 27,
+            "column": 51
+          },
+          "end": {
+            "line": 27,
+            "column": 72
+          }
+        },
+        "7": {
+          "start": {
+            "line": 28,
+            "column": 43
+          },
+          "end": {
+            "line": 28,
+            "column": 71
+          }
+        },
+        "8": {
+          "start": {
+            "line": 32,
+            "column": 4
+          },
+          "end": {
+            "line": 44,
+            "column": 6
+          }
+        },
+        "9": {
+          "start": {
+            "line": 48,
+            "column": 4
+          },
+          "end": {
+            "line": 48,
+            "column": 34
+          }
+        },
+        "10": {
+          "start": {
+            "line": 25,
+            "column": 13
+          },
+          "end": {
+            "line": 25,
+            "column": 24
+          }
+        },
+        "11": {
+          "start": {
+            "line": 25,
+            "column": 13
+          },
+          "end": {
+            "line": 50,
+            "column": null
+          }
+        },
+        "12": {
+          "start": {
+            "line": 19,
+            "column": 8
+          },
+          "end": {
+            "line": 19,
+            "column": 55
+          }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_4)",
+          "decl": {
+            "start": {
+              "line": 26,
+              "column": 2
+            },
+            "end": {
+              "line": 26,
+              "column": null
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 28,
+              "column": 71
+            },
+            "end": {
+              "line": 29,
+              "column": 6
+            }
+          }
+        },
+        "1": {
+          "name": "(anonymous_5)",
+          "decl": {
+            "start": {
+              "line": 31,
+              "column": 2
+            },
+            "end": {
+              "line": 31,
+              "column": 8
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 31,
+              "column": 39
+            },
+            "end": {
+              "line": 45,
+              "column": 3
+            }
+          }
+        },
+        "2": {
+          "name": "(anonymous_6)",
+          "decl": {
+            "start": {
+              "line": 47,
+              "column": 2
+            },
+            "end": {
+              "line": 47,
+              "column": 7
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 47,
+              "column": 23
+            },
+            "end": {
+              "line": 49,
+              "column": 3
+            }
+          }
+        },
+        "3": {
+          "name": "(anonymous_7)",
+          "decl": {
+            "start": {
+              "line": 18,
+              "column": 18
+            },
+            "end": {
+              "line": 18,
+              "column": 23
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 19,
+              "column": 8
+            },
+            "end": {
+              "line": 19,
+              "column": 55
+            }
+          }
+        }
+      },
+      "branchMap": {},
+      "s": {
+        "0": 2,
+        "1": 2,
+        "2": 2,
+        "3": 2,
+        "4": 2,
+        "5": 2,
+        "6": 0,
+        "7": 0,
+        "8": 15,
+        "9": 0,
+        "10": 2,
+        "11": 2,
+        "12": 1
+      },
+      "f": {
+        "0": 0,
+        "1": 15,
+        "2": 0,
+        "3": 1
+      },
+      "b": {}
+    },
+    "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/redis/constants/redis.constants.ts": {
+      "path": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/redis/constants/redis.constants.ts",
+      "statementMap": {
+        "0": {
+          "start": {
+            "line": 1,
+            "column": 13
+          },
+          "end": {
+            "line": 1,
+            "column": 67
+          }
+        },
+        "1": {
+          "start": {
+            "line": 2,
+            "column": 13
+          },
+          "end": {
+            "line": 2,
+            "column": 51
+          }
+        },
+        "2": {
+          "start": {
+            "line": 4,
+            "column": 13
+          },
+          "end": {
+            "line": 4,
+            "column": 52
+          }
+        },
+        "3": {
+          "start": {
+            "line": 5,
+            "column": 13
+          },
+          "end": {
+            "line": 5,
+            "column": 83
+          }
+        },
+        "4": {
+          "start": {
+            "line": 6,
+            "column": 13
+          },
+          "end": {
+            "line": 6,
+            "column": 88
+          }
+        }
+      },
+      "fnMap": {},
+      "branchMap": {},
+      "s": {
+        "0": 2,
+        "1": 2,
+        "2": 2,
+        "3": 2,
+        "4": 2
+      },
+      "f": {},
+      "b": {}
+    },
+    "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/redis/services/redis.service.ts": {
+      "path": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/redis/services/redis.service.ts",
+      "statementMap": {
+        "0": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 52
+          }
+        },
+        "1": {
+          "start": {
+            "line": 4,
+            "column": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 60
+          }
+        },
+        "2": {
+          "start": {
+            "line": 7,
+            "column": 7
+          },
+          "end": {
+            "line": 90,
+            "column": null
+          }
+        },
+        "3": {
+          "start": {
+            "line": 8,
+            "column": 53
+          },
+          "end": {
+            "line": 8,
+            "column": 81
+          }
+        },
+        "4": {
+          "start": {
+            "line": 11,
+            "column": 4
+          },
+          "end": {
+            "line": 11,
+            "column": 28
+          }
+        },
+        "5": {
+          "start": {
+            "line": 20,
+            "column": 4
+          },
+          "end": {
+            "line": 20,
+            "column": 36
+          }
+        },
+        "6": {
+          "start": {
+            "line": 29,
+            "column": 4
+          },
+          "end": {
+            "line": 29,
+            "column": 53
+          }
+        },
+        "7": {
+          "start": {
+            "line": 40,
+            "column": 4
+          },
+          "end": {
+            "line": 40,
+            "column": 34
+          }
+        },
+        "8": {
+          "start": {
+            "line": 41,
+            "column": 4
+          },
+          "end": {
+            "line": 41,
+            "column": 97
+          }
+        },
+        "9": {
+          "start": {
+            "line": 50,
+            "column": 17
+          },
+          "end": {
+            "line": 50,
+            "column": 46
+          }
+        },
+        "10": {
+          "start": {
+            "line": 51,
+            "column": 4
+          },
+          "end": {
+            "line": 51,
+            "column": 42
+          }
+        },
+        "11": {
+          "start": {
+            "line": 60,
+            "column": 4
+          },
+          "end": {
+            "line": 60,
+            "column": 50
+          }
+        },
+        "12": {
+          "start": {
+            "line": 70,
+            "column": 4
+          },
+          "end": {
+            "line": 70,
+            "column": 52
+          }
+        },
+        "13": {
+          "start": {
+            "line": 80,
+            "column": 4
+          },
+          "end": {
+            "line": 80,
+            "column": 46
+          }
+        },
+        "14": {
+          "start": {
+            "line": 88,
+            "column": 4
+          },
+          "end": {
+            "line": 88,
+            "column": 37
+          }
+        },
+        "15": {
+          "start": {
+            "line": 7,
+            "column": 13
+          },
+          "end": {
+            "line": 7,
+            "column": 25
+          }
+        },
+        "16": {
+          "start": {
+            "line": 7,
+            "column": 13
+          },
+          "end": {
+            "line": 90,
+            "column": null
+          }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_4)",
+          "decl": {
+            "start": {
+              "line": 8,
+              "column": 2
+            },
+            "end": {
+              "line": 8,
+              "column": 15
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 81
+            },
+            "end": {
+              "line": 8,
+              "column": 85
+            }
+          }
+        },
+        "1": {
+          "name": "(anonymous_5)",
+          "decl": {
+            "start": {
+              "line": 10,
+              "column": 2
+            },
+            "end": {
+              "line": 10,
+              "column": 6
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 15
+            },
+            "end": {
+              "line": 12,
+              "column": 3
+            }
+          }
+        },
+        "2": {
+          "name": "(anonymous_6)",
+          "decl": {
+            "start": {
+              "line": 19,
+              "column": 9
+            },
+            "end": {
+              "line": 19,
+              "column": 14
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 19,
+              "column": 31
+            },
+            "end": {
+              "line": 21,
+              "column": 3
+            }
+          }
+        },
+        "3": {
+          "name": "(anonymous_7)",
+          "decl": {
+            "start": {
+              "line": 28,
+              "column": 9
+            },
+            "end": {
+              "line": 28,
+              "column": 14
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 28,
+              "column": 33
+            },
+            "end": {
+              "line": 30,
+              "column": 3
+            }
+          }
+        },
+        "4": {
+          "name": "(anonymous_8)",
+          "decl": {
+            "start": {
+              "line": 39,
+              "column": 9
+            },
+            "end": {
+              "line": 39,
+              "column": 14
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 39,
+              "column": 60
+            },
+            "end": {
+              "line": 42,
+              "column": 3
+            }
+          }
+        },
+        "5": {
+          "name": "(anonymous_9)",
+          "decl": {
+            "start": {
+              "line": 49,
+              "column": 9
+            },
+            "end": {
+              "line": 49,
+              "column": 14
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 49,
+              "column": 30
+            },
+            "end": {
+              "line": 52,
+              "column": 3
+            }
+          }
+        },
+        "6": {
+          "name": "(anonymous_10)",
+          "decl": {
+            "start": {
+              "line": 59,
+              "column": 9
+            },
+            "end": {
+              "line": 59,
+              "column": 14
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 59,
+              "column": 30
+            },
+            "end": {
+              "line": 61,
+              "column": 3
+            }
+          }
+        },
+        "7": {
+          "name": "(anonymous_11)",
+          "decl": {
+            "start": {
+              "line": 69,
+              "column": 9
+            },
+            "end": {
+              "line": 69,
+              "column": 14
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 69,
+              "column": 55
+            },
+            "end": {
+              "line": 71,
+              "column": 3
+            }
+          }
+        },
+        "8": {
+          "name": "(anonymous_12)",
+          "decl": {
+            "start": {
+              "line": 79,
+              "column": 9
+            },
+            "end": {
+              "line": 79,
+              "column": 14
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 79,
+              "column": 49
+            },
+            "end": {
+              "line": 81,
+              "column": 3
+            }
+          }
+        },
+        "9": {
+          "name": "(anonymous_13)",
+          "decl": {
+            "start": {
+              "line": 87,
+              "column": 9
+            },
+            "end": {
+              "line": 87,
+              "column": 14
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 87,
+              "column": 23
+            },
+            "end": {
+              "line": 89,
+              "column": 3
+            }
+          }
+        }
+      },
+      "branchMap": {
+        "0": {
+          "loc": {
+            "start": {
+              "line": 41,
+              "column": 11
+            },
+            "end": {
+              "line": 41,
+              "column": 96
+            }
+          },
+          "type": "cond-expr",
+          "locations": [
+            {
+              "start": {
+                "line": 41,
+                "column": 22
+              },
+              "end": {
+                "line": 41,
+                "column": 52
+              }
+            },
+            {
+              "start": {
+                "line": 41,
+                "column": 55
+              },
+              "end": {
+                "line": 41,
+                "column": 96
+              }
+            }
+          ]
+        },
+        "1": {
+          "loc": {
+            "start": {
+              "line": 51,
+              "column": 11
+            },
+            "end": {
+              "line": 51,
+              "column": 41
+            }
+          },
+          "type": "cond-expr",
+          "locations": [
+            {
+              "start": {
+                "line": 51,
+                "column": 18
+              },
+              "end": {
+                "line": 51,
+                "column": 34
+              }
+            },
+            {
+              "start": {
+                "line": 51,
+                "column": 37
+              },
+              "end": {
+                "line": 51,
+                "column": 41
+              }
+            }
+          ]
+        }
+      },
+      "s": {
+        "0": 2,
+        "1": 2,
+        "2": 2,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "13": 0,
+        "14": 0,
+        "15": 2,
+        "16": 2
+      },
+      "f": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "b": {
+        "0": [
+          0,
+          0
+        ],
+        "1": [
+          0,
+          0
+        ]
+      }
+    },
+    "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/redis/providers/redis-client.provider.ts": {
+      "path": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/redis/providers/redis-client.provider.ts",
+      "statementMap": {
+        "0": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 50
+          }
+        },
+        "1": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 37
+          }
+        },
+        "2": {
+          "start": {
+            "line": 3,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 36
+          }
+        },
+        "3": {
+          "start": {
+            "line": 5,
+            "column": 0
+          },
+          "end": {
+            "line": 5,
+            "column": null
+          }
+        },
+        "4": {
+          "start": {
+            "line": 14,
+            "column": 33
+          },
+          "end": {
+            "line": 47,
+            "column": 2
+          }
+        },
+        "5": {
+          "start": {
+            "line": 14,
+            "column": 50
+          },
+          "end": {
+            "line": 47,
+            "column": 2
+          }
+        },
+        "6": {
+          "start": {
+            "line": 25,
+            "column": 8
+          },
+          "end": {
+            "line": 25,
+            "column": 15
+          }
+        },
+        "7": {
+          "start": {
+            "line": 28,
+            "column": 26
+          },
+          "end": {
+            "line": 28,
+            "column": 55
+          }
+        },
+        "8": {
+          "start": {
+            "line": 29,
+            "column": 26
+          },
+          "end": {
+            "line": 29,
+            "column": 57
+          }
+        },
+        "9": {
+          "start": {
+            "line": 30,
+            "column": 15
+          },
+          "end": {
+            "line": 30,
+            "column": 45
+          }
+        },
+        "10": {
+          "start": {
+            "line": 32,
+            "column": 16
+          },
+          "end": {
+            "line": 32,
+            "column": 84
+          }
+        },
+        "11": {
+          "start": {
+            "line": 34,
+            "column": 19
+          },
+          "end": {
+            "line": 34,
+            "column": 58
+          }
+        },
+        "12": {
+          "start": {
+            "line": 35,
+            "column": 4
+          },
+          "end": {
+            "line": 35,
+            "column": 27
+          }
+        },
+        "13": {
+          "start": {
+            "line": 44,
+            "column": 4
+          },
+          "end": {
+            "line": 44,
+            "column": 18
+          }
+        },
+        "14": {
+          "start": {
+            "line": 14,
+            "column": 13
+          },
+          "end": {
+            "line": 14,
+            "column": 33
+          }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_0)",
+          "decl": {
+            "start": {
+              "line": 14,
+              "column": 33
+            },
+            "end": {
+              "line": 14,
+              "column": 46
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 14,
+              "column": 50
+            },
+            "end": {
+              "line": 47,
+              "column": 2
+            }
+          }
+        },
+        "1": {
+          "name": "(anonymous_1)",
+          "decl": {
+            "start": {
+              "line": 16,
+              "column": 14
+            },
+            "end": {
+              "line": 16,
+              "column": 19
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 16,
+              "column": 46
+            },
+            "end": {
+              "line": 45,
+              "column": 3
+            }
+          }
+        }
+      },
+      "branchMap": {
+        "0": {
+          "loc": {
+            "start": {
+              "line": 18,
+              "column": 6
+            },
+            "end": {
+              "line": 18,
+              "column": 24
+            }
+          },
+          "type": "default-arg",
+          "locations": [
+            {
+              "start": {
+                "line": 18,
+                "column": 17
+              },
+              "end": {
+                "line": 18,
+                "column": 24
+              }
+            }
+          ]
+        },
+        "1": {
+          "loc": {
+            "start": {
+              "line": 24,
+              "column": 6
+            },
+            "end": {
+              "line": 24,
+              "column": 21
+            }
+          },
+          "type": "default-arg",
+          "locations": [
+            {
+              "start": {
+                "line": 24,
+                "column": 13
+              },
+              "end": {
+                "line": 24,
+                "column": 21
+              }
+            }
+          ]
+        },
+        "2": {
+          "loc": {
+            "start": {
+              "line": 28,
+              "column": 26
+            },
+            "end": {
+              "line": 28,
+              "column": 55
+            }
+          },
+          "type": "cond-expr",
+          "locations": [
+            {
+              "start": {
+                "line": 28,
+                "column": 37
+              },
+              "end": {
+                "line": 28,
+                "column": 50
+              }
+            },
+            {
+              "start": {
+                "line": 28,
+                "column": 53
+              },
+              "end": {
+                "line": 28,
+                "column": 55
+              }
+            }
+          ]
+        },
+        "3": {
+          "loc": {
+            "start": {
+              "line": 29,
+              "column": 26
+            },
+            "end": {
+              "line": 29,
+              "column": 57
+            }
+          },
+          "type": "cond-expr",
+          "locations": [
+            {
+              "start": {
+                "line": 29,
+                "column": 37
+              },
+              "end": {
+                "line": 29,
+                "column": 52
+              }
+            },
+            {
+              "start": {
+                "line": 29,
+                "column": 55
+              },
+              "end": {
+                "line": 29,
+                "column": 57
+              }
+            }
+          ]
+        },
+        "4": {
+          "loc": {
+            "start": {
+              "line": 30,
+              "column": 15
+            },
+            "end": {
+              "line": 30,
+              "column": 45
+            }
+          },
+          "type": "cond-expr",
+          "locations": [
+            {
+              "start": {
+                "line": 30,
+                "column": 26
+              },
+              "end": {
+                "line": 30,
+                "column": 40
+              }
+            },
+            {
+              "start": {
+                "line": 30,
+                "column": 43
+              },
+              "end": {
+                "line": 30,
+                "column": 45
+              }
+            }
+          ]
+        }
+      },
+      "s": {
+        "0": 2,
+        "1": 2,
+        "2": 2,
+        "3": 2,
+        "4": 2,
+        "5": 17,
+        "6": 16,
+        "7": 16,
+        "8": 16,
+        "9": 16,
+        "10": 16,
+        "11": 16,
+        "12": 16,
+        "13": 0,
+        "14": 2
+      },
+      "f": {
+        "0": 17,
+        "1": 16
+      },
+      "b": {
+        "0": [
+          16
+        ],
+        "1": [
+          1
+        ],
+        "2": [
+          15,
+          1
+        ],
+        "3": [
+          15,
+          1
+        ],
+        "4": [
+          1,
+          15
+        ]
+      }
+    },
+    "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/utils/index.ts": {
+      "path": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/utils/index.ts",
+      "statementMap": {
+        "0": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 9
+          }
+        },
+        "1": {
+          "start": {
+            "line": 1,
+            "column": 9
+          },
+          "end": {
+            "line": 1,
+            "column": 26
+          }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_1)",
+          "decl": {
+            "start": {
+              "line": 1,
+              "column": 9
+            },
+            "end": {
+              "line": 1,
+              "column": 16
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 9
+            },
+            "end": {
+              "line": 1,
+              "column": 26
+            }
+          }
+        }
+      },
+      "branchMap": {},
+      "s": {
+        "0": 1,
+        "1": 2
+      },
+      "f": {
+        "0": 1
+      },
+      "b": {}
+    },
+    "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/utils/configuration.ts": {
+      "path": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/redis/src/__test__/utils/configuration.ts",
+      "statementMap": {
+        "0": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 68
+          }
+        },
+        "1": {
+          "start": {
+            "line": 3,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 44
+          }
+        },
+        "2": {
+          "start": {
+            "line": 5,
+            "column": 0
+          },
+          "end": {
+            "line": 16,
+            "column": 3
+          }
+        },
+        "3": {
+          "start": {
+            "line": 6,
+            "column": 2
+          },
+          "end": {
+            "line": 15,
+            "column": 4
+          }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_0)",
+          "decl": {
+            "start": {
+              "line": 5,
+              "column": 36
+            },
+            "end": {
+              "line": 5,
+              "column": 58
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 60
+            },
+            "end": {
+              "line": 16,
+              "column": 1
+            }
+          }
+        }
+      },
+      "branchMap": {},
+      "s": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 1
+      },
+      "f": {
+        "0": 1
+      },
+      "b": {}
+    }
+  }
+}

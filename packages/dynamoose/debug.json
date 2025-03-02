@@ -26,7 +26,7 @@
     "unmatched": 0,
     "updated": 0
   },
-  "startTime": 1740764792585,
+  "startTime": 1740775171954,
   "success": true,
   "testResults": [
     {
@@ -37,10 +37,10 @@
       "numTodoTests": 0,
       "openHandles": [],
       "perfStats": {
-        "end": 1740764794623,
-        "runtime": 1996,
+        "end": 1740775173887,
+        "runtime": 1892,
         "slow": false,
-        "start": 1740764792627
+        "start": 1740775171995
       },
       "skipped": false,
       "snapshot": {
@@ -59,7 +59,7 @@
             "MyModule",
             "DynamooseModule - forRoot"
           ],
-          "duration": 363,
+          "duration": 349,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "MyModule DynamooseModule - forRoot should be defined",
@@ -75,7 +75,7 @@
             "MyModule",
             "DynamooseModule - forRootAsync"
           ],
-          "duration": 7,
+          "duration": 8,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "MyModule DynamooseModule - forRootAsync should be defined",
@@ -101,10 +101,10 @@
       "numTodoTests": 0,
       "openHandles": [],
       "perfStats": {
-        "end": 1740764795185,
-        "runtime": 548,
+        "end": 1740775174377,
+        "runtime": 473,
         "slow": false,
-        "start": 1740764794637
+        "start": 1740775173904
       },
       "skipped": false,
       "snapshot": {
@@ -124,7 +124,7 @@
             "Basic configuration",
             "forRoot"
           ],
-          "duration": 79,
+          "duration": 69,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "DynamooseModule Basic configuration forRoot should return a dynamic module",
@@ -209,7 +209,7 @@
             "Basic configuration",
             "forFeature"
           ],
-          "duration": 5,
+          "duration": 6,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "DynamooseModule Basic configuration forFeature should return a dynamic module",
@@ -260,7 +260,7 @@
             "Basic configuration",
             "forFeatureAsync"
           ],
-          "duration": 8,
+          "duration": 7,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "DynamooseModule Basic configuration forFeatureAsync should return a dynamic module empty",
@@ -277,7 +277,7 @@
             "Basic configuration",
             "forFeatureAsync"
           ],
-          "duration": 6,
+          "duration": 9,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "DynamooseModule Basic configuration forFeatureAsync should return a dynamic module",
@@ -294,7 +294,7 @@
             "Basic configuration",
             "forFeatureAsync"
           ],
-          "duration": 8,
+          "duration": 5,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "DynamooseModule Basic configuration forFeatureAsync should provide and export dynamoose async providers",
@@ -311,7 +311,7 @@
             "Basic configuration",
             "forFeatureAsync"
           ],
-          "duration": 4,
+          "duration": 5,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "DynamooseModule Basic configuration forFeatureAsync should create a module with forFeatureAsync method",
@@ -328,7 +328,7 @@
             "Basic configuration",
             "providers"
           ],
-          "duration": 4,
+          "duration": 5,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "DynamooseModule Basic configuration providers should create dynamoose providers",
@@ -387,10 +387,10 @@
       "numTodoTests": 0,
       "openHandles": [],
       "perfStats": {
-        "end": 1740764795339,
-        "runtime": 125,
+        "end": 1740775174522,
+        "runtime": 123,
         "slow": false,
-        "start": 1740764795214
+        "start": 1740775174399
       },
       "skipped": false,
       "snapshot": {
@@ -473,7 +473,7 @@
             "Providers",
             "createDynamooseAsyncProviders"
           ],
-          "duration": 1,
+          "duration": 0,
           "failureDetails": [],
           "failureMessages": [],
           "fullName": "Providers createDynamooseAsyncProviders should create async providers with no factories",
@@ -563,10 +563,10 @@
       "numTodoTests": 0,
       "openHandles": [],
       "perfStats": {
-        "end": 1740764795414,
-        "runtime": 61,
+        "end": 1740775174591,
+        "runtime": 59,
         "slow": false,
-        "start": 1740764795353
+        "start": 1740775174532
       },
       "skipped": false,
       "snapshot": {

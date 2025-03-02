@@ -1,0 +1,1012 @@
+{
+  "numFailedTestSuites": 1,
+  "numFailedTests": 6,
+  "numPassedTestSuites": 0,
+  "numPassedTests": 0,
+  "numPendingTestSuites": 0,
+  "numPendingTests": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "numTodoTests": 0,
+  "numTotalTestSuites": 1,
+  "numTotalTests": 6,
+  "openHandles": [],
+  "snapshot": {
+    "added": 0,
+    "didUpdate": false,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0
+  },
+  "startTime": 1740768499440,
+  "success": false,
+  "testResults": [
+    {
+      "leaks": false,
+      "numFailingTests": 6,
+      "numPassingTests": 0,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1740768744992,
+        "runtime": 245493,
+        "slow": true,
+        "start": 1740768499499
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "TypeOrm",
+            "Postgres"
+          ],
+          "duration": 24094,
+          "failureDetails": [
+            {
+              "code": "ECONNREFUSED"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "AggregateError: \n    at internalConnectMultiple (node:net:1122:18)\n    at afterConnectMultiple (node:net:1689:7)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts:57:17)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "TypeOrm Postgres should be defined",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be defined"
+        },
+        {
+          "ancestorTitles": [
+            "TypeOrm",
+            "Postgres"
+          ],
+          "duration": 24049,
+          "failureDetails": [
+            {
+              "code": "ECONNREFUSED"
+            },
+            {}
+          ],
+          "failureMessages": [
+            "AggregateError: \n    at internalConnectMultiple (node:net:1122:18)\n    at afterConnectMultiple (node:net:1689:7)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts:57:17)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "TypeOrm Postgres should be return an array of post",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be return an array of post"
+        },
+        {
+          "ancestorTitles": [
+            "TypeOrm",
+            "MySql"
+          ],
+          "duration": 24158,
+          "failureDetails": [
+            {
+              "code": "ECONNREFUSED",
+              "fatal": true
+            },
+            {}
+          ],
+          "failureMessages": [
+            "AggregateError: \n    at internalConnectMultiple (node:net:1122:18)\n    at afterConnectMultiple (node:net:1689:7)\n    --------------------\n    at Protocol.Object.<anonymous>.Protocol._enqueue (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/mysql/lib/protocol/Protocol.js:144:48)\n    at Protocol.handshake (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/mysql/lib/protocol/Protocol.js:51:23)\n    at PoolConnection.connect (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/mysql/lib/Connection.js:116:18)\n    at Pool.Object.<anonymous>.Pool.getConnection (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/mysql/lib/Pool.js:48:16)\n    at /Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/src/driver/mysql/MysqlDriver.ts:1268:18\n    at new Promise (<anonymous>)\n    at MysqlDriver.createPool (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/src/driver/mysql/MysqlDriver.ts:1265:16)\n    at MysqlDriver.connect (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/src/driver/mysql/MysqlDriver.ts:400:36)\n    at DataSource.initialize (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/src/data-source/DataSource.ts:253:27)\n    at /Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/@nestjs/typeorm/dist/typeorm-core.module.js:189:30",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts:106:17)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "TypeOrm MySql should be defined",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be defined"
+        },
+        {
+          "ancestorTitles": [
+            "TypeOrm",
+            "MySql"
+          ],
+          "duration": 24038,
+          "failureDetails": [
+            {
+              "code": "ECONNREFUSED",
+              "fatal": true
+            },
+            {}
+          ],
+          "failureMessages": [
+            "AggregateError: \n    at internalConnectMultiple (node:net:1122:18)\n    at afterConnectMultiple (node:net:1689:7)\n    --------------------\n    at Protocol.Object.<anonymous>.Protocol._enqueue (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/mysql/lib/protocol/Protocol.js:144:48)\n    at Protocol.handshake (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/mysql/lib/protocol/Protocol.js:51:23)\n    at PoolConnection.connect (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/mysql/lib/Connection.js:116:18)\n    at Pool.Object.<anonymous>.Pool.getConnection (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/mysql/lib/Pool.js:48:16)\n    at /Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/src/driver/mysql/MysqlDriver.ts:1268:18\n    at new Promise (<anonymous>)\n    at MysqlDriver.createPool (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/src/driver/mysql/MysqlDriver.ts:1265:16)\n    at MysqlDriver.connect (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/src/driver/mysql/MysqlDriver.ts:400:36)\n    at DataSource.initialize (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/src/data-source/DataSource.ts:253:27)\n    at /Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/@nestjs/typeorm/dist/typeorm-core.module.js:189:30",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts:106:17)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "TypeOrm MySql should be return an array of post",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be return an array of post"
+        },
+        {
+          "ancestorTitles": [
+            "TypeOrm",
+            "Mongo"
+          ],
+          "duration": 70005,
+          "failureDetails": [
+            {
+              "message": "thrown: \"Exceeded timeout of 70000 ms for a hook.\nAdd a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout.\""
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: thrown: \"Exceeded timeout of 70000 ms for a hook.\nAdd a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout.\"\n    at /Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts:138:5\n    at _dispatchDescribe (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/index.js:91:26)\n    at describe (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/index.js:55:5)\n    at /Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts:121:3\n    at _dispatchDescribe (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/index.js:91:26)\n    at describe (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/index.js:55:5)\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts:22:1)\n    at Runtime._execModule (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runtime/build/index.js:1439:24)\n    at Runtime._loadModule (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runtime/build/index.js:1022:12)\n    at Runtime.requireModule (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runtime/build/index.js:882:12)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:77:13)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts:155:17)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "TypeOrm Mongo should be defined",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be defined"
+        },
+        {
+          "ancestorTitles": [
+            "TypeOrm",
+            "Mongo"
+          ],
+          "duration": 70010,
+          "failureDetails": [
+            {
+              "message": "thrown: \"Exceeded timeout of 70000 ms for a hook.\nAdd a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout.\""
+            },
+            {}
+          ],
+          "failureMessages": [
+            "Error: thrown: \"Exceeded timeout of 70000 ms for a hook.\nAdd a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout.\"\n    at /Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts:138:5\n    at _dispatchDescribe (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/index.js:91:26)\n    at describe (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/index.js:55:5)\n    at /Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts:121:3\n    at _dispatchDescribe (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/index.js:91:26)\n    at describe (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/index.js:55:5)\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts:22:1)\n    at Runtime._execModule (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runtime/build/index.js:1439:24)\n    at Runtime._loadModule (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runtime/build/index.js:1022:12)\n    at Runtime.requireModule (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runtime/build/index.js:882:12)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:77:13)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)",
+            "TypeError: Cannot read properties of undefined (reading 'close')\n    at Object.<anonymous> (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/typeorm.module.spec.ts:155:17)\n    at Promise.then.completed (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusHook (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:281:40)\n    at _runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:254:5)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at _runTestsForDescribeBlock (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/node_modules/jest-runner/build/runTest.js:444:34)"
+          ],
+          "fullName": "TypeOrm Mongo should be return an array of user",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "should be return an array of user"
+        }
+      ],
+      "displayName": {
+        "color": "white",
+        "name": "@tresdoce-nestjs-toolkit/typeorm"
+      },
+      "failureMessage": "\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mTypeOrm › Postgres › should be defined\u001b[39m\u001b[22m\n\n    AggregateError:\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mTypeOrm › Postgres › should be defined\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 55 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 56 |\u001b[39m     afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 57 |\u001b[39m       \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m                 \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 58 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 59 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 60 |\u001b[39m     it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/typeorm.module.spec.ts\u001b[39m\u001b[0m\u001b[2m:57:17)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mTypeOrm › Postgres › should be return an array of post\u001b[39m\u001b[22m\n\n    AggregateError:\n\u001b[2m\u001b[22m\n\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mTypeOrm › Postgres › should be return an array of post\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 55 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 56 |\u001b[39m     afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 57 |\u001b[39m       \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m    |\u001b[39m                 \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 58 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 59 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 60 |\u001b[39m     it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/typeorm.module.spec.ts\u001b[39m\u001b[0m\u001b[2m:57:17)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mTypeOrm › MySql › should be defined\u001b[39m\u001b[22m\n\n    AggregateError:\n\u001b[2m\u001b[22m\n\u001b[2m          --------------------\u001b[22m\n\u001b[2m      \u001b[2mat Protocol.Object.<anonymous>.Protocol._enqueue (\u001b[22m\u001b[2m../../node_modules/mysql/lib/protocol/Protocol.js\u001b[2m:144:48)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Protocol.handshake (\u001b[22m\u001b[2m../../node_modules/mysql/lib/protocol/Protocol.js\u001b[2m:51:23)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat PoolConnection.connect (\u001b[22m\u001b[2m../../node_modules/mysql/lib/Connection.js\u001b[2m:116:18)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Pool.Object.<anonymous>.Pool.getConnection (\u001b[22m\u001b[2m../../node_modules/mysql/lib/Pool.js\u001b[2m:48:16)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat \u001b[22m\u001b[2m../../src/driver/mysql/MysqlDriver.ts\u001b[2m:1268:18\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat MysqlDriver.createPool (\u001b[22m\u001b[2m../../src/driver/mysql/MysqlDriver.ts\u001b[2m:1265:16)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat MysqlDriver.connect (\u001b[22m\u001b[2m../../src/driver/mysql/MysqlDriver.ts\u001b[2m:400:36)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat DataSource.initialize (\u001b[22m\u001b[2m../../src/data-source/DataSource.ts\u001b[2m:253:27)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat \u001b[22m\u001b[2m../../node_modules/@nestjs/typeorm/dist/typeorm-core.module.js\u001b[2m:189:30\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mTypeOrm › MySql › should be defined\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 104 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 105 |\u001b[39m     afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 106 |\u001b[39m       \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m     |\u001b[39m                 \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 107 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 108 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 109 |\u001b[39m     it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/typeorm.module.spec.ts\u001b[39m\u001b[0m\u001b[2m:106:17)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mTypeOrm › MySql › should be return an array of post\u001b[39m\u001b[22m\n\n    AggregateError:\n\u001b[2m\u001b[22m\n\u001b[2m          --------------------\u001b[22m\n\u001b[2m      \u001b[2mat Protocol.Object.<anonymous>.Protocol._enqueue (\u001b[22m\u001b[2m../../node_modules/mysql/lib/protocol/Protocol.js\u001b[2m:144:48)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Protocol.handshake (\u001b[22m\u001b[2m../../node_modules/mysql/lib/protocol/Protocol.js\u001b[2m:51:23)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat PoolConnection.connect (\u001b[22m\u001b[2m../../node_modules/mysql/lib/Connection.js\u001b[2m:116:18)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Pool.Object.<anonymous>.Pool.getConnection (\u001b[22m\u001b[2m../../node_modules/mysql/lib/Pool.js\u001b[2m:48:16)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat \u001b[22m\u001b[2m../../src/driver/mysql/MysqlDriver.ts\u001b[2m:1268:18\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat MysqlDriver.createPool (\u001b[22m\u001b[2m../../src/driver/mysql/MysqlDriver.ts\u001b[2m:1265:16)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat MysqlDriver.connect (\u001b[22m\u001b[2m../../src/driver/mysql/MysqlDriver.ts\u001b[2m:400:36)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat DataSource.initialize (\u001b[22m\u001b[2m../../src/data-source/DataSource.ts\u001b[2m:253:27)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat \u001b[22m\u001b[2m../../node_modules/@nestjs/typeorm/dist/typeorm-core.module.js\u001b[2m:189:30\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mTypeOrm › MySql › should be return an array of post\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 104 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 105 |\u001b[39m     afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 106 |\u001b[39m       \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m     |\u001b[39m                 \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 107 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 108 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 109 |\u001b[39m     it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/typeorm.module.spec.ts\u001b[39m\u001b[0m\u001b[2m:106:17)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mTypeOrm › Mongo › should be defined\u001b[39m\u001b[22m\n\n    thrown: \"Exceeded timeout of 70000 ms for a hook.\n    Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout.\"\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 136 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 137 |\u001b[39m\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 138 |\u001b[39m     beforeEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m     \u001b[90m     |\u001b[39m     \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 139 |\u001b[39m       \u001b[36mconst\u001b[39m module\u001b[33m:\u001b[39m \u001b[33mTestingModule\u001b[39m \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m \u001b[33mTest\u001b[39m\u001b[33m.\u001b[39mcreateTestingModule({\u001b[22m\n\u001b[2m     \u001b[90m 140 |\u001b[39m         imports\u001b[33m:\u001b[39m [\u001b[22m\n\u001b[2m     \u001b[90m 141 |\u001b[39m           \u001b[33mConfigModule\u001b[39m\u001b[33m.\u001b[39mforRoot({\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat \u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/typeorm.module.spec.ts\u001b[39m\u001b[0m\u001b[2m:138:5\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat \u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/typeorm.module.spec.ts\u001b[39m\u001b[0m\u001b[2m:121:3\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/typeorm.module.spec.ts\u001b[39m\u001b[0m\u001b[2m:22:1)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mTypeOrm › Mongo › should be defined\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 153 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 154 |\u001b[39m     afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 155 |\u001b[39m       \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m     |\u001b[39m                 \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 156 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 157 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 158 |\u001b[39m     it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/typeorm.module.spec.ts\u001b[39m\u001b[0m\u001b[2m:155:17)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mTypeOrm › Mongo › should be return an array of user\u001b[39m\u001b[22m\n\n    thrown: \"Exceeded timeout of 70000 ms for a hook.\n    Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout.\"\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 136 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 137 |\u001b[39m\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 138 |\u001b[39m     beforeEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m     \u001b[90m     |\u001b[39m     \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 139 |\u001b[39m       \u001b[36mconst\u001b[39m module\u001b[33m:\u001b[39m \u001b[33mTestingModule\u001b[39m \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m \u001b[33mTest\u001b[39m\u001b[33m.\u001b[39mcreateTestingModule({\u001b[22m\n\u001b[2m     \u001b[90m 140 |\u001b[39m         imports\u001b[33m:\u001b[39m [\u001b[22m\n\u001b[2m     \u001b[90m 141 |\u001b[39m           \u001b[33mConfigModule\u001b[39m\u001b[33m.\u001b[39mforRoot({\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat \u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/typeorm.module.spec.ts\u001b[39m\u001b[0m\u001b[2m:138:5\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat \u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/typeorm.module.spec.ts\u001b[39m\u001b[0m\u001b[2m:121:3\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/typeorm.module.spec.ts\u001b[39m\u001b[0m\u001b[2m:22:1)\u001b[22m\u001b[2m\u001b[22m\n\n\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mTypeOrm › Mongo › should be return an array of user\u001b[39m\u001b[22m\n\n    TypeError: Cannot read properties of undefined (reading 'close')\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 153 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 154 |\u001b[39m     afterEach(\u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[22m\n\u001b[2m    \u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 155 |\u001b[39m       \u001b[36mawait\u001b[39m app\u001b[33m.\u001b[39mclose()\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m     |\u001b[39m                 \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 156 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 157 |\u001b[39m\u001b[22m\n\u001b[2m     \u001b[90m 158 |\u001b[39m     it(\u001b[32m'should be defined'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.<anonymous> (\u001b[22m\u001b[2m\u001b[0m\u001b[36msrc/__test__/typeorm.module.spec.ts\u001b[39m\u001b[0m\u001b[2m:155:17)\u001b[22m\u001b[2m\u001b[22m\n"
+    }
+  ],
+  "wasInterrupted": false,
+  "coverageMap": {
+    "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/typeorm/typeorm.module.ts": {
+      "path": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/typeorm/typeorm.module.ts",
+      "statementMap": {
+        "0": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 63
+          }
+        },
+        "1": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 61
+          }
+        },
+        "2": {
+          "start": {
+            "line": 3,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 70
+          }
+        },
+        "3": {
+          "start": {
+            "line": 5,
+            "column": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 72
+          }
+        },
+        "4": {
+          "start": {
+            "line": 26,
+            "column": 7
+          },
+          "end": {
+            "line": 30,
+            "column": null
+          }
+        },
+        "5": {
+          "start": {
+            "line": 28,
+            "column": 4
+          },
+          "end": {
+            "line": 28,
+            "column": 46
+          }
+        },
+        "6": {
+          "start": {
+            "line": 26,
+            "column": 13
+          },
+          "end": {
+            "line": 26,
+            "column": 32
+          }
+        },
+        "7": {
+          "start": {
+            "line": 26,
+            "column": 13
+          },
+          "end": {
+            "line": 30,
+            "column": null
+          }
+        },
+        "8": {
+          "start": {
+            "line": 12,
+            "column": 59
+          },
+          "end": {
+            "line": 12,
+            "column": 66
+          }
+        },
+        "9": {
+          "start": {
+            "line": 20,
+            "column": 8
+          },
+          "end": {
+            "line": 20,
+            "column": 74
+          }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_1)",
+          "decl": {
+            "start": {
+              "line": 27,
+              "column": 2
+            },
+            "end": {
+              "line": 27,
+              "column": 8
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 27,
+              "column": 28
+            },
+            "end": {
+              "line": 29,
+              "column": 3
+            }
+          }
+        },
+        "1": {
+          "name": "(anonymous_2)",
+          "decl": {
+            "start": {
+              "line": 12,
+              "column": 18
+            },
+            "end": {
+              "line": 12,
+              "column": 23
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 12,
+              "column": 59
+            },
+            "end": {
+              "line": 12,
+              "column": 66
+            }
+          }
+        },
+        "2": {
+          "name": "(anonymous_3)",
+          "decl": {
+            "start": {
+              "line": 19,
+              "column": 18
+            },
+            "end": {
+              "line": 19,
+              "column": 23
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 20,
+              "column": 8
+            },
+            "end": {
+              "line": 20,
+              "column": 74
+            }
+          }
+        }
+      },
+      "branchMap": {},
+      "s": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 6,
+        "6": 1,
+        "7": 1,
+        "8": 6,
+        "9": 6
+      },
+      "f": {
+        "0": 6,
+        "1": 6,
+        "2": 6
+      },
+      "b": {}
+    },
+    "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/typeorm/constants/typerom.constants.ts": {
+      "path": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/typeorm/constants/typerom.constants.ts",
+      "statementMap": {
+        "0": {
+          "start": {
+            "line": 1,
+            "column": 13
+          },
+          "end": {
+            "line": 1,
+            "column": 65
+          }
+        }
+      },
+      "fnMap": {},
+      "branchMap": {},
+      "s": {
+        "0": 1
+      },
+      "f": {},
+      "b": {}
+    },
+    "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/utils/post.entity.ts": {
+      "path": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/utils/post.entity.ts",
+      "statementMap": {
+        "0": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 65
+          }
+        },
+        "1": {
+          "start": {
+            "line": 4,
+            "column": 7
+          },
+          "end": {
+            "line": 16,
+            "column": null
+          }
+        },
+        "2": {
+          "start": {
+            "line": 4,
+            "column": 13
+          },
+          "end": {
+            "line": 4,
+            "column": 17
+          }
+        },
+        "3": {
+          "start": {
+            "line": 6,
+            "column": 2
+          },
+          "end": {
+            "line": 6,
+            "column": null
+          }
+        },
+        "4": {
+          "start": {
+            "line": 9,
+            "column": 2
+          },
+          "end": {
+            "line": 9,
+            "column": null
+          }
+        },
+        "5": {
+          "start": {
+            "line": 12,
+            "column": 2
+          },
+          "end": {
+            "line": 12,
+            "column": null
+          }
+        },
+        "6": {
+          "start": {
+            "line": 15,
+            "column": 2
+          },
+          "end": {
+            "line": 15,
+            "column": null
+          }
+        },
+        "7": {
+          "start": {
+            "line": 4,
+            "column": 13
+          },
+          "end": {
+            "line": 16,
+            "column": null
+          }
+        }
+      },
+      "fnMap": {},
+      "branchMap": {},
+      "s": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1,
+        "6": 1,
+        "7": 1
+      },
+      "f": {},
+      "b": {}
+    },
+    "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/utils/user.entity.ts": {
+      "path": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/utils/user.entity.ts",
+      "statementMap": {
+        "0": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 67
+          }
+        },
+        "1": {
+          "start": {
+            "line": 4,
+            "column": 7
+          },
+          "end": {
+            "line": 13,
+            "column": null
+          }
+        },
+        "2": {
+          "start": {
+            "line": 4,
+            "column": 13
+          },
+          "end": {
+            "line": 4,
+            "column": 17
+          }
+        },
+        "3": {
+          "start": {
+            "line": 6,
+            "column": 2
+          },
+          "end": {
+            "line": 6,
+            "column": null
+          }
+        },
+        "4": {
+          "start": {
+            "line": 9,
+            "column": 2
+          },
+          "end": {
+            "line": 9,
+            "column": null
+          }
+        },
+        "5": {
+          "start": {
+            "line": 12,
+            "column": 2
+          },
+          "end": {
+            "line": 12,
+            "column": null
+          }
+        },
+        "6": {
+          "start": {
+            "line": 4,
+            "column": 13
+          },
+          "end": {
+            "line": 13,
+            "column": null
+          }
+        }
+      },
+      "fnMap": {},
+      "branchMap": {},
+      "s": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1,
+        "6": 1
+      },
+      "f": {},
+      "b": {}
+    },
+    "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/utils/index.ts": {
+      "path": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/utils/index.ts",
+      "statementMap": {
+        "0": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 9
+          }
+        },
+        "1": {
+          "start": {
+            "line": 1,
+            "column": 9
+          },
+          "end": {
+            "line": 1,
+            "column": 31
+          }
+        },
+        "2": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 9
+          }
+        },
+        "3": {
+          "start": {
+            "line": 2,
+            "column": 9
+          },
+          "end": {
+            "line": 2,
+            "column": 31
+          }
+        },
+        "4": {
+          "start": {
+            "line": 3,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 9
+          }
+        },
+        "5": {
+          "start": {
+            "line": 3,
+            "column": 9
+          },
+          "end": {
+            "line": 3,
+            "column": 34
+          }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_1)",
+          "decl": {
+            "start": {
+              "line": 1,
+              "column": 9
+            },
+            "end": {
+              "line": 1,
+              "column": 16
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 9
+            },
+            "end": {
+              "line": 1,
+              "column": 31
+            }
+          }
+        },
+        "1": {
+          "name": "(anonymous_2)",
+          "decl": {
+            "start": {
+              "line": 2,
+              "column": 9
+            },
+            "end": {
+              "line": 2,
+              "column": 16
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 9
+            },
+            "end": {
+              "line": 2,
+              "column": 31
+            }
+          }
+        },
+        "2": {
+          "name": "(anonymous_3)",
+          "decl": {
+            "start": {
+              "line": 3,
+              "column": 9
+            },
+            "end": {
+              "line": 3,
+              "column": 16
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 9
+            },
+            "end": {
+              "line": 3,
+              "column": 34
+            }
+          }
+        }
+      },
+      "branchMap": {},
+      "s": {
+        "0": 1,
+        "1": 3,
+        "2": 1,
+        "3": 3,
+        "4": 1,
+        "5": 3
+      },
+      "f": {
+        "0": 2,
+        "1": 2,
+        "2": 2
+      },
+      "b": {}
+    },
+    "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/utils/configuration-mongo.ts": {
+      "path": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/utils/configuration-mongo.ts",
+      "statementMap": {
+        "0": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 68
+          }
+        },
+        "1": {
+          "start": {
+            "line": 3,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 44
+          }
+        },
+        "2": {
+          "start": {
+            "line": 5,
+            "column": 0
+          },
+          "end": {
+            "line": 25,
+            "column": 3
+          }
+        },
+        "3": {
+          "start": {
+            "line": 6,
+            "column": 2
+          },
+          "end": {
+            "line": 24,
+            "column": 4
+          }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_0)",
+          "decl": {
+            "start": {
+              "line": 5,
+              "column": 36
+            },
+            "end": {
+              "line": 5,
+              "column": 58
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 60
+            },
+            "end": {
+              "line": 25,
+              "column": 1
+            }
+          }
+        }
+      },
+      "branchMap": {},
+      "s": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 2
+      },
+      "f": {
+        "0": 2
+      },
+      "b": {}
+    },
+    "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/utils/configuration-mysql.ts": {
+      "path": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/utils/configuration-mysql.ts",
+      "statementMap": {
+        "0": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 68
+          }
+        },
+        "1": {
+          "start": {
+            "line": 3,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 44
+          }
+        },
+        "2": {
+          "start": {
+            "line": 5,
+            "column": 0
+          },
+          "end": {
+            "line": 22,
+            "column": 3
+          }
+        },
+        "3": {
+          "start": {
+            "line": 6,
+            "column": 2
+          },
+          "end": {
+            "line": 21,
+            "column": 4
+          }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_0)",
+          "decl": {
+            "start": {
+              "line": 5,
+              "column": 36
+            },
+            "end": {
+              "line": 5,
+              "column": 58
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 60
+            },
+            "end": {
+              "line": 22,
+              "column": 1
+            }
+          }
+        }
+      },
+      "branchMap": {},
+      "s": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 2
+      },
+      "f": {
+        "0": 2
+      },
+      "b": {}
+    },
+    "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/utils/configuration-postgres.ts": {
+      "path": "/Users/maximilianodelgado/Projects/Mex/tresdoce-nestjs-toolkit/packages/typeorm/src/__test__/utils/configuration-postgres.ts",
+      "statementMap": {
+        "0": {
+          "start": {
+            "line": 2,
+            "column": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 68
+          }
+        },
+        "1": {
+          "start": {
+            "line": 3,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 44
+          }
+        },
+        "2": {
+          "start": {
+            "line": 5,
+            "column": 0
+          },
+          "end": {
+            "line": 22,
+            "column": 3
+          }
+        },
+        "3": {
+          "start": {
+            "line": 6,
+            "column": 2
+          },
+          "end": {
+            "line": 21,
+            "column": 4
+          }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_0)",
+          "decl": {
+            "start": {
+              "line": 5,
+              "column": 36
+            },
+            "end": {
+              "line": 5,
+              "column": 58
+            }
+          },
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 60
+            },
+            "end": {
+              "line": 22,
+              "column": 1
+            }
+          }
+        }
+      },
+      "branchMap": {},
+      "s": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 2
+      },
+      "f": {
+        "0": 2
+      },
+      "b": {}
+    }
+  }
+}
