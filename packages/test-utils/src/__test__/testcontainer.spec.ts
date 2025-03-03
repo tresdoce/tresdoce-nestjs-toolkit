@@ -64,8 +64,8 @@ describe('TestContainers', () => {
     it('should be return host of container instance', () => {
       const instanceHost = container.getHost();
       expect(instanceHost).toBeDefined();
-      //expect(instanceHost).toEqual('localhost');
-      expect(instanceHost).toEqual('127.0.0.1');
+      expect(instanceHost).toEqual('localhost');
+      //expect(instanceHost).toEqual('127.0.0.1');
     });
 
     it('should be return name of container instance', () => {
