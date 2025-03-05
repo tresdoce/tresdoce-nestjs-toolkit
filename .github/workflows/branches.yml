@@ -15,15 +15,15 @@ jobs:
       TURBO_TELEMETRY_DISABLED: 1
     name: "Build"
     steps:
-      - name: "✅ Checkout repository"
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
       - name: "⚙ Setup NodeJS v${{ matrix.node }}"
         uses: actions/setup-node@v4.2.0
         with:
           node-version: ${{ matrix.node }}
+
+      - name: "✅ Checkout repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: "💾 Restore Dependencies from cache"
         uses: actions/cache@v4.2.2
