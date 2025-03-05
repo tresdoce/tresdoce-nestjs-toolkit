@@ -58,7 +58,8 @@
     ]
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.731.1",
+    "@aws-sdk/client-dynamodb": "^3.758.0",
+    "@aws-sdk/client-sqs": "^3.758.0",
     "@nestjs/axios": "^4.0.0",
     "@nestjs/class-transformer": "^0.4.0",
     "@nestjs/class-validator": "^0.13.4",

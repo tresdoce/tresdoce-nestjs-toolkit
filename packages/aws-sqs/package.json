@@ -36,7 +36,7 @@
     "directory": "../../dist/aws-sqs"
   },
   "peerDependencies": {
-    "@aws-sdk/client-sqs": "^3.731.1",
+    "@aws-sdk/client-sqs": "^3.758.0",
     "@nestjs/common": "^11.0.11",
     "@nestjs/core": "^11.0.11",
     "@nestjs/platform-express": "^11.0.11",
@@ -44,7 +44,7 @@
     "rxjs": "^7.8.2"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.731.1"
+    "@aws-sdk/client-sqs": "^3.758.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.1",
