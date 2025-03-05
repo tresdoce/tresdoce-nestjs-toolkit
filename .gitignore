@@ -70,6 +70,8 @@ yarn-error.log*
 logs
 *.log
 lerna-debug.log*
+debug.json
+./packages/**/debug.json
 
 # FILES
 *.tgz
