@@ -4,8 +4,8 @@
 </div>
 
 <div align="center">
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v20.18.2&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="NodeJS"/>
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v11.1.0&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="NPM"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v20.18.3&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="NodeJS"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v11.2.0&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="NPM"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v11.0.11&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/><br/>
     <img src="https://img.shields.io/github/license/tresdoce/tresdoce-nestjs-toolkit?style=flat" alt="GitHub license" >
     <img alt="Release" src="https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/health.svg">
@@ -35,9 +35,9 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 ## 📝 Requerimientos básicos
 
 - [NestJS Starter](https://github.com/rudemex/nestjs-starter)
-- Node.js v20.18.2 or higher ([Download](https://nodejs.org/es/download/))
+- Node.js v20.18.3 or higher ([Download](https://nodejs.org/es/download/))
 - YARN v1.22.22 or higher
-- NPM v11.1.0 or higher
+- NPM v11.2.0 or higher
 - NestJS v11.0.11 or higher ([Documentación](https://nestjs.com/))
 
 <a name="install-dependencies"></a>
