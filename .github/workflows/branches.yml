@@ -16,25 +16,25 @@ jobs:
     name: "Build"
     steps:
       - name: "✅ Checkout repository"
-        uses: actions/checkout@v4.0.0
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: "⚙ Setup NodeJS v${{ matrix.node }}"
-        uses: actions/setup-node@v4.0.0
+        uses: actions/setup-node@v4.2.0
         with:
           cache: 'yarn'
           node-version: ${{ matrix.node }}
 
-      - name: "💾 Restore Dependencies from cache"
-        uses: actions/cache@v4.0.0
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+      #- name: "💾 Restore Dependencies from cache"
+      #  uses: actions/cache@v4.0.0
+      #  with:
+      #    path: |
+      #      node_modules
+      #      */*/node_modules
+      #    key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      #    restore-keys: |
+      #      ${{ runner.os }}-yarn-
 
       - name: "🦉 GitGuardian scan"
         uses: GitGuardian/ggshield-action@master
