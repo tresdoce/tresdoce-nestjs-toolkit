@@ -23,7 +23,6 @@ jobs:
       - name: "⚙ Setup NodeJS v${{ matrix.node }}"
         uses: actions/setup-node@v4.2.0
         with:
-          cache: 'yarn'
           node-version: ${{ matrix.node }}
 
       #- name: "💾 Restore Dependencies from cache"
