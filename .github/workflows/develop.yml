@@ -17,7 +17,7 @@ jobs:
       TURBO_TELEMETRY_DISABLED: 1
     name: "Build"
     steps:
-      - name: "⚙ Set up NodeJS v${{ matrix.node }}"
+      - name: "⚙ Setup NodeJS v${{ matrix.node }}"
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}

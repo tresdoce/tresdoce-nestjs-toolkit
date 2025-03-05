@@ -39,12 +39,12 @@
     "@nestjs/common": "^11.0.11",
     "@nestjs/core": "^11.0.11",
     "@nestjs/platform-express": "^11.0.11",
-    "@nestjs/throttler": "^6.3.0",
+    "@nestjs/throttler": "^6.4.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
   "dependencies": {
-    "@nestjs/throttler": "^6.3.0"
+    "@nestjs/throttler": "^6.4.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.1",
