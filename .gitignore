@@ -51,6 +51,9 @@ mochawesome.json
 .sonarcloud.properties
 sonar-project.properties
 .scannerwork
+codecov
+codecov.*
+!codecov.yml
 
 # next.js
 .next/
