@@ -40,7 +40,7 @@
     "jest-junit": "^16.0.0",
     "jest-mock-extended": "^3.0.7",
     "jest-sonar-reporter": "^2.0.0",
-    "terser-webpack-plugin": "^5.3.13",
+    "terser-webpack-plugin": "^5.3.14",
     "webpack-merge": "^6.0.1",
     "webpack-node-externals": "^3.0.0"
   },
@@ -49,7 +49,7 @@
     "jest-junit": "^16.0.0",
     "jest-mock-extended": "^3.0.7",
     "jest-sonar-reporter": "^2.0.0",
-    "terser-webpack-plugin": "^5.3.13",
+    "terser-webpack-plugin": "^5.3.14",
     "webpack-merge": "^6.0.1",
     "webpack-node-externals": "^3.0.0"
   },
