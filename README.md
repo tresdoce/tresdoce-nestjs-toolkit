@@ -31,6 +31,10 @@
 Este toolkit está pensada para ser utilizado en [NestJS Starter](https://github.com/rudemex/nestjs-starter), o cualquier
 proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
 
+<br>
+<div>
+    <a href="https://www.buymeacoffee.com/rudemex" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;" ></a>
+</div>
 
 ## Glosario
 
