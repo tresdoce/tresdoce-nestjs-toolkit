@@ -1,4 +1,4 @@
-import { DockerComposeEnvironment, StartedDockerComposeEnvironment } from 'testcontainers';
+import { DockerComposeEnvironment, StartedDockerComposeEnvironment, Wait } from 'testcontainers';
 import { ComposeDownOptions } from 'testcontainers/build/container-runtime';
 import _ from 'lodash';
 
