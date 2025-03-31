@@ -36,16 +36,16 @@
     "directory": "../../dist/camunda"
   },
   "peerDependencies": {
-    "@nestjs/common": "^11.0.11",
-    "@nestjs/core": "^11.0.11",
-    "@nestjs/microservices": "^11.0.11",
-    "@nestjs/platform-express": "^11.0.11",
+    "@nestjs/common": "^11.0.12",
+    "@nestjs/core": "^11.0.12",
+    "@nestjs/microservices": "^11.0.12",
+    "@nestjs/platform-express": "^11.0.12",
     "camunda-external-task-client-js": "^2.3.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
   "dependencies": {
-    "@nestjs/microservices": "^11.0.11",
+    "@nestjs/microservices": "^11.0.12",
     "camunda-external-task-client-js": "^2.3.1"
   },
   "devDependencies": {

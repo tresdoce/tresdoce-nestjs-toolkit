@@ -36,19 +36,19 @@
     "directory": "../../dist/utils"
   },
   "peerDependencies": {
-    "@nestjs/common": "^11.0.11",
-    "@nestjs/core": "^11.0.11",
-    "@nestjs/platform-express": "^11.0.11",
+    "@nestjs/common": "^11.0.12",
+    "@nestjs/core": "^11.0.12",
+    "@nestjs/platform-express": "^11.0.12",
     "bcrypt": "^5.1.1",
     "fast-redact": "^3.5.0",
-    "luxon": "^3.5.0",
+    "luxon": "^3.6.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "fast-redact": "^3.5.0",
-    "luxon": "^3.5.0"
+    "luxon": "^3.6.1"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.1",
