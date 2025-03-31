@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { NodeSDK } from '@opentelemetry/sdk-node';
-import { Resource } from '@opentelemetry/resources';
+import { Resource, resourceFromAttributes } from '@opentelemetry/resources';
 import { ATTR_SERVICE_NAME, ATTR_SERVICE_VERSION } from '@opentelemetry/semantic-conventions';
 import { AWSXRayIdGenerator } from '@opentelemetry/id-generator-aws-xray';
 import {
@@ -37,7 +37,7 @@ export const otelProvider = (_options: TracingOptions): void => {
 
     const spanProcessor = new BatchSpanProcessor(traceExporter);
 
-    const resource = new Resource({
+    const resource: Resource = resourceFromAttributes({
       [ATTR_SERVICE_NAME]: resourceAttributes.serviceName,
       [ATTR_SERVICE_VERSION]: resourceAttributes.version,
       ...resourceAttributes,

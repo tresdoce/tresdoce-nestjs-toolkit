@@ -49,7 +49,7 @@ describe('Tracing', () => {
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigModule.forRoot({
+        await ConfigModule.forRoot({
           isGlobal: true,
           load: [config],
         }),

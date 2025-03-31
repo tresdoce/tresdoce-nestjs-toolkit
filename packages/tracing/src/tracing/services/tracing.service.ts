@@ -11,7 +11,7 @@ export class TracingService {
 
   constructor(@Inject(FormatService) private readonly formatService: FormatService) {}
 
-  generateDuration(_timestamp_start, _timestamp_end): string | number {
+  generateDuration(_timestamp_start: any, _timestamp_end: any): string | number {
     return this.formatService.calculateTimestampDiff({
       startTime: _timestamp_start,
       endTime: _timestamp_end,
@@ -21,7 +21,7 @@ export class TracingService {
     });
   }
 
-  formatDate(_timestamp): string {
+  formatDate(_timestamp: any): string {
     return this.formatService.formatDate({
       date: new Date(_timestamp),
     });

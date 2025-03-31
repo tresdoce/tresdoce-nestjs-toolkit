@@ -1,4 +1,4 @@
-import { DockerComposeEnvironment, StartedDockerComposeEnvironment, Wait } from 'testcontainers';
+import { DockerComposeEnvironment, StartedDockerComposeEnvironment } from 'testcontainers';
 import { ComposeDownOptions } from 'testcontainers/build/container-runtime';
 import _ from 'lodash';
 
@@ -12,9 +12,11 @@ export const initDockerCompose = (
 ) => {
   return async (): Promise<StartedDockerComposeEnvironment> => {
     console.info(`🐳 Initialize docker-compose...`);
-    _.isEmpty(_services)
-      ? console.log(`• All services from ${_composeFile}`)
-      : console.log(`• Services from ${_composeFile}: ${_services.join(', ')}`);
+    if (_.isEmpty(_services)) {
+      console.log(`• All services from ${_composeFile}`);
+    } else {
+      console.log(`• Services from ${_composeFile}: ${_services.join(', ')}`);
+    }
     try {
       environment = await new DockerComposeEnvironment(_composeFilePath, _composeFile)
         .withStartupTimeout(_startupTimeout)
