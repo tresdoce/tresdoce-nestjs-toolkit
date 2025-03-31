@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/dynamoose",
-  "version": "2.0.2",
+  "version": "2.0.3-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo de base de datos DynamoDB - Dynamoose",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -52,7 +52,7 @@
     "dynamoose-logger": "^4.0.3"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.1",
+    "@tresdoce-nestjs-toolkit/config": "^0.5.2-beta.0",
     "@types/tresdoce-nestjs-toolkit": "^0.3.1"
   },
   "prettier": {
