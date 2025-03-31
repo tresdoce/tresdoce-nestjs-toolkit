@@ -4,9 +4,9 @@
 </div>
 
 <div align="center">
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v20.18.3&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="NodeJS"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v20.19.0&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="NodeJS"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v11.2.0&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="NPM"/>
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v11.0.11&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v11.0.12&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/>
     <img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg" alt="lerna">
     <a href="./license.md">
         <img src="https://img.shields.io/github/license/tresdoce/tresdoce-nestjs-toolkit?style=flat" alt="GitHub license" >
@@ -31,6 +31,10 @@
 Este toolkit está pensada para ser utilizado en [NestJS Starter](https://github.com/rudemex/nestjs-starter), o cualquier
 proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
 
+<br>
+<div>
+    <a href="https://www.buymeacoffee.com/rudemex" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;" ></a>
+</div>
 
 ## Glosario
 
@@ -49,10 +53,10 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 ## 📝 Requerimientos básicos
 
 - [NestJS Starter](https://github.com/rudemex/nestjs-starter)
-- Node.js v20.18.3 or higher ([Download](https://nodejs.org/es/download/))
+- Node.js v20.19.0 or higher ([Download](https://nodejs.org/es/download/))
 - YARN v1.22.22 or higher
 - NPM v11.2.0 or higher
-- NestJS v11.0.11 or higher ([Documentación](https://nestjs.com/))
+- NestJS v11.0.12 or higher ([Documentación](https://nestjs.com/))
 - Lerna
 
 <a name="scripts"></a>

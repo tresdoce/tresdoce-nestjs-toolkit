@@ -66,6 +66,8 @@ dist/
 *.pem
 
 # debug
+debug.json
+./packages/**/debug.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
