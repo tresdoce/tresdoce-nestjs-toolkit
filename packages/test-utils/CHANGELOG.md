@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@3.0.2...@tresdoce-nestjs-toolkit/test-utils@3.0.3) (2025-04-01)
+
+### 👨‍💻 Chores
+
+- add testcontainers cloud in workflows ([e9de8e8](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/e9de8e830b4137e559cfebd612ee9eec5c44f1ee))
+- changes in workflows ([f708346](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/f7083461ec19d188d791bd5a8e148edda9c25a51))
+- edit testcontainers ([277f520](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/277f520e6fb37ca8d562b2c0a8e2ef581afb2195))
+- remove debug files ([f39fbfc](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/f39fbfcef1f1538e62f20024ffaa29e955a94a2e))
+- update dependencies ([6757fe2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/6757fe252f591b5711fa67e4ac1240bbbb25e9bd))
+- update dependencies ([ca05c98](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/ca05c981fae968994d2fc0722d3a965907f233ee))
+- update dependencies ([a1cbf75](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a1cbf75c0db978f42ec12c9e1780393833230e6b))
+- update dependencies ([8d0284f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/8d0284f8c9b97e39d204e4fb134ca04bf53e944d))
+- update node version in workflows ([38d9232](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/38d9232c3f20be328889d18ecb9881edb298897e))
+- update workflows ([2cdaa75](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/2cdaa75bf0271e969b27392867e39b4bc5b99694))
+- updates ([788c057](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/788c0577e0397edfbf3c58cbc20626935c6f978f))
+- upgrade testcontainers ([90490c5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/90490c5ff9796b2f957845119b8a2e3f17175611))
+
 ## [3.0.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@3.0.1...@tresdoce-nestjs-toolkit/test-utils@3.0.2) (2025-03-06)
 
 ### 👨‍💻 Chores
