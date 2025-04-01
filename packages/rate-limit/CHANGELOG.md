@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/rate-limit@0.2.2...@tresdoce-nestjs-toolkit/rate-limit@0.2.3) (2025-04-01)
+
+### 👨‍💻 Chores
+
+- update dependencies ([6757fe2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/6757fe252f591b5711fa67e4ac1240bbbb25e9bd))
+
 ## [0.2.2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/rate-limit@0.2.1...@tresdoce-nestjs-toolkit/rate-limit@0.2.2) (2025-03-06)
 
 ### 👨‍💻 Chores
