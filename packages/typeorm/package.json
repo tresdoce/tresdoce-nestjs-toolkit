@@ -36,9 +36,9 @@
     "directory": "../../dist/typeorm"
   },
   "peerDependencies": {
-    "@nestjs/common": "^11.0.12",
-    "@nestjs/core": "^11.0.12",
-    "@nestjs/platform-express": "^11.0.12",
+    "@nestjs/common": "^11.0.13",
+    "@nestjs/core": "^11.0.13",
+    "@nestjs/platform-express": "^11.0.13",
     "@nestjs/typeorm": "^11.0.0",
     "mongodb": "^6.15.0",
     "mysql": "^2.18.1",
@@ -46,7 +46,7 @@
     "pg": "^8.14.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
-    "typeorm": "^0.3.21"
+    "typeorm": "^0.3.22"
   },
   "dependencies": {
     "@nestjs/typeorm": "^11.0.0",
@@ -54,7 +54,7 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.14.0",
     "pg": "^8.14.1",
-    "typeorm": "^0.3.21"
+    "typeorm": "^0.3.22"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.2",
