@@ -17,8 +17,6 @@ export default registerAs('config', (): Typings.AppConfig => {
         entities: [__dirname + '/**/user.entity{.ts,.js}'],
         synchronize: true,
         autoLoadEntities: true,
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
       },
     },
   };
