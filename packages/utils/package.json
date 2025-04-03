@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/utils",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Tresdoce NestJS Toolkit - Utilitarios para proyectos y librerías",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -36,9 +36,9 @@
     "directory": "../../dist/utils"
   },
   "peerDependencies": {
-    "@nestjs/common": "^11.0.12",
-    "@nestjs/core": "^11.0.12",
-    "@nestjs/platform-express": "^11.0.12",
+    "@nestjs/common": "^11.0.13",
+    "@nestjs/core": "^11.0.13",
+    "@nestjs/platform-express": "^11.0.13",
     "bcrypt": "^5.1.1",
     "fast-redact": "^3.5.0",
     "luxon": "^3.6.1",
