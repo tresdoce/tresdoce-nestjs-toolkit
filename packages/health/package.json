@@ -37,26 +37,26 @@
   },
   "peerDependencies": {
     "@nestjs/axios": "^4.0.0",
-    "@nestjs/common": "^11.0.12",
-    "@nestjs/core": "^11.0.12",
-    "@nestjs/microservices": "^11.0.12",
-    "@nestjs/platform-express": "^11.0.12",
+    "@nestjs/common": "^11.0.13",
+    "@nestjs/core": "^11.0.13",
+    "@nestjs/microservices": "^11.0.13",
+    "@nestjs/platform-express": "^11.0.13",
     "@nestjs/swagger": "^11.1.0",
     "@nestjs/terminus": "^11.0.0",
     "@nestjs/typeorm": "^11.0.0",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
-    "typeorm": "^0.3.21"
+    "typeorm": "^0.3.22"
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.0",
-    "@nestjs/microservices": "^11.0.12",
+    "@nestjs/microservices": "^11.0.13",
     "@nestjs/swagger": "^11.1.0",
     "@nestjs/terminus": "^11.0.0",
     "@nestjs/typeorm": "^11.0.0",
     "lodash": "^4.17.21",
-    "typeorm": "^0.3.21"
+    "typeorm": "^0.3.22"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.2",

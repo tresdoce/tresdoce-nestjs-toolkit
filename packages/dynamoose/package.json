@@ -38,9 +38,9 @@
   },
   "peerDependencies": {
     "@aws-sdk/client-dynamodb": "^3.777.0",
-    "@nestjs/common": "^11.0.12",
-    "@nestjs/core": "^11.0.12",
-    "@nestjs/platform-express": "^11.0.12",
+    "@nestjs/common": "^11.0.13",
+    "@nestjs/core": "^11.0.13",
+    "@nestjs/platform-express": "^11.0.13",
     "dynamoose": "^4.0.3",
     "dynamoose-logger": "^4.0.3",
     "reflect-metadata": "^0.2.2",

@@ -6,7 +6,7 @@
 <div align="center">
   <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v20.19.0&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="NodeJS"/>
   <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v11.2.0&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="NPM"/>
-  <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v11.0.12&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/><br/>
+  <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v11.0.13&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/><br/>
   <img src="https://img.shields.io/github/license/tresdoce/tresdoce-nestjs-toolkit?style=flat" alt="GitHub license" >
   <img alt="Release" src="https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/aws-sqs.svg">
   <br/>
@@ -36,7 +36,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - Node.js v20.19.0 or higher ([Download](https://nodejs.org/es/download/))
 - YARN v1.22.22 or higher
 - NPM v11.2.0 or higher
-- NestJS v11.0.12 or higher ([Documentación](https://nestjs.com/))
+- NestJS v11.0.13 or higher ([Documentación](https://nestjs.com/))
 
 <a name="install-dependencies"></a>
 
