@@ -6,6 +6,7 @@ const commonConfig = {
   entry: './src/main.ts',
   target: 'node',
   externals: [nodeExternals()],
+  externalsPresets: { node: true },
   output: {
     filename: 'main.js',
   },
@@ -16,8 +17,8 @@ const commonConfig = {
     rules: [
       {
         test: /\.ts$/,
-        exclude: /node_modules/,
-        use: ['ts-loader'],
+        exclude: [/node_modules/],
+        use: [{ loader: 'ts-loader', options: { transpileOnly: true } }],
       },
     ],
   },
@@ -49,8 +50,14 @@ const prodConfig = {
   },
 };
 
-export const buildConfig = (additionalConfig = {}) => {
+export const buildConfig = (additionalConfig = {}, options = { externalizeNodeModules: true }) => {
   const isBuildMode = process.env.NODE_ENV === 'build';
   const specificConfig = isBuildMode ? prodConfig : devConfig;
-  return merge(commonConfig, specificConfig, additionalConfig);
+
+  const commonConfigAdjusted = {
+    ...commonConfig,
+    externals: options.externalizeNodeModules ? [nodeExternals()] : [],
+  };
+
+  return merge(commonConfigAdjusted, specificConfig, additionalConfig);
 };

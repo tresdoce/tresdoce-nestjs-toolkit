@@ -22,25 +22,12 @@ jest.setTimeout(70000);
 describe('TypeOrm', () => {
   describe('Postgres', () => {
     let app: INestApplication;
-    let container: testContainers;
     let repository: Repository<Post>;
-
-    beforeAll(async () => {
-      container = await new testContainers('postgres:13', {
-        ...TCPostgresOptions,
-        containerName: `${tcName}-typeorm-postgres`,
-      });
-      await container.start();
-    });
-
-    afterAll(async () => {
-      await container.stop({ removeVolumes: true });
-    });
 
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         imports: [
-          ConfigModule.forRoot({
+          await ConfigModule.forRoot({
             isGlobal: true,
             load: [configPostgres],
           }),
@@ -58,7 +45,7 @@ describe('TypeOrm', () => {
     });
 
     it('should be defined', async () => {
-      await expect(app).toBeDefined();
+      expect(app).toBeDefined();
     }, 50000);
 
     it('should be return an array of post', async () => {
@@ -71,25 +58,12 @@ describe('TypeOrm', () => {
 
   describe('MySql', () => {
     let app: INestApplication;
-    let container: testContainers;
     let repository: Repository<Post>;
-
-    beforeAll(async () => {
-      container = await new testContainers('mysql:5.7', {
-        ...TCMySqlOptions,
-        containerName: `${tcName}-typeorm-mysql`,
-      });
-      await container.start();
-    });
-
-    afterAll(async () => {
-      await container.stop({ removeVolumes: true });
-    });
 
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         imports: [
-          ConfigModule.forRoot({
+          await ConfigModule.forRoot({
             isGlobal: true,
             load: [configMySql],
           }),
@@ -107,7 +81,7 @@ describe('TypeOrm', () => {
     });
 
     it('should be defined', async () => {
-      await expect(app).toBeDefined();
+      expect(app).toBeDefined();
     }, 50000);
 
     it('should be return an array of post', async () => {
@@ -120,25 +94,12 @@ describe('TypeOrm', () => {
 
   describe('Mongo', () => {
     let app: INestApplication;
-    let container: testContainers;
     let repository: Repository<User>;
-
-    beforeAll(async () => {
-      container = await new testContainers('mongo:5.0', {
-        ...TCMongoOptions,
-        containerName: `${tcName}-typeorm-mongo`,
-      });
-      await container.start();
-    });
-
-    afterAll(async () => {
-      await container.stop({ removeVolumes: true });
-    });
 
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         imports: [
-          ConfigModule.forRoot({
+          await ConfigModule.forRoot({
             isGlobal: true,
             load: [configMongo],
           }),
@@ -156,7 +117,7 @@ describe('TypeOrm', () => {
     });
 
     it('should be defined', async () => {
-      await expect(app).toBeDefined();
+      expect(app).toBeDefined();
     }, 50000);
 
     it('should be return an array of user', async () => {

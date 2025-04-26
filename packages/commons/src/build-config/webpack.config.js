@@ -7,6 +7,7 @@ module.exports = () => {
     entry: './src/main.ts',
     mode: isBuildMode ? 'production' : 'development',
     target: 'node',
+    externalsPresets: { node: true },
     externals: [nodeExternals()],
     output: {
       filename: 'main.js',
@@ -19,7 +20,7 @@ module.exports = () => {
         {
           test: /\.ts$/,
           exclude: /node_modules/,
-          use: ['ts-loader'],
+          use: [{ loader: 'ts-loader', options: { transpileOnly: true } }],
         },
       ],
     },

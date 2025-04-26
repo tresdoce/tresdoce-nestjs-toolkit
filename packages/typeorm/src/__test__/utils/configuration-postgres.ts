@@ -8,7 +8,7 @@ export default registerAs('config', (): Typings.AppConfig => {
     database: {
       typeorm: {
         type: 'postgres',
-        host: global.hostContainer,
+        host: 'docker',
         port: parseInt('5432', 10),
         username: encodeURIComponent('root'),
         password: encodeURIComponent('123456'),
