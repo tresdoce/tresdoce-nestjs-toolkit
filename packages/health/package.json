@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/health",
-  "version": "2.0.4",
+  "version": "2.0.5-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo health checks liveness y readiness",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -37,11 +37,11 @@
   },
   "peerDependencies": {
     "@nestjs/axios": "^4.0.0",
-    "@nestjs/common": "^11.0.13",
-    "@nestjs/core": "^11.0.13",
-    "@nestjs/microservices": "^11.0.13",
-    "@nestjs/platform-express": "^11.0.13",
-    "@nestjs/swagger": "^11.1.0",
+    "@nestjs/common": "^11.1.0",
+    "@nestjs/core": "^11.1.0",
+    "@nestjs/microservices": "^11.1.0",
+    "@nestjs/platform-express": "^11.1.0",
+    "@nestjs/swagger": "^11.1.5",
     "@nestjs/terminus": "^11.0.0",
     "@nestjs/typeorm": "^11.0.0",
     "lodash": "^4.17.21",
@@ -51,8 +51,8 @@
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.0",
-    "@nestjs/microservices": "^11.0.13",
-    "@nestjs/swagger": "^11.1.0",
+    "@nestjs/microservices": "^11.1.0",
+    "@nestjs/swagger": "^11.1.5",
     "@nestjs/terminus": "^11.0.0",
     "@nestjs/typeorm": "^11.0.0",
     "lodash": "^4.17.21",

@@ -15,7 +15,7 @@ describe('TestContainers', () => {
     let container: testContainers;
 
     beforeAll(async () => {
-      container = await new testContainers('redis:6.2-alpine', {
+      container = new testContainers('redis:7.4.2-alpine', {
         ...TCRedisOptions,
         command: ['redis-server', '--appendonly', 'yes', '--requirepass', '123456'],
         ports: [
@@ -39,7 +39,7 @@ describe('TestContainers', () => {
 
     it('should be return exception of instance', async () => {
       try {
-        await new testContainers('postgres:13', TCPostgresOptions);
+        new testContainers('postgres:15', TCPostgresOptions);
       } catch (error) {
         expect(error.message).toBe('Use testContainers.getInstance() instead of new.');
       }
@@ -84,7 +84,7 @@ describe('TestContainers', () => {
     let container: testContainers;
 
     beforeAll(async () => {
-      container = await new testContainers('amazon/dynamodb-local:latest', {
+      container = new testContainers('amazon/dynamodb-local:latest', {
         ...TCDynamoDBOptions,
         ports: [
           {
@@ -110,7 +110,7 @@ describe('TestContainers', () => {
     let container: testContainers;
 
     beforeAll(async () => {
-      container = await new testContainers('mongo:5.0', {
+      container = new testContainers('mongo:8.0.6', {
         ...TCMongoOptions,
         ports: [
           {
@@ -136,7 +136,7 @@ describe('TestContainers', () => {
     let container: testContainers;
 
     beforeAll(async () => {
-      container = await new testContainers('mysql:5.7', {
+      container = new testContainers('mysql:5.7', {
         ...TCMySqlOptions,
         ports: [
           {
@@ -162,7 +162,7 @@ describe('TestContainers', () => {
     let container: testContainers;
 
     beforeAll(async () => {
-      container = await new testContainers('postgres:13', TCPostgresOptions);
+      container = new testContainers('postgres:15', TCPostgresOptions);
       await container.start();
     });
 
@@ -180,7 +180,7 @@ describe('TestContainers', () => {
     let container: testContainers;
 
     beforeAll(async () => {
-      container = await new testContainers('elasticsearch:8.8.1', {
+      container = new testContainers('elasticsearch:8.18.0', {
         ...TCElasticSearchOptions,
         ports: [
           {

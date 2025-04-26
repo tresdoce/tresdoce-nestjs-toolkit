@@ -1,22 +1,22 @@
 # docker-compose.yml - Only for local debug purposes
 # docker-compose up -d elasticsearch kibana jaeger camunda redis mongo mysql postgres pgadmin
-version: '3.9'
-
 services:
   postgres:
-    image: postgres:13
+    #image: postgres:13
+    image: postgres:15
     container_name: tresdoce-test-container-local-postgres
     restart: always
     ports:
       - '5432:5432'
     environment:
       TZ: 'America/Argentina/Buenos_Aires'
-      POSTGRES_DB: my_db
+      POSTGRES_DB: test_db
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 123456
 
   mysql:
     image: mysql:5.7
+    #image: mysql:9.3.0
     container_name: tresdoce-test-container-local-mysql
     restart: always
     ports:
@@ -24,12 +24,13 @@ services:
     environment:
       TZ: 'America/Argentina/Buenos_Aires'
       MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: my_db
+      MYSQL_DATABASE: test_db
       MYSQL_PASSWORD: 123456
       #MYSQL_USER: root
 
   mongo:
-    image: mongo:5.0
+    #image: mongo:5.0
+    image: mongo:8.0.6
     container_name: tresdoce-test-container-local-mongo
     restart: always
     ports:
@@ -41,7 +42,8 @@ services:
       MONGO_INITDB_DATABASE: test_db
 
   redis:
-    image: redis:6.2-alpine
+    #image: redis:6.2-alpine
+    image: redis:7.4.2-alpine
     container_name: tresdoce-test-container-local-redis
     restart: always
     ports:
@@ -55,7 +57,9 @@ services:
     command: [ "redis-server", "--appendonly", "yes", "--requirepass","123456" ]
 
   dynamodb:
-    image: amazon/dynamodb-local:latest
+    #image: amazon/dynamodb-local:latest
+    #image: amazon/dynamodb-local:1.21.0
+    image: amazon/dynamodb-local:2.6.0
     container_name: tresdoce-test-container-local-dynamodb
     restart: always
     ports:
