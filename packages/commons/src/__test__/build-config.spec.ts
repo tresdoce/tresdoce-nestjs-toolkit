@@ -43,4 +43,5 @@ describe('build-config', () => {
     expect(config.devtool).toEqual('eval');
     expect(config.optimization.nodeEnv).toBeFalsy();
   });
+
 });
