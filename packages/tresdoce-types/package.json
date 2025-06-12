@@ -5,7 +5,7 @@
   "main": "",
   "types": "index",
   "dependencies": {
-    "jest-extended": "^4.0.2"
+    "jest-extended": "^6.0.0"
   },
   "scripts": {
     "tests": "echo \"Error: no test specified\"",

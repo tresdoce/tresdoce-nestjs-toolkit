@@ -32,13 +32,15 @@ export class RedisService {
   /**
    * @Descripción: Save value in Redis
    * @Param key {string}
-   * @Param Value {any}
-   * @Param Seconds {number} expire data
+   * @Param value {any}
+   * @Param seconds {number} expire data
    * @return: OK
    */
-  public async set(key: string, value: any, seconds?: number): Promise<string> {
-    value = JSON.stringify(value);
-    return !seconds ? this.clientRef.set(key, value) : this.clientRef.setEx(key, seconds, value);
+  public async set(key: string, value: any, seconds?: number): Promise<any> {
+    const stringValue = JSON.stringify(value);
+    return seconds
+      ? await this.clientRef.setEx(key, seconds, stringValue)
+      : await this.clientRef.set(key, stringValue);
   }
 
   /**
@@ -48,7 +50,7 @@ export class RedisService {
    */
   public async get(key: string): Promise<any> {
     const data = await this.clientRef.get(key);
-    return data ? JSON.parse(data) : null;
+    return data ? JSON.parse(data as string) : null;
   }
 
   /**
@@ -67,7 +69,8 @@ export class RedisService {
    * @return: true | false
    */
   public async copy(source: string, destination: string): Promise<boolean> {
-    return this.clientRef.copy(source, destination);
+    const result: number = await this.clientRef.copy(source, destination);
+    return result === 1;
   }
 
   /**

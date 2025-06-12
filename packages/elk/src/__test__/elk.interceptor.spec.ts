@@ -129,12 +129,12 @@ describe('ElkInterceptor', () => {
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
-      expect(callHandler.handle).toBeCalledTimes(1);
+      expect(callHandler.handle).toHaveBeenCalledTimes(1);
 
       obs.subscribe({
         next: (response) => {
           elkService.serializeResponseInterceptor(timeRequest, executionContext, response, false);
-          expect(interceptorServiceSpy).toBeCalledWith(
+          expect(interceptorServiceSpy).toHaveBeenCalledWith(
             timeRequest,
             executionContext,
             response,
@@ -154,12 +154,12 @@ describe('ElkInterceptor', () => {
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
-      expect(callHandler.handle).toBeCalledTimes(1);
+      expect(callHandler.handle).toHaveBeenCalledTimes(1);
 
       obs.subscribe({
         next: (response) => {
           elkService.serializeResponseInterceptor(timeRequest, executionContext, response, false);
-          expect(interceptorServiceSpy).toBeCalledWith(
+          expect(interceptorServiceSpy).toHaveBeenCalledWith(
             timeRequest,
             executionContext,
             response,
@@ -179,7 +179,7 @@ describe('ElkInterceptor', () => {
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContextParams, callHandler);
-      expect(callHandler.handle).toBeCalledTimes(1);
+      expect(callHandler.handle).toHaveBeenCalledTimes(1);
 
       obs.subscribe({
         next: (response) => {
@@ -189,7 +189,7 @@ describe('ElkInterceptor', () => {
             response,
             false,
           );
-          expect(interceptorServiceSpy).toBeCalledWith(
+          expect(interceptorServiceSpy).toHaveBeenCalledWith(
             timeRequest,
             executionContextParams,
             response,
@@ -211,13 +211,18 @@ describe('ElkInterceptor', () => {
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
-      expect(callHandler.handle).toBeCalledTimes(1);
+      expect(callHandler.handle).toHaveBeenCalledTimes(1);
 
       obs.subscribe({
         next: () => {},
         error: (error) => {
           elkService.serializeResponseInterceptor(timeRequest, executionContext, error, true);
-          expect(interceptorServiceSpy).toBeCalledWith(timeRequest, executionContext, error, true);
+          expect(interceptorServiceSpy).toHaveBeenCalledWith(
+            timeRequest,
+            executionContext,
+            error,
+            true,
+          );
         },
       });
     });
@@ -233,13 +238,18 @@ describe('ElkInterceptor', () => {
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
-      expect(callHandler.handle).toBeCalledTimes(1);
+      expect(callHandler.handle).toHaveBeenCalledTimes(1);
 
       obs.subscribe({
         next: () => {},
         error: (error) => {
           elkService.serializeResponseInterceptor(timeRequest, executionContext, error, true);
-          expect(interceptorServiceSpy).toBeCalledWith(timeRequest, executionContext, error, true);
+          expect(interceptorServiceSpy).toHaveBeenCalledWith(
+            timeRequest,
+            executionContext,
+            error,
+            true,
+          );
         },
       });
     });
@@ -304,12 +314,12 @@ describe('ElkInterceptor', () => {
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
-      expect(callHandler.handle).toBeCalledTimes(1);
+      expect(callHandler.handle).toHaveBeenCalledTimes(1);
 
       obs.subscribe({
         next: (response) => {
           elkService.serializeResponseInterceptor(timeRequest, executionContext, response, false);
-          expect(interceptorServiceSpy).toBeCalledWith(
+          expect(interceptorServiceSpy).toHaveBeenCalledWith(
             timeRequest,
             executionContext,
             response,
@@ -329,12 +339,12 @@ describe('ElkInterceptor', () => {
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
-      expect(callHandler.handle).toBeCalledTimes(1);
+      expect(callHandler.handle).toHaveBeenCalledTimes(1);
 
       obs.subscribe({
         next: (response) => {
           elkService.serializeResponseInterceptor(timeRequest, executionContext, response, false);
-          expect(interceptorServiceSpy).toBeCalledWith(
+          expect(interceptorServiceSpy).toHaveBeenCalledWith(
             timeRequest,
             executionContext,
             response,
@@ -354,7 +364,7 @@ describe('ElkInterceptor', () => {
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContextParams, callHandler);
-      expect(callHandler.handle).toBeCalledTimes(1);
+      expect(callHandler.handle).toHaveBeenCalledTimes(1);
 
       obs.subscribe({
         next: (response) => {
@@ -364,7 +374,7 @@ describe('ElkInterceptor', () => {
             response,
             false,
           );
-          expect(interceptorServiceSpy).toBeCalledWith(
+          expect(interceptorServiceSpy).toHaveBeenCalledWith(
             timeRequest,
             executionContextParams,
             response,
@@ -386,13 +396,18 @@ describe('ElkInterceptor', () => {
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
-      expect(callHandler.handle).toBeCalledTimes(1);
+      expect(callHandler.handle).toHaveBeenCalledTimes(1);
 
       obs.subscribe({
         next: () => {},
         error: (error) => {
           elkService.serializeResponseInterceptor(timeRequest, executionContext, error, true);
-          expect(interceptorServiceSpy).toBeCalledWith(timeRequest, executionContext, error, true);
+          expect(interceptorServiceSpy).toHaveBeenCalledWith(
+            timeRequest,
+            executionContext,
+            error,
+            true,
+          );
         },
       });
     });
@@ -408,13 +423,18 @@ describe('ElkInterceptor', () => {
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
-      expect(callHandler.handle).toBeCalledTimes(1);
+      expect(callHandler.handle).toHaveBeenCalledTimes(1);
 
       obs.subscribe({
         next: () => {},
         error: (error) => {
           elkService.serializeResponseInterceptor(timeRequest, executionContext, error, true);
-          expect(interceptorServiceSpy).toBeCalledWith(timeRequest, executionContext, error, true);
+          expect(interceptorServiceSpy).toHaveBeenCalledWith(
+            timeRequest,
+            executionContext,
+            error,
+            true,
+          );
         },
       });
     });

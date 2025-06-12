@@ -81,7 +81,7 @@ describe('BcryptService', () => {
       .spyOn(service, 'encrypt')
       .mockRejectedValueOnce(new Error('Error encrypting data: Encryption failed'));
 
-    await expect(service.encrypt('password')).rejects.toThrowError(
+    await expect(service.encrypt('password')).rejects.toThrow(
       'Error encrypting data: Encryption failed',
     );
   });
@@ -93,7 +93,7 @@ describe('BcryptService', () => {
 
     const encryptedData = await service.encrypt('password');
 
-    await expect(service.compare('password', encryptedData)).rejects.toThrowError(
+    await expect(service.compare('password', encryptedData)).rejects.toThrow(
       'Error comparing data: Decryption failed',
     );
   });
@@ -103,7 +103,7 @@ describe('BcryptService', () => {
       throw new Error('Error generating password hash: Hashing failed');
     });
 
-    expect(() => service.generatePasswordHash('password')).toThrowError(
+    expect(() => service.generatePasswordHash('password')).toThrow(
       'Error generating password hash: Hashing failed',
     );
   });
@@ -115,8 +115,6 @@ describe('BcryptService', () => {
       throw new Error('Error validating hash: Validation failed');
     });
 
-    expect(() => service.validateHash(hash)).toThrowError(
-      'Error validating hash: Validation failed',
-    );
+    expect(() => service.validateHash(hash)).toThrow('Error validating hash: Validation failed');
   });
 });
