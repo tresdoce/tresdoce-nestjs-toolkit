@@ -4,7 +4,11 @@ import { ConfigModule } from '@nestjs/config';
 import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
 
 import { HttpClientModule } from '../http/httpClient.module';
-import { HttpModuleAsyncOptions } from '../http/interfaces/http-module.interface';
+import {
+  HttpModuleAsyncOptions,
+  HttpModuleOptions,
+  HttpModuleOptionsFactory,
+} from '../http/interfaces/http-module.interface';
 
 class MockedClass {
   createHttpOptions() {

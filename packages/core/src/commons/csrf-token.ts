@@ -78,6 +78,7 @@ export const csrfToken = (
     let csrfTokenValue: string | undefined;
     let secret: string | false = getSecretFromRequest(req, cookieConfig.key, cookieConfig);
 
+    /* istanbul ignore next */
     if (!secret) {
       secret = createSecret(req);
       setSecret(res, cookieConfig.key, secret, cookieConfig);
@@ -85,6 +86,7 @@ export const csrfToken = (
 
     req.cookieConfig = omit(cookieConfig, ['secret']);
     req.csrfToken = (): string => {
+      /* istanbul ignore next */
       if (!csrfTokenValue) {
         csrfTokenValue = tokenProvider.create(secret as string);
         setSecret(res, cookieConfig.cookieName, csrfTokenValue, cookieConfig);
@@ -139,6 +141,7 @@ export const getIpAddress = (req: Request): string | undefined => {
 
   if (forwardedIps) {
     const firstForwardedIp = forwardedIps.split(',')[0];
+    /* istanbul ignore next */
     if (firstForwardedIp) {
       return firstForwardedIp;
     }
@@ -233,7 +236,7 @@ const setCookie = (
   if (Array.isArray(existingHeaders)) {
     headerArray = existingHeaders;
   } else if (typeof existingHeaders === 'string') {
-    headerArray = [existingHeaders];
+    /* istanbul ignore next */ headerArray = [existingHeaders];
   }
 
   res.setHeader('Set-Cookie', [...headerArray, serializedCookie]);

@@ -284,6 +284,32 @@ describe('filters', () => {
       expect(mockType).not.toHaveBeenCalled();
     });
   });
+
+  describe('Exclude Paths (non-HttpException)', () => {
+    const appConfig = config();
+    const filter = new ExceptionsFilter(appConfig);
+
+    it('should exclude paths and skip HttpException branch if error is generic', () => {
+      mockJson.mockClear();
+      mockStatus.mockClear();
+      mockType.mockClear();
+      mockGetResponse.mockClear();
+      mockUrl.mockClear();
+      mockGetRequest.mockClear();
+      mockHttpArgumentsHost.mockClear();
+
+      mockGetRequest.mockImplementation(() => ({ url: '/excluded', method: 'GET' }));
+
+      const genericError = new Error('Generic error'); // No es HttpException
+
+      filter.catch(genericError, mockArgumentsHost);
+
+      // Verificamos que NO se haya llamado ni .status ni .json (porque no entró al if interno)
+      expect(mockStatus).not.toHaveBeenCalled();
+      expect(mockJson).not.toHaveBeenCalled();
+      expect(mockType).not.toHaveBeenCalled();
+    });
+  });
 });
 
 function assertResponse(expectedStatus: number, expectedJson: IProblemDetail) {

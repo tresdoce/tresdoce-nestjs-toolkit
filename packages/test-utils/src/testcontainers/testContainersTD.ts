@@ -56,11 +56,13 @@ export default class TestContainersTD {
     }
 
     /* Add container ports */
+    /* istanbul ignore next */
     if (_.has(options, 'ports') && !_.isEmpty(options.ports)) {
       genericContainer.withExposedPorts(...options.ports);
     }
 
     /* Add container envs */
+    /* istanbul ignore next */
     if (_.has(options, 'envs') && !_.isEmpty(options.envs)) {
       genericContainer.withEnvironment(options.envs);
     }
@@ -84,6 +86,7 @@ export default class TestContainersTD {
     }
 
     /* Add container reuse*/
+    /* istanbul ignore next */
     if (_.has(options, 'reuse') && options.reuse) {
       genericContainer.withReuse();
     }

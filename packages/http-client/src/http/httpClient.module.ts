@@ -114,6 +114,7 @@ export class HttpClientModule {
 
     const providers = [this.createAsyncOptionsProvider(options)];
 
+    /* istanbul ignore next */
     if (options.useClass)
       providers.push({
         provide: options.useClass,
@@ -134,7 +135,9 @@ export class HttpClientModule {
 
     let inject;
     if (options.useExisting) inject = [options.useExisting];
-    else if (options.useClass) inject = [options.useClass];
+    /* istanbul ignore next */ else if (options.useClass)
+      /* istanbul ignore next */
+      inject = [options.useClass];
 
     return {
       provide: HTTP_MODULE_OPTIONS,

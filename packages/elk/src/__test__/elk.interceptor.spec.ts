@@ -253,6 +253,43 @@ describe('ElkInterceptor', () => {
         },
       });
     });
+
+    it('should skip logging if path is in excludePaths', async () => {
+      const spyCreateIndex = jest.spyOn(elkService as any, 'createIndexDocument');
+      const spyRedact = jest.spyOn(elkService as any, 'redactElkDocument');
+
+      const executionContextExcluded: any = {
+        ...executionContext,
+        switchToHttp: () => ({
+          getRequest: () => ({
+            path: '/info',
+            method: 'GET',
+            params: {},
+            query: {},
+            body: {},
+            headers: {},
+            cookies: {},
+          }),
+          getResponse: () => ({
+            getHeaders: jest.fn(() => ({})),
+            statusCode: 200,
+          }),
+        }),
+      };
+
+      const response = { ok: true };
+      const timeRequest = Date.now();
+
+      await elkService.serializeResponseInterceptor(
+        timeRequest,
+        executionContextExcluded,
+        response,
+        false,
+      );
+
+      expect(spyCreateIndex).not.toHaveBeenCalled();
+      expect(spyRedact).not.toHaveBeenCalled();
+    });
   });
 
   describe('Without indexDate', () => {
@@ -437,6 +474,43 @@ describe('ElkInterceptor', () => {
           );
         },
       });
+    });
+
+    it('should skip logging if path is in excludePaths', async () => {
+      const spyCreateIndex = jest.spyOn(elkService as any, 'createIndexDocument');
+      const spyRedact = jest.spyOn(elkService as any, 'redactElkDocument');
+
+      const executionContextExcluded: any = {
+        ...executionContext,
+        switchToHttp: () => ({
+          getRequest: () => ({
+            path: '/info',
+            method: 'GET',
+            params: {},
+            query: {},
+            body: {},
+            headers: {},
+            cookies: {},
+          }),
+          getResponse: () => ({
+            getHeaders: jest.fn(() => ({})),
+            statusCode: 200,
+          }),
+        }),
+      };
+
+      const response = { ok: true };
+      const timeRequest = Date.now();
+
+      await elkService.serializeResponseInterceptor(
+        timeRequest,
+        executionContextExcluded,
+        response,
+        false,
+      );
+
+      expect(spyCreateIndex).not.toHaveBeenCalled();
+      expect(spyRedact).not.toHaveBeenCalled();
     });
   });
 });
