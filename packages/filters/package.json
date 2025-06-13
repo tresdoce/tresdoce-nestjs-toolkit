@@ -27,7 +27,8 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf ../../dist/filters",
-    "build": "pika build --out ../../dist/filters",
+    "build": "tsup --format esm,cjs --dts --out-dir ../../dist/filters",
+    "build:pika": "pika build --out ../../dist/filters",
     "test": "jest --runInBand --coverage --forceExit",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },

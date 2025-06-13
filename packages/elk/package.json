@@ -27,7 +27,8 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf ../../dist/elk",
-    "build": "pika build --out ../../dist/elk",
+    "build": "tsup --format esm,cjs --dts --out-dir ../../dist/elk",
+    "build:pika": "pika build --out ../../dist/elk",
     "test": "jest --runInBand --coverage --forceExit",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },

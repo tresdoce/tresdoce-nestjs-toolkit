@@ -1,0 +1,11 @@
+import { ITestContainerOptions } from '../testcontainers';
+export declare const tcUsername = "root";
+export declare const tcPassword = "123456";
+export declare const tcDatabaseName = "test_db";
+export declare const tcName = "tresdoce-test-container";
+export declare const TCRedisOptions: ITestContainerOptions;
+export declare const TCDynamoDBOptions: ITestContainerOptions;
+export declare const TCMongoOptions: ITestContainerOptions;
+export declare const TCPostgresOptions: ITestContainerOptions;
+export declare const TCMySqlOptions: ITestContainerOptions;
+export declare const TCElasticSearchOptions: ITestContainerOptions;

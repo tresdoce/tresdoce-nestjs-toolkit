@@ -1,0 +1,56 @@
+{
+  "name": "@tresdoce-nestjs-toolkit/commons",
+  "description": "Tresdoce NestJS Toolkit - Centralización de configuraciones",
+  "version": "1.2.20",
+  "license": "MIT",
+  "files": [
+    "dist-*/*",
+    "CHANGELOG.md",
+    "LICENSE.md",
+    "package.json",
+    "README.md"
+  ],
+  "pika": true,
+  "sideEffects": false,
+  "keywords": [
+    "nestjs",
+    "commons"
+  ],
+  "homepage": "https://github.com/tresdoce/tresdoce-nestjs-toolkit#readme",
+  "bugs": {
+    "url": "https://github.com/tresdoce/tresdoce-nestjs-toolkit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tresdoce/tresdoce-nestjs-toolkit.git"
+  },
+  "dependencies": {
+    "jest-extended": "^6.0.0",
+    "jest-junit": "^16.0.0",
+    "jest-mock-extended": "^3.0.7",
+    "jest-sonar-reporter": "^2.0.0",
+    "terser-webpack-plugin": "^5.3.14",
+    "webpack-merge": "^6.0.1",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "peerDependencies": {
+    "jest-extended": "^6.0.0",
+    "jest-junit": "^16.0.0",
+    "jest-mock-extended": "^3.0.7",
+    "jest-sonar-reporter": "^2.0.0",
+    "terser-webpack-plugin": "^5.3.14",
+    "webpack-merge": "^6.0.1",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "devDependencies": {
+    "@tresdoce-nestjs-toolkit/config": "^0.5.2",
+    "@types/tresdoce-nestjs-toolkit": "^0.3.1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "../../dist/commons"
+  },
+  "esnext": "dist-src/index.js",
+  "main": "dist-node/index.js",
+  "types": "dist-types/index.d.ts"
+}

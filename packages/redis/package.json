@@ -27,7 +27,8 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf ../../dist/redis",
-    "build": "pika build --out ../../dist/redis",
+    "build": "tsup --format esm,cjs --dts --out-dir ../../dist/redis",
+    "build:pika": "pika build --out ../../dist/redis",
     "test": "jest --runInBand --coverage --forceExit",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },

@@ -27,7 +27,8 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf ../../dist/qrcode",
-    "build": "pika build --out ../../dist/qrcode",
+    "build": "tsup --format esm,cjs --dts --out-dir ../../dist/qrcode",
+    "build:pika": "pika build --out ../../dist/qrcode",
     "test": "jest --runInBand --coverage --forceExit",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
