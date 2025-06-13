@@ -1,0 +1,1 @@
+export declare const TYPE_ORM_MODULE_OPTIONS = "TYPE_ORM_MODULE_OPTIONS";

@@ -1,0 +1,30 @@
+/* USERS */
+export const fixtureUserResponse = {
+    id: 1,
+    name: 'juan',
+    lastname: 'perez',
+};
+export const fixtureUserArrayResponse = [
+    fixtureUserResponse,
+    {
+        id: 2,
+        name: 'juan pablo',
+        lastname: 'garcia',
+    },
+];
+/* POSTS */
+export const fixturePostResponse = {
+    id: 1,
+    title: 'test post 1',
+    description: 'this is a description of post 1',
+    isActive: true,
+};
+export const fixturePostArrayResponse = [
+    fixturePostResponse,
+    {
+        id: 2,
+        title: 'test post 2',
+        description: 'this is a description of post 2',
+        isActive: true,
+    },
+];

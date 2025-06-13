@@ -1,0 +1,13 @@
+import { SnowFlakeOptions } from '../interfaces/snowflake.interface';
+export declare const SNOWFLAKE_MODULE_OPTIONS: unique symbol;
+export declare const DEFAULT_EPOCH: bigint;
+export declare const DEFAULT_WORKER_ID: number;
+export declare const DEFAULT_PROCESS_ID: number;
+export declare const DEFAULT_TO_STRING: boolean;
+export declare const DEFAULT_SNOWFLAKE_MODULE_OPTIONS: SnowFlakeOptions;
+export declare const WORKER_ID_BITS: number;
+export declare const PROCESS_ID_BITS: number;
+export declare const SEQUENCE_BITS: number;
+export declare const MAX_WORKER_ID: number;
+export declare const MAX_PROCESS_ID: number;
+export declare const SEQUENCE_MASK: number;
