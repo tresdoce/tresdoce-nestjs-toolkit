@@ -37,7 +37,7 @@
     "directory": "../../dist/dynamoose"
   },
   "peerDependencies": {
-    "@aws-sdk/client-dynamodb": "^3.828.0",
+    "@aws-sdk/client-dynamodb": "^3.835.0",
     "@nestjs/common": "^11.1.3",
     "@nestjs/core": "^11.1.3",
     "@nestjs/platform-express": "^11.1.3",
@@ -47,7 +47,7 @@
     "rxjs": "^7.8.2"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.828.0",
+    "@aws-sdk/client-dynamodb": "^3.835.0",
     "dynamoose": "^4.0.4",
     "dynamoose-logger": "^4.0.4"
   },

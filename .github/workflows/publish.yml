@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ '20.19.2' ]
+        node: [ '20.19.3' ]
     env:
       DO_NOT_TRACK: 1
       TURBO_TELEMETRY_DISABLED: 1
