@@ -113,3 +113,10 @@ postgres_data
 # turbo
 .turbo
 
+# Trivy
+trivy.sh
+.trivycache
+.trivyignore
+interactive_report.html
+trivy-fs-report.json
+trivy-img-report.json

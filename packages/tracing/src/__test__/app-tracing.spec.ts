@@ -79,7 +79,7 @@ describe('Tracing', () => {
 
   it('should be intercept and pass headers', async () => {
     await interceptor.intercept(executionContext, callHandler);
-    expect(callHandler.handle).toBeCalledTimes(1);
+    expect(callHandler.handle).toHaveBeenCalledTimes(1);
   });
 
   it(`GET /cats`, async () => {

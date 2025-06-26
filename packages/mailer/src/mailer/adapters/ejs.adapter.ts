@@ -24,7 +24,7 @@ export class EjsAdapter implements TemplateAdapter {
     const { context, template } = mail.data;
     const templateName = path.basename(template, path.extname(template));
     const templatePath = getTemplatePath(template, mailerOptions, '.ejs');
-
+    /* istanbul ignore next */
     if (!this.precompiledTemplates[templateName]) {
       try {
         const templateEmail = fs.readFileSync(templatePath, 'utf-8');

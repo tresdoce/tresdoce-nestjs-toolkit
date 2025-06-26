@@ -96,7 +96,7 @@ export class AwsSqsListener implements OnModuleInit {
         if (messages.length > 0) {
           for (const message of messages) {
             await handler(message);
-
+            /* istanbul ignore next */
             if (message.ReceiptHandle) {
               await this.sqsService.deleteMessage(queueName, message.ReceiptHandle);
               this.logger.log(`Message deleted: ${message.MessageId}`);

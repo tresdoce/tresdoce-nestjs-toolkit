@@ -43,4 +43,18 @@ describe('build-config', () => {
     expect(config.devtool).toEqual('eval');
     expect(config.optimization.nodeEnv).toBeFalsy();
   });
+
+  it('should merge with the additional config without node externals', () => {
+    const additionalConfig = { devtool: 'eval' };
+    const config = buildConfig(additionalConfig, {
+      externalizeNodeModules: false,
+    }) as unknown as Configuration;
+    expect(config).not.toBe(null);
+    expect(typeof config).toBe('object');
+    expect(config).toBeDefined();
+    expect(config.externals).toBeEmpty();
+    expect(config.mode).toEqual('development');
+    expect(config.devtool).toEqual('eval');
+    expect(config.optimization.nodeEnv).toBeFalsy();
+  });
 });
