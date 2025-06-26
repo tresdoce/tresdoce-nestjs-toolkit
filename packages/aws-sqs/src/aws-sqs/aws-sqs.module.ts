@@ -161,8 +161,13 @@ export class AwsSqsModule {
     }
 
     let inject: Type<AwsSqsModuleOptionsFactory>[];
-    if (options.useExisting) inject = [options.useExisting];
-    else if (options.useClass) /* istanbul ignore next */ inject = [options.useClass];
+    if (options.useExisting !== undefined) {
+      inject = [options.useExisting];
+    }
+
+    if (options.useClass !== undefined && !inject) {
+      inject = [options.useClass];
+    }
 
     return {
       provide: AWS_SQS_MODULE_OPTIONS,

@@ -231,4 +231,20 @@ describe('CsrfToken', () => {
     mockRequest.cookieConfig = { cookieName: 'xsrf-token', key: 'xsrf-token' };
     expect(getCsrfFromRequest(mockRequest as ICsrfRequest)).toBeFalsy();
   });
+
+  it('should handle unexpected Set-Cookie header type gracefully', () => {
+    (mockResponse.getHeader as jest.Mock).mockReturnValue(12345); // tipo inesperado
+
+    (serialize as jest.Mock).mockImplementation((name, value, opts) => {
+      return `${name}=${value}; httpOnly; sameSite=${opts.sameSite}`;
+    });
+
+    const middleware = csrfToken();
+    middleware(mockRequest as ICsrfRequest, mockResponse as Response, nextFunction);
+
+    expect(mockResponse.setHeader).toHaveBeenCalledWith(
+      'Set-Cookie',
+      expect.arrayContaining([expect.stringContaining('_csrf')]),
+    );
+  });
 });

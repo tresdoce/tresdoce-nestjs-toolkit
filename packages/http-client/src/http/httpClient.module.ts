@@ -1,4 +1,4 @@
-import { DynamicModule, Module, Provider, Global } from '@nestjs/common';
+import { DynamicModule, Module, Provider, Global, Type } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
 import { Typings } from '@tresdoce-nestjs-toolkit/core';
@@ -86,6 +86,7 @@ export class HttpClientModule {
       providers: [
         HttpClientService,
         ...this.createAsyncProviders(options),
+        ...(options.extraProviders || []),
         {
           provide: AXIOS_INSTANCE_TOKEN,
           useFactory: (config: HttpModuleOptions) => createAxiosRetry(config),
@@ -101,7 +102,6 @@ export class HttpClientModule {
           provide: HTTP_MODULE_ID,
           useValue: randomStringGenerator(),
         },
-        ...(options.extraProviders || []),
       ],
       exports: [HttpClientService],
     };
@@ -112,7 +112,7 @@ export class HttpClientModule {
       return [this.createAsyncOptionsProvider(options)];
     }
 
-    const providers = [this.createAsyncOptionsProvider(options)];
+    const providers: Provider<any>[] = [this.createAsyncOptionsProvider(options)];
 
     /* istanbul ignore next */
     if (options.useClass)
@@ -133,15 +133,18 @@ export class HttpClientModule {
       };
     }
 
-    let inject;
-    if (options.useExisting) inject = [options.useExisting];
-    /* istanbul ignore next */ else if (options.useClass)
-      /* istanbul ignore next */
+    let inject: Type<HttpModuleOptionsFactory>[];
+    if (options.useExisting !== undefined) {
+      inject = [options.useExisting];
+    }
+
+    if (options.useClass !== undefined && !inject) {
       inject = [options.useClass];
+    }
 
     return {
       provide: HTTP_MODULE_OPTIONS,
-      useFactory: async (optionsFactory: HttpModuleOptionsFactory) =>
+      useFactory: async (optionsFactory: HttpModuleOptionsFactory): Promise<HttpModuleOptions> =>
         optionsFactory.createHttpOptions(),
       inject,
     };

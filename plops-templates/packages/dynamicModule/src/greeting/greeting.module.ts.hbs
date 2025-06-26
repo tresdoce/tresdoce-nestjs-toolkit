@@ -101,8 +101,13 @@ export class {{pascalCase moduleName}}Module {
     }
 
     let inject: Type<{{pascalCase moduleName}}ModuleOptionsFactory>[];
-    if (options.useExisting) inject = [options.useExisting];
-    else if (options.useClass) inject = [options.useClass];
+    if (options.useExisting !== undefined) {
+      inject = [options.useExisting];
+    }
+
+    if (options.useClass !== undefined && !inject) {
+      inject = [options.useClass];
+    }
 
     return {
       provide: {{constantCase moduleName}}_MODULE_OPTIONS,

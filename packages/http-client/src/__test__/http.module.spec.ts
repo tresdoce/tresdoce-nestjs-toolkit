@@ -10,8 +10,8 @@ import {
   HttpModuleOptionsFactory,
 } from '../http/interfaces/http-module.interface';
 
-class MockedClass {
-  createHttpOptions() {
+class MockedClass implements HttpModuleOptionsFactory {
+  createHttpOptions(): HttpModuleOptions {
     return {
       timeout: 5000,
       maxRedirects: 5,

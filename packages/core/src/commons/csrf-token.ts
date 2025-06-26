@@ -232,12 +232,11 @@ const setCookie = (
   const serializedCookie: string = serialize(name, value, options);
   let existingHeaders: string | number | string[] = res.getHeader('Set-Cookie') || [];
 
-  let headerArray: string[] = [];
-  if (Array.isArray(existingHeaders)) {
-    headerArray = existingHeaders;
-  } else if (typeof existingHeaders === 'string') {
-    /* istanbul ignore next */ headerArray = [existingHeaders];
-  }
+  const headerArray: string[] = Array.isArray(existingHeaders)
+    ? existingHeaders
+    : typeof existingHeaders === 'string'
+      ? [existingHeaders]
+      : [];
 
   res.setHeader('Set-Cookie', [...headerArray, serializedCookie]);
 };
