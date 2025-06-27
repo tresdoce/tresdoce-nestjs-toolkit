@@ -1,4 +1,6 @@
-export const jestConfig = () => ({
+import type { Config } from 'jest';
+
+export const jestConfig = (): Config => ({
   moduleFileExtensions: ['js', 'json', 'ts'],
   forceExit: true,
   verbose: true,
