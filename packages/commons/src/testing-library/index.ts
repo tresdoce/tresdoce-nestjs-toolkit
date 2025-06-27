@@ -1,13 +1,14 @@
-export const jestConfig = () => ({
+import type { Config } from 'jest';
+
+export const jestConfig = (): Config => ({
   moduleFileExtensions: ['js', 'json', 'ts'],
   forceExit: true,
   verbose: true,
   rootDir: '.',
   testRegex: '.*\\.(spec|it|test|e2e|e2e-spec)\\.(t|j)s$',
   transform: {
-    '^.+\\.(t|j)s$': ['ts-jest', { useESM: true }],
+    '^.+\\.(t|j)s$': 'ts-jest',
   },
-  transformIgnorePatterns: ['/node_modules/(?!glob|brace-expansion|balanced-match|minimatch)'],
   roots: ['<rootDir>/test/', '<rootDir>/src/'],
   collectCoverage: true,
   collectCoverageFrom: ['**/*.(t|j)s', '!**/*.entity.(t|j)s'],
