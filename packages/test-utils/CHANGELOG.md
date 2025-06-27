@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@3.0.5...@tresdoce-nestjs-toolkit/test-utils@3.0.6) (2025-06-27)
+
+### 🐛 Bug Fixes
+
+- resolve problem with tests ([cc5ef3f](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/cc5ef3faf7a9f5a9b881e2df10900e9a202353fb))
+
+### 👨‍💻 Chores
+
+- update dependencies ([e023969](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/e023969ff1d2c7a58501f14eb892169df9835594))
+- update dependencies ([e008085](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/e0080853117fe477ad0ac67c38e14a70f62e88cf))
+
+### 📝 Docs
+
+- change version in md ([c054717](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c054717fb545e5e1f9c593949c727bea70864b60))
+
 ## [3.0.5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/test-utils@3.0.4...@tresdoce-nestjs-toolkit/test-utils@3.0.5) (2025-04-27)
 
 ### 👨‍💻 Chores
