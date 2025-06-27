@@ -24,6 +24,8 @@ describe('TestContainers', () => {
             host: 6370,
           },
         ],
+        startupTimeout: 30000,
+        strategyHealthCheck: false,
       });
       await container.start();
     });

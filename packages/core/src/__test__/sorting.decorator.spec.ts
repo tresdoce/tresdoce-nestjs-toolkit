@@ -96,7 +96,7 @@ describe('Sorting Decorator', () => {
     }).toThrow(BadRequestException);
     expect(() => {
       factory('not_an_array', mockSorting as any);
-    }).toThrowError('Invalid configuration for sorting parameters');
+    }).toThrow('Invalid configuration for sorting parameters');
   });
 
   it('should throw BadRequestException if sort parameter is in incorrect format', () => {
@@ -133,7 +133,7 @@ describe('Sorting Decorator', () => {
     }).toThrow(BadRequestException);
     expect(() => {
       factory(['user_id', 'first_name'], mockSorting as any);
-    }).toThrowError(
+    }).toThrow(
       `The sorting parameter "user_id:ascending" is invalid. It should have the format 'field_name[:direction]', where direction is 'asc' or 'desc' and is optional.`,
     );
   });

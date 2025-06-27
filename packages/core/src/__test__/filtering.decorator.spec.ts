@@ -278,7 +278,7 @@ describe('Filtering Decorator', () => {
     }).toThrow(BadRequestException);
     expect(() => {
       factory('not_an_array', mockFiltering as any);
-    }).toThrowError('Invalid filter configuration');
+    }).toThrow('Invalid filter configuration');
   });
 
   it('should throw BadRequestException if filter parameter is in incorrect format', () => {

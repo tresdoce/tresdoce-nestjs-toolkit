@@ -80,4 +80,13 @@ describe('ResponseInterceptor', () => {
       done();
     });
   });
+
+  it('should skip setting header if request does not contain it', () => {
+    mockConfigService.get.mockReturnValue(['missing-header']);
+    callHandler.handle.mockReturnValue(of({}));
+
+    interceptor.intercept(executionContext, callHandler).subscribe();
+
+    expect(mockResponse.setHeader).not.toHaveBeenCalled();
+  });
 });

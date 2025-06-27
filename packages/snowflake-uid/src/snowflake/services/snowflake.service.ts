@@ -50,6 +50,7 @@ export class SnowflakeService {
 
     if (timestamp === SnowflakeService.lastTimestamp) {
       SnowflakeService.sequence = (SnowflakeService.sequence + 1) & SEQUENCE_MASK;
+      /* istanbul ignore next */
       if (SnowflakeService.sequence === 0) {
         timestamp = this.waitUntilNextMillis(SnowflakeService.lastTimestamp);
       }

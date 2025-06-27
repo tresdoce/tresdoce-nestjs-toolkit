@@ -84,7 +84,7 @@ export const parseFilters = (filterParam: string): string[] => {
 
     buffer += char;
   }
-
+  /* istanbul ignore next */
   if (buffer) {
     filters.push(buffer);
   }

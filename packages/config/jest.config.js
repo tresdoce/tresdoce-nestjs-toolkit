@@ -10,8 +10,9 @@ module.exports = {
   rootDir: '.',
   testRegex: '.*\\.(spec|it|test|e2e|e2e-spec)\\.(t|j)s$',
   transform: {
-    '^.+\\.(t|j)s$': 'ts-jest',
+    '^.+\\.(t|j)s$': ['ts-jest', { useESM: true }],
   },
+  transformIgnorePatterns: ['/node_modules/(?!glob|brace-expansion|balanced-match|minimatch)'],
   roots: ['<rootDir>/src/'],
   collectCoverage: true,
   collectCoverageFrom: ['**/*.(t|j)s'],
