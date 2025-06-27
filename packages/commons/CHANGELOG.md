@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.22](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@1.2.21...@tresdoce-nestjs-toolkit/commons@1.2.22) (2025-06-27)
+
+### 🐛 Bug Fixes
+
+- **commons:** resolve problem with jest config and ES module ([21b84d1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/21b84d10c37b85d30a2f05bd2cdff91ab418fa6f))
+- **commons:** resolve problem with jest config for es module scope ([48245a1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/48245a182b21d0b1e472086d536c06b52d4811fe))
+
 ## [1.2.21](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@1.2.20...@tresdoce-nestjs-toolkit/commons@1.2.21) (2025-06-27)
 
 ### 👨‍💻 Chores
