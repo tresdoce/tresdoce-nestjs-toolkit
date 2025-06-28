@@ -68,6 +68,7 @@ module.exports = config.eslintConfig();
 // jest.config.ts
 
 import { jestConfig } from '@tresdoce-nestjs-toolkit/commons';
+import type { Config } from 'jest';
 import * as dotenv from 'dotenv';
 
 process.env.NODE_ENV = 'test';
@@ -76,7 +77,13 @@ dotenv.config({
   path: '.env.test',
 });
 
-module.exports = jestConfig;
+const config: Config = {
+  ...jestConfig(),
+  //globalSetup: './jest.globalSetup.ts',
+  //globalTeardown: './jest.globalTeardown.ts',
+};
+
+export default config;
 ```
 
 ### Webpack config
