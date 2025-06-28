@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@1.2.22...@tresdoce-nestjs-toolkit/commons@1.3.0) (2025-06-28)
+
+### ✨ Features
+
+- **commons:** add support change min value of coverage in jest config ([51317ae](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/51317aeb8e93bcee395787e999906e10d5f7fff2))
+
+### 📝 Docs
+
+- **commons:** edit documentation of commons lib ([62d2752](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/62d275213da607d8b041b0d883ad43940762794e))
+
 ## [1.2.22](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@1.2.21...@tresdoce-nestjs-toolkit/commons@1.2.22) (2025-06-27)
 
 ### 🐛 Bug Fixes
