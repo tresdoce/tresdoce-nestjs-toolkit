@@ -35,13 +35,6 @@
     "access": "public",
     "directory": "../../dist/archetype"
   },
-  "peerDependencies": {
-    "@nestjs/common": "^11.1.3",
-    "@nestjs/core": "^11.1.3",
-    "@nestjs/platform-express": "^11.1.3",
-    "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.2"
-  },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.3",
     "@types/tresdoce-nestjs-toolkit": "^0.3.2"

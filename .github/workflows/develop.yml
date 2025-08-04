@@ -1,33 +1,33 @@
-name: "CI/CD Develop"
+name: 'CI/CD Develop'
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
   pull_request:
-    branches: [ develop ]
+    branches: [develop]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ '20.19.3', '22.17.0', '24.3.0' ]
+        node: ['20.19.3', '22.17.0', '24.3.0']
     env:
       DO_NOT_TRACK: 1
       TURBO_TELEMETRY_DISABLED: 1
-    name: "Build"
+    name: 'Build'
     steps:
-      - name: "⚙ Setup NodeJS v${{ matrix.node }}"
+      - name: '⚙ Setup NodeJS v${{ matrix.node }}'
         uses: actions/setup-node@v4.2.0
         with:
           node-version: ${{ matrix.node }}
 
-      - name: "✅ Checkout repository"
+      - name: '✅ Checkout repository'
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: "💾 Restore Dependencies from cache"
+      - name: '💾 Restore Dependencies from cache'
         uses: actions/cache@v4.2.2
         with:
           path: |
@@ -37,7 +37,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: "🦉 GitGuardian scan"
+      - name: '🦉 GitGuardian scan'
         uses: GitGuardian/ggshield-action@v1.37.0
         env:
           GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
@@ -46,34 +46,34 @@ jobs:
           GITHUB_DEFAULT_BRANCH: ${GITHUB_REF##*/}
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
 
-      - name: "📦 Install Dependencies"
+      - name: '📦 Install Dependencies'
         run: yarn install
 
-      - name: "💅 Lint"
-        run: yarn lint
+      - name: '💅 Lint'
+        run: yarn lint:format:check
 
-      - name: "🔨 Build"
+      - name: '🔨 Build'
         run: yarn build --force && node sonar-args.js
 
-      - name: "👨‍💻 Run Test"
+      - name: '👨‍💻 Run Test'
         run: yarn test --force
         env:
           NODE_ENV: 'test'
 
-      - name: "📊 Publish Test Report"
+      - name: '📊 Publish Test Report'
         uses: dorny/test-reporter@v1.9.1
         if: success() || failure()
         with:
-          name: "Test Report (${{ matrix.node }})"
+          name: 'Test Report (${{ matrix.node }})'
           path: 'packages/**/junit.xml'
           reporter: jest-junit
 
-      - name: "📊 Upload coverage report to Codecov"
+      - name: '📊 Upload coverage report to Codecov'
         uses: codecov/codecov-action@v5.4.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-      - name: "📊 SonarCloud Scan"
+      - name: '📊 SonarCloud Scan'
         uses: sonarsource/sonarqube-scan-action@v5.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
