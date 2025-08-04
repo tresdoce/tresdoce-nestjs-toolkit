@@ -41,9 +41,13 @@ const prodConfig = {
     nodeEnv: 'production',
     minimizer: [
       new TerserPlugin({
+        extractComments: false,
         terserOptions: {
           keep_classnames: true,
           keep_fnames: true,
+          compress: {
+            drop_console: true,
+          },
         },
       }),
     ],

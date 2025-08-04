@@ -1,6 +1,6 @@
-import webpackConfig from '../build-config/webpack.config';
+import webpackConfig from '../build-config/cli-starter/webpack.config';
 
-describe('Webpack Config for Apps', () => {
+describe('Webpack Config for CLI', () => {
   const INIT_ENVS = process.env;
 
   beforeEach(() => {

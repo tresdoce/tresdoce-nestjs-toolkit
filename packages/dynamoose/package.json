@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/dynamoose",
-  "version": "2.0.6",
+  "version": "2.0.7-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo de base de datos DynamoDB - Dynamoose",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -36,20 +36,15 @@
     "access": "public",
     "directory": "../../dist/dynamoose"
   },
-  "peerDependencies": {
-    "@aws-sdk/client-dynamodb": "^3.835.0",
-    "@nestjs/common": "^11.1.3",
-    "@nestjs/core": "^11.1.3",
-    "@nestjs/platform-express": "^11.1.3",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.859.0",
+    "@nestjs/common": "^11.1.5",
+    "@nestjs/core": "^11.1.5",
+    "@nestjs/platform-express": "^11.1.5",
     "dynamoose": "^4.0.4",
     "dynamoose-logger": "^4.0.4",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
-  },
-  "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.835.0",
-    "dynamoose": "^4.0.4",
-    "dynamoose-logger": "^4.0.4"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.3",
