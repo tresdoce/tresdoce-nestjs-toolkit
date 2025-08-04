@@ -35,30 +35,20 @@
     "access": "public",
     "directory": "../../dist/core"
   },
-  "peerDependencies": {
-    "@nestjs/class-transformer": "^0.4.0",
-    "@nestjs/class-validator": "^0.13.4",
-    "@nestjs/common": "^11.1.3",
-    "@nestjs/core": "^11.1.3",
-    "@nestjs/platform-express": "^11.1.3",
-    "class-transformer": "^0.5.1",
-    "class-validator": "^0.14.1",
-    "cookie": "^1.0.2",
-    "cookie-signature": "^1.2.2",
-    "csrf": "^3.1.0",
-    "joi": "^17.13.3",
-    "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.2"
-  },
   "dependencies": {
     "@nestjs/class-transformer": "^0.4.0",
     "@nestjs/class-validator": "^0.13.4",
+    "@nestjs/common": "^11.1.5",
+    "@nestjs/core": "^11.1.5",
+    "@nestjs/platform-express": "^11.1.5",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cookie": "^1.0.2",
     "cookie-signature": "^1.2.2",
     "csrf": "^3.1.0",
-    "joi": "^17.13.3"
+    "joi": "^18.0.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.3",
