@@ -26,9 +26,13 @@
     "clean": "turbo run clean --concurrency=1",
     "preclean": "lerna clean -y",
     "postclean": "rimraf ./yarn.lock ./package-lock.json ./dist ./.turbo ./node_modules",
-    "lint": "lint-staged",
+    "lint": "eslint './packages/**/*.{ts,tsx,js,jsx}' --fix",
+    "lint:check": "eslint './packages/**/*.{ts,tsx,js,jsx}'",
+    "format": "prettier --write './packages/**/*.{ts,tsx,js,jsx,json,json5,jsonc,yml,yaml,md,mdx}'",
+    "format:check": "prettier --check './packages/**/*.{ts,tsx,js,jsx,json,json5,jsonc,yml,yaml,md,mdx}'",
+    "lint:format:check": "yarn lint:check && yarn format:check",
+    "pre-commit": "lint-staged",
     "prepublishOnly": "yarn build",
-    "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,md,json}\"",
     "version:prerelease": "lerna version --conventional-commits --no-changelog --conventional-prerelease --no-git-tag-version --preid=beta --yes",
     "version:release": "lerna version --conventional-commits --force-git-tag --create-release github --conventional-graduate --yes",
     "publish:pkgs": "lerna publish from-package --no-verify-access --yes",
@@ -46,8 +50,11 @@
     "trailingComma": "all"
   },
   "lint-staged": {
-    "packages/**/*.{ts,tsx,js,jsx,md,json}": [
+    "*.{ts,tsx,js,jsx}": [
       "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,json5,jsonc,yml,yaml,md,mdx}": [
       "prettier --write"
     ]
   },
