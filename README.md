@@ -5,8 +5,8 @@
 
 <div align="center">
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v20.19.3&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="NodeJS"/>
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v11.2.0&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="NPM"/>
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v11.1.3&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v11.4.2&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="NPM"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v11.1.5&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/>
     <img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg" alt="lerna">
     <a href="./license.md">
         <img src="https://img.shields.io/github/license/tresdoce/tresdoce-nestjs-toolkit?style=flat" alt="GitHub license" >
@@ -55,8 +55,8 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [NestJS Starter](https://github.com/rudemex/nestjs-starter)
 - Node.js v20.19.3 or higher ([Download](https://nodejs.org/es/download/))
 - YARN v1.22.22 or higher
-- NPM v11.2.0 or higher
-- NestJS v11.1.3 or higher ([Documentación](https://nestjs.com/))
+- NPM v11.4.2 or higher
+- NestJS v11.1.5 or higher ([Documentación](https://nestjs.com/))
 - Lerna
 
 <a name="scripts"></a>
@@ -103,7 +103,7 @@ el [NestJS Starter](https://github.com/rudemex/nestjs-starter), siguiendo los li
 > ⚠️ Es recomendable utilizar las versiones `stables`, ya que las versiones `beta` están pensadas para ser utilizadas a modo de testing y pueden generar conflictos en el código.
 
 | Package                                                                  | Descripción                                                    | Versión                                                                                                                                                         | Changelog                                            |
-|--------------------------------------------------------------------------|----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
+| ------------------------------------------------------------------------ | -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
 | [`@tresdoce-nestjs-toolkit/archetype`](./packages/archetype)             | Módulo informativo de la app                                   | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/archetype.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/archetype)             | [Changelog](./packages/archetype/CHANGELOG.md)       |
 | [`@tresdoce-nestjs-toolkit/aws-sqs`](./packages/aws-sqs)                 | Módulo de cola de mensajes de AWS Simple Queue Service         | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/aws-sqs.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/aws-sqs)                 | [Changelog](./packages/aws-sqs/CHANGELOG.md)         |
 | [`@tresdoce-nestjs-toolkit/camunda`](./packages/camunda)                 | Módulo de procesos BPMN con Camunda                            | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/camunda.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/camunda)                 | [Changelog](./packages/camunda/CHANGELOG.md)         |
@@ -125,6 +125,7 @@ el [NestJS Starter](https://github.com/rudemex/nestjs-starter), siguiendo los li
 | [`@tresdoce-nestjs-toolkit/tracing`](./packages/tracing)                 | Módulo de traza con OpenTelemetry                              | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/tracing.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/tracing)                 | [Changelog](./packages/tracing/CHANGELOG.md)         |
 | [`@tresdoce-nestjs-toolkit/typeorm`](./packages/typeorm)                 | Módulo de ORM para base de datos                               | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/typeorm.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/typeorm)                 | [Changelog](./packages/typeorm/CHANGELOG.md)         |
 | [`@tresdoce-nestjs-toolkit/utils`](./packages/utils)                     | Utilitarios para proyectos y librerías                         | [![version](https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/utils.svg)](https://www.npmjs.com/package/@tresdoce-nestjs-toolkit/utils)                     | [Changelog](./packages/utils/CHANGELOG.md)           |
+
 <!---PLOP-TOOLKIT-TABLE-->
 
 <a name="commits"></a>
