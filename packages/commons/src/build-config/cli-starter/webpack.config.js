@@ -1,5 +1,6 @@
 const nodeExternals = require('webpack-node-externals');
 const TerserPlugin = require('terser-webpack-plugin');
+const { InjectShebangPlugin } = require('./plugins/inject-shebang.plugin');
 
 module.exports = () => {
   const isBuildMode = process.env.NODE_ENV === 'build';
@@ -34,7 +35,7 @@ module.exports = () => {
                 keep_classnames: true,
                 keep_fnames: true,
                 compress: {
-                  drop_console: true,
+                  drop_console: false,
                 },
               },
             }),
@@ -43,5 +44,11 @@ module.exports = () => {
       nodeEnv: isBuildMode ? 'production' : false,
     },
     devtool: isBuildMode ? false : 'source-map',
+    plugins: [
+      new InjectShebangPlugin({
+        filename: 'main.js',
+        shebang: '#!/usr/bin/env node',
+      }),
+    ],
   };
 };
