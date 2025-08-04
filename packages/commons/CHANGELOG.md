@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@1.3.0...@tresdoce-nestjs-toolkit/commons@1.4.0) (2025-08-04)
+
+### ✨ Features
+
+- **commons:** add build to cli starter ([e49ca00](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/e49ca00db8cc05ab17b742c53672d52feb89a1bc))
+
+### 👨‍💻 Chores
+
+- update dependencies ([c50dde3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/c50dde39ebad1ef88cf9e5ccb3895c24319213c8))
+
+### 📝 Docs
+
+- edit badge versions ([aab8fb1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/aab8fb164d2e2ebb4c953e0dc17a9c8ca2856705))
+
+### ♻️Refactors
+
+- **commons:** change sin webpack config ([4b7b867](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/4b7b86764e450ce2e5f29d1de1f16ceec235b356))
+
 ## [1.3.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@1.2.22...@tresdoce-nestjs-toolkit/commons@1.3.0) (2025-06-28)
 
 ### ✨ Features
