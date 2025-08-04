@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/elk",
-  "version": "2.0.7-beta.0",
+  "version": "2.0.7-beta.1",
   "description": "Tresdoce NestJS Toolkit - Módulo de ElasticSearch Stack",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -40,7 +40,7 @@
     "@nestjs/common": "^11.1.5",
     "@nestjs/core": "^11.1.5",
     "@nestjs/platform-express": "^11.1.5",
-    "@tresdoce-nestjs-toolkit/utils": "^2.0.7-beta.0",
+    "@tresdoce-nestjs-toolkit/utils": "^2.0.7-beta.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
