@@ -6,7 +6,7 @@
 <div align="center">
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v20.19.3&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="NodeJS"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v11.4.2&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="NPM"/>
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v11.1.5&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v11.1.6&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/>
     <img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg" alt="lerna">
     <a href="./license.md">
         <img src="https://img.shields.io/github/license/tresdoce/tresdoce-nestjs-toolkit?style=flat" alt="GitHub license" >
@@ -56,7 +56,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - Node.js v20.19.3 or higher ([Download](https://nodejs.org/es/download/))
 - YARN v1.22.22 or higher
 - NPM v11.4.2 or higher
-- NestJS v11.1.5 or higher ([Documentación](https://nestjs.com/))
+- NestJS v11.1.6 or higher ([Documentación](https://nestjs.com/))
 - Lerna
 
 <a name="scripts"></a>
