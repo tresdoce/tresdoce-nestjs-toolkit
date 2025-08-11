@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@1.4.0...@tresdoce-nestjs-toolkit/commons@1.4.1) (2025-08-11)
+
+### 🐛 Bug Fixes
+
+- no namespace in jest setup ([dd7fd3c](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/dd7fd3c65d101bfeb85cd9a5378819ce72e336fd))
+
+### 👨‍💻 Chores
+
+- update dependencies ([f669ee1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/f669ee1bfda920e9d05fa165c66a6fbc60cba900))
+
 ## [1.4.0](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@1.3.0...@tresdoce-nestjs-toolkit/commons@1.4.0) (2025-08-04)
 
 ### ✨ Features

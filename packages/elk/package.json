@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/elk",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "Tresdoce NestJS Toolkit - Módulo de ElasticSearch Stack",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -36,11 +36,11 @@
     "directory": "../../dist/elk"
   },
   "dependencies": {
-    "@elastic/elasticsearch": "^9.1.0",
-    "@nestjs/common": "^11.1.5",
-    "@nestjs/core": "^11.1.5",
-    "@nestjs/platform-express": "^11.1.5",
-    "@tresdoce-nestjs-toolkit/utils": "^2.0.7",
+    "@elastic/elasticsearch": "^9.1.1",
+    "@nestjs/common": "^11.1.6",
+    "@nestjs/core": "^11.1.6",
+    "@nestjs/platform-express": "^11.1.6",
+    "@tresdoce-nestjs-toolkit/utils": "^2.0.8",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },

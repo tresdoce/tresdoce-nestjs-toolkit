@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.8](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/camunda@2.0.7...@tresdoce-nestjs-toolkit/camunda@2.0.8) (2025-08-11)
+
+### 👨‍💻 Chores
+
+- update dependencies ([f669ee1](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/f669ee1bfda920e9d05fa165c66a6fbc60cba900))
+
 ## [2.0.7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/camunda@2.0.6...@tresdoce-nestjs-toolkit/camunda@2.0.7) (2025-08-04)
 
 ### 👨‍💻 Chores
