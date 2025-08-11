@@ -36,9 +36,9 @@
     "directory": "../../dist/typeorm"
   },
   "dependencies": {
-    "@nestjs/common": "^11.1.5",
-    "@nestjs/core": "^11.1.5",
-    "@nestjs/platform-express": "^11.1.5",
+    "@nestjs/common": "^11.1.6",
+    "@nestjs/core": "^11.1.6",
+    "@nestjs/platform-express": "^11.1.6",
     "@nestjs/typeorm": "^11.0.0",
     "mongodb": "^6.18.0",
     "mysql": "^2.18.1",
