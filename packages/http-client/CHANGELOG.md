@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.9](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@2.0.8...@tresdoce-nestjs-toolkit/http-client@2.0.9) (2025-08-18)
+
+### 📝 Docs
+
+- edit readme ([5241a6e](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/5241a6e2217d042bf0e4e2cc1a24274dfd8d1d7e))
+
 ## [2.0.8](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@2.0.7...@tresdoce-nestjs-toolkit/http-client@2.0.8) (2025-08-11)
 
 ### 👨‍💻 Chores
