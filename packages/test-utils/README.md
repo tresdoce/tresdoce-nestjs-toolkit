@@ -44,8 +44,7 @@ esta librería que maneja de manera centralizada todo lo necesario para nuestros
 
 - [NestJS Starter](https://github.com/rudemex/nestjs-starter)
 - Node.js v20.19.3 or higher ([Download](https://nodejs.org/es/download/))
-- YARN v1.22.22 or higher
-- NPM v11.4.2 or higher
+- YARN ≥ 1.22.22 o NPM ≥ 11.4.2
 - NestJS v11.1.6 or higher ([Documentación](https://nestjs.com/))
 
 <a name="install-dependencies"></a>
