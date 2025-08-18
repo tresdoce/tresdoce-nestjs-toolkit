@@ -37,7 +37,7 @@
     "directory": "../../dist/dynamoose"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.864.0",
+    "@aws-sdk/client-dynamodb": "^3.868.0",
     "@nestjs/common": "^11.1.6",
     "@nestjs/core": "^11.1.6",
     "@nestjs/platform-express": "^11.1.6",
