@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ['20.19.3', '22.17.0', '24.3.0']
+        node: ['20.19.4', '22.18.0', '24.6.0']
     env:
       DO_NOT_TRACK: 1
       TURBO_TELEMETRY_DISABLED: 1
@@ -60,8 +60,8 @@ jobs:
           NODE_ENV: 'test'
 
       - name: '📊 Publish Test Report'
-        uses: dorny/test-reporter@v1.9.1
-        if: success() || failure()
+        uses: dorny/test-reporter@v2
+        if: ${{ !cancelled() }}
         with:
           name: 'Test Report (${{ matrix.node }})'
           path: 'packages/**/junit.xml'
