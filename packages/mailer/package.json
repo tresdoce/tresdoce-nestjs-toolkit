@@ -44,7 +44,7 @@
     "glob": "11.0.3",
     "handlebars": "^4.7.6",
     "mjml": "^4.14.0",
-    "nodemailer": "7.0.5",
+    "nodemailer": "7.0.9",
     "pug": "^3.0.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
