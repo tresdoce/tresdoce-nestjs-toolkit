@@ -12,7 +12,9 @@ module.exports = {
   transform: {
     '^.+\\.(t|j)s$': ['ts-jest', { useESM: true }],
   },
-  transformIgnorePatterns: ['/node_modules/(?!glob|brace-expansion|balanced-match|minimatch)'],
+  transformIgnorePatterns: [
+    '/node_modules/(?!glob|brace-expansion|balanced-match|minimatch|uuid/)',
+  ],
   roots: ['<rootDir>/src/'],
   collectCoverage: true,
   collectCoverageFrom: ['**/*.(t|j)s'],
