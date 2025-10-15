@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/tracing",
-  "version": "2.0.9",
+  "version": "2.0.10-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo de traza con OpenTelemetry",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -40,23 +40,23 @@
     "@nestjs/core": "^11.1.6",
     "@nestjs/platform-express": "^11.1.6",
     "@opentelemetry/core": "^2.0.0",
-    "@opentelemetry/exporter-trace-otlp-proto": "^0.203.0",
-    "@opentelemetry/id-generator-aws-xray": "2.0.0",
-    "@opentelemetry/instrumentation-http": "^0.203.0",
+    "@opentelemetry/exporter-trace-otlp-proto": "^0.206.0",
+    "@opentelemetry/id-generator-aws-xray": "2.0.3",
+    "@opentelemetry/instrumentation-http": "^0.206.0",
     "@opentelemetry/propagator-aws-xray": "^2.0.0",
     "@opentelemetry/propagator-b3": "^2.0.0",
     "@opentelemetry/propagator-jaeger": "^2.0.0",
     "@opentelemetry/resources": "^2.0.0",
-    "@opentelemetry/sdk-node": "^0.203.0",
+    "@opentelemetry/sdk-node": "^0.206.0",
     "@opentelemetry/sdk-trace-base": "^2.0.0",
     "@opentelemetry/semantic-conventions": "^1.36.0",
-    "@tresdoce-nestjs-toolkit/utils": "^2.0.9",
+    "@tresdoce-nestjs-toolkit/utils": "^2.0.10-beta.0",
     "minimatch": "^10.0.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.3",
+    "@tresdoce-nestjs-toolkit/config": "^0.5.4-beta.0",
     "@types/tresdoce-nestjs-toolkit": "^0.3.2"
   },
   "prettier": {
