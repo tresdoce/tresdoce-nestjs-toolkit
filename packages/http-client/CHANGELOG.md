@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.10](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@2.0.9...@tresdoce-nestjs-toolkit/http-client@2.0.10) (2025-10-15)
+
+### 👨‍💻 Chores
+
+- update axios ([b9e4896](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/b9e48962a46459e83f1684d71517f3f922abd87c))
+
 ## [2.0.9](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/http-client@2.0.8...@tresdoce-nestjs-toolkit/http-client@2.0.9) (2025-08-18)
 
 ### 📝 Docs

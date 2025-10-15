@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.10](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/mailer@2.0.9...@tresdoce-nestjs-toolkit/mailer@2.0.10) (2025-10-15)
+
+### 🐛 Bug Fixes
+
+- **redis:** change ignore pattern in redis test uuid ([07b93a6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/07b93a6e010c54225d6b0ca854bbf85b867d9957))
+
 ## [2.0.9](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/mailer@2.0.8...@tresdoce-nestjs-toolkit/mailer@2.0.9) (2025-08-18)
 
 ### 📝 Docs

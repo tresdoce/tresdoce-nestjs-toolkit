@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/test-utils",
-  "version": "3.0.10-beta.0",
+  "version": "3.0.10",
   "description": "Tresdoce NestJS Toolkit - Utilities para testing",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -46,7 +46,7 @@
     "testcontainers": "^11.5.1"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.4-beta.0",
+    "@tresdoce-nestjs-toolkit/config": "^0.5.4",
     "@types/tresdoce-nestjs-toolkit": "^0.3.2"
   },
   "prettier": {
