@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.4](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/config@0.5.3...@tresdoce-nestjs-toolkit/config@0.5.4) (2025-10-15)
+
+### 🐛 Bug Fixes
+
+- **redis:** change ignore pattern in redis test uuid ([07b93a6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/07b93a6e010c54225d6b0ca854bbf85b867d9957))
+
 ## [0.5.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/config@0.5.2...@tresdoce-nestjs-toolkit/config@0.5.3) (2025-06-27)
 
 ### 👨‍💻 Chores

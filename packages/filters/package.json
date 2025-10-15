@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/filters",
-  "version": "2.0.10-beta.0",
+  "version": "2.0.10",
   "description": "Tresdoce NestJS Toolkit - Librería para filtrar y formatear las excepciones",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -40,12 +40,12 @@
     "@nestjs/common": "^11.1.6",
     "@nestjs/core": "^11.1.6",
     "@nestjs/platform-express": "^11.1.6",
-    "@tresdoce-nestjs-toolkit/core": "^2.0.10-beta.0",
+    "@tresdoce-nestjs-toolkit/core": "^2.0.10",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.4-beta.0",
+    "@tresdoce-nestjs-toolkit/config": "^0.5.4",
     "@types/tresdoce-nestjs-toolkit": "^0.3.2"
   },
   "prettier": {
