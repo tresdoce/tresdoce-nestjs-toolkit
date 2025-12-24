@@ -36,17 +36,17 @@
     "directory": "../../dist/typeorm"
   },
   "dependencies": {
-    "@nestjs/common": "^11.1.6",
-    "@nestjs/core": "^11.1.6",
-    "@nestjs/platform-express": "^11.1.6",
+    "@nestjs/common": "^11.1.10",
+    "@nestjs/core": "^11.1.10",
+    "@nestjs/platform-express": "^11.1.10",
     "@nestjs/typeorm": "^11.0.0",
-    "mongodb": "^6.18.0",
+    "mongodb": "^7.0.0",
     "mysql": "^2.18.1",
-    "mysql2": "^3.14.3",
+    "mysql2": "^3.16.0",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
-    "typeorm": "^0.3.26"
+    "typeorm": "^0.3.28"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.4",

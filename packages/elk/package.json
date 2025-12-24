@@ -36,10 +36,10 @@
     "directory": "../../dist/elk"
   },
   "dependencies": {
-    "@elastic/elasticsearch": "^9.1.1",
-    "@nestjs/common": "^11.1.6",
-    "@nestjs/core": "^11.1.6",
-    "@nestjs/platform-express": "^11.1.6",
+    "@elastic/elasticsearch": "^9.2.0",
+    "@nestjs/common": "^11.1.10",
+    "@nestjs/core": "^11.1.10",
+    "@nestjs/platform-express": "^11.1.10",
     "@tresdoce-nestjs-toolkit/utils": "^2.0.10",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"

@@ -36,7 +36,7 @@
     "directory": "../../dist/camunda"
   },
   "dependencies": {
-    "@nestjs/microservices": "^11.1.6",
+    "@nestjs/microservices": "^11.1.10",
     "camunda-external-task-client-js": "^2.3.1"
   },
   "devDependencies": {
