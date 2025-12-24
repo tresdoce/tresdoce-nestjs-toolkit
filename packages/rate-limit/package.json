@@ -36,10 +36,10 @@
     "directory": "../../dist/rate-limit"
   },
   "dependencies": {
-    "@nestjs/common": "^11.1.6",
-    "@nestjs/core": "^11.1.6",
-    "@nestjs/platform-express": "^11.1.6",
-    "@nestjs/throttler": "^6.4.0",
+    "@nestjs/common": "^11.1.10",
+    "@nestjs/core": "^11.1.10",
+    "@nestjs/platform-express": "^11.1.10",
+    "@nestjs/throttler": "^6.5.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },

@@ -36,14 +36,14 @@
     "directory": "../../dist/test-utils"
   },
   "dependencies": {
-    "@nestjs/common": "^11.1.6",
-    "@nestjs/core": "^11.1.6",
-    "@nestjs/platform-express": "^11.1.6",
+    "@nestjs/common": "^11.1.10",
+    "@nestjs/core": "^11.1.10",
+    "@nestjs/platform-express": "^11.1.10",
     "lodash": "^4.17.21",
     "nock": "^13.5.6",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
-    "testcontainers": "^11.5.1"
+    "testcontainers": "^11.10.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.4",

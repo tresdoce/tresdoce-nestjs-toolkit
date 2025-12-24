@@ -37,17 +37,17 @@
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.1",
-    "@nestjs/common": "^11.1.6",
-    "@nestjs/core": "^11.1.6",
-    "@nestjs/microservices": "^11.1.6",
-    "@nestjs/platform-express": "^11.1.6",
-    "@nestjs/swagger": "^11.1.5",
+    "@nestjs/common": "^11.1.10",
+    "@nestjs/core": "^11.1.10",
+    "@nestjs/microservices": "^11.1.10",
+    "@nestjs/platform-express": "^11.1.10",
+    "@nestjs/swagger": "^11.2.3",
     "@nestjs/terminus": "^11.0.0",
     "@nestjs/typeorm": "^11.0.0",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
-    "typeorm": "^0.3.26"
+    "typeorm": "^0.3.28"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.4",
