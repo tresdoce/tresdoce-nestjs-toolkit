@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>2.0.12 (2025-12-30)</small>
+
+- ci(version): version packages as pre-release ([8eb61ae](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/8eb61ae))
+- ci(version): version packages as pre-release ([298bf07](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/298bf07))
+- ci(version): version packages as pre-release ([dba1c03](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/dba1c03))
+- ci(version): version packages as pre-release ([a864e8b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a864e8b))
+- chore: format code and lint ([d8a7ed9](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d8a7ed9))
+- chore: update dependencies ([d59dfd7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d59dfd7))
+- docs: update badge versions ([dbb689c](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/dbb689c))
+
 ## [2.0.11](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/dynamoose@2.0.10...@tresdoce-nestjs-toolkit/dynamoose@2.0.11) (2025-10-15)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/dynamoose
