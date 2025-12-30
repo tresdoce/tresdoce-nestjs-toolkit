@@ -36,10 +36,10 @@
     "directory": "../../dist/mailer"
   },
   "dependencies": {
-    "@css-inline/css-inline": "^0.18.0",
-    "@nestjs/common": "^11.1.10",
-    "@nestjs/core": "^11.1.10",
-    "@nestjs/platform-express": "^11.1.10",
+    "@css-inline/css-inline": "^0.19.1",
+    "@nestjs/common": "^11.1.11",
+    "@nestjs/core": "^11.1.11",
+    "@nestjs/platform-express": "^11.1.11",
     "ejs": "^3.1.2",
     "glob": "13.0.0",
     "handlebars": "^4.7.6",
