@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/tracing",
-  "version": "2.0.11-beta.2",
+  "version": "2.0.11-beta.3",
   "description": "Tresdoce NestJS Toolkit - Módulo de traza con OpenTelemetry",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -50,14 +50,14 @@
     "@opentelemetry/sdk-node": "^0.208.0",
     "@opentelemetry/sdk-trace-base": "^2.2.0",
     "@opentelemetry/semantic-conventions": "^1.38.0",
-    "@tresdoce-nestjs-toolkit/utils": "^2.0.11-beta.2",
+    "@tresdoce-nestjs-toolkit/utils": "^2.0.11-beta.3",
     "minimatch": "^10.1.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.4",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.3-beta.2"
+    "@types/tresdoce-nestjs-toolkit": "^0.3.3-beta.3"
   },
   "prettier": {
     "semi": true,
