@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>1.4.4 (2025-12-30)</small>
+
+- ci(version): version packages as pre-release ([8eb61ae](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/8eb61ae))
+- ci(version): version packages as pre-release ([298bf07](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/298bf07))
+- ci(version): version packages as pre-release ([dba1c03](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/dba1c03))
+- ci(version): version packages as pre-release ([a864e8b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/a864e8b))
+- chore: update dependencies ([d59dfd7](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/d59dfd7))
+- docs: update badge versions ([dbb689c](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/dbb689c))
+
 ## [1.4.3](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@1.4.2...@tresdoce-nestjs-toolkit/commons@1.4.3) (2025-10-15)
 
 **Note:** Version bump only for package @tresdoce-nestjs-toolkit/commons

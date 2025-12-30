@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/core",
-  "version": "2.0.11-beta.3",
+  "version": "2.0.11",
   "description": "Tresdoce NestJS Toolkit - Funcionalidades a nivel core",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.4",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.3-beta.3"
+    "@types/tresdoce-nestjs-toolkit": "^0.3.3"
   },
   "prettier": {
     "semi": true,
