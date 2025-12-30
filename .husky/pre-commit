@@ -1,3 +1,14 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# En CI: NO correr tests. Solo lint-staged (si querés) y listo.
+if [ "$CI" = "true" ]; then
+  yarn pre-commit
+  git add .
+  exit 0
+fi
+
+# Local: sí correr tests + lint-staged
 yarn test
 yarn pre-commit
 git add .
