@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/http-client",
-  "version": "2.0.10",
+  "version": "2.0.11-beta.2",
   "description": "Tresdoce NestJS Toolkit - Módulo http request con axios y axios-retry",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -36,11 +36,11 @@
     "directory": "../../dist/http-client"
   },
   "dependencies": {
-    "@nestjs/common": "^11.1.6",
+    "@nestjs/common": "^11.1.11",
     "@nestjs/config": "^4.0.2",
-    "@nestjs/core": "^11.1.6",
-    "@nestjs/platform-express": "^11.1.6",
-    "axios": "^1.12.2",
+    "@nestjs/core": "^11.1.11",
+    "@nestjs/platform-express": "^11.1.11",
+    "axios": "^1.13.2",
     "axios-retry": "^4.5.0",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.2.2",
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.4",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.2"
+    "@types/tresdoce-nestjs-toolkit": "^0.3.3-beta.2"
   },
   "prettier": {
     "semi": true,

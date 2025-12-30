@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/camunda",
-  "version": "2.0.10",
+  "version": "2.0.11-beta.2",
   "description": "Tresdoce NestJS Toolkit - Módulo de procesos BPMN con Camunda",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -36,13 +36,13 @@
     "directory": "../../dist/camunda"
   },
   "dependencies": {
-    "@nestjs/microservices": "^11.1.6",
+    "@nestjs/microservices": "^11.1.11",
     "camunda-external-task-client-js": "^2.3.1"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.4",
     "@types/camunda-external-task-client-js": "^1.3.6",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.2"
+    "@types/tresdoce-nestjs-toolkit": "^0.3.3-beta.2"
   },
   "prettier": {
     "semi": true,
