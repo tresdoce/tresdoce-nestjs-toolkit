@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/health",
-  "version": "2.0.13-beta.0",
+  "version": "2.0.13",
   "description": "Tresdoce NestJS Toolkit - Módulo health checks liveness y readiness",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -50,7 +50,7 @@
     "typeorm": "^1.0.0"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.5-beta.0",
+    "@tresdoce-nestjs-toolkit/config": "^0.5.5",
     "@types/tresdoce-nestjs-toolkit": "^0.3.3"
   },
   "prettier": {
