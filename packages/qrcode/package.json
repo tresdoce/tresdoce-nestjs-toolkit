@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/qrcode",
     "build": "pika build --out ../../dist/qrcode",
-    "test": "jest --runInBand --coverage --forceExit",
+    "test": "cross-env NODE_OPTIONS=--no-deprecation YARN_CACHE_FOLDER=.yarn-cache jest --runInBand --coverage",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -36,9 +36,9 @@
     "directory": "../../dist/qrcode"
   },
   "dependencies": {
-    "@nestjs/common": "^11.1.11",
-    "@nestjs/core": "^11.1.11",
-    "@nestjs/platform-express": "^11.1.11",
+    "@nestjs/common": "^11.1.24",
+    "@nestjs/core": "^11.1.24",
+    "@nestjs/platform-express": "^11.1.24",
     "qrcode": "^1.5.4",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"

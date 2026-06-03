@@ -8,9 +8,8 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Typings, excludePaths } from '@tresdoce-nestjs-toolkit/core';
-import _ from 'lodash';
 
-import { getCode, getErrorMessage } from './utils/error.utils';
+import { buildErrorPayload } from './utils/error.utils';
 import { PROBLEM_CONTENT_TYPE } from './constants/filters.constants';
 
 @Injectable()
@@ -25,40 +24,19 @@ export class ExceptionsFilter<T> implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
 
     const apiPrefix: string = this.appConfig?.project.apiPrefix || 'API-PREFIX';
-    const instance = `${_.toUpper(request.method)} ${request.url}`;
-
-    let status: number = HttpStatus.INTERNAL_SERVER_ERROR;
-
-    let message, detail;
 
     if (excludePathsList.includes(request.url)) {
       if (_exception instanceof HttpException) {
         response.status(_exception.getStatus()).json(_exception.getResponse());
+      } else {
+        response
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: 'Internal server error' });
       }
       return;
     }
 
-    if (_exception instanceof HttpException) {
-      status = _exception.getStatus();
-      const exceptionResponse = getErrorMessage(_exception.getResponse(), HttpStatus[status]);
-      message = exceptionResponse.message;
-      detail = exceptionResponse.detail;
-    } else {
-      const error = _exception as any;
-      message = error.message;
-    }
-
-    response
-      .type(PROBLEM_CONTENT_TYPE)
-      .status(status)
-      .json({
-        error: {
-          status,
-          instance,
-          code: `${apiPrefix}-${getCode(HttpStatus[status])}`,
-          message,
-          detail,
-        },
-      });
+    const { error } = buildErrorPayload(apiPrefix, request.method, request.url, _exception);
+    response.type(PROBLEM_CONTENT_TYPE).status(error.status).json({ error });
   }
 }

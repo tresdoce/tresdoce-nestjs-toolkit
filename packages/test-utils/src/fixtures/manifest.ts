@@ -1,7 +1,7 @@
 import { appConfigBase } from './appConfigBase';
 
 export const manifest = {
-  appStage: 'test',
+  appStage: appConfigBase.server.appStage,
   archetypeVersion: '0.0.1',
   apiPrefix: appConfigBase.project.apiPrefix,
   name: appConfigBase.project.name,

@@ -161,4 +161,11 @@ export default class TestContainersTD {
   public getMappedPort(port: number): number {
     return this._container.getMappedPort(port);
   }
+
+  /**
+   * Check if container is started
+   */
+  public isStarted(): boolean {
+    return !!this._container;
+  }
 }

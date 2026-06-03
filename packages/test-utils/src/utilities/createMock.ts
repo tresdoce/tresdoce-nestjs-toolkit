@@ -24,7 +24,7 @@ type RequestHeaderMatcherType = RequestHeaderMatcher | string;
  * @property {string} url - The complete URL to intercept.
  * @property {HttpMethod} method - The HTTP method to intercept.
  * @property {number} statusCode - The HTTP status code to respond with.
- * @property {string | Record<string, unknown> | Buffer | (() => Record<string, unknown>)} responseBody - The response body. Can be a string, object, Buffer, or function returning an object.
+ * @property {string | Record<string, unknown> | unknown[] | Buffer | (() => Record<string, unknown> | unknown[])} responseBody - The response body. Can be a string, object, array, Buffer, or function returning an object or array.
  * @property {Options & { reqheaders?: Record<string, RequestHeaderMatcherType> }} [options] - Optional nock configuration options.
  * @property {string | Record<string, unknown> | Buffer} [reqBody] - Optional expected request body.
  * @property {QueryParams} [queryParams] - Optional expected query parameters.
@@ -33,7 +33,12 @@ interface CreateMock {
   url: string;
   method: HttpMethod;
   statusCode: number;
-  responseBody: string | Record<string, unknown> | Buffer | (() => Record<string, unknown>);
+  responseBody:
+    | string
+    | Record<string, unknown>
+    | unknown[]
+    | Buffer
+    | (() => Record<string, unknown> | unknown[]);
   options?: Options & { reqheaders?: Record<string, RequestHeaderMatcherType> };
   reqBody?: string | Record<string, unknown> | Buffer;
   queryParams?: QueryParams;

@@ -63,16 +63,12 @@ export class HttpClientService {
     url: string,
     config: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> => {
-    try {
-      config = _.omit(config, ['url']);
-      config.headers = _.merge({}, this.headers, config.headers);
-      return await this.axiosRef.request({
-        url: encodeURI(url),
-        ...config,
-      });
-    } catch (error) {
-      throw error;
-    }
+    config = _.omit(config, ['url']);
+    config.headers = _.merge({}, this.headers, config.headers);
+    return this.axiosRef.request({
+      url: encodeURI(url),
+      ...config,
+    });
   };
 
   /**

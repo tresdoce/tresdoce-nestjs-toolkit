@@ -13,10 +13,7 @@
 </div>
 <br/>
 
-> ⚠️ Es importante tener en cuenta que este módulo se encuentra implementado en el package `@tresdoce-nestjs-toolkit/paas`, ya que es una funcionalidad core para el starter.
-
-Este módulo está pensada para ser utilizada en [NestJS Starter](https://github.com/rudemex/nestjs-starter), o cualquier
-proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
+Módulo central del toolkit que provee tipos, helpers, decoradores, guards y utilidades que son utilizados transversalmente por los demás paquetes. Está pensado para ser utilizado en [NestJS Starter](https://github.com/rudemex/nestjs-starter) o en cualquier proyecto que siga la misma arquitectura de configuración centralizada.
 
 ## Glosario
 
@@ -24,6 +21,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [👨‍💻 Uso](#use)
+- [📖 API Reference](#api-reference)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
 
@@ -50,16 +48,71 @@ npm install -S @tresdoce-nestjs-toolkit/core
 yarn add @tresdoce-nestjs-toolkit/core
 ```
 
+## 📦 Dependencias internas
+
+Este paquete no tiene dependencias internas del toolkit. Puede utilizarse de forma independiente.
+
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
+### Typings — Configuración centralizada
+
+El namespace `Typings` expone todas las interfaces y enums que modelan la configuración centralizada de la aplicación (`config`).
+
+```typescript
+// ./src/config/configuration.ts
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import { registerAs } from '@nestjs/config';
+
+export default registerAs('config', (): Typings.AppConfig => {
+  return {
+    project: {
+      apiPrefix: process.env.API_PREFIX,
+      name: process.env.npm_package_name,
+      version: process.env.npm_package_version,
+      description: process.env.npm_package_description,
+      author: {
+        name: process.env.npm_package_author_name,
+        email: process.env.npm_package_author_email,
+        url: process.env.npm_package_author_url,
+      },
+      repository: {
+        type: 'git',
+        url: process.env.npm_package_repository_url,
+      },
+      bugs: {
+        url: process.env.npm_package_bugs_url,
+      },
+      homepage: process.env.npm_package_homepage,
+    },
+    server: {
+      isProd: process.env.NODE_ENV === 'production',
+      appStage: process.env.APP_STAGE as Typings.TAppStage,
+      port: parseInt(process.env.PORT, 10) || 8080,
+      context: process.env.CONTEXT,
+      origins: process.env.ORIGINS.split(','),
+      allowedHeaders: process.env.ALLOWED_HEADERS,
+      allowedMethods: process.env.ALLOWED_METHODS,
+      corsEnabled: process.env.CORS_ENABLED === 'true',
+      corsCredentials: process.env.CORS_CREDENTIALS === 'true',
+      propagateHeaders: process.env.PROPAGATE_HEADERS
+        ? process.env.PROPAGATE_HEADERS.split(',')
+        : [],
+    },
+    swagger: {
+      path: process.env.SWAGGER_PATH,
+      enabled: process.env.SWAGGER_ENABLED === 'true',
+    },
+  };
+});
+```
+
+---
+
 ### Validation Schema
 
-La validación del los parámetros (`envs`) que requiere la aplicación son validados por medio de la función
-`validateSchemaForApp`, esta tienen integrado la validación los schemas obligatorios y base para la app.
-
-#### ValidationSchema for App
+La función `validateSchemaForApp` genera un schema Joi que combina las validaciones base obligatorias del starter con las validaciones custom del proyecto.
 
 ```typescript
 // ./src/config/validationSchema.ts
@@ -67,18 +120,32 @@ import Joi from 'joi';
 import { validateSchemaForApp } from '@tresdoce-nestjs-toolkit/core';
 
 export const validationSchema = validateSchemaForApp({
-  // Custom parameters
-  TEST_KEY: Joi.string().optional(),
+  // Parámetros custom de la aplicación
   RICK_AND_MORTY_API_URL: Joi.string().required(),
-  RICK_AND_MORTY_API_URL_LIVENESS: Joi.string().required(),
 });
 ```
 
+Si la aplicación implementa CSRF, también hay que extender con `validationSchemaCsrf`:
+
+```typescript
+// ./src/config/validationSchema.ts
+import Joi from 'joi';
+import { validateSchemaForApp, validationSchemaCsrf } from '@tresdoce-nestjs-toolkit/core';
+
+export const validationSchema = validateSchemaForApp({
+  ...validationSchemaCsrf,
+  // Parámetros custom adicionales
+  RICK_AND_MORTY_API_URL: Joi.string().required(),
+});
+```
+
+> **Regla de validación de `CSRF_SECRET`**: En entornos `prod` es obligatorio y debe ser una cadena de exactamente **32 caracteres** que incluya al menos una minúscula, una mayúscula, un dígito y un carácter especial (`^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{32}$`). En otros entornos es opcional.
+
+---
+
 ### corePathsExcludes
 
-Es una variable que contiene una lista de `paths` con sus `methods` con el fin de ser excluidos tanto del `prefix` de la
-app, como asi también de otras funcionalidades para que no generen registros innecesarios, como puede ser el caso de
-los `logs`con los endpoints del `helath`.
+Retorna un array de objetos `{ path, method }` que representa las rutas core que deben excluirse del prefix global y de funcionalidades como logging.
 
 ```typescript
 // ./src/main.ts
@@ -93,10 +160,35 @@ async function bootstrap() {
 }
 ```
 
+Las rutas excluidas son: `/health/liveness`, `/health/readiness`, `/info` y `/metrics` (con su prefijo de contexto si `CONTEXT` está definido).
+
+### excludePaths
+
+Versión simplificada de `corePathsExcludes()` que retorna solo los strings de path (sin el método HTTP), útil para filtros de middleware o loggers.
+
+```typescript
+import { excludePaths } from '@tresdoce-nestjs-toolkit/core';
+
+// Retorna: ['/api/health/liveness', '/api/health/readiness', '/api/info', '/api/metrics']
+const paths = excludePaths();
+```
+
+### corePathsExcludesGlobs
+
+Array estático de patrones glob equivalentes a las rutas core excluidas. Útil para configurar middlewares que aceptan globs (e.g., morgan, winston).
+
+```typescript
+import { corePathsExcludesGlobs } from '@tresdoce-nestjs-toolkit/core';
+
+// ['**/health/liveness', '**/health/readiness', '**/info', '**/metrics']
+console.log(corePathsExcludesGlobs);
+```
+
+---
+
 ### setHttpsOptions
 
-Para implementar `SSL` en la app, se requiere tener la ruta del `cert`y la `privKey` para poder instanciarlo en los
-options.
+Configura las opciones HTTPS para la aplicación NestJS leyendo el certificado y la clave privada desde el filesystem.
 
 ```typescript
 // ./src/main.ts
@@ -106,47 +198,38 @@ const certPath = './path/to/secrets/public-certificate.pem';
 const pkeyPath = './path/to/secrets/private-key.pem';
 
 async function bootstrap() {
-  //...
-  async function bootstrap() {
-    const app = await NestFactory.create(AppModule, {
-      httpsOptions: setHttpsOptions(certPath, pkeyPath),
-    });
-  }
+  const app = await NestFactory.create(AppModule, {
+    httpsOptions: setHttpsOptions(certPath, pkeyPath),
+  });
   //...
 }
 ```
 
+Si alguno de los archivos no existe, retorna `{ cert: '', key: '' }` sin lanzar error.
+
+---
+
 ## Cross-site request forgery (CSRF)
 
-Cross-Site Request Forgery (**CSRF**) es un tipo de ataque de seguridad que ocurre cuando un atacante engaña a un usuario
-autenticado para que realice acciones no deseadas en una aplicación web en la que está autenticado. En un ataque **CSRF**,
-el atacante aprovecha la confianza que una aplicación web tiene en el navegador del usuario.
-
-El uso de este middleware de protección **CSRF** es importante para la seguridad de las aplicaciones, ya que es una capa
-de seguridad extra que previene ataques de Cross-Site Request Forgery asegurándose de que cada solicitud sea legítima y
-autorizada por el usuario. Mediante la generación y validación de tokens **CSRF** únicos asociados con la sesión del
-usuario, que se incluyen en solicitudes posteriores, el middleware verifica la presencia y validez del token en cada solicitud.
-Si el token no está presente o es inválido, la solicitud se rechaza, protegiendo así tanto a los usuarios como a la
-aplicación de acciones maliciosas.
+Cross-Site Request Forgery (**CSRF**) es un tipo de ataque de seguridad que ocurre cuando un atacante engaña a un usuario autenticado para que realice acciones no deseadas en una aplicación web. El middleware de protección genera y valida tokens CSRF únicos asociados a la sesión del usuario. Si el token no está presente o es inválido, la solicitud es rechazada con HTTP `403 Forbidden`.
 
 ### Configuración
 
-El **CSRF** funciona utilizando cookies, por lo cual se pueden realizar diversas configuraciones por medio de la
-configuración centralizada de la app, ya que esta permite utilizar variables de entorno para realizar ajustes de manera
-inmediata sin tener que re-desplegar la aplicación.
+El CSRF funciona utilizando cookies y requiere `CSRF_SECRET` en las variables de entorno. La configuración se integra en la configuración centralizada de la app:
 
 ```typescript
-//./src/config/configuration.ts
-import { Typings } from '@tresdoce-nestjs-toolkit/paas';
+// ./src/config/configuration.ts
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('config', (): Typings.AppConfig => {
   return {
     //...
     server: {
+      //...
       csrf: {
-        secret: process.env.CSRF_SECRET, // Usar CSRF_SECRET como env
-        // otras propiedades de las cookies
+        secret: process.env.CSRF_SECRET,
+        // Propiedades opcionales — los defaults están documentados abajo
       },
     },
     //...
@@ -154,15 +237,13 @@ export default registerAs('config', (): Typings.AppConfig => {
 });
 ```
 
-Agregar en el `validationSchema.ts` las validaciones para el **CSRF**.
+Y en el schema de validación:
 
 ```typescript
-//./src/config/validationSchema.ts
-//...
+// ./src/config/validationSchema.ts
 import { validateSchemaForApp, validationSchemaCsrf } from '@tresdoce-nestjs-toolkit/core';
 
 export const validationSchema = validateSchemaForApp({
-  //...
   ...validationSchemaCsrf,
 });
 ```
@@ -170,101 +251,63 @@ export const validationSchema = validateSchemaForApp({
 <details>
 <summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
 
-`key`: Es la clave utilizada para almacenar el secret del token CSRF en las cookies.
+`key`: Nombre de la cookie que almacena el secreto de sesión CSRF.
 
 - Type: `String`
 - Default: `_csrf`
 - Example: `csrf_key`
 
-`cookieName`: Es el nombre del token CSRF que se envía en los request para validar la petición.
+`cookieName`: Nombre de la cookie que contiene el token CSRF enviado al cliente.
 
 - Type: `String`
 - Default: `xsrf-token`
 - Example: `token-xsrf`
 
-`secret`: Es la frase secreta utilizada para firmar el token CSRF. Se utiliza para validar la integridad del token.
+`secret`: Frase secreta utilizada para firmar el token CSRF. En entornos `prod` debe tener exactamente 32 caracteres con mayúsculas, minúsculas, dígitos y caracteres especiales.
 
 - Type: `String`
 - Default: `''`
 - Example: `9r@F5z!X8w*L3q&H2s^J7p#K1n$Y4m?A`
 
-`sameSite`: Define el atributo SameSite para la cookie CSRF, que controla cuándo se envía la cookie en las solicitudes entre sitios.
+`sameSite`: Atributo SameSite de la cookie CSRF.
 
 - Type: `String`
 - Values: `strict | lax | none`
 - Default: `strict`
-- Example: `lax`
 
-`httpOnly`: Especifica si la cookie CSRF debe ser accesible solo a través del protocolo HTTP y no a través de JavaScript.
-
-- Type: `Boolean`
-- Values: `true | false`
-- Default: `true`
-- Example: `false`
-
-`signed`: Indica si la cookie CSRF debe estar firmada con la frase secreta.
+`httpOnly`: Indica si la cookie no es accesible desde JavaScript del navegador.
 
 - Type: `Boolean`
-- Values: `true | false`
 - Default: `true`
-- Example: `false`
 
-`path`: Especifica la ruta para la que es válida la cookie CSRF.
+`signed`: Indica si la cookie debe estar firmada con el `secret`.
+
+- Type: `Boolean`
+- Default: `true`
+
+`path`: Ruta para la que es válida la cookie.
 
 - Type: `String`
 - Default: `/`
-- Example: `/v1/api-context`
 
-`secure`: Indica si la cookie CSRF debe ser enviada solo a través de conexiones seguras (HTTPS).
-Desde el middleware realiza una validación booleana de sí el NODE_ENV es `production`, de esta manera se configura
-automáticamente en `true` si estás en algún entorno o `false` si estás en desarrollo local o en modo `test`.
+`secure`: Si es `true`, la cookie solo se envía por HTTPS. El middleware lo establece automáticamente en `true` cuando `NODE_ENV === 'production'`.
 
 - Type: `Boolean`
-- Values: `true | false`
-- Default: `false`
-- Example: `true`
+- Default: `false` (en local/test), `true` (en production)
 
-`maxAge`: Especifica el tiempo máximo de vida de la cookie CSRF en segundos.
+`maxAge`: Tiempo de vida de la cookie en segundos.
 
 - Type: `Number`
 - Default: `300` (5 minutos)
-- Example: `600` (10 minutos)
 
 </details>
 
-### Tips de configuración
-
-Para garantizar una buena seguridad para las cookies de **CSRF Token**, es recomendable tener las siguientes configuraciones,
-teniendo en cuenta que algunas ya vienen configuradas desde el middleware y cualquier cambio que se haga, será bajo la
-responsabilidad del equipo.
-
-- **Secure**: Establecer `secure: true` garantiza que la cookie solo se envíe a través de conexiones HTTPS, protegiendo la
-  cookie de ser interceptada por ataques de intermediarios.
-- **HttpOnly**: Configurar `httpOnly: true` impide que la cookie sea accesible a través de JavaScript en el navegador,
-  reduciendo el riesgo de ataques de secuencias de comandos entre sitios (XSS).
-- **SameSite**: Establecer `sameSite: 'strict'` asegura que la cookie solo se envíe en solicitudes del mismo sitio,
-  protegiendo contra ataques **CSRF**. En algunos casos, si necesitas permitir solicitudes entre sitios, puedes usar
-  `sameSite: 'lax'`, pero `strict proporciona una mayor seguridad.
-- **MaxAge**: Configurar un maxAge razonablemente corto limita el tiempo durante el cual la cookie es válida.
-  Por ejemplo, `maxAge: 300` (5 minutos) es una duración común para tokens de autenticación o **CSRF**.
-- **Path**: Establecer `path: '/'` asegura que la cookie sea válida para toda la aplicación. Esto puede ser ajustado
-  según la estructura y necesidades de tu aplicación.
-- **Signed**: Configurar `signed: true` indica que la cookie está firmada con la frase secreta, lo que añade una capa
-  adicional de seguridad verificando la integridad de la cookie.
-- **Secret**: El secret es una frase secreta utilizada para firmar la cookie. Debe ser una cadena compleja y única.
-
 ### Implementación del middleware
 
-Si bien la app viene con ciertas configuraciones de middlewares, para hacer uso del **CSRF Token** requiere ser
-configurado en el `main.ts` utilizando la configuración centralizada, y ajustando el middleware del `cookieParser`.
-
 ```typescript
-//.src/maint.ts
-//...
-import {
-  //...
-  csrfToken,
-} from '@tresdoce-nestjs-toolkit/core';
+// ./src/main.ts
+import { csrfToken } from '@tresdoce-nestjs-toolkit/core';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   //...
@@ -280,175 +323,160 @@ async function bootstrap() {
 (async () => await bootstrap())();
 ```
 
-Para poder proteger el o los endpoints utilizando las validaciones del **CSRF Token**, se tiene que implementar el
-decorador `@Csrf()` a nivel endpoint o a nivel controller, de esta manera se aplica un **guard** que es el encargado de
-validar los tokens de las cookies antes de llegar a ejecutar el controlador, si los tokens son válidos el **guard**
-permitirá la ejecución del controller, en caso contrario, retornará una exception indicando el tipo de error.
+### Decorador `@Csrf()`
+
+Protege un endpoint o un controller completo aplicando el `CsrfGuard`. Al decorar un controller, protege todos sus endpoints.
 
 #### Nivel controller
 
-Impacta a todos los endpoints del controller
-
 ```typescript
-//...
-import { Csrf } from '@tresdoce-nestjs-toolkit/paas';
+import { Csrf } from '@tresdoce-nestjs-toolkit/core';
 
 @Csrf()
 export class MyController {
-  //...
   @Get()
   async myEndpoint() {
-    //....
+    /*...*/
   }
 
   @Get('endpoint2')
   async myEndpoint2() {
-    //....
+    /*...*/
   }
-
-  @Get('endpointN')
-  async myEndpointN() {
-    //....
-  }
-  //...
 }
 ```
 
 #### Nivel endpoint
 
-Impacta a un endpoint del controller
-
 ```typescript
-//...
-import { Csrf } from '@tresdoce-nestjs-toolkit/paas';
+import { Csrf } from '@tresdoce-nestjs-toolkit/core';
 
 export class MyController {
-  //...
   @Get()
   @Csrf()
   async myEndpoint() {
-    //....
+    /*...*/
   }
-  //...
 }
 ```
 
-### Iniciar el CSRF Token de sesión
+> En entornos `test` (`NODE_ENV === 'test'`), `@Csrf()` aplica el metadata `skipCsrfGuard: true` en lugar del guard, permitiendo ejecutar tests sin cookies CSRF.
 
-Para que tengan sentido la implementación de los **CSRF Tokens** y funcione correctamente, se requiere configurar el
-primer token que corresponde a la sesión, a partir de ahi, cada request que se realice, se configurara un token que va
-a ir cambiando automáticamente entre requests.
+### Iniciar el token CSRF de sesión
 
-Para setear este primer token, se requiere analizar la aplicación y evaluar en que endpoint es conveniente implementarlo,
-esto se debe a que si tu aplicación tiene un endpoint que carga contenido no sensible para la app (es decir un endpoint
-público), se podría implementar en este punto, o bien, si tu app tiene un endpoint de `login` es recomendable hacerlo
-en este punto de entrada.
+El primer request debe generar el token de sesión llamando a `req.csrfToken()`. El lugar adecuado suele ser el endpoint de login o el primer endpoint público de la aplicación.
 
 ```typescript
-//...
-import { ICsrfRequest } from '@tresdoce-nestjs-toolkit/paas';
+import { ICsrfRequest } from '@tresdoce-nestjs-toolkit/core';
 
 export class AuthController {
-  //...
   @Get('/login')
   async login(@Req() req: ICsrfRequest) {
-    // Genera el token de sesion
-    req.csrfToken();
-    //....
+    req.csrfToken(); // Genera y setea el token de sesión en la cookie
+    //...
   }
-  //...
 }
 ```
+
+A partir de ese punto, cada request válido que pase por `CsrfGuard` generará automáticamente un nuevo token.
 
 ### Consideraciones
 
-Algunas consideraciones a tener en cuenta al momento de desarrollar y desplegar la app en algún entorno.
+- Agregar `Access-Control-Allow-Credentials` a la lista `ALLOWED_HEADERS` en las variables de entorno.
+- Configurar `CORS_CREDENTIALS=true` en las variables de entorno.
+- Si utilizas `Axios`, configurar las instancias con `withCredentials: true`.
+- Verificar que el navegador o herramienta de testing permita la configuración de cookies.
 
-- En las variables de entorno de la app, hay que agregar en la lista de `ALLOWED_HEADERS` el valor `Access-Control-Allow-Credentials`.
-- En las variables de entorno de la app, hay que configurar `CORS_CREDENTIALS` con el valor `true`.
-- Si estás utilizando `Axios` en el front o en el back, es importante que configures las peticiones de la instancia con
-  la propiedad `withCredentials` en `true`.
-- Como esta funcionalidad hace uso de las `Cookies`, revisar que el navegador/herramientas que uses cuente con la
-  configuración correcta y se puedan configurar los tokens adecuadamente.
+---
 
 ## Decorators
 
-### Public
+### `@Public()`
 
-Decorador para definir si un endpoint es público.
+Marca un endpoint o controller como público (no requiere autenticación). Setea el metadata `isPublic: true`, que los guards de autenticación pueden leer con `IS_PUBLIC_KEY`.
 
 ```typescript
-// ./src/app.controller.ts
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
 import { Public } from '@tresdoce-nestjs-toolkit/core';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  // Publico
   @Get('')
   @Public()
-  getTestEnv(): string {
-    return this.appService.getTestEnv();
+  getInfo(): string {
+    return 'endpoint público';
   }
 
-  // Privado
-  @Get('my-util')
-  getMyUtil() {
-    return this.appService.getMyCustomUtil();
+  @Get('private')
+  getPrivate() {
+    return 'endpoint privado';
   }
 }
 ```
 
-### Roles
+### `@Roles(...roles)`
 
-Decorador para definir el metadata de roles.
+Setea metadata de roles sobre un endpoint o controller. Los guards de autorización pueden leer los roles con `ROLES_KEY`.
 
 ```typescript
-// ./src/app.controller.ts
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
 import { Roles } from '@tresdoce-nestjs-toolkit/core';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  // Only user role
   @Get('')
   @Roles('user')
-  getTestEnv(): string {
-    return this.appService.getTestEnv();
+  onlyUser(): string {
+    return '...';
   }
 
-  // Only user and admin role
-  @Get('my-util')
+  @Get('admin')
   @Roles('user', 'admin')
-  getMyUtil() {
-    return this.appService.getMyCustomUtil();
+  userAndAdmin(): string {
+    return '...';
   }
 }
 ```
 
-## Param Decorators
+### `@ExcludeFilter()`
 
-### Pagination
-
-Decorador para manejar la paginación.
+Marca un endpoint o controller para que sea excluido de filtros globales (e.g., exception filters personalizados). Setea el metadata `excludeFilter: true`, que puede leerse con `EXCLUDE_FILTER_KEY`.
 
 ```typescript
-// ./src/users/controllers/users.controller.ts
-import { Controller, Get } from '@nestjs/common';
-import { Pagination, PaginationParamsDto } from '@tresdoce-nestjs-toolkit/core';
+import { ExcludeFilter } from '@tresdoce-nestjs-toolkit/core';
 
 @Controller()
-export class UsersController {
-  //...
+export class HealthController {
+  @Get('liveness')
+  @ExcludeFilter()
+  liveness() {
+    return { status: 'ok' };
+  }
+}
+```
 
+Lectura del metadata en un filtro:
+
+```typescript
+import { EXCLUDE_FILTER_KEY } from '@tresdoce-nestjs-toolkit/core';
+
+const isExcluded = this.reflector.get<boolean>(EXCLUDE_FILTER_KEY, context.getHandler());
+```
+
+---
+
+## Param Decorators
+
+### `@Pagination()`
+
+Extrae y valida los parámetros de paginación `page` y `size` del query string. Retorna un objeto `PaginationParams`.
+
+```typescript
+import { Controller, Get } from '@nestjs/common';
+import { Pagination, PaginationParams } from '@tresdoce-nestjs-toolkit/core';
+
+@Controller('users')
+export class UsersController {
   @Get()
-  findAll(@Pagination() pagination: PaginationParamsDto) {
+  findAll(@Pagination() pagination: PaginationParams) {
     const { page, size } = pagination;
     console.log('Current page: ', page);
     console.log('Items per page: ', size);
@@ -458,90 +486,45 @@ export class UsersController {
 ```
 
 <details>
-<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+<summary>💬 Para ver en detalle todas las propiedades, hace clic acá.</summary>
 
-`page`: El número de la página actual, proporciona un punto de referencia claro para el usuario.
+`page`: Número de página actual.
 
 - Type: `number`
 - Default: `1`
-- Example: `3`
+- Minimum: `1`
 
-`size`: El número de elementos por página, este puede ser un valor predeterminado o especificado por el usuario con un
-valor máximo de 100 items por repuesta.
+`size`: Cantidad de elementos por página.
 
 - Type: `number`
-- Default: `20`
-- Example: `10`
+- Default: `10`
+- Maximum: `100`
+
+Si `page` o `size` se proveen pero no son enteros positivos válidos, se lanza `BadRequestException`. Si `size` supera `100`, también se lanza `BadRequestException`.
 
 </details>
 
 #### URL Example
 
-- Schema: `<http|https>://<server_url><:port>/<app-context>/<endpoint-path>?page=<value-page>&size=<value-size>`
+- Schema: `<http|https>://<server_url><:port>/<context>/<endpoint>?page=<value>&size=<value>`
 - Example: `http://localhost:8080/v1/users?page=2&size=20`
 
-### Sorting
+---
 
-Decorador para manejar el ordenamiento de los resultados.
+### `@Sorting(validFields)`
 
-```typescript
-// ./src/users/controllers/users.controller.ts
-import { Controller, Get } from '@nestjs/common';
-import { Sorting, SortingParamsDto } from '@tresdoce-nestjs-toolkit/core';
-
-@Controller()
-export class UsersController {
-  //...
-
-  @Get()
-  findAll(@Sorting(['id', 'email']) sorting: SortingParamsDto) {
-    const { fields } = sorting;
-    console.log('Sorting Fields: ', fields);
-    //...
-  }
-}
-```
-
-<details>
-<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
-
-`field`: El nombre del campo por el cual se ordenará.
-
-- Type: `string`
-- Example: `'id', 'email'`
-
-`order`: La dirección del ordenamiento, puede ser ascendente (`asc`) o descendente (`desc`).
-
-- Type: `asc | desc`
-- Default: `asc`
-- Example: `desc`
-
-</details>
-
-#### URL Example
-
-- Schema: `<http|https>://<server_url><:port>/<app-context>/<endpoint-path>?sort=<field1>:<order1>,<field2>:<order2>,...`
-- Example: `http://localhost:8080/v1/items?sort=id:asc,email:desc`
-
-### Filtering
-
-Decorador para manejar el filtrado de los resultados basado en varios criterios.
+Extrae y valida el parámetro `sort` del query string. Retorna un array de `SortCriteria`.
 
 ```typescript
-// ./src/users/controllers/users.controller.ts
 import { Controller, Get } from '@nestjs/common';
-import { FilteringParams, FilteringParamsDto } from '@tresdoce-nestjs-toolkit/core';
+import { Sorting, SortCriteria } from '@tresdoce-nestjs-toolkit/core';
 
-@Controller()
+@Controller('users')
 export class UsersController {
-  //...
-
   @Get()
-  findAll(@FilteringParams(['firstName', 'email', 'id']) filters: FilteringParamsDto) {
-    filters.forEach((filter) => {
-      console.log('Filter Property: ', filter.property);
-      console.log('Filter Rule: ', filter.rule);
-      console.log('Filter Values: ', filter.values);
+  findAll(@Sorting(['id', 'email', 'name']) sorting: SortCriteria[]) {
+    sorting.forEach(({ field, order }) => {
+      console.log(`Sort by ${field} ${order}`);
     });
     //...
   }
@@ -549,31 +532,209 @@ export class UsersController {
 ```
 
 <details>
-<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+<summary>💬 Para ver en detalle todas las propiedades, hace clic acá.</summary>
 
-`property`: El nombre de la propiedad por la cual se filtra.
+`field`: Nombre del campo por el cual ordenar (debe ser uno de los campos declarados en el decorador).
 
 - Type: `string`
-- Example: `'firstName', 'id'`
 
-`rule`: La regla utilizada para filtrar, determina cómo se compara el valor de la propiedad.
+`order`: Dirección del ordenamiento.
 
-- Type: `FilterRule`
-- Enum: `eq | neq | gt | gte | lt | lte | like | nlike | in | nin | isnull | isnotnull`
-- Example: `gte`
+- Type: `'asc' | 'desc'`
+- Default: `'asc'`
 
-`values`: Los valores utilizados para el filtro según la regla.
-
-- Type: `string[] | number[] | boolean[]`
-- Example ('gt', 'gte', 'lt', 'lte'): `[30]`
-- Example ('in', 'nin'): `['John', 'Doe']`
+Si el campo no está en la lista de campos válidos o el formato es inválido, se lanza `BadRequestException`.
 
 </details>
 
 #### URL Example
 
-- Schema: `<http|https>://<server_url><:port>/<app-context>/<endpoint-path>?filter=<property1>:<rule1>:<value1>,<property2>:<rule2>:<value2>,<value22>,...`
-- Example: `http://localhost:8080/v1/users?filter=age:gte:30,name:like:John,status:in:active,inactive`
+- Schema: `?sort=<field1>:<order1>,<field2>:<order2>`
+- Example: `http://localhost:8080/v1/users?sort=id:asc,email:desc`
+
+---
+
+### `@FilteringParams(validProperties)`
+
+Extrae y valida el parámetro `filters` del query string. Retorna un array de `Filtering`.
+
+```typescript
+import { Controller, Get } from '@nestjs/common';
+import { FilteringParams, Filtering } from '@tresdoce-nestjs-toolkit/core';
+
+@Controller('users')
+export class UsersController {
+  @Get()
+  findAll(@FilteringParams(['firstName', 'email', 'age']) filters: Filtering[]) {
+    filters.forEach(({ property, rule, values }) => {
+      console.log(`Filter: ${property} ${rule}`, values);
+    });
+    //...
+  }
+}
+```
+
+<details>
+<summary>💬 Para ver en detalle todas las propiedades, hace clic acá.</summary>
+
+`property`: Nombre de la propiedad a filtrar (debe estar en la lista declarada).
+
+- Type: `string`
+
+`rule`: Regla de filtrado.
+
+- Type: `FilterRule`
+- Enum: `eq | neq | gt | gte | lt | lte | like | nlike | in | nin | isnull | isnotnull`
+
+`values`: Valores para el filtro según la regla. Para `isnull` y `isnotnull` es un array vacío.
+
+- Type: `(string | number | boolean)[]`
+
+Si la propiedad, la regla o el formato son inválidos, se lanza `BadRequestException`.
+
+</details>
+
+#### URL Example
+
+- Schema: `?filters=<property1>:<rule1>:<value1>,<property2>:<rule2>:<value2>`
+- Example: `http://localhost:8080/v1/users?filters=age:gte:30,name:like:John,status:in:active,inactive`
+
+---
+
+## Paginación con `calculatePagination`
+
+Función utilitaria que calcula los metadatos de paginación a partir de `page`, `size` y `total`.
+
+```typescript
+import { calculatePagination } from '@tresdoce-nestjs-toolkit/core';
+
+const meta = calculatePagination({ page: 2, size: 10, total: 100 });
+// {
+//   page: 2,
+//   size: 10,
+//   total: 100,
+//   totalPages: 10,
+//   hasNext: true,
+//   hasPrevious: true,
+// }
+```
+
+Para estructurar la respuesta paginada en Swagger, se proveen las clases `PaginationMetaData` y `PaginationResponse<T>`:
+
+```typescript
+import { PaginationMetaData, PaginationResponse } from '@tresdoce-nestjs-toolkit/core';
+
+// En un controller con Swagger:
+@ApiOkResponse({ type: PaginationResponse })
+@Get()
+findAll(@Pagination() pagination: PaginationParams): PaginationResponse<UserEntity> {
+  const [data, total] = await this.usersService.findAll(pagination);
+  return {
+    data,
+    meta: calculatePagination({ ...pagination, total }),
+  };
+}
+```
+
+`PaginationResponse<T>` tiene las propiedades `data: T[]` y `meta: PaginationMetaData`.  
+`PaginationMetaData` incluye: `page`, `size`, `total`, `totalPages?`, `hasNext?`, `hasPrevious?`.
+
+---
+
+<a name="api-reference"></a>
+
+## 📖 API Reference
+
+### Namespace `Typings`
+
+| Export              | Descripción                                                                                                                                                                                                                                             |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AppConfig`         | Interface raíz de la configuración centralizada. Incluye `project`, `server`, `swagger`, `health`, `params`, `httpClient`, `services`, `database`, `redis`, `mailer`, `camunda`, `elasticsearch`, `tracing`, `redact`, `bcrypt`, `snowflakeUID`, `sqs`. |
+| `IProjectConfig`    | Datos del proyecto (`apiPrefix`, `name`, `version`, `description`, `author`, `repository`, `bugs`, `homepage`).                                                                                                                                         |
+| `IServerConfig`     | Configuración del servidor (`isProd`, `appStage`, `port`, `context`, `origins`, `propagateHeaders`, `allowedHeaders`, `allowedMethods`, `corsEnabled`, `corsCredentials`, `csrf`, `rateLimits`).                                                        |
+| `IHealthConfig`     | Configuración de health checks (`skipChecks`, `storage`, `memory`).                                                                                                                                                                                     |
+| `ISwaggerConfig`    | Configuración de Swagger (`path`, `enabled`).                                                                                                                                                                                                           |
+| `TAppStage`         | `'local' \| 'test' \| 'snd' \| 'dev' \| 'qa' \| 'homo' \| 'prod'`                                                                                                                                                                                       |
+| `EAppStage`         | Enum equivalente a `TAppStage`.                                                                                                                                                                                                                         |
+| `TSkipHealthChecks` | `'storage' \| 'memory' \| 'elasticsearch' \| 'camunda' \| 'typeorm' \| 'redis'`                                                                                                                                                                         |
+| `ESkipHealthChecks` | Enum equivalente a `TSkipHealthChecks`.                                                                                                                                                                                                                 |
+
+### Commons (rutas y CSRF)
+
+| Export                                    | Tipo                                              | Descripción                                            |
+| ----------------------------------------- | ------------------------------------------------- | ------------------------------------------------------ |
+| `corePathsExcludes()`                     | `() => { path: string; method: RequestMethod }[]` | Rutas core a excluir del prefix global.                |
+| `excludePaths()`                          | `() => string[]`                                  | Solo los paths de `corePathsExcludes()`.               |
+| `corePathsExcludesGlobs`                  | `string[]`                                        | Patrones glob de las rutas core.                       |
+| `csrfToken(options?)`                     | `(options?: CsrfCookieOptions) => Middleware`     | Middleware Express que gestiona el token CSRF.         |
+| `CsrfCookieOptions`                       | `interface`                                       | Opciones de configuración de la cookie CSRF.           |
+| `ICsrfRequest`                            | `interface`                                       | Request extendido con `cookieConfig` y `csrfToken()`.  |
+| `getCsrfFromRequest(req)`                 | `function`                                        | Extrae el token CSRF de la request.                    |
+| `getSecretFromRequest(req, name, cookie)` | `function`                                        | Extrae el secreto de la request.                       |
+| `verify(secret, token)`                   | `function`                                        | Verifica si un token CSRF es válido contra su secreto. |
+
+### Validations
+
+| Export                          | Tipo       | Descripción                                                                       |
+| ------------------------------- | ---------- | --------------------------------------------------------------------------------- |
+| `validateSchemaForApp(schema)`  | `function` | Retorna un schema Joi compuesto por `baseValidationSchemaApp` + el schema custom. |
+| `validateSchema(schema, input)` | `function` | Valida un input contra un schema Joi, lanzando `Error` si falla.                  |
+| `baseValidationSchema`          | `object`   | Schema Joi con las variables de entorno obligatorias base.                        |
+| `baseValidationSchemaApp`       | `object`   | `baseValidationSchema` + variables de tracing opcionales.                         |
+| `validationSchemaCsrf`          | `object`   | Schema Joi para `CSRF_SECRET`.                                                    |
+
+### Decorators
+
+| Export                        | Descripción                                                             |
+| ----------------------------- | ----------------------------------------------------------------------- |
+| `Public()`                    | Marca el endpoint/controller como público.                              |
+| `IS_PUBLIC_KEY`               | `'isPublic'` — clave de metadata del decorador `@Public()`.             |
+| `Roles(...roles)`             | Setea metadata de roles.                                                |
+| `ROLES_KEY`                   | `'roles'` — clave de metadata del decorador `@Roles()`.                 |
+| `ExcludeFilter()`             | Excluye el endpoint/controller de filtros globales.                     |
+| `EXCLUDE_FILTER_KEY`          | `'excludeFilter'` — clave de metadata del decorador `@ExcludeFilter()`. |
+| `Csrf()`                      | Aplica `CsrfGuard` al endpoint/controller.                              |
+| `Pagination()`                | Param decorator que extrae `{ page, size }` del query string.           |
+| `Sorting(fields)`             | Param decorator que extrae y valida `sort` del query string.            |
+| `FilteringParams(properties)` | Param decorator que extrae y valida `filters` del query string.         |
+
+### Guards
+
+| Export      | Descripción                                                                                                      |
+| ----------- | ---------------------------------------------------------------------------------------------------------------- |
+| `CsrfGuard` | Guard que valida el token CSRF, el User-Agent y la IP del cliente. Lanza `403 Forbidden` si la validación falla. |
+
+### DTOs y Entities
+
+| Export                  | Descripción                                                                        |
+| ----------------------- | ---------------------------------------------------------------------------------- |
+| `PaginationParamsDto`   | DTO con validación para `page` (default `1`) y `size` (default `10`, max `100`).   |
+| `SortingParamsDto`      | DTO para el parámetro `sort`.                                                      |
+| `FilteringParamsDto`    | DTO para el parámetro `filters`.                                                   |
+| `SortCriteriaDto`       | DTO con `field` y `order`.                                                         |
+| `FilteringCriteriaDto`  | DTO con `property`, `rule` y `values`.                                             |
+| `PaginationMetaData`    | Clase Swagger con `page`, `size`, `total`, `totalPages`, `hasNext`, `hasPrevious`. |
+| `PaginationResponse<T>` | Clase Swagger con `data: T[]` y `meta: PaginationMetaData`.                        |
+
+### Utils
+
+| Export                                | Tipo                                            | Descripción                                                 |
+| ------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------- |
+| `calculatePagination(params)`         | `(params: PaginateDataParams) => IPaginateData` | Calcula metadatos de paginación.                            |
+| `PaginateDataParams`                  | `interface`                                     | `{ page, size, total }`                                     |
+| `IPaginateData`                       | `interface`                                     | `PaginateDataParams & { totalPages, hasNext, hasPrevious }` |
+| `getSkipHealthChecks(value)`          | `(value: string) => TSkipHealthChecks[]`        | Parsea un string CSV de health checks a omitir.             |
+| `setHttpsOptions(certPath, pkeyPath)` | `function`                                      | Retorna `{ cert, key }` para habilitar HTTPS.               |
+
+### Types y Enums
+
+| Export             | Valores                                                                                    |
+| ------------------ | ------------------------------------------------------------------------------------------ |
+| `FilterRule`       | `eq \| neq \| gt \| gte \| lt \| lte \| like \| nlike \| in \| nin \| isnull \| isnotnull` |
+| `SortOrder`        | `'asc' \| 'desc'`                                                                          |
+| `SortCriteria`     | `{ field: string; order: SortOrder }`                                                      |
+| `Filtering<T>`     | `{ property: string; rule: FilterRule; values: T[] }`                                      |
+| `PaginationParams` | `{ page: number; size: number }`                                                           |
 
 ## 📄 Changelog
 

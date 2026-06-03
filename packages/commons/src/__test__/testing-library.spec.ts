@@ -13,7 +13,7 @@ describe('testing-library', () => {
   });
 
   it('should be return jest config with min coverage value', () => {
-    const valueCoverage = 90;
+    const valueCoverage = 100;
     const config = jestConfig({ minCoveragePercent: valueCoverage });
     expect(config).not.toBe(null);
     expect(typeof config).toBe('object');
@@ -47,5 +47,11 @@ describe('testing-library', () => {
     expect(config.coverageThreshold.global).toHaveProperty('functions', maxCoverageValue);
     expect(config.coverageThreshold.global).toHaveProperty('lines', maxCoverageValue);
     expect(config.coverageThreshold.global).toHaveProperty('statements', maxCoverageValue);
+  });
+
+  it('should not force Jest to exit', () => {
+    const config = jestConfig();
+
+    expect(config).not.toHaveProperty('forceExit');
   });
 });

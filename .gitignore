@@ -102,6 +102,9 @@ postgres_data
 ./packages/**/*/.mysql-data
 ./packages/test-utils/src/testcontainers/.mysql-data
 
+# IA
+.claude
+
 # local env files
 ./*.env
 ./.*.env

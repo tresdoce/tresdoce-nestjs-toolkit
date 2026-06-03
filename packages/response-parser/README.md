@@ -13,11 +13,7 @@
 </div>
 <br/>
 
-> ⚠️ Es importante tener en cuenta que este interceptor se encuentra implementado en el
-> package `@tresdoce-nestjs-toolkit/paas`, ya que es una funcionalidad core para el starter.
-
-Este módulo está pensada para ser utilizada en [NestJS Starter](https://github.com/rudemex/nestjs-starter), o cualquier
-proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
+Interceptor global que normaliza el formato de las respuestas HTTP y permite propagar headers de la request a la response. Está pensado para ser utilizado en [NestJS Starter](https://github.com/rudemex/nestjs-starter) o en cualquier proyecto que siga la misma arquitectura de configuración centralizada.
 
 ## Glosario
 
@@ -26,6 +22,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [⚙️ Configuración](#configurations)
 - [🖥 Respuesta](#response)
+- [📖 API Reference](#api-reference)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
 
@@ -52,17 +49,24 @@ npm install -S @tresdoce-nestjs-toolkit/response-parser
 yarn add @tresdoce-nestjs-toolkit/response-parser
 ```
 
+## 📦 Dependencias internas
+
+Este paquete requiere los siguientes paquetes del toolkit:
+
+| Paquete                                          | Razón                                                     |
+| ------------------------------------------------ | --------------------------------------------------------- |
+| [`@tresdoce-nestjs-toolkit/filters`](../filters) | Función `buildErrorPayload` y tipos de error normalizados |
+
 <a name="configurations"></a>
 
 ## ⚙️ Configuración
 
-Para utilizar este interceptor, es necesario instanciarlo como **provider** en el módulo principal (`app.module.ts`),
-ya que este tiene integrado el uso del `ConfigService` para realizar la propagación de custom headers en la respuesta.
+### Registrar el interceptor
 
-La implementación del formato de respuesta está implícito en cada respuesta de los controladores.
+Para utilizar este interceptor, registrarlo como provider global en el módulo principal (`AppModule`):
 
 ```typescript
-//./src/app.module.ts
+// ./src/app.module.ts
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from '@tresdoce-nestjs-toolkit/response-parser';
 
@@ -81,48 +85,14 @@ import { ResponseInterceptor } from '@tresdoce-nestjs-toolkit/response-parser';
 export class AppModule {}
 ```
 
-<a name="response"></a>
-
-## 🖥 Respuesta
-
-### Single entity response
-
-```json
-{
-  "id": 1,
-  "name": "juan",
-  "lastname": "perez"
-}
-```
-
-### Multiple entity response
-
-```json
-{
-  "data": [
-    {
-      "id": 1,
-      "name": "juan",
-      "lastname": "perez"
-    },
-    {
-      "id": 2,
-      "name": "jose",
-      "lastname": "gonzalez"
-    }
-    //...
-  ]
-}
-```
+> `ResponseInterceptor` usa internamente `ConfigService` para leer la configuración de `propagateHeaders`. Por eso, `ConfigModule` debe estar disponible globalmente (`isGlobal: true`) antes de que el interceptor sea instanciado.
 
 ### Propagación de Headers
 
-Para realizar la propagación de headers en la respuesta, solo se requiere agregar la propiedad `propagateHeaders` en la
-configuración centralizada, esta propiedad admite un array de strings que puede ser configurada desde variables de entorno
-como un string separado por comas.
+Para propagar headers de la request a la response, configurar la propiedad `server.propagateHeaders` en la configuración centralizada de la app. El interceptor lee esta lista desde `config.server.propagateHeaders`.
 
 ```typescript
-//./src/config/configuration.ts
+// ./src/config/configuration.ts
 import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { registerAs } from '@nestjs/config';
 
@@ -142,11 +112,89 @@ export default registerAs('config', (): Typings.AppConfig => {
 ```
 
 ```dotenv
-#.env
-#...
-PROPAGATE_HEADERS=x-custom-header-1,x-custom-header-2,x-custom-header-n
-#...
+# .env
+PROPAGATE_HEADERS=x-request-id,x-correlation-id,x-custom-header
 ```
+
+| Propiedad de configuración       | Tipo       | Descripción                                                                                                                                 |
+| -------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `config.server.propagateHeaders` | `string[]` | Lista de nombres de headers (en minúsculas) que se copian de la request a la response. Si no está configurado, no se propaga ningún header. |
+
+El interceptor hace la comparación de headers en minúsculas (`headerName.trim().toLowerCase()`), por lo que los nombres son case-insensitive.
+
+<a name="response"></a>
+
+## 🖥 Respuesta
+
+### Lógica de transformación
+
+El interceptor aplica la siguiente regla sobre el valor retornado por el controller:
+
+- Si el valor es un **array**, lo envuelve en un objeto `{ data: [...] }`.
+- Si el valor **no** es un array (objeto, primitivo, etc.), lo pasa sin modificaciones.
+
+Esta normalización evita que los controllers de colecciones retornen arrays desnudos, lo cual facilita la extensión futura de la respuesta (e.g., agregar metadata de paginación).
+
+### Respuesta de entidad única
+
+Si el controller retorna un objeto, la respuesta se mantiene tal cual:
+
+```json
+{
+  "id": 1,
+  "name": "juan",
+  "lastname": "perez"
+}
+```
+
+### Respuesta de colección (array)
+
+Si el controller retorna un array, el interceptor lo envuelve automáticamente en `{ data: [...] }`:
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "juan",
+      "lastname": "perez"
+    },
+    {
+      "id": 2,
+      "name": "jose",
+      "lastname": "gonzalez"
+    }
+  ]
+}
+```
+
+### Respuesta con headers propagados
+
+Cuando `PROPAGATE_HEADERS` está configurado y la request incluye esos headers, el interceptor los copia en la response automáticamente. Por ejemplo, si la request trae `x-request-id: abc-123` y ese header está en la lista, la response también incluirá `x-request-id: abc-123`.
+
+<a name="api-reference"></a>
+
+## 📖 API Reference
+
+### `ResponseInterceptor<T>`
+
+|                  |                                                   |
+| ---------------- | ------------------------------------------------- |
+| **Tipo**         | `NestInterceptor`                                 |
+| **Registro**     | Como `APP_INTERCEPTOR` global en `AppModule`.     |
+| **Dependencias** | `ConfigService` (requiere `ConfigModule` global). |
+
+#### Comportamiento
+
+1. Lee `config.server.propagateHeaders` del `ConfigService`.
+2. Por cada header de la lista, si está presente en la request, lo setea en la response.
+3. Transforma el valor retornado por el handler: si es un array, lo envuelve en `{ data: value }`; si no, lo retorna sin cambios.
+
+#### Configuración vía `ConfigService`
+
+| Clave de configuración           | Tipo       | Default                    | Descripción                                     |
+| -------------------------------- | ---------- | -------------------------- | ----------------------------------------------- |
+| `config.server.propagateHeaders` | `string[]` | `[]` (si no está definido) | Headers a propagar de la request a la response. |
 
 ## 📄 Changelog
 

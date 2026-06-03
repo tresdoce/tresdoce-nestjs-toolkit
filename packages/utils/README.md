@@ -13,8 +13,7 @@
 </div>
 <br/>
 
-> ⚠️ Es importante tener en cuenta que este interceptor se encuentra implementado en el
-> package `@tresdoce-nestjs-toolkit/paas`, ya que es una funcionalidad core para el starter.
+> Este package también es re-exportado por `@tresdoce-nestjs-toolkit/paas`, por lo que en proyectos basados en el starter puedes importar desde allí si lo deseas.
 
 Este módulo está pensado para ser utilizado en [NestJS Starter](https://github.com/rudemex/nestjs-starter), o cualquier
 proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
@@ -24,6 +23,11 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [🥳 Demo](https://nestjs-starter.tresdoce.com.ar/v1/docs)
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
+- [🔖 Módulos disponibles](#modules)
+  - [Redact](#redact)
+  - [Format](#format)
+  - [Bcrypt](#bcrypt)
+- [📖 API Reference](#api-reference)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
 
@@ -50,26 +54,26 @@ npm install -S @tresdoce-nestjs-toolkit/utils
 yarn add @tresdoce-nestjs-toolkit/utils
 ```
 
+<a name="modules"></a>
+
+---
+
 ## Redact
 
-El módulo de **Redact** está pensado para el uso de ofuscamiento de datos sensibles para la implementación de una librería
-como asi también en el uso de una aplicación.
-
-Este módulo utiliza como base [`fast-redact`](https://github.com/davidmarkclements/fast-redact), pero se implementaron
-algunas mejoras.
+El módulo **Redact** está pensado para el ofuscamiento de datos sensibles tanto en librerías como en aplicaciones.
+Utiliza como base [`fast-redact`](https://github.com/davidmarkclements/fast-redact) con algunas mejoras adicionales
+(obfuscación parcial de valores desde la izquierda o la derecha).
 
 <a name="configuración-redact"></a>
 
 ### ⚙️ Configuración
 
-Agregar los parámetros de configuración de **fast-redact** en `configuration.ts` utilizando el key `redact` y que
-contenga el objeto con todas sus propiedades para utilizar en el ofuscamiento.
+Agregar los parámetros de configuración de **Redact** en `configuration.ts` utilizando la key `redact`:
 
 ```typescript
 //./src/config/configuration.ts
 import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { registerAs } from '@nestjs/config';
-import * as PACKAGE_JSON from '../../package.json';
 
 export default registerAs('config', (): Typings.AppConfig => {
   return {
@@ -87,59 +91,63 @@ export default registerAs('config', (): Typings.AppConfig => {
 <details>
 <summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
 
-`paths`: Es un array de string, en el que se recomienda ser seteado por variables de entorno como strings
-separados por coma para que pueda impactar rápidamente en la aplicación sin requerir un re-despliegue.
-El path sigue la sintaxis standard de
-EcmaScript. [Más info](https://github.com/davidmarkclements/fast-redact#paths--array)
-
-- `a.b.c`
-- `a['b'].c`
-- `a["b-c"].d`
-- `["a-b"].c`
-- `a.b.*`
-- `a[*].c`
-- `*.b`
-- `a[0].b`
+`paths`: Array de strings con los paths a ofuscar. Se recomienda setearlos por variable de entorno separados por coma
+para impactar sin re-deploy. Sigue la sintaxis estándar de EcmaScript.
+[Más info](https://github.com/davidmarkclements/fast-redact#paths--array)
 
 - Type: `String[]`
 - Example: `headers.request['authorization'],headers.request['apiKey']`
+- Ejemplos de sintaxis soportada:
+  - `a.b.c`
+  - `a['b'].c`
+  - `a["b-c"].d`
+  - `["a-b"].c`
+  - `a.b.*`
+  - `a[*].c`
+  - `*.b`
+  - `a[0].b`
 
-`censor`: Es el valor por el cual va a reemplazar el dato sensible, considerar que la longitud del censor es la
-cantidad de caracteres que va a reemplazar al valor a ofuscar, es decir, si la longitud del censor es de 4 caracteres,
-al valor a ofuscar va a reemplazar son los últimos 4 caracteres con el valor seteado.
+`censor`: Valor por el cual se reemplaza el dato sensible. La longitud del censor determina cuántos caracteres se
+reemplazan en el valor original (los últimos N si `obfuscateFrom` es `right`, los primeros N si es `left`).
 
 - Type: `String`
 - Default: `****`
 - Example: `400012345678****`
 
-`obfuscateFrom`: Indica de qué lado del valor a ofuscar va a realizarse el ofuscamiento, considerar que esta opción se
-aplica a todos los datos a ofuscar, y no por path.
+`obfuscateFrom`: Indica desde qué lado del valor se realiza el ofuscamiento.
 
 - Type: `String`
 - Default: `right`
 - Values: `left | right`
-- Example: `****123456784126 | 400012345678****`
+- Example: `****123456784126` (left) | `400012345678****` (right)
 
-`remove`: Remueve la key con su valor.
+`remove`: Si es `true`, elimina la key y su valor del objeto en lugar de ofuscar.
 
 - Type: `Boolean`
 - Default: `false`
 
-`serialize`: Maneja la salida del ofuscamiento. Si se proporciona una función, se utilizará para serializar el objeto
-redactado, en caso de configurarlo en `true` devuelve un `JSON.stringify`, de lo contrario devuelve el `JSON`.
+`strict`: Si es `true`, lanza un error cuando un path indicado no existe en el objeto a ofuscar. Si es `false`
+(por defecto), ignora los paths faltantes silenciosamente.
 
-- Type: `Boolean|Function`
+- Type: `Boolean`
+- Default: `false`
+
+`serialize`: Controla la salida del proceso de ofuscamiento. Si es `false`, retorna el objeto JavaScript mutado.
+Si es `true`, retorna el resultado de `JSON.stringify`. Si se proporciona una función, la utiliza como serializador
+personalizado.
+
+- Type: `Boolean | Function`
 - Default: `false`
 
 </details>
 
-Instanciar `RedactModule` en el módulo correspondiente, si es global para una aplicación (recomendado), estaría en el
-`app.module.ts`, o bien en el módulo que requiera utilizar esta funcionalidad, en el caso de una lib estaría en el
-módulo principal de esa lib.
+### 👨‍💻 Uso con configuración centralizada
+
+Importar `RedactModule` en el módulo raíz de la aplicación (recomendado como global):
 
 ```typescript
 //./src/app.module.ts
-import { RedactModule } from '@tresdoce-nestjs-toolkit/paas';
+import { RedactModule } from '@tresdoce-nestjs-toolkit/utils';
 
 @Module({
   imports: [
@@ -152,12 +160,13 @@ import { RedactModule } from '@tresdoce-nestjs-toolkit/paas';
 export class AppModule {}
 ```
 
-O bien puedes utilizar el metódo `.register()` para configurar el módulo en caso de no querer usar la configuración
-centralizada.
+### 👨‍💻 Uso con `.register()`
+
+Para configurar el módulo de forma estática sin depender de `ConfigService`:
 
 ```typescript
 //./src/app.module.ts
-import { RedactModule } from '@tresdoce-nestjs-toolkit/paas';
+import { RedactModule } from '@tresdoce-nestjs-toolkit/utils';
 
 @Module({
   imports: [
@@ -174,12 +183,13 @@ import { RedactModule } from '@tresdoce-nestjs-toolkit/paas';
 export class AppModule {}
 ```
 
-Cuando necesite pasar las opciones del módulo de forma asincrónica en lugar de estática, utilice el
-método `.registerAsync()`.
+### 👨‍💻 Uso con `.registerAsync()`
+
+Para pasar las opciones de forma asincrónica:
 
 ```typescript
 //./src/app.module.ts
-import { RedactModule } from '@tresdoce-nestjs-toolkit/paas';
+import { RedactModule } from '@tresdoce-nestjs-toolkit/utils';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
@@ -197,372 +207,302 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 export class AppModule {}
 ```
 
-O también puede hacerlo asi.
+### Inyectando `RedactService`
+
+> ⚠️ `RedactModule` es `@Global()`, por lo que `RedactService` está disponible en toda la aplicación una vez importado el módulo en `AppModule`.
+
+> ⚠️ El método `obfuscate()` realiza una **mutación** del objeto recibido internamente (trabaja sobre una copia profunda). El objeto original no se modifica.
+
+```typescript
+// ./my-service.ts
+import { Injectable } from '@nestjs/common';
+import { RedactService } from '@tresdoce-nestjs-toolkit/utils';
+
+@Injectable()
+export class MyService {
+  constructor(private readonly redactService: RedactService) {}
+
+  async funcOfService(data: object) {
+    // _serialize = true (default): retorna el objeto JavaScript con los valores ofuscados
+    const redacted = this.redactService.obfuscate(data);
+    // Return: { myKey: 'value-obfuscxxxx' }
+
+    // _serialize = false: retorna el resultado como string JSON
+    const redactedString = this.redactService.obfuscate(data, false);
+    // Return: '{"myKey":"value-obfuscxxxx"}'
+  }
+}
+```
+
+---
+
+## Format
+
+El módulo **Format** expone el servicio `FormatService` con utilidades para formatear números y fechas.
+`FormatModule` es un módulo global que puede importarse una sola vez en `AppModule`.
+
+### ⚙️ Configuración
+
+`FormatModule` no requiere configuración centralizada. Basta con importarlo en el módulo donde se necesite,
+o en `AppModule` para disponibilizarlo globalmente:
 
 ```typescript
 //./src/app.module.ts
-import { RedactModule } from '@tresdoce-nestjs-toolkit/paas';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { FormatModule } from '@tresdoce-nestjs-toolkit/utils';
 
 @Module({
   imports: [
     //...
-    RedactModule.registerAsync({
-      useFactory: () => ({
-        paths: ['my.path'],
-        censor: 'xxxx',
-        obfuscateFrom: 'left',
-      }),
-    }),
+    FormatModule,
     //...
   ],
-  //...
 })
 export class AppModule {}
 ```
 
-<a name="uso-redact"></a>
-
-### 👨‍💻 Uso
-
-> ⚠️ Considerar que el `RedactModule` realiza una mutación del valor del parámetro, por lo que si no se maneja
-> adecuadamente, podría retornar el dato modificado.
-
-```typescript
-// ./my-service.ts
-import { RedactService } from '@tresdoce-nestjs-toolkit/paas';
-
-export class MyService {
-  constructor(@Inject(RedactService) private redactService: RedactService) {}
-
-  async funcOfService(data) {
-    //...
-    console.log(this.redactService.obfuscate(data));
-    // Return { myKey: 'value-obfuscxxxx' }
-
-    console.log(this.redactService.obfuscate(data, false)); // retorna como string
-    // Return "{ \"myKey\": \"value-obfuscxxxx\" }"
-    //...
-  }
-}
-```
-
-## Format Number
-
-El servicio `FormatService` tiene disponible la función `.formatNumber()` que tiene como fin formatear números, utilizando
-el método [`Intl.NumberFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat)
-que es un objeto integrado en JavaScript que permite el formateo numérico sensible al idioma.
-Proporciona una forma flexible de convertir un número en una cadena con formato, teniendo en cuenta las convenciones
-locales de formateo numérico cómo asi también soporta opciones personalizadas de formateo.
-
-<a name="uso-format-number"></a>
-
-### 👨‍💻 Uso
-
-Importar el `FormatService` como provider en el módulo que va a hacer uso de este servicio.
+Si se prefiere usar `FormatService` sin importar el módulo global, puede agregarse directamente como provider:
 
 ```typescript
 // ./src/my.module.ts
 import { Module } from '@nestjs/common';
-import { FormatService } from '@tresdoce-nestjs-toolkit/paas';
+import { FormatService } from '@tresdoce-nestjs-toolkit/utils';
 
 @Module({
-  //...
-  providers: [
-    //...
-    FormatService,
-    //...
-  ],
-  //...
+  providers: [FormatService],
+  exports: [FormatService],
 })
 export class MyModule {}
 ```
 
-Luego hay que inyectar el `FormatService` en el servicio.
+### 👨‍💻 Uso
+
+Inyectar `FormatService` en el servicio:
 
 ```typescript
 // ./src/my.service.ts
-import { Inject, Injectable } from '@nestjs/common';
-import { FormatService } from '@tresdoce-nestjs-toolkit/paas';
+import { Injectable } from '@nestjs/common';
+import { FormatService } from '@tresdoce-nestjs-toolkit/utils';
 
 @Injectable()
 export class MyService {
-  constructor(@Inject(FormatService) private readonly formatService: FormatService) {}
+  constructor(private readonly formatService: FormatService) {}
+}
+```
 
-  formatNumberToUSDCurrency() {
-    const formatOptions = {
+### .formatNumber()
+
+Formatea un número usando [`Intl.NumberFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat).
+
+```typescript
+formatNumberToUSDCurrency() {
+  return this.formatService.formatNumber({
+    num: 123456.789,
+    locale: 'es-AR',
+    formatOptions: {
       style: 'currency',
       currency: 'USD',
       currencyDisplay: 'narrowSymbol',
-    };
-
-    return this.formatService.formatNumber({ num: 123456.789, formatOptions, locale: 'es-AR' });
-    // Return: $ 123.456,79
-  }
+    },
+  });
+  // Return: '$ 123.456,79'
 }
 ```
 
 <details>
-<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+<summary>💬 Propiedades de FormatNumberOptions</summary>
 
-La función `.formatNumber()` admite un objeto con tres parámetros los cuales se detallan a continuación.
+`num`: El número a formatear. **Requerido.**
 
-`num`: El número a darle un formato el cual es requerido.
+- Type: `number`
+- Example: `123456.789 | 16 | -3500`
 
-- Type: `Number`
-- Example: `'123456.789 | 16 | -3500'`
+`formatOptions`: Opciones de formato de `Intl.NumberFormat`.
+[Documentación](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#options)
 
-`formatOptions`: Es la customización para darle formato al número a formatear. Para más información sobre que parámetros
-admite es recomendable leer la [Documentación de Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#options)
-
-- Type: `Object`
+- Type: `Intl.NumberFormatOptions`
 - Example: `{ style: 'currency', currency: 'USD' }`
 
-`locale`: Este parámetro sirve para configurar la internalización para el formateo. [Locales](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#locales)
+`locale`: Locale de internacionalización.
+[Locales](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#locales)
 
-- Type: `String`
+- Type: `string`
 - Default: `'es-AR'`
 - Example: `'en-US' | 'de-DE' | 'en-IN' | 'en-GB'`
 
 </details>
 
-## Format Date
-
-El servicio `FormatService` tiene disponible funciones que tiene como fin trabajar y manipular fechas utilizando
-[Luxon](https://moment.github.io/luxon/#/) como dependencia base.
-
-#### Funciones disponibles
-
-- `.dateTimeRef()`: Retorna la instancia `DateTime` de **Luxon**.
-- `.formatDate()`: Formatea un valor de tipo `Date`.
-- `.dateToISO()`: Convierte un valor de tipo `Date` a formato ISO 8601 (Default zone: 0)
-- `.calculateTimestampDiff()`: Calcula la diferencia entre dos valores `timestamp`.
-
-<a name="uso-format-date"></a>
-
-### 👨‍💻 Uso
-
-Importar el `FormatService` como provider en el módulo que va a hacer uso de este servicio.
-
-```typescript
-// ./src/my.module.ts
-import { Module } from '@nestjs/common';
-import { FormatService } from '@tresdoce-nestjs-toolkit/paas';
-
-@Module({
-  //...
-  providers: [
-    //...
-    FormatService,
-    //...
-  ],
-  //...
-})
-export class MyModule {}
-```
-
-Luego hay que inyectar el `FormatService` en el servicio.
-
 ### .dateTimeRef()
 
+Retorna la instancia `DateTime` de [Luxon](https://moment.github.io/luxon/#/) para usar directamente.
+
 ```typescript
-// ./src/my.service.ts
-import { Inject, Injectable } from '@nestjs/common';
 import {
   FormatService,
-  DEFAULT_TIMEZONE, // utc
-  DEFAULT_TIMEZONE_LOCALE, // 'America/Argentina/Buenos_Aires'
-} from '@tresdoce-nestjs-toolkit/paas';
+  DEFAULT_TIMEZONE,
+  DEFAULT_TIMEZONE_LOCALE,
+} from '@tresdoce-nestjs-toolkit/utils';
 
-@Injectable()
-export class MyService {
-  constructor(@Inject(FormatService) private readonly formatService: FormatService) {}
-
-  myFunction() {
-    const cDate = this.formatService.dateTimeRef().now();
-    return {
-      '1': cDate, // Return: Object DateTime
-      '2': cDate.toISO(), // Return: 2023-07-13T16:12:09.470+00:00
-      '3': cDate.setZone(DEFAULT_TIMEZONE).toISO(), // Return: 2023-07-13T16:12:09.473Z
-      '4': cDate.setZone(DEFAULT_TIMEZONE_LOCALE).toISO(), // Return: 2023-07-13T13:12:09.473-03:00
-    };
-  }
+myFunction() {
+  const cDate = this.formatService.dateTimeRef().now();
+  return {
+    '1': cDate,                                            // Object DateTime de Luxon
+    '2': cDate.toISO(),                                    // '2023-07-13T16:12:09.470+00:00'
+    '3': cDate.setZone(DEFAULT_TIMEZONE).toISO(),          // '2023-07-13T16:12:09.473Z'
+    '4': cDate.setZone(DEFAULT_TIMEZONE_LOCALE).toISO(),   // '2023-07-13T13:12:09.473-03:00'
+  };
 }
 ```
 
 ### .formatDate()
 
+Formatea un objeto `Date` en un string con el formato y zona horaria especificados.
+
 ```typescript
-// ./src/my.service.ts
-import { Inject, Injectable } from '@nestjs/common';
-import { FormatService } from '@tresdoce-nestjs-toolkit/paas';
+myFunction() {
+  const cDate = new Date();
 
-@Injectable()
-export class MyService {
-  constructor(@Inject(FormatService) private readonly formatService: FormatService) {}
+  return {
+    '1': this.formatService.formatDate({ date: cDate }),
+    // Return: '20/12/2022 14:37:17.020'
 
-  myFunction() {
-    const cDate = new Date();
-
-    const formatDateOpts = {
+    '2': this.formatService.formatDate({
+      date: cDate,
       formatDate: 'fff',
       timezone: 'Europe/Paris',
-      locale: 'fr'
-    };
-
-    return {
-      '1':this.formatService.formatDate({ date: cDate }) },// Return: 20/12/2022 14:37:17.020
-      '2':this.formatService.formatDate({ date: cDate, ...formatDateOpts}) }, // Return: 20 décembre 2022, 15:37.020 UTC+1
-  }
+      locale: 'fr',
+    }),
+    // Return: '20 décembre 2022, 15:37.020 UTC+1'
+  };
 }
 ```
 
 <details>
-<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+<summary>💬 Propiedades de FormatDateOptions</summary>
 
-La función `.formatDate()` admite un objeto con cuatro parámetros los cuales se detallan a continuación.
-
-`date`: Es la fecha a formatear.
+`date`: Fecha a formatear. **Requerida.**
 
 - Type: `Date`
-- Example: `'2022-12-20T14:37:17.020Z'`
 
-`formatDate`: Es el formato a convertir la fecha ingresada, Para más información sobre que formato puedes revisar la
-[documentación de Luxon](https://moment.github.io/luxon/#/formatting?id=table-of-tokens)
+`formatDate`: Formato de salida. Ver
+[tokens de Luxon](https://moment.github.io/luxon/#/formatting?id=table-of-tokens).
 
-- Type: `String`
+- Type: `string`
 - Default: `'dd/LL/yyyy TT.SSS'`
 
-`timezone`: Es la zona horaria para ajustar la fecha ingresada.
+`timezone`: Zona horaria para ajustar la fecha.
 
-- Type: `String`
+- Type: `string`
 - Default: `'utc'`
-- Example: ` 'America/Argentina/Buenos_Aires' | 'Europe/Paris'`
+- Example: `'America/Argentina/Buenos_Aires' | 'Europe/Paris'`
 
-`locale`: Este parámetro sirve para configurar la internalización para el formateo. [Locales](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#locales)
+`locale`: Locale de internacionalización.
 
-- Type: `String`
+- Type: `string`
 - Default: `'es-AR'`
-- Example: `'en-US' | 'de-DE' | 'en-IN' | 'en-GB'`
 
 </details>
 
 ### .dateToISO()
 
+Convierte un objeto `Date` a string en formato ISO 8601.
+
 ```typescript
-// ./src/my.service.ts
-import { Inject, Injectable } from '@nestjs/common';
-import { FormatService, DEFAULT_TIMEZONE_LOCALE } from '@tresdoce-nestjs-toolkit/paas';
+myFunction() {
+  const cDate = new Date();
+  return {
+    '1': this.formatService.dateToISO({ date: cDate }),
+    // Return: '2023-07-12T12:06:29.957Z'
 
-@Injectable()
-export class MyService {
-  constructor(@Inject(FormatService) private readonly formatService: FormatService) {}
-
-  myFunction() {
-    const cDate = new Date();
-    return {
-      '1': this.formatService.dateToISO({ date: cDate }), // Return: 2023-07-12T12:06:29.957Z
-      '2': this.formatService.dateToISO({ date: cDate, timezone: DEFAULT_TIMEZONE_LOCALE }), // Return: 2023-07-12T09:06:29.957-03:00
-    };
-  }
+    '2': this.formatService.dateToISO({ date: cDate, timezone: DEFAULT_TIMEZONE_LOCALE }),
+    // Return: '2023-07-12T09:06:29.957-03:00'
+  };
 }
 ```
 
 <details>
-<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+<summary>💬 Propiedades de ISOFormatDateOptions</summary>
 
-La función `.dateToISO()` admite un objeto con dos parámetros los cuales se detallan a continuación.
-
-`date`: Es la fecha a formatear.
+`date`: Fecha a convertir. **Requerida.**
 
 - Type: `Date`
-- Example: `'2022-12-20T14:37:17.020Z'`
 
-`timezone`: Es la zona horaria para ajustar la fecha ingresada.
+`timezone`: Zona horaria para ajustar la fecha.
 
-- Type: `String`
+- Type: `string`
 - Default: `'utc'`
-- Example: ` 'America/Argentina/Buenos_Aires' | 'Europe/Paris'`
+- Example: `'America/Argentina/Buenos_Aires' | 'Europe/Paris'`
 
 </details>
 
 ### .calculateTimestampDiff()
 
+Calcula la diferencia entre dos timestamps en milisegundos (u otra unidad).
+
 ```typescript
-// ./src/my.service.ts
-import { Inject, Injectable } from '@nestjs/common';
-import { FormatService } from '@tresdoce-nestjs-toolkit/paas';
+myFunction() {
+  const startTimestamp = 1689208308510;
+  const endTimestamp = 1689208308525;
 
-@Injectable()
-export class MyService {
-  constructor(@Inject(FormatService) private readonly formatService: FormatService) {}
+  return {
+    '1': this.formatService.calculateTimestampDiff({
+      startTime: startTimestamp,
+      endTime: endTimestamp,
+    }),
+    // Return: 15  (número, en milisegundos)
 
-  myFunction() {
-    const startTimestamp = 1689208308510;
-    const endTimestamp = 1689208308525;
-    const optionsCalculate = { unit: 'seconds', addSuffix: true };
-
-    return {
-      '1': this.formatService.calculateTimestampDiff({
-        startTime: startTimestamp,
-        endTime: endTimestamp,
-      }), //Return: 15
-      '2': this.formatService.calculateTimestampDiff({
-        startTime: startTimestamp,
-        endTime: endTimestamp,
-        options: optionsCalculate,
-      }), //Return: '0.015s'
-    };
-  }
+    '2': this.formatService.calculateTimestampDiff({
+      startTime: startTimestamp,
+      endTime: endTimestamp,
+      options: { unit: 'seconds', addSuffix: true },
+    }),
+    // Return: '0.015s'
+  };
 }
 ```
 
 <details>
-<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+<summary>💬 Propiedades de CalculateTimestampDiffOptions</summary>
 
-La función `.calculateTimestampDiff()` admite un objeto con tres parámetros los cuales se detallan a continuación.
-
-`startTime`: Es el `timestamp` de inicio o más viejo a comparar y obtener la diferencia.
+`startTime`: Timestamp de inicio (más antiguo). **Requerido.**
 
 - Type: `number`
 - Example: `1689208308510`
 
-`endTime`: Es el `timestamp` más reciente a comparar y obtener la diferencia con el `startTime`.
+`endTime`: Timestamp de fin (más reciente). **Requerido.**
 
 - Type: `number`
 - Example: `1689208308525`
 
-`options`: Es un objeto de configuración el cual admite dos propiedades. `unit` es la unidad a retornar la diferencia
-entre los datos ingresados y `addSuffix` agrega la unidad en la salida, dependiendo el valor de este último, la salida
-puede ser de tipo `number` o `string`
+`options`: Objeto de configuración opcional.
 
-- Type: `Object`
+- Type: `TimestampDiffOptions`
 - Default: `{ unit: 'milliseconds', addSuffix: false }`
-- Example: ` { unit: 'seconds', addSuffix: true }`
+  - `unit`: Unidad del resultado (`TimeUnit`). Cuando `addSuffix` es `false` devuelve `number`; cuando es `true` devuelve `string`.
+  - `addSuffix`: Agrega el sufijo de la unidad al resultado.
 
 </details>
 
+---
+
 ## Bcrypt
 
-El módulo Bcrypt proporciona funcionalidades para encriptar, hashear y comparar datos utilizando el algoritmo bcrypt.
+El módulo **Bcrypt** proporciona funcionalidades para encriptar, hashear y comparar datos usando el algoritmo bcrypt.
 
 ### ⚙️ Configuración
 
-Agregar los parámetros de configuración de **Bcrypt** en `configuration.ts` utilizando el key `bcrypt` y que
-contenga el objeto con todas sus propiedades para utilizar la encriptación y hash con valores custom, en caso contrario,
-no es necesario modificar el configuration.
+`BcryptModule` toma su configuración desde la key `bcrypt` de `configuration.ts`. Si no se define, usa los valores por defecto.
 
 ```typescript
 //./src/config/configuration.ts
-import { Typings } from '@tresdoce-nestjs-toolkit/paas';
+import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('config', (): Typings.AppConfig => {
   return {
     //...
     bcrypt: {
-      rounds: 16,
-      minor: 'b',
+      rounds: 16, // default: 16
+      minor: 'b', // default: 'b'
     },
     //...
   };
@@ -570,191 +510,182 @@ export default registerAs('config', (): Typings.AppConfig => {
 ```
 
 <details>
-<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
+<summary>💬 Propiedades de BcryptOptions</summary>
 
-`rounds`: Número de rondas de sal para generar la sal
+`rounds`: Número de rondas de sal para la generación del hash. A mayor valor, más seguro pero más lento.
 
-- Type: `Number`
+- Type: `number`
 - Default: `16`
-- Example: `10`
 
-`minor`: Versión menor de **bcrypt** a utilizar
+`minor`: Versión menor de bcrypt a utilizar (`'a'` o `'b'`).
 
-- Type: `String`
-- Default: `b`
-- Example: ` a`
+- Type: `BcryptVersion` (`'a' | 'b'`)
+- Default: `'b'`
 
 </details>
 
 ### 👨‍💻 Uso
 
-Importar el `BcryptModule` en el módulo principal de la aplicación.
+Importar `BcryptModule` en el módulo que lo requiera:
 
 ```typescript
 // ./src/my.module.ts
 import { Module } from '@nestjs/common';
-import { BcryptModule } from '@tresdoce-nestjs-toolkit/paas';
+import { BcryptModule } from '@tresdoce-nestjs-toolkit/utils';
 
 @Module({
-  //...
-  imports: [
-    //...
-    BcryptModule,
-    //...
-  ],
-  //...
+  imports: [BcryptModule],
 })
 export class MyModule {}
 ```
 
-Luego hay que inyectar el `BcryptService` en el servicio para hacer uso de los métodos disponibles.
-
-#### encrypt
-
-Encripta los datos asincrónicamente.
+Inyectar `BcryptService` en el servicio:
 
 ```typescript
 // ./src/my.service.ts
-import { Inject, Injectable } from '@nestjs/common';
-import { BcryptService } from '@tresdoce-nestjs-toolkit/paas';
+import { Injectable } from '@nestjs/common';
+import { BcryptService } from '@tresdoce-nestjs-toolkit/utils';
 
 @Injectable()
 export class MyService {
   constructor(private readonly bcryptService: BcryptService) {}
-
-  async encryptExample() {
-    const data = 'password';
-    const encryptedData = await this.bcryptService.encrypt(data);
-    console.log('Encrypted data:', encryptedData);
-  }
 }
 ```
 
-#### compare
-
-Compara los datos con los datos encriptados asincrónicamente.
+#### encrypt (async)
 
 ```typescript
-// ./src/my.service.ts
-import { Inject, Injectable } from '@nestjs/common';
-import { BcryptService } from '@tresdoce-nestjs-toolkit/paas';
-
-@Injectable()
-export class MyService {
-  constructor(private readonly bcryptService: BcryptService) {}
-
-  async compareExample() {
-    const data = 'password';
-    const encryptedData = await this.bcryptService.encrypt(data);
-    const isMatch = await this.bcryptService.compare(data, encryptedData);
-    console.log('Data matches encrypted data:', isMatch);
-  }
+async encryptExample() {
+  const encrypted = await this.bcryptService.encrypt('password');
+  console.log(encrypted); // '$2b$16$...'
 }
 ```
 
-#### encryptSync
-
-Encripta los datos sincrónicamente.
+#### encryptSync (sync)
 
 ```typescript
-// ./src/my.service.ts
-import { Inject, Injectable } from '@nestjs/common';
-import { BcryptService } from '@tresdoce-nestjs-toolkit/paas';
-
-@Injectable()
-export class MyService {
-  constructor(private readonly bcryptService: BcryptService) {}
-
-  encryptSyncExample() {
-    const data = 'password';
-    const encryptedData = this.bcryptService.encryptSync(data);
-    console.log('Encrypted data:', encryptedData);
-  }
+encryptSyncExample() {
+  const encrypted = this.bcryptService.encryptSync('password');
+  console.log(encrypted); // '$2b$16$...'
 }
 ```
 
-#### compareSync
-
-Compara los datos con los datos encriptados sincrónicamente.
+#### compare (async)
 
 ```typescript
-// ./src/my.service.ts
-import { Inject, Injectable } from '@nestjs/common';
-import { BcryptService } from '@tresdoce-nestjs-toolkit/paas';
+async compareExample() {
+  const encrypted = await this.bcryptService.encrypt('password');
+  const isMatch = await this.bcryptService.compare('password', encrypted);
+  console.log(isMatch); // true
+}
+```
 
-@Injectable()
-export class MyService {
-  constructor(private readonly bcryptService: BcryptService) {}
+#### compareSync (sync)
 
-  compareSyncExample() {
-    const data = 'password';
-    const encryptedData = this.bcryptService.encryptSync(data);
-    const isMatch = this.bcryptService.compareSync(data, encryptedData);
-    console.log('Data matches encrypted data:', isMatch);
-  }
+```typescript
+compareSyncExample() {
+  const encrypted = this.bcryptService.encryptSync('password');
+  const isMatch = this.bcryptService.compareSync('password', encrypted);
+  console.log(isMatch); // true
 }
 ```
 
 #### generatePasswordHash
 
-Genera un hash seguro para una contraseña.
+Genera un hash seguro para una contraseña de forma sincrónica.
 
 ```typescript
-// ./src/my.service.ts
-import { Inject, Injectable } from '@nestjs/common';
-import { BcryptService } from '@tresdoce-nestjs-toolkit/paas';
-
-@Injectable()
-export class MyService {
-  constructor(private readonly bcryptService: BcryptService) {}
-
-  generatePasswordHashExample() {
-    const password = 'password';
-    const hash = this.bcryptService.generatePasswordHash(password);
-    console.log('Password hash:', hash);
-  }
+generatePasswordHashExample() {
+  const hash = this.bcryptService.generatePasswordHash('password');
+  console.log(hash); // '$2b$16$...'
 }
 ```
 
 #### validateHash
 
-Válida si un hash es válido para las rondas de sal actuales.
+Valida si un hash fue generado con las rondas de sal actuales.
 
 ```typescript
-// ./src/my.service.ts
-import { Inject, Injectable } from '@nestjs/common';
-import { BcryptService } from '@tresdoce-nestjs-toolkit/paas';
-
-@Injectable()
-export class MyService {
-  constructor(private readonly bcryptService: BcryptService) {}
-
-  validateHashExample() {
-    const password = 'password';
-    const hash = this.bcryptService.generatePasswordHash(password);
-    const isValid = this.bcryptService.validateHash(hash);
-    console.log('Is hash valid?', isValid);
-  }
+validateHashExample() {
+  const hash = this.bcryptService.generatePasswordHash('password');
+  const isValid = this.bcryptService.validateHash(hash);
+  console.log(isValid); // true
 }
 ```
 
 #### generateSalt
 
-Genera una nueva sal para usar en el proceso de hash.
+Genera una nueva sal. Se ejecuta automáticamente en el constructor con los valores configurados.
 
 ```typescript
-// ./src/my.service.ts
-import { Inject, Injectable } from '@nestjs/common';
-import { BcryptService } from '@tresdoce-nestjs-toolkit/paas';
-
-@Injectable()
-export class MyService {
-  constructor(private readonly bcryptService: BcryptService) {
-    this.bcryptService.generateSalt(10, 'a');
-  }
-  //...
-}
+// Usar con valores custom (sobreescribe la sal interna del servicio)
+this.bcryptService.generateSalt(10, 'a');
 ```
+
+---
+
+<a name="api-reference"></a>
+
+## 📖 API Reference
+
+### Módulos
+
+| Módulo         | Descripción                       | Global |
+| -------------- | --------------------------------- | ------ |
+| `RedactModule` | Ofuscamiento de datos sensibles   | Sí     |
+| `FormatModule` | Formateo de números y fechas      | Sí     |
+| `BcryptModule` | Encriptación y hashing con bcrypt | Sí     |
+
+### Servicios
+
+| Servicio        | Módulo         | Métodos                                                                                                                  |
+| --------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `RedactService` | `RedactModule` | `obfuscate(data, serialize?)`                                                                                            |
+| `FormatService` | `FormatModule` | `formatNumber()`, `dateTimeRef()`, `formatDate()`, `dateToISO()`, `calculateTimestampDiff()`                             |
+| `BcryptService` | `BcryptModule` | `encrypt()`, `encryptSync()`, `compare()`, `compareSync()`, `generatePasswordHash()`, `validateHash()`, `generateSalt()` |
+
+### Interfaces
+
+| Interfaz                        | Descripción                                     |
+| ------------------------------- | ----------------------------------------------- |
+| `RedactOptions`                 | Opciones del módulo Redact                      |
+| `RedactModuleOptions`           | Alias de `RedactOptions`                        |
+| `RedactModuleOptionsFactory`    | Factory para opciones async de Redact           |
+| `RedactModuleAsyncOptions`      | Opciones async para `registerAsync()`           |
+| `BcryptOptions`                 | Opciones del módulo Bcrypt                      |
+| `FormatNumberOptions`           | Parámetros de `formatNumber()`                  |
+| `FormatDateOptions`             | Parámetros de `formatDate()`                    |
+| `ISOFormatDateOptions`          | Parámetros de `dateToISO()`                     |
+| `CalculateTimestampDiffOptions` | Parámetros de `calculateTimestampDiff()`        |
+| `TimestampDiffOptions`          | Sub-opciones de `CalculateTimestampDiffOptions` |
+
+### Tipos y enums
+
+| Símbolo         | Tipo | Valores / Descripción                      |
+| --------------- | ---- | ------------------------------------------ | --------- | --------- | ------- | ------ | ------- | -------- | -------- |
+| `BcryptVersion` | type | `'a'                                       | 'b'`      |
+| `TimeUnit`      | type | `'milliseconds'                            | 'seconds' | 'minutes' | 'hours' | 'days' | 'weeks' | 'months' | 'years'` |
+| `TimeSuffixes`  | enum | `ms`, `s`, `min`, `h`, `d`, `w`, `mo`, `y` |
+
+### Constantes
+
+| Constante                                  | Valor                                                                                             | Descripción                               |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| `DEFAULT_CENSOR`                           | `'****'`                                                                                          | Censor por defecto de Redact              |
+| `DEFAULT_OPTIONS_REDACT`                   | `{ paths:[], obfuscateFrom:'right', censor:'****', remove:false, strict:false, serialize:false }` | Opciones por defecto de Redact            |
+| `REDACT_MODULE_OPTIONS`                    | `Symbol`                                                                                          | Token de inyección de opciones del módulo |
+| `REDACT_PROVIDER`                          | `Symbol`                                                                                          | Token del provider de fast-redact         |
+| `DEFAULT_TIMEZONE`                         | `'utc'`                                                                                           | Zona horaria por defecto (UTC)            |
+| `DEFAULT_LOCALE`                           | `'es-AR'`                                                                                         | Locale por defecto                        |
+| `DEFAULT_TIMEZONE_LOCALE`                  | `'America/Argentina/Buenos_Aires'`                                                                | Zona horaria de Buenos Aires              |
+| `DEFAULT_FORMAT_DATE`                      | `'dd/LL/yyyy TT.SSS'`                                                                             | Formato de fecha por defecto              |
+| `DEFAULT_OPTIONS_CALCULATE_TIMESTAMP_DIFF` | `{ unit: 'milliseconds', addSuffix: false }`                                                      | Opciones por defecto del cálculo de diff  |
+| `DEFAULT_SALT_ROUNDS`                      | `16`                                                                                              | Rondas de sal por defecto de Bcrypt       |
+| `DEFAULT_MINOR`                            | `'b'`                                                                                             | Versión menor por defecto de Bcrypt       |
+| `BCRYPT_DEFAULT_OPTIONS`                   | `{ rounds: 16, minor: 'b' }`                                                                      | Opciones por defecto de Bcrypt            |
+| `BCRYPT_MODULE_OPTIONS`                    | `Symbol`                                                                                          | Token de inyección de opciones de Bcrypt  |
+
+---
 
 ## 📄 Changelog
 

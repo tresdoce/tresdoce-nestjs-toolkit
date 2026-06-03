@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Reflector, ModulesContainer } from '@nestjs/core';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { SQSClient, CreateQueueCommand, ListQueuesCommand, Message } from '@aws-sdk/client-sqs';
+import { Message } from '@aws-sdk/client-sqs';
 import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
 
 import { AwsSqsListener } from '../aws-sqs/aws-sqs.listener';
@@ -17,33 +17,6 @@ describe('AwsSqsListener (Integration)', () => {
   const endpoint: string = 'http://localhost:4566';
   const queueNames: string[] = ['orders', 'notifications'];
   const messageBody: string = 'Test message';
-
-  const sqsClient: SQSClient = new SQSClient({
-    endpoint,
-    region: 'us-east-1',
-    credentials: {
-      accessKeyId: 'test',
-      secretAccessKey: 'test',
-    },
-  });
-
-  const createQueues = async (queueNames: string[]): Promise<void> => {
-    const existingQueues = await sqsClient.send(new ListQueuesCommand({}));
-
-    const existingQueueUrls: string[] = existingQueues.QueueUrls || [];
-
-    for (const queueName of queueNames) {
-      const queueExists: boolean = existingQueueUrls.some((url: string) => url.includes(queueName));
-
-      if (!queueExists) {
-        await sqsClient.send(new CreateQueueCommand({ QueueName: queueName }));
-      }
-    }
-  };
-
-  beforeAll(async (): Promise<void> => {
-    await createQueues(queueNames);
-  });
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -142,7 +115,7 @@ describe('AwsSqsListener (Integration)', () => {
 
       await (listener as any).listenToQueue(queueNames[0], mockHandler);
 
-      expect(loggerSpy).toHaveBeenCalledWith(`Error on queue ${queueNames[0]}: ${error.message}`);
+      expect(loggerSpy).toHaveBeenCalledWith(`Error processing message 1: ${error.message}`);
     });
 
     it('should log if no messages are received', async () => {
@@ -152,6 +125,18 @@ describe('AwsSqsListener (Integration)', () => {
       await (listener as any).listenToQueue(queueNames[0], jest.fn());
 
       expect(loggerSpy).toHaveBeenCalledWith(`No messages received from ${queueNames[0]}.`);
+    });
+
+    it('should log an error if polling the queue fails', async () => {
+      const error = new Error('Polling failed');
+      const loggerSpy = jest.spyOn(Logger.prototype, 'error').mockImplementation();
+      jest.spyOn(service, 'receiveMessage').mockRejectedValue(error);
+
+      await (listener as any).listenToQueue(queueNames[0], jest.fn());
+
+      expect(loggerSpy).toHaveBeenCalledWith(
+        `Error polling queue ${queueNames[0]}: ${error.message}`,
+      );
     });
   });
 

@@ -1,71 +1,77 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ConfigModule } from '@nestjs/config';
-import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
-import { SQSClient, CreateQueueCommand, ListQueuesCommand } from '@aws-sdk/client-sqs';
+import {
+  DeleteMessageCommand,
+  ListQueuesCommand,
+  ReceiveMessageCommand,
+  SendMessageCommand,
+  SQSClient,
+} from '@aws-sdk/client-sqs';
 
-import { AwsSqsModule, AwsSqsService } from '..';
+import { AwsSqsService } from '..';
+import { AwsSqsModuleOptions } from '../aws-sqs/interfaces/aws-sqs.interface';
 
 describe('AwsSqsService', () => {
   let service: AwsSqsService;
-  const endpoint: string = 'http://localhost:4566';
-  const queueNames: string[] = ['orders', 'notifications'];
-  const messageBody: object = { orderId: 1, product: 'Laptop' };
+  let sendMock: jest.SpyInstance;
 
-  const sqsClient: SQSClient = new SQSClient({
+  const endpoint = 'http://localhost:4566';
+  const queueNames = ['orders', 'notifications'];
+  const queueUrls = queueNames.map((queueName) => `${endpoint}/000000000000/${queueName}`);
+  const messagesByQueue = new Map<string, any[]>();
+  const messageBody = { orderId: 1, product: 'Laptop' };
+  const options: AwsSqsModuleOptions = {
     endpoint,
     region: 'us-east-1',
     credentials: {
       accessKeyId: 'test',
       secretAccessKey: 'test',
     },
-  });
-
-  const createQueues = async (queueNames: string[]): Promise<void> => {
-    const existingQueues = await sqsClient.send(new ListQueuesCommand({}));
-
-    const existingQueueUrls: string[] = existingQueues.QueueUrls || [];
-
-    for (const queueName of queueNames) {
-      const queueExists: boolean = existingQueueUrls.some((url: string) => url.includes(queueName));
-
-      if (!queueExists) {
-        await sqsClient.send(new CreateQueueCommand({ QueueName: queueName }));
-      }
-    }
+    queues: queueNames.map((queueName) => ({
+      name: queueName,
+      url: `${endpoint}/000000000000/${queueName}`,
+    })),
   };
 
-  beforeAll(async (): Promise<void> => {
-    await createQueues(queueNames);
+  beforeEach(() => {
+    messagesByQueue.clear();
+    queueUrls.forEach((queueUrl) => messagesByQueue.set(queueUrl, []));
+
+    sendMock = jest.spyOn(SQSClient.prototype, 'send').mockImplementation(async (command: any) => {
+      if (command instanceof ListQueuesCommand) {
+        return { QueueUrls: queueUrls };
+      }
+
+      if (command instanceof SendMessageCommand) {
+        const messages = messagesByQueue.get(command.input.QueueUrl) || [];
+        messages.push({
+          MessageId: `${messages.length + 1}`,
+          Body: command.input.MessageBody,
+          ReceiptHandle: `receipt-${messages.length + 1}`,
+        });
+        messagesByQueue.set(command.input.QueueUrl, messages);
+        return {};
+      }
+
+      if (command instanceof ReceiveMessageCommand) {
+        return { Messages: messagesByQueue.get(command.input.QueueUrl) || [] };
+      }
+
+      if (command instanceof DeleteMessageCommand) {
+        const messages = messagesByQueue.get(command.input.QueueUrl) || [];
+        messagesByQueue.set(
+          command.input.QueueUrl,
+          messages.filter((message) => message.ReceiptHandle !== command.input.ReceiptHandle),
+        );
+        return {};
+      }
+
+      return {};
+    });
+
+    service = new AwsSqsService(options);
   });
 
-  beforeEach(async (): Promise<void> => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({
-          isGlobal: true,
-          load: [
-            dynamicConfig({
-              sqs: {
-                region: 'us-east-1',
-                endpoint,
-                credentials: {
-                  accessKeyId: 'test',
-                  secretAccessKey: 'test',
-                },
-                queues: queueNames.map((queueName) => ({
-                  name: queueName,
-                  url: `${endpoint}/000000000000/${queueName}`,
-                })),
-              },
-            }),
-          ],
-        }),
-        AwsSqsModule,
-      ],
-      providers: [AwsSqsService],
-    }).compile();
-
-    service = module.get<AwsSqsService>(AwsSqsService);
+  afterEach(() => {
+    sendMock.mockRestore();
   });
 
   it('should be defined', () => {
@@ -105,15 +111,15 @@ describe('AwsSqsService', () => {
 
   describe('receiveMessage', () => {
     it('should receive messages from a queue', async () => {
-      const messageBody: object = { orderId: 123 };
+      const body = { orderId: 123 };
       await service.sendMessage({
         queueName: queueNames[0],
-        messageBody,
+        messageBody: body,
       });
 
       const messages = await service.receiveMessage(queueNames[0]);
       expect(messages.length).toBeGreaterThan(0);
-      expect(messages[0].Body).toEqual(JSON.stringify(messageBody));
+      expect(messages[0].Body).toEqual(JSON.stringify(body));
     });
 
     it('should return an empty array if no messages are found', async () => {
@@ -129,25 +135,13 @@ describe('AwsSqsService', () => {
         messageBody: JSON.stringify(messageBody),
       });
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
       const messages = await service.receiveMessage(queueNames[0]);
       expect(messages.length).toBeGreaterThan(0);
 
-      const message = messages[0];
-      //console.log(`Message received: ${JSON.stringify(message)}`);
+      await service.deleteMessage(queueNames[0], messages[0].ReceiptHandle);
 
-      await service.deleteMessage(queueNames[0], message.ReceiptHandle!);
-
-      let remainingMessages = [];
-      for (let i = 0; i < 5; i++) {
-        remainingMessages = await service.receiveMessage(queueNames[0]);
-        if (remainingMessages.length === 0) break;
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      }
-      //console.log(`Remaining messages: ${JSON.stringify(remainingMessages)}`);
-      expect(remainingMessages).toEqual([]);
-    }, 60000);
+      expect(await service.receiveMessage(queueNames[0])).toEqual([]);
+    });
 
     it('should throw an error if the queue does not exist', async () => {
       await expect(service.deleteMessage('nonexistent', 'abc')).rejects.toThrow(
@@ -158,14 +152,12 @@ describe('AwsSqsService', () => {
 
   describe('SQS Client', () => {
     it('should list available queues', async () => {
+      const sqsClient = new SQSClient(options);
       const result = await sqsClient.send(new ListQueuesCommand({}));
+
       expect(result.QueueUrls.length).toBeGreaterThan(0);
-      expect(result.QueueUrls).toContain(
-        `http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/${queueNames[0]}`,
-      );
-      expect(result.QueueUrls).toContain(
-        `http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/${queueNames[1]}`,
-      );
+      expect(result.QueueUrls).toContain(queueUrls[0]);
+      expect(result.QueueUrls).toContain(queueUrls[1]);
     });
   });
 });

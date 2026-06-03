@@ -23,6 +23,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [⚙️ Configuración](#configurations)
 - [👨‍💻 Uso](#use)
+- [📖 API Reference](#api-reference)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
 
@@ -50,12 +51,16 @@ npm install -S @tresdoce-nestjs-toolkit/redis
 yarn add @tresdoce-nestjs-toolkit/redis
 ```
 
+## 📦 Dependencias internas
+
+Este paquete no tiene dependencias internas del toolkit. Puede utilizarse de forma independiente.
+
 <a name="configurations"></a>
 
 ## ⚙️ Configuración
 
-Agregar los datos de conexión a la Redis en `configuration.ts` utilizando el key `redis` y que contenga el
-objeto con los datos conexión desde las variables de entorno.
+Agregar los datos de conexión a Redis en `configuration.ts` utilizando el key `redis` con los datos de conexión
+desde las variables de entorno.
 
 ```typescript
 //./src/config/configuration.ts
@@ -77,51 +82,64 @@ export default registerAs('config', (): Typings.AppConfig => {
 });
 ```
 
+### URL de conexión
+
+El módulo construye automáticamente la URL de conexión a partir de los parámetros de configuración
+usando el formato:
+
+```
+redis[s]://[[username][:password]@][host][:port][/db-number]
+```
+
+Por ejemplo, con `protocol: 'redis'`, `host: 'localhost'` y `port: 6379` sin credenciales,
+la URL resultante será `redis://localhost:6379`.
+
 <details>
 <summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
 
-`name`: Es el nombre de la Redis.
+`name`: Nombre lógico de la conexión Redis. Se usa como identificador interno del cliente.
 
 - Type: `String`
 - Required: `false`
+- Default: UUID generado automáticamente
 
-`protocol`: Es el protocolo de conexión de la Redis.
+`protocol`: Protocolo de conexión.
 
 - Type: `String`
 - Required: `false`
 - Default: `redis`
 - Values: `redis | rediss`
 
-`host`: Es el servidor para conectarse a la Redis.
+`host`: Servidor para conectarse a Redis.
 
 - Type: `String`
 - Required: `true`
 - Values: `localhost | 127.0.0.1 | <host>`
 
-`port`: Es el puerto para conectarse a la Redis.
+`port`: Puerto para conectarse a Redis.
 
 - Type: `Number`
 - Required: `true`
 - Default: `6379`
 
-`username`: Es el nombre de usuario para conectarse a la Redis.
+`username`: Nombre de usuario para conectarse a Redis.
 
 - Type: `String`
 - Required: `false`
 - Default: `default`
 
-`password`: Es la contraseña de usuario para conectarse a la Redis.
+`password`: Contraseña de usuario para conectarse a Redis.
 
 - Type: `String`
 - Required: `false`
 
-`database`: Es la base de datos de la Redis.
+`database`: Base de datos de Redis (número de DB).
 
 - Type: `number`
 - Required: `false`
 - Default: `0`
 
-Para más información sobre los parámetros de conexión, puedes consultar en
+Para más información sobre los parámetros de conexión, consultar
 el [Client Configuration](https://github.com/redis/node-redis/blob/master/docs/client-configuration.md) de Redis.
 
 </details>
@@ -130,8 +148,10 @@ el [Client Configuration](https://github.com/redis/node-redis/blob/master/docs/c
 
 ## 👨‍💻 Uso
 
-Importar el `RedisModule` en el archivo `app.module.ts`, y el módulo se encargará de obtener la configuración
-y realizar la connexion automáticamente.
+### Importación del módulo (configuración centralizada)
+
+Importar el `RedisModule` en el archivo `app.module.ts`. El módulo es `@Global()` y obtiene la configuración
+automáticamente desde `ConfigService` (key `config.redis`).
 
 ```typescript
 //./src/app.module.ts
@@ -149,7 +169,29 @@ import { RedisModule } from '@tresdoce-nestjs-toolkit/redis';
 export class AppModule {}
 ```
 
-Luego inyecte el `RedisService` en su clase para poder interactuar con el cliente de Redis.
+### Importación estática con `register`
+
+Para proyectos que no usan la configuración centralizada, se puede registrar el módulo con opciones directas:
+
+```typescript
+//./src/app.module.ts
+import { RedisModule } from '@tresdoce-nestjs-toolkit/redis';
+
+@Module({
+  imports: [
+    RedisModule.register({
+      host: 'localhost',
+      port: 6379,
+      password: 'mypassword',
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+### Uso con `RedisService`
+
+Inyectar el `RedisService` en el servicio para interactuar con Redis mediante los métodos de alto nivel:
 
 ```typescript
 import { Injectable } from '@nestjs/common';
@@ -162,21 +204,38 @@ export class CatService {
   async redisEcho() {
     return await this.redisService.echo('Hello world!');
   }
-
-  //...
 }
 ```
 
-### Comandos
+### Uso con el cliente `REDIS_CLIENT`
 
-Si bien Redis tiene una gran cantidad de [comandos](https://redis.io/commands/), este módulo solo tiene habilitado los
-comandos más utilizados al momento de desarrollar una aplicación, pero de todas formas, puedes inyectar
-el `REDIS_CLIENT`
-en vez del servicio e interactuar con todos los comandos.
+Si necesitas acceso a todos los comandos de Redis, inyecta directamente el cliente nativo usando
+el token `REDIS_CLIENT`:
+
+```typescript
+import { Inject, Injectable } from '@nestjs/common';
+import { REDIS_CLIENT } from '@tresdoce-nestjs-toolkit/redis';
+import { RedisClientType } from 'redis';
+
+@Injectable()
+export class CacheService {
+  constructor(@Inject(REDIS_CLIENT) private readonly redisClient: RedisClientType) {}
+
+  async customCommand() {
+    // Acceso a todos los comandos de Redis
+    return await this.redisClient.hSet('myHash', 'field', 'value');
+  }
+}
+```
+
+### Comandos disponibles en `RedisService`
+
+Si bien Redis tiene una gran cantidad de [comandos](https://redis.io/commands/), el `RedisService` expone
+los más utilizados. Para acceder a todos los comandos, inyectar el `REDIS_CLIENT` directamente.
 
 #### Echo
 
-Retorna una cadena de texto que le envies.
+Retorna la cadena de texto enviada.
 
 ```typescript
 await this.redisService.echo('Hello world!');
@@ -184,7 +243,7 @@ await this.redisService.echo('Hello world!');
 
 #### Exists
 
-Retorna un `Boolean` si el `key` existe en la Redis.
+Retorna un `Boolean` indicando si la `key` existe en Redis.
 
 ```typescript
 await this.redisService.exists('myKey');
@@ -192,17 +251,17 @@ await this.redisService.exists('myKey');
 
 #### Set
 
-Guarda en la Redis un `value` asociado a una `key`, y tiene como parámetro opcional el tiempo de expiración en segundos.
+Guarda un `value` asociado a una `key`. El parámetro `seconds` es opcional e indica el tiempo de expiración.
 
 ```typescript
 await this.redisService.set('myKey', 'my value');
 await this.redisService.set('myKey', { key: 'value' });
-await this.redisService.set('myKey', 'my value', 10);
+await this.redisService.set('myKey', 'my value', 10); // expira en 10 segundos
 ```
 
 #### Get
 
-Retorna el `value` de la `key` guardado en la Redis.
+Retorna el valor de la `key`. Devuelve `null` si la key no existe.
 
 ```typescript
 await this.redisService.get('myKey');
@@ -210,7 +269,7 @@ await this.redisService.get('myKey');
 
 #### Del
 
-Elimina el `value` y `key` guardado en la Redis.
+Elimina la `key` y su valor de Redis. Retorna `boolean`.
 
 ```typescript
 await this.redisService.del('myKey');
@@ -218,7 +277,7 @@ await this.redisService.del('myKey');
 
 #### Copy
 
-Copia el `value` de una `key` y guarda en la Redis con el nuevo nombre.
+Copia el valor de una `key` con un nuevo nombre.
 
 ```typescript
 await this.redisService.copy('myKey', 'myKeyCopy');
@@ -226,7 +285,7 @@ await this.redisService.copy('myKey', 'myKeyCopy');
 
 #### Rename
 
-Renombra una `key` en la Redis con el nuevo nombre.
+Renombra una `key` existente.
 
 ```typescript
 await this.redisService.rename('myKeyCopy', 'myKey2');
@@ -234,11 +293,68 @@ await this.redisService.rename('myKeyCopy', 'myKey2');
 
 #### FlushAll
 
-Elimina todos los datos guardados en la Redis.
+Elimina todos los datos almacenados en Redis.
 
 ```typescript
 await this.redisService.flushAll();
 ```
+
+<a name="api-reference"></a>
+
+## 📖 API Reference
+
+### `RedisModule`
+
+Módulo global (`@Global()`). Exporta `REDIS_CLIENT` y `RedisService`.
+
+| Método                                        | Descripción                                                        |
+| --------------------------------------------- | ------------------------------------------------------------------ |
+| `RedisModule` (sin argumentos)                | Carga la configuración desde `ConfigService` (key `config.redis`). |
+| `RedisModule.register(options: RedisOptions)` | Inicialización estática con opciones directas.                     |
+
+### `RedisService`
+
+| Método      | Firma                                                         | Descripción                                 |
+| ----------- | ------------------------------------------------------------- | ------------------------------------------- |
+| `clientRef` | `get clientRef(): RedisClientType`                            | Getter que expone el cliente Redis nativo   |
+| `echo`      | `(msg: string) => Promise<string>`                            | Retorna la cadena enviada                   |
+| `exists`    | `(key: string) => Promise<boolean>`                           | Verifica si una key existe                  |
+| `set`       | `(key: string, value: any, seconds?: number) => Promise<any>` | Guarda un valor (serializado a JSON)        |
+| `get`       | `(key: string) => Promise<any>`                               | Obtiene un valor (deserializado desde JSON) |
+| `del`       | `(key: string) => Promise<boolean>`                           | Elimina una key                             |
+| `copy`      | `(source: string, destination: string) => Promise<boolean>`   | Copia una key con nuevo nombre              |
+| `rename`    | `(key: string, newKey: string) => Promise<string>`            | Renombra una key                            |
+| `flushAll`  | `() => Promise<string>`                                       | Borra toda la base de datos Redis           |
+
+### `RedisOptions`
+
+Extiende `RedisClientOptions` de la librería `redis`.
+
+| Campo      | Tipo     | Requerido | Default     | Descripción                    |
+| ---------- | -------- | --------- | ----------- | ------------------------------ |
+| `host`     | `string` | Sí        | —           | Servidor Redis                 |
+| `port`     | `number` | Sí        | `6379`      | Puerto Redis                   |
+| `protocol` | `string` | No        | `'redis'`   | Protocolo (`redis` o `rediss`) |
+| `username` | `string` | No        | `'default'` | Usuario Redis                  |
+| `password` | `string` | No        | —           | Contraseña Redis               |
+| `database` | `number` | No        | `0`         | Número de base de datos        |
+| `name`     | `string` | No        | UUID        | Nombre lógico de la conexión   |
+
+### Constantes exportadas
+
+| Constante                          | Descripción                                                     |
+| ---------------------------------- | --------------------------------------------------------------- |
+| `REDIS_CLIENT`                     | Token de inyección del cliente Redis nativo (`RedisClientType`) |
+| `REDIS_MODULE_OPTIONS`             | Token de inyección de las opciones del módulo                   |
+| `REDIS_MSG_IS_READY`               | Mensaje de log cuando Redis está listo                          |
+| `REDIS_MSG_SUCCESSFULLY_CONNECTED` | Mensaje de log cuando la conexión es exitosa                    |
+| `REDIS_MSG_ERROR_CONNECTED`        | Mensaje de log cuando ocurre un error de conexión               |
+
+### Re-exportaciones
+
+Este paquete re-exporta completamente la librería `redis` (`export * from 'redis'`), por lo que todos los tipos,
+interfaces y funciones de `redis` (como `RedisClientType`, `createClient`, etc.) pueden importarse directamente
+desde `@tresdoce-nestjs-toolkit/redis`.
 
 ## 📄 Changelog
 

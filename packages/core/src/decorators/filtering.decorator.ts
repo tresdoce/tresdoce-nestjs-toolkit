@@ -72,8 +72,11 @@ export const parseFilters = (filterParam: string): string[] => {
   let isInValue: boolean = false;
 
   for (const char of filterParam) {
-    if ((char === ':' && buffer.endsWith('in')) || buffer.endsWith('nin')) {
-      isInValue = true;
+    if (char === ':' && buffer.split(':').length === 2) {
+      const rule = buffer.split(':')[1];
+      if (rule === FilterRule.IN || rule === FilterRule.NOT_IN) {
+        isInValue = true;
+      }
     } else if (char === ',' && !isInValue) {
       filters.push(buffer);
       buffer = '';

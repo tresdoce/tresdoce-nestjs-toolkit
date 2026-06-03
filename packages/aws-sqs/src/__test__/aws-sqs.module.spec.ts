@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
-import { SQSClient, CreateQueueCommand, ListQueuesCommand } from '@aws-sdk/client-sqs';
 
 import { AwsSqsModule, AwsSqsModuleOptions, AwsSqsModuleOptionsFactory, AwsSqsService } from '..';
 
@@ -29,33 +28,6 @@ class AwsSqsConfigService implements AwsSqsModuleOptionsFactory {
 describe('AwsSqsModule', (): void => {
   let app: INestApplication;
   let awsSqsService: AwsSqsService;
-
-  const sqsClient: SQSClient = new SQSClient({
-    endpoint,
-    region: 'us-east-1',
-    credentials: {
-      accessKeyId: 'test',
-      secretAccessKey: 'test',
-    },
-  });
-
-  const createQueues = async (queueNames: string[]): Promise<void> => {
-    const existingQueues = await sqsClient.send(new ListQueuesCommand({}));
-
-    const existingQueueUrls: string[] = existingQueues.QueueUrls || [];
-
-    for (const queueName of queueNames) {
-      const queueExists: boolean = existingQueueUrls.some((url: string) => url.includes(queueName));
-
-      if (!queueExists) {
-        await sqsClient.send(new CreateQueueCommand({ QueueName: queueName }));
-      }
-    }
-  };
-
-  beforeAll(async (): Promise<void> => {
-    await createQueues(queueNames);
-  });
 
   describe('Global', () => {
     beforeEach(async () => {

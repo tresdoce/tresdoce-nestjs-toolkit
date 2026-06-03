@@ -38,7 +38,7 @@ export class RedisService {
    */
   public async set(key: string, value: any, seconds?: number): Promise<any> {
     const stringValue = JSON.stringify(value);
-    return seconds
+    return Number.isFinite(seconds) && seconds > 0
       ? await this.clientRef.setEx(key, seconds, stringValue)
       : await this.clientRef.set(key, stringValue);
   }
