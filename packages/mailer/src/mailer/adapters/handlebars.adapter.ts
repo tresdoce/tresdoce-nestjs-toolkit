@@ -2,7 +2,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as handlebars from 'handlebars';
 import { inline } from '@css-inline/css-inline';
-import * as glob from 'glob';
 import _ from 'lodash';
 import { HelperDeclareSpec } from 'handlebars';
 
@@ -66,7 +65,15 @@ export class HandlebarsAdapter implements TemplateAdapter {
 
     /* istanbul ignore next */
     if (runtimeOptions.partials) {
-      const files = glob.sync(path.join(runtimeOptions.partials.dir, '**', '*.hbs'));
+      const readPartials = (dir: string): string[] =>
+        fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+          const entryPath = path.join(dir, entry.name);
+          if (entry.isDirectory()) {
+            return readPartials(entryPath);
+          }
+          return entry.isFile() && path.extname(entry.name) === '.hbs' ? [entryPath] : [];
+        });
+      const files = readPartials(runtimeOptions.partials.dir);
       files.forEach((file) => {
         const partialTemplate = precompile(file, callback, runtimeOptions.partials);
         const templateDir = path.relative(

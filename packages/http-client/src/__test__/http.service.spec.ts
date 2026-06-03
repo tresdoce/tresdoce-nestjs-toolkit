@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import nock from 'nock';
 
 import { HttpClientService } from '../http/services/httpClient.service';
 import { HttpClientModule } from '../http/httpClient.module';
@@ -8,12 +9,73 @@ import { config } from './utils';
 
 const API_NESTJS_STARTER = 'https://json-server.up.railway.app/api';
 //const API_NESTJS_STARTER = 'http://localhost:6767/api';
+const API_NESTJS_STARTER_HOST = 'https://json-server.up.railway.app';
+const API_NESTJS_STARTER_PATH = '/api';
+const posts = [{ id: 1, title: 'post' }];
+const users = Array.from({ length: 5 }, (_, index) => ({
+  id: index + 1,
+  email: `test-${index + 1}@email.com`,
+}));
 
 describe('HttpService', () => {
   let app: INestApplication;
   let service: HttpClientService;
 
+  beforeAll(() => {
+    nock.disableNetConnect();
+  });
+
+  afterAll(() => {
+    nock.enableNetConnect();
+  });
+
   beforeEach(async () => {
+    nock.cleanAll();
+    nock(API_NESTJS_STARTER_HOST)
+      .persist()
+      .get(`${API_NESTJS_STARTER_PATH}/users`)
+      .query({ limit: '5' })
+      .reply(200, users.slice(0, 5))
+      .get(`${API_NESTJS_STARTER_PATH}/posts`)
+      .reply(200, posts)
+      .get(`${API_NESTJS_STARTER_PATH}/users`)
+      .query({ userid: '1' })
+      .reply(200, users)
+      .post(`${API_NESTJS_STARTER_PATH}/users`)
+      .reply(201, {
+        success: true,
+        data: {
+          id: 25,
+          email: 'test@email.com',
+        },
+      })
+      .get(`${API_NESTJS_STARTER_PATH}/users/1`)
+      .reply(200, users[0])
+      .put(`${API_NESTJS_STARTER_PATH}/users/1`)
+      .reply(200, {
+        success: true,
+        data: {
+          id: 1,
+          email: 'newtest@email.com',
+        },
+      })
+      .delete(`${API_NESTJS_STARTER_PATH}/users/2`)
+      .reply(200, {
+        success: true,
+      })
+      .patch(`${API_NESTJS_STARTER_PATH}/users/1`)
+      .reply(200, {
+        success: true,
+        data: {
+          id: 1,
+          email: 'newemailtest@email.com',
+        },
+      })
+      .head(`${API_NESTJS_STARTER_PATH}/posts`)
+      .reply(200, undefined, { 'content-type': 'application/json' })
+      .get(`${API_NESTJS_STARTER_PATH}/postss`)
+      .reply(404, {});
+
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({
@@ -35,6 +97,7 @@ describe('HttpService', () => {
 
   afterEach(async () => {
     await app.close();
+    nock.cleanAll();
   });
 
   it('should be defined', () => {

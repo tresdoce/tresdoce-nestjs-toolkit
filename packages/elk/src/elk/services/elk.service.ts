@@ -1,14 +1,7 @@
-import {
-  ExecutionContext,
-  HttpException,
-  HttpStatus,
-  Inject,
-  Injectable,
-  Logger,
-} from '@nestjs/common';
+import { ExecutionContext, Inject, Injectable, Logger } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { ConfigService } from '@nestjs/config';
-import { getCode, getErrorMessage } from '@tresdoce-nestjs-toolkit/filters';
+import { buildErrorPayload } from '@tresdoce-nestjs-toolkit/filters';
 import { excludePaths } from '@tresdoce-nestjs-toolkit/core';
 import { FormatService, RedactService } from '@tresdoce-nestjs-toolkit/utils';
 import { Client } from '@elastic/elasticsearch';
@@ -21,13 +14,25 @@ import { ElasticsearchOptions } from '../interfaces/elk.interface';
 
 @Injectable()
 export class ElkService {
+  private readonly application: string;
+  private readonly applicationVersion: string;
+  private readonly appStage: string;
+  private readonly apiPrefix: string;
+  private readonly excludedPaths: string[];
+
   constructor(
     private readonly configService: ConfigService,
     @Inject(FormatService) private readonly formatService: FormatService,
     @Inject(RedactService) private readonly redactService: RedactService,
     @Inject(ELK_MODULE_OPTIONS) private readonly options: ElasticsearchOptions,
     @Inject(ELK_CLIENT) private readonly elkClient: Client,
-  ) {}
+  ) {
+    this.application = `${this.configService.get('config.project.name')}`;
+    this.applicationVersion = `v${this.configService.get('config.project.version')}`;
+    this.appStage = `${this.configService.get('config.server.appStage')}`;
+    this.apiPrefix = this.configService.get('config.project.apiPrefix');
+    this.excludedPaths = excludePaths();
+  }
 
   get clientRef() {
     /* istanbul ignore next */
@@ -76,10 +81,6 @@ export class ElkService {
     _response: any,
     _isException: any,
   ): Promise<void> {
-    const application = `${this.configService.get('config.project.name')}`;
-    const applicationVersion = `v${this.configService.get('config.project.version')}`;
-    const appStage = `${this.configService.get('config.server.appStage')}`;
-
     const requestDuration = this.formatService.calculateTimestampDiff({
       startTime: _timeRequest,
       endTime: Date.now(),
@@ -105,7 +106,7 @@ export class ElkService {
     let statusCode: number = res.statusCode;
     let response: any = _response;
 
-    if (_.isUndefined(excludePaths().find((path) => _.startsWith(req.path, path)))) {
+    if (_.isUndefined(this.excludedPaths.find((path) => _.startsWith(req.path, path)))) {
       if (_isException) {
         const responseException = this.responseException(req, _response);
         response = responseException;
@@ -114,9 +115,9 @@ export class ElkService {
 
       const tempDocument = {
         '@timestamp': this.formatService.dateToISO({ date: new Date(_timeRequest) }),
-        application,
-        applicationVersion,
-        appStage,
+        application: this.application,
+        applicationVersion: this.applicationVersion,
+        appStage: this.appStage,
         path,
         url,
         controller,
@@ -140,31 +141,7 @@ export class ElkService {
   }
 
   public responseException(_request: Request, _exception: any) {
-    const apiPrefix: string = this.configService.get('config.project.apiPrefix');
-    const instance = `${_.toUpper(_request.method)} ${_request.url}`;
-
-    let status: number = HttpStatus.INTERNAL_SERVER_ERROR;
-
-    let message: any;
-    let detail: any;
-
-    if (_exception instanceof HttpException) {
-      status = _exception.getStatus();
-      const exceptionResponse = getErrorMessage(_exception.getResponse(), HttpStatus[status]);
-      message = exceptionResponse.message;
-      detail = exceptionResponse.detail;
-    } else {
-      message = _exception.message;
-    }
-    return {
-      error: {
-        status,
-        instance,
-        code: `${apiPrefix}-${getCode(HttpStatus[status])}`,
-        message,
-        detail,
-      },
-    };
+    return buildErrorPayload(this.apiPrefix, _request.method, _request.url, _exception);
   }
 
   /* Redact ELK Document*/

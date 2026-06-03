@@ -2,32 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, Logger } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CamundaModule } from '../camunda/camunda.module';
-import { dynamicConfig, tcName, testContainers } from '@tresdoce-nestjs-toolkit/test-utils';
+import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
 import { Subscription } from '../camunda/decorators/camunda.decorator';
 import { CamundaTaskConnector } from '../camunda/providers/camunda.provider';
 
 describe('CamundaModule', () => {
   let app: INestApplication;
-  let container: testContainers;
   let camundaTaskConnector: CamundaTaskConnector;
-
-  beforeAll(async () => {
-    container = await new testContainers('camunda/camunda-bpm-platform:7.17.0', {
-      ports: [
-        {
-          container: 8080,
-          host: 8080,
-        },
-      ],
-      containerName: `${tcName}-camunda-bpm`,
-      reuse: true,
-    });
-    await container.start();
-  });
-
-  afterAll(async () => {
-    await container.stop({ removeVolumes: true });
-  });
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -54,6 +35,10 @@ describe('CamundaModule', () => {
 
     await app.startAllMicroservices();
     await app.init();
+  });
+
+  afterEach(async () => {
+    await app.close();
   });
 
   it('should be defined', () => {

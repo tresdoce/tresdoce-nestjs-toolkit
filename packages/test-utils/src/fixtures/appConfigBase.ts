@@ -34,7 +34,11 @@ export const appConfigBase: Typings.AppConfig = {
   },
   swagger: { path: 'docs', enabled: false },
   params: { testEnv: 'testKeyEnv-test' },
+  redact: {},
   services: {
+    nestJsDocs: {
+      url: 'https://docs.nestjs.com',
+    },
     rickAndMortyAPI: {
       url: 'https://rickandmortyapi.com/api',
       timeout: 3000,

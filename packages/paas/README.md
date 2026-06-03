@@ -22,6 +22,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [👨‍💻 Uso](#use)
+- [📦 Paquetes re-exportados](#packages)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
 
@@ -48,23 +49,135 @@ npm install -S @tresdoce-nestjs-toolkit/paas
 yarn add @tresdoce-nestjs-toolkit/paas
 ```
 
+<a name="internal-dependencies"></a>
+
+## 📦 Dependencias internas
+
+Este paquete re-exporta los siguientes paquetes del toolkit:
+
+| Paquete                                                          | Razón                                                            |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------- |
+| [`@tresdoce-nestjs-toolkit/core`](../core)                       | Tipos `Typings.AppConfig`, decoradores base y utilidades comunes |
+| [`@tresdoce-nestjs-toolkit/filters`](../filters)                 | Función `buildErrorPayload` y tipos de error normalizados        |
+| [`@tresdoce-nestjs-toolkit/health`](../health)                   | Endpoints `/health/liveness` y `/health/readiness`               |
+| [`@tresdoce-nestjs-toolkit/rate-limit`](../rate-limit)           | Throttling de requests vía `RateLimitModule`                     |
+| [`@tresdoce-nestjs-toolkit/response-parser`](../response-parser) | Interceptor `ResponseInterceptor` para formateo de respuestas    |
+| [`@tresdoce-nestjs-toolkit/tracing`](../tracing)                 | Decorador `@SkipTrace` y contexto de OpenTelemetry               |
+| [`@tresdoce-nestjs-toolkit/utils`](../utils)                     | Servicios `FormatService`, `RedactService` y `BcryptService`     |
+
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-Esta librería contiene de manera centralizada los recursos necesarios para el desarrollo de aplicaciones usando el [NestJS Starter](https://github.com/rudemex/nestjs-starter).
-
-- [`@tresdoce-nestjs-toolkit/core`](../core)
-- [`@tresdoce-nestjs-toolkit/filters`](../filters)
-- [`@tresdoce-nestjs-toolkit/health`](../health)
-- [`@tresdoce-nestjs-toolkit/rate-limit`](../rate-limit)
-- [`@tresdoce-nestjs-toolkit/response-parser`](../response-parser)
-- [`@tresdoce-nestjs-toolkit/tracing`](../tracing)
-- [`@tresdoce-nestjs-toolkit/utils`](../utils)
+`@tresdoce-nestjs-toolkit/paas` es una librería **de re-exportación centralizada** que agrupa en un único punto de
+entrada todos los paquetes esenciales para construir aplicaciones con el NestJS Starter. Al instalar `paas`, obtienes
+acceso directo a todos sus símbolos sin necesidad de instalar cada paquete por separado.
 
 ```typescript
-import { Typings, HealthModule } from '@tresdoce-nestjs-toolkit/paas';
+// Importar desde un único punto de entrada
+import {
+  // desde @tresdoce-nestjs-toolkit/core
+  Typings,
+  CsrfMiddleware,
+  // desde @tresdoce-nestjs-toolkit/filters
+  ExceptionsFilter,
+  // desde @tresdoce-nestjs-toolkit/health
+  HealthModule,
+  // desde @tresdoce-nestjs-toolkit/response-parser
+  ResponseInterceptor,
+  // desde @tresdoce-nestjs-toolkit/tracing
+  TracingModule,
+  TracingService,
+  TracingInterceptor,
+  // desde @tresdoce-nestjs-toolkit/utils
+  RedactModule,
+  RedactService,
+  FormatModule,
+  FormatService,
+  BcryptModule,
+  BcryptService,
+} from '@tresdoce-nestjs-toolkit/paas';
 ```
+
+### Ejemplo en AppModule
+
+```typescript
+// ./src/app.module.ts
+import {
+  HealthModule,
+  ExceptionsFilter,
+  ResponseInterceptor,
+  TracingModule,
+  RedactModule,
+  FormatModule,
+  BcryptModule,
+} from '@tresdoce-nestjs-toolkit/paas';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+
+@Module({
+  imports: [HealthModule, TracingModule, RedactModule, FormatModule, BcryptModule],
+  providers: [
+    { provide: APP_FILTER, useClass: ExceptionsFilter },
+    { provide: APP_INTERCEPTOR, useClass: ResponseInterceptor },
+  ],
+})
+export class AppModule {}
+```
+
+<a name="packages"></a>
+
+## 📦 Paquetes re-exportados
+
+`@tresdoce-nestjs-toolkit/paas` re-exporta íntegramente los siguientes paquetes. Para conocer la configuración
+detallada de cada uno, referirse a su README correspondiente:
+
+| Paquete                                    | Descripción                                                                   | README                         |
+| ------------------------------------------ | ----------------------------------------------------------------------------- | ------------------------------ |
+| `@tresdoce-nestjs-toolkit/core`            | Funcionalidades a nivel core: typings, decoradores, validaciones, middlewares | [Ver docs](../core)            |
+| `@tresdoce-nestjs-toolkit/filters`         | Filtro global de excepciones HTTP                                             | [Ver docs](../filters)         |
+| `@tresdoce-nestjs-toolkit/health`          | Health check endpoints con `@nestjs/terminus`                                 | [Ver docs](../health)          |
+| `@tresdoce-nestjs-toolkit/response-parser` | Interceptor para estandarizar la estructura de respuestas                     | [Ver docs](../response-parser) |
+| `@tresdoce-nestjs-toolkit/tracing`         | Tracing distribuido con OpenTelemetry                                         | [Ver docs](../tracing)         |
+| `@tresdoce-nestjs-toolkit/utils`           | Utilidades: Redact, Format, Bcrypt                                            | [Ver docs](../utils)           |
+
+### Resumen de símbolos disponibles por sub-paquete
+
+#### `@tresdoce-nestjs-toolkit/core`
+
+- **Namespace**: `Typings` — tipos y tipados de la aplicación (`AppConfig`, etc.)
+- **Commons**: utilidades y helpers a nivel core
+- **Decoradores**: decoradores reutilizables
+- **Validaciones**: helpers de validación con Joi
+
+#### `@tresdoce-nestjs-toolkit/filters`
+
+- `ExceptionsFilter` — filtro global de excepciones HTTP
+- Constantes y tipos de errores
+
+#### `@tresdoce-nestjs-toolkit/health`
+
+- `HealthModule` — módulo de health checks
+
+#### `@tresdoce-nestjs-toolkit/response-parser`
+
+- `ResponseInterceptor` — interceptor para estandarizar respuestas
+
+#### `@tresdoce-nestjs-toolkit/tracing`
+
+- `TracingModule` — módulo de tracing con OpenTelemetry
+- `TracingService` — servicio de tracing
+- `TracingInterceptor` — interceptor de tracing
+- Decoradores de tracing
+
+#### `@tresdoce-nestjs-toolkit/utils`
+
+- `RedactModule` / `RedactService` — ofuscamiento de datos sensibles
+- `FormatModule` / `FormatService` — formateo de números y fechas
+- `BcryptModule` / `BcryptService` — encriptación con bcrypt
+- Constantes: `DEFAULT_TIMEZONE`, `DEFAULT_LOCALE`, `DEFAULT_TIMEZONE_LOCALE`, etc.
+- Interfaces: `RedactOptions`, `BcryptOptions`, `FormatNumberOptions`, etc.
+
+---
 
 ## 📄 Changelog
 

@@ -5,7 +5,6 @@ process.env.NODE_ENV = 'test';
 
 module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  forceExit: true,
   verbose: true,
   rootDir: '.',
   testRegex: '.*\\.(spec|it|test|e2e|e2e-spec)\\.(t|j)s$',
@@ -21,7 +20,7 @@ module.exports = {
   coverageDirectory: './coverage',
   coveragePathIgnorePatterns: ['node_modules', 'node_modules/*', 'dist', 'dist/*', 'src/index.ts'],
   testEnvironment: 'node',
-  setupFilesAfterEnv: [path.join(__dirname, './jest.setup.js'), 'jest-extended/all'],
+  setupFilesAfterEnv: [path.join(__dirname, './jest.setup.ts'), 'jest-extended/all'],
   moduleDirectories: ['node_modules'],
   preset: 'ts-jest',
   testResultsProcessor: 'jest-sonar-reporter',
@@ -52,10 +51,10 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      branches: 80,
-      functions: 80,
-      lines: 80,
-      statements: 80,
+      branches: 100,
+      functions: 100,
+      lines: 100,
+      statements: 100,
     },
   },
 };

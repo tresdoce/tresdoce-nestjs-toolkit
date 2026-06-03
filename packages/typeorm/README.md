@@ -1,6 +1,6 @@
 <div align="center">
     <img alt="nestjs-logo" width="150" height="auto" src="https://raw.githubusercontent.com/tresdoce/tresdoce-nestjs-toolkit/master/.readme-static/iso-nestjs.svg" />
-    <h1>Tresdoce NestJS Toolkit<br/>Typeorm</h1>
+    <h1>Tresdoce NestJS Toolkit<br/>TypeORM</h1>
 </div>
 
 <div align="center">
@@ -14,7 +14,7 @@
 </div>
 <br/>
 
-Este módulo está pensada para ser utilizada en [NestJS Starter](https://github.com/rudemex/nestjs-starter), o cualquier
+Este módulo está pensado para ser utilizado en [NestJS Starter](https://github.com/rudemex/nestjs-starter), o cualquier
 proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
 
 ## Glosario
@@ -24,6 +24,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [⚙️ Configuración](#configurations)
 - [👨‍💻 Uso](#use)
+- [📖 API Reference](#api-reference)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
 
@@ -50,15 +51,24 @@ npm install -S @tresdoce-nestjs-toolkit/typeorm
 yarn add @tresdoce-nestjs-toolkit/typeorm
 ```
 
+Las dependencias `typeorm` y `@nestjs/typeorm` están incluidas como dependencias del paquete.
+El driver de base de datos correspondiente (pg, mysql2, mongodb, etc.) se incluye igualmente.
+
+<a name="internal-dependencies"></a>
+
+## 📦 Dependencias internas
+
+Este paquete no tiene dependencias internas del toolkit. Puede utilizarse de forma independiente.
+
 <a name="configurations"></a>
 
 ## ⚙️ Configuración
 
 Agregar los datos de conexión a la base de datos en `configuration.ts` utilizando el key `database` que contenga el
-objeto `typeorm` y asigne los datos desde las variables de entorno.
+objeto `typeorm` con los datos de conexión desde las variables de entorno.
 
-Estos datos pueden variar dependiendo si te vas a conectar a una `MongoDB`, `Postgres` o `MySql`, por lo que es
-recomendable revisar la [Documentación de NestJS](https://docs.nestjs.com/techniques/database) como también
+Los parámetros varían según el motor de base de datos (`MongoDB`, `Postgres`, `MySQL`, etc.).
+Se recomienda revisar la [Documentación de NestJS](https://docs.nestjs.com/techniques/database),
 la [Documentación de TypeORM](https://typeorm.io/) y
 el [Data Source Options](https://typeorm.io/data-source-options#common-data-source-options) de TypeORM.
 
@@ -79,7 +89,7 @@ export default registerAs('config', (): Typings.AppConfig => {
         password: encodeURIComponent(process.env.DATABASE_PASSWORD),
         database: encodeURIComponent(process.env.DATABASE_DB_NAME),
         synchronize: false,
-        autoLoadEntities: false,
+        autoLoadEntities: true,
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
       },
     },
@@ -91,47 +101,48 @@ export default registerAs('config', (): Typings.AppConfig => {
 <details>
 <summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
 
-`type`: Es el tipo de base de datos a conectarse.
+`type`: Tipo de base de datos a conectarse.
 
 - Type: `String`
-- Values: `mongodb | postgres | mysql | <otra>`
+- Values: `mongodb | postgres | mysql | mariadb | sqlite | mssql | <otra>`
 
-`host`: Es el servidor para conectarse a la base de datos mongo.
+`host`: Servidor para conectarse a la base de datos.
 
 - Type: `String`
 - Values: `localhost | 127.0.0.1 | <host>`
 
-`port`: Es el puerto para conectarse a la base de datos mongo, no es obligatorio ponerlo.
+`port`: Puerto para conectarse a la base de datos.
 
 - Type: `Number`
 
-`username`: Es el nombre de usuario para conectarse a la base de datos.
+`username`: Nombre de usuario para conectarse a la base de datos.
 
 - Type: `String`
 
-`password`: Es la contraseña de usuario para conectarse a la base de datos.
+`password`: Contraseña de usuario para conectarse a la base de datos.
 
 - Type: `String`
 
-`database`: Es el nombre de la base de datos.
+`database`: Nombre de la base de datos.
 
 - Type: `String`
 
 `synchronize`: Indica si el esquema de la base de datos debe ser creado automáticamente en cada lanzamiento de la
-aplicación. Tenga cuidado con esta opción y no la utilice en producción - de lo contrario puede perder los datos de
-producción.
-
-- Type: `Boolean`
-
-`autoLoadEntities`: Carga automática de las entities.
+aplicación. **No usar en producción** — puede generar pérdida de datos.
 
 - Type: `Boolean`
 - Default: `false`
 
-`entities`: Es un array de strings para configurar los entities a utilizar, se puede poner un glob para que reconozca a
-todas las entidades.
+`autoLoadEntities`: Carga automática de las entidades registradas con `TypeOrmClientModule.forFeature()`.
+Se recomienda usar `true` cuando se usa el patrón `forFeature`.
+
+- Type: `Boolean`
+- Default: `false`
+
+`entities`: Array de rutas o clases de entidades. Se puede usar un glob para reconocer automáticamente todas las entidades.
 
 - Type: `Array`
+- Example: `[__dirname + '/**/*.entity{.ts,.js}']`
 
 </details>
 
@@ -139,8 +150,10 @@ todas las entidades.
 
 ## 👨‍💻 Uso
 
-Importar el `TypeOrmClientModule` en el archivo `app.module.ts`, y el módulo se encargará de obtener la configuración
-y realizar la connexion automáticamente.
+### Importación del módulo (configuración centralizada)
+
+Importar el `TypeOrmClientModule` en el archivo `app.module.ts`. El módulo es `@Global()` y obtiene la configuración
+automáticamente desde `ConfigService` (key `config.database.typeorm`).
 
 ```typescript
 //./src/app.module.ts
@@ -158,22 +171,108 @@ import { TypeOrmClientModule } from '@tresdoce-nestjs-toolkit/typeorm';
 export class AppModule {}
 ```
 
-Para la inyección de `Schemas` se utiliza la propiedad `forFeature` del módulo enviando las `entity` como un array.
+### Registro de entidades con `forFeature`
+
+Para registrar entidades en un módulo de feature, utilizar `TypeOrmClientModule.forFeature()`.
+Se deben pasar las clases de entidad como array.
+
+Cuando se usa `forFeature`, se recomienda usar `autoLoadEntities: true` en la configuración para que
+TypeORM las registre automáticamente en la conexión.
 
 ```typescript
+//./src/cats/cats.module.ts
 import { TypeOrmClientModule } from '@tresdoce-nestjs-toolkit/typeorm';
 import { Cat } from './entities/cat.entity';
 
-@module({
-  imports: [
-    //...
-    TypeOrmClientModule.forFeature([Cat]),
-    //...
-  ],
+@Module({
+  imports: [TypeOrmClientModule.forFeature([Cat])],
   //...
 })
 export class CatsModule {}
 ```
+
+### Uso de repositorios
+
+Una vez registrada la entidad, se puede inyectar su repositorio:
+
+```typescript
+//./src/cats/cats.service.ts
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@tresdoce-nestjs-toolkit/typeorm';
+import { Repository } from '@tresdoce-nestjs-toolkit/typeorm';
+import { Cat } from './entities/cat.entity';
+
+@Injectable()
+export class CatsService {
+  constructor(
+    @InjectRepository(Cat)
+    private readonly catRepository: Repository<Cat>,
+  ) {}
+
+  async findAll(): Promise<Cat[]> {
+    return this.catRepository.find();
+  }
+}
+```
+
+### Definición de entidad
+
+Los decoradores de TypeORM pueden importarse directamente desde este paquete:
+
+```typescript
+//./src/cats/entities/cat.entity.ts
+import { Entity, Column, PrimaryGeneratedColumn } from '@tresdoce-nestjs-toolkit/typeorm';
+
+@Entity()
+export class Cat {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  name: string;
+
+  @Column()
+  age: number;
+}
+```
+
+<a name="api-reference"></a>
+
+## 📖 API Reference
+
+### `TypeOrmClientModule`
+
+Módulo global (`@Global()`). Configura y exporta `TypeOrmModule` y el token `TYPE_ORM_MODULE_OPTIONS`.
+
+| Método                                                            | Descripción                                                                           |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `TypeOrmClientModule` (sin argumentos)                            | Carga la configuración desde `ConfigService` (key `config.database.typeorm`).         |
+| `TypeOrmClientModule.forFeature(entities: EntityClassOrSchema[])` | Registra entidades para el módulo de feature. Delega en `TypeOrmModule.forFeature()`. |
+
+### `DatabaseOptions`
+
+Interfaz que representa la sección `database` de la configuración de la aplicación.
+
+| Campo     | Tipo                   | Descripción                                                           |
+| --------- | ---------------------- | --------------------------------------------------------------------- |
+| `typeorm` | `TypeOrmModuleOptions` | Opciones de conexión TypeORM (ver documentación de `@nestjs/typeorm`) |
+
+### Constantes exportadas
+
+| Constante                 | Valor                       | Descripción                                                                                        |
+| ------------------------- | --------------------------- | -------------------------------------------------------------------------------------------------- |
+| `TYPE_ORM_MODULE_OPTIONS` | `'TYPE_ORM_MODULE_OPTIONS'` | Token de inyección de las opciones del módulo. Puede inyectarse para leer la configuración activa. |
+
+### Re-exportaciones
+
+Este paquete re-exporta completamente los siguientes módulos, por lo que todos sus tipos, decoradores e interfaces
+pueden importarse directamente desde `@tresdoce-nestjs-toolkit/typeorm`:
+
+| Módulo re-exportado               | Ejemplos de exports disponibles                                          |
+| --------------------------------- | ------------------------------------------------------------------------ |
+| `typeorm`                         | `Entity`, `Column`, `Repository`, `DataSource`, `FindOptionsWhere`, etc. |
+| `@nestjs/typeorm/dist/common`     | `InjectRepository`, `InjectDataSource`, etc.                             |
+| `@nestjs/typeorm/dist/interfaces` | `TypeOrmModuleOptions`, `TypeOrmOptionsFactory`, etc.                    |
 
 ## 📄 Changelog
 

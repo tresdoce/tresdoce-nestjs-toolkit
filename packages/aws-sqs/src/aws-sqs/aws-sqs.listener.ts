@@ -84,34 +84,38 @@ export class AwsSqsListener implements OnModuleInit {
   private async listenToQueue(queueName: string, handler: Function): Promise<void> {
     this.logger.log(`Listening to queue: ${queueName}`);
 
-    try {
-      const isTest: boolean = process.env.NODE_ENV === 'test';
-      let iterationCount: number = 0;
-      /* istanbul ignore next */
-      const maxIterations: number = isTest ? 2 : Infinity;
+    const isTest: boolean = process.env.NODE_ENV === 'test';
+    let iterationCount: number = 0;
+    /* istanbul ignore next */
+    const maxIterations: number = isTest ? 2 : Infinity;
 
-      do {
+    do {
+      try {
         const messages: Message[] = await this.sqsService.receiveMessage(queueName);
 
         if (messages.length > 0) {
           for (const message of messages) {
-            await handler(message);
-            /* istanbul ignore next */
-            if (message.ReceiptHandle) {
-              await this.sqsService.deleteMessage(queueName, message.ReceiptHandle);
-              this.logger.log(`Message deleted: ${message.MessageId}`);
+            try {
+              await handler(message);
+              /* istanbul ignore next */
+              if (message.ReceiptHandle) {
+                await this.sqsService.deleteMessage(queueName, message.ReceiptHandle);
+                this.logger.log(`Message deleted: ${message.MessageId}`);
+              }
+            } catch (error) {
+              this.logger.error(`Error processing message ${message.MessageId}: ${error.message}`);
             }
           }
         } else {
           this.logger.log(`No messages received from ${queueName}.`);
         }
+      } catch (error) {
+        this.logger.error(`Error polling queue ${queueName}: ${error.message}`);
+      }
 
-        if (isTest && ++iterationCount >= maxIterations) break;
-        await this.delay(1000);
-      } while (this.isListening);
-    } catch (error) {
-      this.logger.error(`Error on queue ${queueName}: ${error.message}`);
-    }
+      if (isTest && ++iterationCount >= maxIterations) break;
+      await this.delay(1000);
+    } while (this.isListening);
   }
 
   /**

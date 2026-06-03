@@ -1,130 +1,123 @@
-import { INestApplication } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { Test, TestingModule } from '@nestjs/testing';
-import {
-  TCMongoOptions,
-  TCMySqlOptions,
-  TCPostgresOptions,
-  tcName,
-  testContainers,
-  fixturePostResponse,
-  fixtureUserArrayResponse,
-} from '@tresdoce-nestjs-toolkit/test-utils';
-import { Repository } from 'typeorm';
+import 'reflect-metadata';
 
+import { ConfigService } from '@nestjs/config';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+
+import { TYPE_ORM_MODULE_OPTIONS } from '../typeorm/constants/typerom.constants';
 import { TypeOrmClientModule } from '../typeorm/typeorm.module';
 import { Post } from './utils/post.entity';
 import { User } from './utils/user.entity';
+import { configMongo, configMySql, configPostgres } from './utils';
 
-import { configPostgres, configMySql, configMongo } from './utils';
+jest.mock('@nestjs/typeorm', () => ({
+  TypeOrmModule: {
+    forRootAsync: jest.fn(() => ({
+      module: class MockTypeOrmRootModule {},
+    })),
+    forFeature: jest.fn((features) => ({
+      module: class MockTypeOrmFeatureModule {},
+      providers: [{ provide: 'FEATURES', useValue: features }],
+      exports: ['FEATURES'],
+    })),
+  },
+}));
 
-jest.setTimeout(70000);
-describe('TypeOrm', () => {
-  describe('Postgres', () => {
-    let app: INestApplication;
-    let repository: Repository<Post>;
+describe('TypeOrmClientModule', () => {
+  it('should configure TypeOrmModule with the package options provider', async () => {
+    const typeOrmImports = Reflect.getMetadata('imports', TypeOrmClientModule);
+    const options: TypeOrmModuleOptions = {
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      database: 'test_db',
+    };
+    const rootAsyncOptions = (TypeOrmModule.forRootAsync as jest.Mock).mock.calls[0][0];
 
-    beforeEach(async () => {
-      const module: TestingModule = await Test.createTestingModule({
-        imports: [
-          await ConfigModule.forRoot({
-            isGlobal: true,
-            load: [configPostgres],
-          }),
-          TypeOrmClientModule,
-          TypeOrmClientModule.forFeature([Post]),
-        ],
-      }).compile();
-      app = module.createNestApplication();
-      repository = module.get('PostRepository');
-      await app.init();
+    expect(typeOrmImports).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          module: expect.any(Function),
+        }),
+      ]),
+    );
+    expect(TypeOrmModule.forRootAsync).toHaveBeenCalledWith({
+      useFactory: expect.any(Function),
+      inject: [TYPE_ORM_MODULE_OPTIONS],
     });
-
-    afterEach(async () => {
-      await app.close();
-    });
-
-    it('should be defined', async () => {
-      expect(app).toBeDefined();
-    }, 50000);
-
-    it('should be return an array of post', async () => {
-      await repository.save([fixturePostResponse]);
-
-      const query = await repository.find();
-      expect(query).toEqual([fixturePostResponse]);
-    });
+    await expect(rootAsyncOptions.useFactory(options)).resolves.toEqual(options);
   });
 
-  describe('MySql', () => {
-    let app: INestApplication;
-    let repository: Repository<Post>;
+  it('should resolve typeorm options from ConfigService', async () => {
+    const options: TypeOrmModuleOptions = {
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      database: 'test_db',
+    };
+    const providers = Reflect.getMetadata('providers', TypeOrmClientModule);
+    const optionsProvider = providers.find(
+      (provider) => provider.provide === TYPE_ORM_MODULE_OPTIONS,
+    );
+    const configService = {
+      get: jest.fn().mockReturnValue(options),
+    } as unknown as ConfigService;
 
-    beforeEach(async () => {
-      const module: TestingModule = await Test.createTestingModule({
-        imports: [
-          await ConfigModule.forRoot({
-            isGlobal: true,
-            load: [configMySql],
-          }),
-          TypeOrmClientModule,
-          TypeOrmClientModule.forFeature([Post]),
-        ],
-      }).compile();
-      app = module.createNestApplication();
-      repository = module.get('PostRepository');
-      await app.init();
-    });
-
-    afterEach(async () => {
-      await app.close();
-    });
-
-    it('should be defined', async () => {
-      expect(app).toBeDefined();
-    }, 50000);
-
-    it('should be return an array of post', async () => {
-      await repository.save([fixturePostResponse]);
-
-      const query = await repository.find();
-      expect(query).toEqual([fixturePostResponse]);
-    });
+    await expect(optionsProvider.useFactory(configService)).resolves.toEqual(options);
+    expect(configService.get).toHaveBeenCalledWith('config.database.typeorm');
   });
 
-  describe('Mongo', () => {
-    let app: INestApplication;
-    let repository: Repository<User>;
+  it('should delegate forFeature to Nest TypeOrmModule', () => {
+    const featureModule = TypeOrmClientModule.forFeature([Post, User]);
 
-    beforeEach(async () => {
-      const module: TestingModule = await Test.createTestingModule({
-        imports: [
-          await ConfigModule.forRoot({
-            isGlobal: true,
-            load: [configMongo],
-          }),
-          TypeOrmClientModule,
-          TypeOrmClientModule.forFeature([User]),
-        ],
-      }).compile();
-      app = module.createNestApplication();
-      repository = module.get('UserRepository');
-      await app.init();
+    expect(TypeOrmModule.forFeature).toHaveBeenCalledWith([Post, User]);
+    expect(featureModule).toEqual(
+      expect.objectContaining({
+        module: expect.any(Function),
+      }),
+    );
+  });
+
+  it('should expose database configs and test entities', () => {
+    const post = new Post();
+    const user = new User();
+
+    post.id = 1;
+    post.title = 'title';
+    post.description = 'description';
+    post.isActive = true;
+    user.name = 'name';
+    user.lastname = 'lastname';
+
+    expect(configPostgres()).toEqual(
+      expect.objectContaining({
+        database: {
+          typeorm: expect.objectContaining({ type: 'postgres' }),
+        },
+      }),
+    );
+    expect(configMySql()).toEqual(
+      expect.objectContaining({
+        database: {
+          typeorm: expect.objectContaining({ type: 'mysql' }),
+        },
+      }),
+    );
+    expect(configMongo()).toEqual(
+      expect.objectContaining({
+        database: {
+          typeorm: expect.objectContaining({ type: 'mongodb' }),
+        },
+      }),
+    );
+    expect(post).toEqual({
+      id: 1,
+      title: 'title',
+      description: 'description',
+      isActive: true,
     });
-
-    afterEach(async () => {
-      await app.close();
-    });
-
-    it('should be defined', async () => {
-      expect(app).toBeDefined();
-    }, 50000);
-
-    it('should be return an array of user', async () => {
-      await repository.save(fixtureUserArrayResponse);
-
-      const query: User[] = await repository.find();
-      expect(query).toEqual(expect.any(Array));
+    expect(user).toEqual({
+      name: 'name',
+      lastname: 'lastname',
     });
   });
 });

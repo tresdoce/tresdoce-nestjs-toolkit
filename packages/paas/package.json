@@ -29,7 +29,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/paas",
     "build": "pika build --out ../../dist/paas",
-    "test": "jest --runInBand --coverage --forceExit --passWithNoTests",
+    "test": "cross-env NODE_OPTIONS=--no-deprecation YARN_CACHE_FOLDER=.yarn-cache jest --runInBand --coverage --passWithNoTests",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {

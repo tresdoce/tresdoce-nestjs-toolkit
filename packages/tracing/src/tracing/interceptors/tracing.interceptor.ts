@@ -27,14 +27,14 @@ import * as Tags from '../constants/tags.constant';
 export class TracingInterceptor implements NestInterceptor {
   private url: string;
   private span: Span;
-  private reflector: Reflector = new Reflector();
   private ctx: HttpArgumentsHost;
   private request: Request;
   private response: Response;
 
   constructor(
     private readonly tracingService: TracingService,
-    private configService: ConfigService,
+    private readonly configService: ConfigService,
+    private readonly reflector: Reflector,
   ) {}
 
   intercept(
@@ -84,8 +84,6 @@ export class TracingInterceptor implements NestInterceptor {
     this.response.set(responseHeaders);
     Object.assign(this.request, { span: this.span });
 
-    /* istanbul ignore next */
-    if (!this.span) return _next.handle();
     this.tracingService.propagateSpanContext(this.request.headers);
     this.tracingService.setSpanTags(this.span, this.request.headers);
     this.tracingService.setSpanContext(this.request.headers);

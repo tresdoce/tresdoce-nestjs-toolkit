@@ -22,6 +22,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [👨‍💻 Uso](#use)
+- [📖 API Reference](#api-reference)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
 
@@ -48,17 +49,22 @@ npm install -S @tresdoce-nestjs-toolkit/qrcode
 yarn add @tresdoce-nestjs-toolkit/qrcode
 ```
 
+## 📦 Dependencias internas
+
+Este paquete no tiene dependencias internas del toolkit. Puede utilizarse de forma independiente.
+
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-El servicio `QrCodeService` tiene disponible la función `createQrCode()` que genera el código QR y lo retorna como URL
-en **base64**, y también cuenta con la función `createQrCodeBuffer()` la cual genera el código QR y lo retorna como imagen.
+El servicio `QrCodeService` expone dos métodos:
 
-Para poder hacer uso de estas funcionalidades, es cuestión de importar el `QrCodeModule` en el módulo o bien inyectar el
-servicio `QrCodeService` en el provider del módulo, recomendable que sea en el módulo principal.
+- `createQrCode()` — genera el código QR y lo retorna como URL en **base64** (data URL `image/jpeg`).
+- `createQrCodeBuffer()` — genera el código QR y lo retorna como **Buffer** PNG.
 
-#### Importación de módulo
+### Importación del módulo
+
+`QrCodeModule` es `@Global()`, por lo que basta con importarlo una sola vez en el módulo raíz.
 
 ```typescript
 // ./src/app.module.ts
@@ -66,45 +72,34 @@ import { Module } from '@nestjs/common';
 import { QrCodeModule } from '@tresdoce-nestjs-toolkit/qrcode';
 
 @Module({
-  //...
   imports: [
-    //...
     QrCodeModule,
     //...
   ],
-  //...
 })
 export class AppModule {}
 ```
 
-#### Inyección de servicio
+Alternativamente, se puede registrar el servicio directamente en el providers de cualquier módulo:
 
 ```typescript
-// ./src/app.module.ts
-import { Module } from '@nestjs/common';
 import { QrCodeService } from '@tresdoce-nestjs-toolkit/qrcode';
 
 @Module({
-  //...
-  providers: [
-    //...
-    QrCodeService,
-    //...
-  ],
-  //...
+  providers: [QrCodeService],
+  exports: [QrCodeService],
 })
-export class AppModule {}
+export class MyModule {}
 ```
 
 ### Controllers
 
-Dependiendo que tipo de código QR deseas retornar, la diferencia va a estar en el controlador de la aplicación.
+El tipo de respuesta determina cómo se configura el controlador:
 
 ```typescript
 // ./src/app.controller.ts
 import { Controller, Get, Res } from '@nestjs/common';
 import type { Response } from 'express';
-
 import { AppService } from './app.service';
 
 @Controller()
@@ -117,7 +112,7 @@ export class AppController {
     return await this.appService.createQrCodeUrl();
   }
 
-  // Retorna imagen del código QR
+  // Retorna imagen PNG del código QR
   @Get('qr-code-buffer')
   async createQrCodeBuffer(@Res() response: Response) {
     const qrCodeBuffer = await this.appService.createQrCodeBuffer();
@@ -130,14 +125,6 @@ export class AppController {
 
 ### Services
 
-Inyectamos el `QrCodeService` en el constructor de nuestro service para poder hacer uso de las funcionalidades.
-
-La función para crear códigos QR admite dos parámetros, `data` que es un objeto que contiene el tipo de contenido y sus
-valores y `options` que es un objeto para customizar el código QR ya sea tamaño, version, margin, color, etc., este
-servicio ya cuenta con una configuración base, la cual se puede reemplazar los valores enviando los nuevos atributos.
-
-Para más información sobre las opciones disponibles pódes visitar la documentación de [QRCode - Options](https://www.npmjs.com/package/qrcode#qr-code-options)
-
 ```typescript
 // ./src/app.service.ts
 import { Inject, Injectable } from '@nestjs/common';
@@ -147,28 +134,25 @@ import { QrCodeService } from '@tresdoce-nestjs-toolkit/qrcode';
 export class AppService {
   constructor(@Inject(QrCodeService) private qrcode: QrCodeService) {}
 
-  // Genera código QR como URL en base64
+  // Genera código QR como URL en base64 (jpeg, 300px)
   async createQrCodeUrl(): Promise<string> {
-    const options = {
-      width: 300,
-    };
-    return await this.qrcode.createQrCode({ type: 'text', text: 'Hola Mundo' }, options);
+    return await this.qrcode.createQrCode({ type: 'text', text: 'Hola Mundo' }, { width: 300 });
   }
 
-  // Genera código QR como Buffer
+  // Genera código QR como Buffer PNG (300px)
   async createQrCodeBuffer(): Promise<Buffer> {
-    const options = {
-      width: 300,
-    };
-    return await this.qrcode.createQrCodeBuffer({ type: 'text', text: 'Hola Mundo' }, options);
+    return await this.qrcode.createQrCodeBuffer(
+      { type: 'text', text: 'Hola Mundo' },
+      { width: 300 },
+    );
   }
 }
 ```
 
 ### Tipos de código QR
 
-El módulo cuenta con la generación de diversos contenidos en el código QR que va a depender de la estructura y contenido
-de la data que le envies a la función, sea URL o Buffer.
+El parámetro `data` es un objeto tipado que determina el contenido del QR. A continuación se muestran
+todos los tipos disponibles.
 
 ##### Texto plano
 
@@ -181,6 +165,8 @@ createQrCode({ type: 'text', text: 'Hola Mundo' });
 </div>
 
 ##### URL
+
+La URL es validada antes de generar el QR. Si no es una URL válida, se lanza un error.
 
 ```typescript
 createQrCode({ type: 'url', url: 'https://www.ejemplo.com' });
@@ -197,7 +183,7 @@ createQrCode({
   type: 'wifi',
   ssid: 'MiWifi',
   password: 'password123',
-  encryption: 'WPA',
+  encryption: 'WPA', // 'WEP' | 'WPA' | 'WPA2'
 });
 ```
 
@@ -278,7 +264,9 @@ createQrCode({
     <img alt="qr-code-geo" width="150" height="auto" src="./.readme-static/qr-code-geo.png"/>
 </div>
 
-##### Evento
+##### Evento de calendario
+
+Las fechas deben estar en formato iCal UTC (`YYYYMMDDTHHmmssZ`).
 
 ```typescript
 createQrCode({
@@ -306,6 +294,79 @@ createQrCode({
 <div align="center">
     <img alt="qr-code-cripto" width="150" height="auto" src="./.readme-static/qr-code-cripto.png"/>
 </div>
+
+<a name="api-reference"></a>
+
+## 📖 API Reference
+
+### `QrCodeModule`
+
+Módulo global (`@Global()`). Provee y exporta `QrCodeService`.
+
+### `QrCodeService`
+
+| Método               | Firma                                                                     | Descripción                              |
+| -------------------- | ------------------------------------------------------------------------- | ---------------------------------------- |
+| `createQrCode`       | `(data: QRCodeData, options?: QRCodeToDataURLOptions) => Promise<string>` | Genera un QR como data URL base64 (jpeg) |
+| `createQrCodeBuffer` | `(data: QRCodeData, options?: QRCodeToBufferOptions) => Promise<Buffer>`  | Genera un QR como Buffer PNG             |
+
+### Opciones por defecto
+
+Las siguientes son las opciones base aplicadas a cada método. Se pueden sobreescribir pasando el parámetro `options`.
+
+**`createQrCode` (URL/base64):**
+
+| Opción                 | Valor por defecto |
+| ---------------------- | ----------------- |
+| `type`                 | `'image/jpeg'`    |
+| `errorCorrectionLevel` | `'H'`             |
+| `width`                | `200`             |
+| `margin`               | `2`               |
+| `rendererOpts.quality` | `0.92`            |
+
+**`createQrCodeBuffer` (Buffer):**
+
+| Opción                 | Valor por defecto |
+| ---------------------- | ----------------- |
+| `type`                 | `'png'`           |
+| `errorCorrectionLevel` | `'H'`             |
+| `width`                | `200`             |
+| `margin`               | `2`               |
+
+Para más información sobre las opciones disponibles, visitar la documentación de [QRCode - Options](https://www.npmjs.com/package/qrcode#qr-code-options).
+
+### Interfaces de tipos QR
+
+| Interfaz      | Campo `type` | Campos                                                                     |
+| ------------- | ------------ | -------------------------------------------------------------------------- |
+| `PlainTextQR` | `'text'`     | `text: string`                                                             |
+| `URLQR`       | `'url'`      | `url: string`                                                              |
+| `WiFiQR`      | `'wifi'`     | `ssid: string`, `password: string`, `encryption: 'WEP' \| 'WPA' \| 'WPA2'` |
+| `VCardQR`     | `'vcard'`    | `name: string`, `organization: string`, `phone: string`, `email: string`   |
+| `EmailQR`     | `'email'`    | `address: string`, `subject: string`, `body: string`                       |
+| `SMSQR`       | `'sms'`      | `phone: string`, `message: string`                                         |
+| `WhatsappQR`  | `'whatsapp'` | `phone: string`, `message: string`                                         |
+| `GeoQR`       | `'geo'`      | `latitude: number`, `longitude: number`                                    |
+| `EventQR`     | `'event'`    | `summary: string`, `start: string`, `end: string`                          |
+| `CryptoQR`    | `'crypto'`   | `currency: string`, `address: string`                                      |
+
+El tipo unión `QRCodeData` acepta cualquiera de las interfaces anteriores.
+
+### Constantes exportadas
+
+| Constante                        | Valor                         | Descripción                                   |
+| -------------------------------- | ----------------------------- | --------------------------------------------- |
+| `QRCODE_MSG_URL_NOT_VALID`       | `'URL not valid'`             | Error cuando la URL no es válida              |
+| `QRCODE_MSG_INVALID_DATA_TYPE`   | `'Invalid QR Code data type'` | Error cuando el tipo de dato no es reconocido |
+| `QRCODE_MSG_ERROR_CREATE_QRCODE` | `'Error creating QR code:'`   | Prefijo de error genérico al crear el QR      |
+| `DEFAULT_QRCODE_OPTIONS_URL`     | ver tabla arriba              | Opciones por defecto para data URL            |
+| `DEFAULT_QRCODE_OPTIONS_BUFFER`  | ver tabla arriba              | Opciones por defecto para Buffer              |
+
+### Re-exportaciones
+
+Este paquete re-exporta completamente la librería `qrcode` (`export * from 'qrcode'`), por lo que todos sus
+tipos e interfaces (`QRCodeToDataURLOptions`, `QRCodeToBufferOptions`, etc.) pueden importarse directamente
+desde `@tresdoce-nestjs-toolkit/qrcode`.
 
 ## 📄 Changelog
 
