@@ -84,7 +84,7 @@ describe('globalTestContainers options', () => {
 
   it('should use global.__TESTCONTAINERS__ when local environment is not set', async () => {
     const downMock = jest.fn().mockResolvedValue(undefined);
-    global.__TESTCONTAINERS__ = { down: downMock } as any;
+    globalThis.__TESTCONTAINERS__ = { down: downMock } as any;
     jest.resetModules();
 
     const { closeDockerCompose: closeDockerComposeFresh } =

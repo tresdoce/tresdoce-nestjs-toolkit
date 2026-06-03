@@ -52,7 +52,7 @@ export const buildErrorPayload = (
     message = exceptionResponse.message;
     detail = exceptionResponse.detail;
   } else {
-    message = (exception as any).message;
+    message = exception.message;
   }
 
   return {

@@ -54,6 +54,16 @@ npm install -S @tresdoce-nestjs-toolkit/tracing
 yarn add @tresdoce-nestjs-toolkit/tracing
 ```
 
+<a name="internal-dependencies"></a>
+
+## 📦 Dependencias internas
+
+Este paquete requiere los siguientes paquetes del toolkit:
+
+| Paquete                                      | Razón                                                         |
+| -------------------------------------------- | ------------------------------------------------------------- |
+| [`@tresdoce-nestjs-toolkit/utils`](../utils) | Servicio `FormatService` para formateo de fechas y duraciones |
+
 <a name="configurations"></a>
 
 ## ⚙️ Configuración

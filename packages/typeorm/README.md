@@ -54,6 +54,12 @@ yarn add @tresdoce-nestjs-toolkit/typeorm
 Las dependencias `typeorm` y `@nestjs/typeorm` están incluidas como dependencias del paquete.
 El driver de base de datos correspondiente (pg, mysql2, mongodb, etc.) se incluye igualmente.
 
+<a name="internal-dependencies"></a>
+
+## 📦 Dependencias internas
+
+Este paquete no tiene dependencias internas del toolkit. Puede utilizarse de forma independiente.
+
 <a name="configurations"></a>
 
 ## ⚙️ Configuración

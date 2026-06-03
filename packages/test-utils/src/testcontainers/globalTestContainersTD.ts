@@ -63,7 +63,7 @@ export const initDockerCompose = (
       }
 
       environment = await composeEnvironment.up(_services);
-      global.__TESTCONTAINERS__ = environment;
+      globalThis.__TESTCONTAINERS__ = environment;
       console.info(`✨ Container(s) initialized.`);
       return environment;
     } catch (_error) {
@@ -84,7 +84,7 @@ export const closeDockerCompose = (_options?: Partial<ComposeDownOptions>) => {
   return async (): Promise<void> => {
     console.info('🐳 Terminate docker-compose...');
     try {
-      const startedEnvironment = environment ?? global.__TESTCONTAINERS__;
+      const startedEnvironment = environment ?? globalThis.__TESTCONTAINERS__;
       await startedEnvironment.down(_options);
       console.info(`👌 Container(s) stopped successfully.`);
     } catch (_error) {

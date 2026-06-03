@@ -54,6 +54,12 @@ npm install -S @tresdoce-nestjs-toolkit/utils
 yarn add @tresdoce-nestjs-toolkit/utils
 ```
 
+<a name="internal-dependencies"></a>
+
+## 📦 Dependencias internas
+
+Este paquete no tiene dependencias internas del toolkit. Puede utilizarse de forma independiente.
+
 <a name="modules"></a>
 
 ---

@@ -49,6 +49,22 @@ npm install -S @tresdoce-nestjs-toolkit/paas
 yarn add @tresdoce-nestjs-toolkit/paas
 ```
 
+<a name="internal-dependencies"></a>
+
+## 📦 Dependencias internas
+
+Este paquete re-exporta los siguientes paquetes del toolkit:
+
+| Paquete                                                          | Razón                                                            |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------- |
+| [`@tresdoce-nestjs-toolkit/core`](../core)                       | Tipos `Typings.AppConfig`, decoradores base y utilidades comunes |
+| [`@tresdoce-nestjs-toolkit/filters`](../filters)                 | Función `buildErrorPayload` y tipos de error normalizados        |
+| [`@tresdoce-nestjs-toolkit/health`](../health)                   | Endpoints `/health/liveness` y `/health/readiness`               |
+| [`@tresdoce-nestjs-toolkit/rate-limit`](../rate-limit)           | Throttling de requests vía `RateLimitModule`                     |
+| [`@tresdoce-nestjs-toolkit/response-parser`](../response-parser) | Interceptor `ResponseInterceptor` para formateo de respuestas    |
+| [`@tresdoce-nestjs-toolkit/tracing`](../tracing)                 | Decorador `@SkipTrace` y contexto de OpenTelemetry               |
+| [`@tresdoce-nestjs-toolkit/utils`](../utils)                     | Servicios `FormatService`, `RedactService` y `BcryptService`     |
+
 <a name="use"></a>
 
 ## 👨‍💻 Uso
