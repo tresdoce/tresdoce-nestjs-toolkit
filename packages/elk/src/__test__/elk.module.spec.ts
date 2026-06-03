@@ -9,6 +9,21 @@ import { ElkModule } from '../elk/elk.module';
 import { ElkInterceptor } from '../elk/interceptors/elk.interceptor';
 import { ElkService } from '../elk/services/elk.service';
 
+jest.mock('@elastic/elasticsearch', () => {
+  const actual = jest.requireActual('@elastic/elasticsearch');
+
+  return {
+    ...actual,
+    Client: jest.fn().mockImplementation((options) => ({
+      name: options.name,
+      requestId: options.generateRequestId(),
+      info: jest.fn().mockResolvedValue({ name: options.name }),
+      index: jest.fn().mockResolvedValue({}),
+      close: jest.fn().mockResolvedValue(undefined),
+    })),
+  };
+});
+
 const elkIndexName = `test-elasticsearch`;
 
 jest.setTimeout(90000);

@@ -1,4 +1,10 @@
+import { StartedDockerComposeEnvironment } from 'testcontainers';
 import { PortWithOptionalBinding } from 'testcontainers/build/utils/port';
+
+declare global {
+  // eslint-disable-next-line no-var
+  var __TESTCONTAINERS__: StartedDockerComposeEnvironment | undefined;
+}
 
 export declare type Env = {
   [key in string]: any;

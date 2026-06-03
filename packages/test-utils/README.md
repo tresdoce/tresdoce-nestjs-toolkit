@@ -14,25 +14,28 @@
 <br/>
 
 Esta librería está pensada para ser utilizada en [NestJS Starter](https://github.com/rudemex/nestjs-starter) o en este
-monorepo de funcionalidades, o cualquier
-proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
+monorepo de funcionalidades, o cualquier proyecto que utilice una configuración centralizada, siguiendo la misma
+arquitectura del starter.
 
-Al momento de realizar nuestros test, puede existir la necesidad de implementar una configuración para el `ConfigModule`
-, lo cual a veces se vuelve tedioso tener que estar creando un mock puntual para cada test, generando además duplicidad
-de código, como asi también la utilización de algún servicio que requiera nuestro código, como puede ser una Base de
-datos para test, y no tener la infraestructura disponible para dichas pruebas.
+Al momento de realizar los tests, puede existir la necesidad de implementar una configuración para el `ConfigModule`,
+lo cual a veces se vuelve tedioso tener que estar creando un mock puntual para cada test, generando además duplicidad
+de código, como también la utilización de algún servicio que requiera el código, como puede ser una base de datos para
+tests, sin tener la infraestructura disponible para dichas pruebas.
 
-Por esta razón, y con el fin de desarrollar nuestros test de manera más ágiles y sin preocupaciones, surge la idea de
-esta librería que maneja de manera centralizada todo lo necesario para nuestros tests.
+Por esta razón, y con el fin de desarrollar los tests de manera más ágil y sin preocupaciones, surge la idea de esta
+librería que maneja de manera centralizada todo lo necesario para los tests.
 
 ## Glosario
 
 - [🥳 Demo](https://nestjs-starter.tresdoce.com.ar/v1/docs)
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
-- [👨‍💻 Uso](#use)
+- [👨‍💻 Configuración base y dinámica](#use)
+- [🎭 JestFN — mocks de Jest](#jestfn)
 - [😝 CreateMock](#create-mock)
 - [🧪 TestContainers](#testcontainers)
+- [📦 Fixtures](#fixtures)
+- [📖 API Reference](#api-reference)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
 
@@ -46,6 +49,7 @@ esta librería que maneja de manera centralizada todo lo necesario para nuestros
 - Node.js v22.21.1 or higher ([Download](https://nodejs.org/es/download/))
 - YARN ≥ 1.22.22 o NPM ≥ 11.6.4
 - NestJS v11.1.11 or higher ([Documentación](https://nestjs.com/))
+- [Docker](https://www.docker.com/) instalado (requerido para TestContainers)
 
 <a name="install-dependencies"></a>
 
@@ -59,14 +63,19 @@ npm install -D @tresdoce-nestjs-toolkit/test-utils
 yarn add -D @tresdoce-nestjs-toolkit/test-utils
 ```
 
+## 📦 Dependencias internas
+
+Este paquete no tiene dependencias internas del toolkit. Puede utilizarse de forma independiente.
+
 <a name="use"></a>
 
-## 👨‍💻 Uso
+## 👨‍💻 Configuración base y dinámica
 
-### Base Configuration for test
+### Configuración base para tests
+
+La función `config` provee una configuración estándar del `ConfigModule` para los tests, basada en `appConfigBase`.
 
 ```typescript
-//...
 import { config } from '@tresdoce-nestjs-toolkit/test-utils';
 
 describe('Suite for base config', () => {
@@ -90,28 +99,30 @@ describe('Suite for base config', () => {
 });
 ```
 
-### Dynamic Configuration for test
+### Configuración dinámica para tests
+
+La función `dynamicConfig` permite sobreescribir propiedades específicas de `appConfigBase` usando un merge profundo,
+sin reemplazar completamente la configuración base.
 
 ```typescript
-//...
 import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
 
 describe('Suite for dynamic config', () => {
   let app: INestApplication;
-
-  const args = {
-    httOptions: {
-      timeout: 5000,
-      maxRedirects: 5,
-    },
-  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({
           isGlobal: true,
-          load: [dynamicConfig(args)],
+          load: [
+            dynamicConfig({
+              httpOptions: {
+                timeout: 5000,
+                maxRedirects: 5,
+              },
+            }),
+          ],
         }),
         //...
       ],
@@ -124,22 +135,63 @@ describe('Suite for dynamic config', () => {
 });
 ```
 
+<a name="jestfn"></a>
+
+## 🎭 JestFN — mocks de Jest
+
+El namespace `JestFN` contiene funciones de mock listas para usar en los tests. Se importa como namespace:
+
+```typescript
+import { JestFN } from '@tresdoce-nestjs-toolkit/test-utils';
+```
+
+### `JestFN.config()`
+
+Retorna un mock de función que, al ser llamada, devuelve `appConfigBase`. Útil para mockear la función de
+configuración en tests unitarios.
+
+```typescript
+import { JestFN } from '@tresdoce-nestjs-toolkit/test-utils';
+
+jest.mock('@nestjs/config', () => ({
+  ConfigService: jest.fn().mockImplementation(() => ({
+    get: JestFN.config(),
+  })),
+}));
+```
+
+### `JestFN.executionContext()`
+
+Retorna un mock del `ExecutionContext` de NestJS con todos sus métodos (`switchToHttp`, `getRequest`,
+`getResponse`, `getType`, `getClass`, `getHandler`) mockeados con `jest.fn().mockReturnThis()`.
+
+```typescript
+import { JestFN } from '@tresdoce-nestjs-toolkit/test-utils';
+
+describe('MyInterceptor', () => {
+  it('should call next', () => {
+    const context = JestFN.executionContext();
+    // context.switchToHttp() está disponible como mock
+  });
+});
+```
+
 <a name="create-mock"></a>
 
 ## 😝 CreateMock
 
-`CreateMock` es una función que facilita la creación de mocks para peticiones HTTP utilizando **Nock** como base.
+`createMock` es una función que facilita la creación de mocks para peticiones HTTP utilizando **Nock** como base.
+`cleanAllMock` limpia todos los interceptores nock registrados.
 
 ```typescript
 import { createMock, cleanAllMock } from '@tresdoce-nestjs-toolkit/test-utils';
 
 describe('MyController', () => {
   beforeEach(async () => {
-    //...
     cleanAllMock();
   });
-  //...
-  it('should be return user data from mock', async () => {
+
+  it('should return user data from mock', async () => {
     createMock({
       url: 'https://test.com/api/user/1',
       method: 'get',
@@ -152,18 +204,14 @@ describe('MyController', () => {
       },
     });
     const user = await controller.getUser();
-    //console.log(user); //Return mock response
     expect(user).toHaveProperty('firstName', 'John');
-    expect(user).toHaveProperty('lastName', 'Doe');
-    expect(user).toHaveProperty('email', 'john.doe@email.com');
   });
-  //...
 });
 ```
 
-El `responseBody` del `createMock` admite también otros tipos de respuesta además de `JSON`.
+### Tipos de `responseBody`
 
-#### Response body as JSON
+#### JSON
 
 ```typescript
 createMock({
@@ -174,7 +222,7 @@ createMock({
 });
 ```
 
-#### Response body as string
+#### String
 
 ```typescript
 createMock({
@@ -185,7 +233,7 @@ createMock({
 });
 ```
 
-#### Response body as Buffer
+#### Buffer
 
 ```typescript
 createMock({
@@ -196,9 +244,7 @@ createMock({
 });
 ```
 
-#### Response body as function
-
-Esta funcionalidad es ideal para tener fixtures de respuestas en archivos json y retornarlos.
+#### Función (lazy evaluation)
 
 ```typescript
 createMock({
@@ -210,46 +256,31 @@ createMock({
 });
 ```
 
-En el caso de que tengas muchos fixtures y asi evitar duplicidad de código, pódes abstraer la función que retorna el `JSON`
-con el siguiente código.
+### Parámetros de `createMock`
 
-```typescript
-const readFixtureFile = (filePath: string) => {
-  const absolutePath = path.resolve(__dirname, filePath);
-  const fileContents = fs.readFileSync(absolutePath, 'utf8');
-  return JSON.parse(fileContents);
-};
-```
-
-y luego pódes utilizarlo de la siguiente manera, ya que la respuesta es un `JSON`.
-
-```typescript
-createMock({
-  url: 'http://example.com/api/dynamicData',
-  method: 'get',
-  statusCode: 200,
-  responseBody: readFixtureFile('../path/to/fixture.json'),
-});
-```
+| Parámetro      | Tipo                                                        | Requerido | Descripción                                                             |
+| -------------- | ----------------------------------------------------------- | --------- | ----------------------------------------------------------------------- |
+| `url`          | `string`                                                    | Sí        | URL completa a interceptar                                              |
+| `method`       | `HttpMethod`                                                | Sí        | Método HTTP: `get`, `post`, `put`, `head`, `patch`, `delete`, `options` |
+| `statusCode`   | `number`                                                    | Sí        | Código de estado HTTP de la respuesta                                   |
+| `responseBody` | `string \| object \| unknown[] \| Buffer \| (() => object)` | Sí        | Cuerpo de la respuesta                                                  |
+| `reqBody`      | `string \| object \| Buffer`                                | No        | Cuerpo del request esperado (para métodos POST/PUT/PATCH)               |
+| `queryParams`  | `QueryParams`                                               | No        | Query params esperados en el request                                    |
+| `options`      | `Options & { reqheaders? }`                                 | No        | Opciones adicionales de nock (incluyendo headers esperados)             |
 
 <a name="testcontainers"></a>
 
 ## 🧪 TestContainers
 
-[TestContainers](https://node.testcontainers.org/) es una librería que utiliza docker de por medio para poder instanciar
-un servicio durante el entorno de testing, tanto local como asi también en nuestros pipelines, y poder realizar las
-pruebas correctamente sin tener que estar consumiendo el servicio de algún entorno.
+[TestContainers](https://node.testcontainers.org/) es una librería que utiliza Docker para instanciar
+servicios durante el entorno de testing, tanto local como en pipelines CI/CD.
 
-Esta librería viene con una configuración base para instanciar `Redis`, `MongoDB`, `Postgres`, `MySql` y `Elasticsearch`,
-pero también cuenta con la posibilidad de levantar cualquier otro servicio utilizando las imágenes de docker, por lo que se requiere
-tener [Docker](https://www.docker.com/) instalado.
+### Global Container (docker-compose)
 
-### Global Container
+Instancia uno o más servicios a partir de un `docker-compose.yml`. Ideal para tests de integración
+que necesitan múltiples servicios disponibles en toda la suite.
 
-Instancia uno o más containers a partir de un archivo `docker-compose.yml`, está funcionalidad es ideal para instanciar
-los servicios de una aplicación y que disponible para consumir en todos los test.
-
-Agregar `globalSetup` y `globalTeardown` a la configuración de jest de la aplicación (`jest.config.ts`)
+**1. Configurar `jest.config.ts`:**
 
 ```typescript
 //./jest.config.ts
@@ -257,10 +288,7 @@ import { jestConfig } from '@tresdoce-nestjs-toolkit/commons';
 import * as dotenv from 'dotenv';
 
 process.env.NODE_ENV = 'test';
-
-dotenv.config({
-  path: '.env.test',
-});
+dotenv.config({ path: '.env.test' });
 
 module.exports = {
   ...jestConfig(),
@@ -269,7 +297,7 @@ module.exports = {
 };
 ```
 
-Creamos los archivos `jest.globalSetup.ts` y `jest.globalTeardown.ts` en el root de la aplicación.
+**2. Crear `jest.globalSetup.ts`:**
 
 ```typescript
 //./jest.globalSetup.ts
@@ -279,44 +307,26 @@ const services = ['mongo', 'redis', 'elasticsearch'];
 module.exports = initDockerCompose(services);
 ```
 
-<details>
-<summary>💬 Para ver en detalle todas las propiedades de la configuración, hace clic acá.</summary>
-
-La función `initDockerCompose` recibe tres parámetros.
-
-`services`: Es un array de string que sirve para especificar que servicios se quiere instanciar del `docker-compose.yml`,
-si no se envía el parámetro o se envía un array vacío, se inicializa todos los servicios definidos en el archivo.
-
-- Type: `String[]`
-- Required: `false`
-- Default: `[]`
-- Example: `['mongo', 'redis', 'elasticsearch']`
-
-`composeFilePath`: Es el path de donde se encuentra el archivo `docker-compose.yml`.
-
-- Type: `String`
-- Required: `false`
-- Default: `'.'`
-
-`composeFile`: Es el nombre del archivo de `docker-compose`.
-
-- Type: `String`
-- Required: `false`
-- Default: `'docker-compose.yml'`
+Con opciones avanzadas:
 
 ```typescript
-//./jest.globalSetup.ts
 import { initDockerCompose } from '@tresdoce-nestjs-toolkit/test-utils';
 import * as path from 'path';
 
 const services = ['mongo', 'redis'];
 const composeFilePath = path.resolve(__dirname, 'fixtures', 'docker-compose');
 const composeFile = 'docker-compose-test.yml';
+const startupTimeout = 90000; // 90 segundos
 
-module.exports = initDockerCompose(services, composeFilePath, composeFile);
+module.exports = initDockerCompose(services, composeFilePath, composeFile, startupTimeout, {
+  // Aplica Wait.forHealthCheck() a todos los containers
+  useDefaultHealthCheckWaitStrategy: false,
+  // Aplica Wait.forHealthCheck() solo a los containers listados (por nombre real del container)
+  healthCheckWaitStrategyNames: ['my-service-1'],
+});
 ```
 
-</details>
+**3. Crear `jest.globalTeardown.ts`:**
 
 ```typescript
 //./jest.globalTeardown.ts
@@ -325,9 +335,9 @@ import { closeDockerCompose } from '@tresdoce-nestjs-toolkit/test-utils';
 module.exports = closeDockerCompose({ removeVolumes: false });
 ```
 
-```yaml
-# ./docker-compose.yml
+**4. `docker-compose.yml` de ejemplo:**
 
+```yaml
 version: '3.9'
 
 services:
@@ -349,39 +359,31 @@ services:
     restart: always
     ports:
       - '6379:6379'
-    environment:
-      TZ: 'America/Argentina/Buenos_Aires'
-      REDIS_PORT: 6379
-      REDIS_PASSWORD: 123456
-      REDIS_HOST: cache
     command: ['redis-server', '--appendonly', 'yes', '--requirepass', '123456']
 ```
 
-> ⚠️ En caso de fallas al correr en los pipelines, revisar que el `docker-compose.yml` este bien configurado y que el
-> host del runner sea el mismo que usa docker. Ej.: http://localhost:6379 o http://docker:6379
+> ⚠️ En caso de fallas en los pipelines, revisar que el `docker-compose.yml` esté bien configurado y que el
+> host del runner sea el mismo que usa Docker. Ej.: `http://localhost:6379` o `http://docker:6379`.
 
 ### Generic Container
 
-Instancia un container con la imagen del servicio, está pensada para utilizarse para proyectos que
-utilizan un solo servicio.
+Instancia un container único con una imagen de Docker. Ideal para proyectos que usan un solo servicio
+o para tests aislados.
 
 ```typescript
-//...
-import { TCPostgresOptions, testContainers, delay } from '@tresdoce-nestjs-toolkit/test-utils';
+import { TCPostgresOptions, testContainers } from '@tresdoce-nestjs-toolkit/test-utils';
 
 jest.setTimeout(70000);
+
 describe('TypeOrm - Postgres', () => {
   let app: INestApplication;
   let container: testContainers;
 
-  // Instanciamos el test container
   beforeAll(async () => {
-    // await delay(30000); // delay para inicializar el container
     container = await new testContainers('postgres:13', TCPostgresOptions);
     await container.start();
   });
 
-  // Apagamos el container
   afterAll(async () => {
     await container.stop({ removeVolumes: true });
   });
@@ -398,67 +400,180 @@ describe('TypeOrm - Postgres', () => {
   afterEach(async () => {
     await app.close();
   });
-
-  //...
 });
 ```
 
-La clase `testContainers` requiere de dos parámetros, donde el primero es la imagen de docker junto a su tag, y el
-segundo son las configs para ese container.
+**Esquema:** `new testContainers('<img-docker>:<tag>', options?, isSingleton?)`
 
-**Schema:** `new testContainers('<img-docker>:<tag-img-docker>', { config-container })`
+### Patrón Singleton de `testContainers`
 
-Para la configuración del contenedor, tiene disponibles las siguientes opciones.
+Para compartir una sola instancia del container entre varios tests:
 
-```
-{
-  ports: [{
-    container: number,
-    host: number
-  }],
-  envs: {
-    KEY: value
-    //...
-  },
-  containerName: string,
-  startupTimeout: number,
-  reuse: boolean
-}
+```typescript
+// En lugar de `new testContainers(...)`:
+const container = testContainers.getInstance('postgres:13', TCPostgresOptions);
+await container.start();
 ```
 
-La clase `testContainers` cuenta con algunas funciones que retorna información del contenedor.
-
-- `getEnvs()` retorna las variables de entorno enviadas al contenedor.
-- `getContainer()` retorna el contenedor instanciado.
-- `getHost()` retorna el host del contenedor instanciado, esto es util, ya que a veces el contenedor no se hostea en
-  **localhost**
-- `getName()` retorna el nombre del contenedor.
+`getInstance()` retorna la instancia existente si ya fue creada, o crea una nueva con `_isSingleton = true`.
 
 ### Troubleshooting
 
-Para solucionar el problema de `failed: port is already allocated`, es recomendable cambiar el puerto del `host`,
-manteniendo el del `container` con el default.
+Para solucionar `failed: port is already allocated`, cambiar el puerto del `host` manteniendo el del `container`:
 
 ```typescript
-// Ejemplo para MongoDB
 await new testContainers('mongo:5.0', {
   ...TCMongoOptions,
-  ports: [
-    {
-      container: 27017,
-      host: 27013,
-    },
-  ],
+  ports: [{ container: 27017, host: 27013 }],
 });
 ```
 
-Limpiar los containers, images y volumes para probar en un entorno desde cero.
+Para limpiar containers, imágenes y volumes:
 
 ```bash
 docker system prune --volumes
 docker system prune -a
-yarn test --force
 ```
+
+<a name="fixtures"></a>
+
+## 📦 Fixtures
+
+### Configuración base (`appConfigBase`)
+
+Objeto de configuración de la aplicación utilizado por `config` y `dynamicConfig`.
+
+### `manifest`
+
+Objeto con los metadatos del manifest de la aplicación (nombre, versión, descripción, dependencias, etc.)
+basado en `appConfigBase`.
+
+```typescript
+import { manifest } from '@tresdoce-nestjs-toolkit/test-utils';
+
+// manifest.name, manifest.version, manifest.apiPrefix, etc.
+```
+
+### Fixtures de respuesta
+
+Objetos de datos de ejemplo para usar en tests:
+
+```typescript
+import {
+  fixtureUserResponse,
+  fixtureUserArrayResponse,
+  fixturePostResponse,
+  fixturePostArrayResponse,
+} from '@tresdoce-nestjs-toolkit/test-utils';
+```
+
+| Fixture                    | Descripción                                             |
+| -------------------------- | ------------------------------------------------------- |
+| `fixtureUserResponse`      | Un objeto usuario (`{ id, name, lastname }`)            |
+| `fixtureUserArrayResponse` | Array de dos objetos usuario                            |
+| `fixturePostResponse`      | Un objeto post (`{ id, title, description, isActive }`) |
+| `fixturePostArrayResponse` | Array de dos objetos post                               |
+
+### Fixtures de TestContainers
+
+Opciones pre-configuradas para contenedores de test:
+
+| Fixture                  | Imagen recomendada      | Puerto interno |
+| ------------------------ | ----------------------- | -------------- |
+| `TCRedisOptions`         | `redis:6.2-alpine`      | `6379`         |
+| `TCMongoOptions`         | `mongo:5.0`             | `27017`        |
+| `TCPostgresOptions`      | `postgres:13`           | `5432`         |
+| `TCMySqlOptions`         | `mysql:8`               | `3306`         |
+| `TCElasticSearchOptions` | `elasticsearch:8`       | `9200`         |
+| `TCDynamoDBOptions`      | `amazon/dynamodb-local` | `8000`         |
+
+Variables de entorno disponibles en los fixtures:
+
+| Constante        | Valor                       |
+| ---------------- | --------------------------- |
+| `tcUsername`     | `'root'`                    |
+| `tcPassword`     | `'123456'`                  |
+| `tcDatabaseName` | `'test_db'`                 |
+| `tcName`         | `'tresdoce-test-container'` |
+
+<a name="api-reference"></a>
+
+## 📖 API Reference
+
+### `config`
+
+`RegisterAs` de NestJS que provee la configuración base (`appConfigBase`) para `ConfigModule`.
+
+### `dynamicConfig(args?: DeepPartial<AppConfig>)`
+
+Función que retorna un `RegisterAs` con la configuración base fusionada con los argumentos provistos.
+
+### `JestFN` (namespace)
+
+| Export                      | Tipo                           | Descripción                           |
+| --------------------------- | ------------------------------ | ------------------------------------- |
+| `JestFN.config()`           | `() => jest.Mock`              | Mock que retorna `appConfigBase`      |
+| `JestFN.executionContext()` | `() => MockedExecutionContext` | Mock del `ExecutionContext` de NestJS |
+
+### `createMock(options: CreateMock): Interceptor`
+
+Crea un interceptor nock. Ver tabla de parámetros en la sección [CreateMock](#create-mock).
+
+### `cleanAllMock(): void`
+
+Limpia todos los interceptores nock activos (`nock.cleanAll()`).
+
+### `testContainers`
+
+Clase para manejar containers Docker individuales.
+
+| Miembro                | Firma                                  | Descripción                                                           |
+| ---------------------- | -------------------------------------- | --------------------------------------------------------------------- |
+| `constructor`          | `(image, options?, isSingleton?)`      | Crea un nuevo container                                               |
+| `getInstance` (static) | `(image?, options?) => testContainers` | Retorna la instancia singleton o crea una nueva                       |
+| `start()`              | `() => Promise<void>`                  | Inicia el container                                                   |
+| `stop(options?)`       | `(StopOptions?) => Promise<void>`      | Detiene el container                                                  |
+| `getEnvs()`            | `() => Env`                            | Retorna las variables de entorno del container                        |
+| `getContainer()`       | `() => StartedTestContainer`           | Retorna la instancia del container iniciado                           |
+| `getHost()`            | `() => string`                         | Retorna el host del container (puede no ser `localhost`)              |
+| `getName()`            | `() => string`                         | Retorna el nombre del container                                       |
+| `getMappedPort(port)`  | `(number) => number`                   | Retorna el puerto mapeado en el host para el puerto de container dado |
+| `isStarted()`          | `() => boolean`                        | Indica si el container está iniciado                                  |
+
+### `ITestContainerOptions`
+
+| Campo                 | Tipo                        | Descripción                                           |
+| --------------------- | --------------------------- | ----------------------------------------------------- |
+| `ports`               | `PortWithOptionalBinding[]` | Puertos a exponer (`[{ container, host }]`)           |
+| `envs`                | `Env`                       | Variables de entorno del container                    |
+| `networkName`         | `string`                    | Modo de red Docker                                    |
+| `containerName`       | `string`                    | Nombre del container                                  |
+| `startupTimeout`      | `number`                    | Timeout de inicio en milisegundos                     |
+| `command`             | `string[]`                  | Comando a ejecutar en el container                    |
+| `strategyHealthCheck` | `boolean`                   | Usa `Wait.forHealthCheck()` como estrategia de inicio |
+| `reuse`               | `boolean`                   | Reutiliza el container si ya está corriendo           |
+
+### `initDockerCompose(services?, composeFilePath?, composeFile?, startupTimeout?, options?)`
+
+| Parámetro                                   | Tipo       | Default                | Descripción                           |
+| ------------------------------------------- | ---------- | ---------------------- | ------------------------------------- |
+| `services`                                  | `string[]` | `[]`                   | Servicios a iniciar (vacío = todos)   |
+| `composeFilePath`                           | `string`   | `'.'`                  | Directorio del compose file           |
+| `composeFile`                               | `string`   | `'docker-compose.yml'` | Nombre del archivo compose            |
+| `startupTimeout`                            | `number`   | `60000`                | Timeout de inicio en ms               |
+| `options.useDefaultHealthCheckWaitStrategy` | `boolean`  | `false`                | Aplica health check a todos           |
+| `options.healthCheckWaitStrategyNames`      | `string[]` | `[]`                   | Containers con health check selectivo |
+
+### `closeDockerCompose(options?): () => Promise<void>`
+
+Retorna una función async compatible con `globalTeardown` de Jest que detiene el compose.
+
+### Utilidades
+
+| Función    | Firma                                           | Descripción                          |
+| ---------- | ----------------------------------------------- | ------------------------------------ |
+| `delay`    | `(timeout?: number) => Promise<void>`           | Espera `timeout` ms (default: 10000) |
+| `pathJoin` | `(dirName: string, fileName: string) => string` | Une dos segmentos de path            |
 
 ## 📄 Changelog
 

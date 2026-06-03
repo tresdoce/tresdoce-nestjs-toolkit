@@ -1,4 +1,4 @@
-import { HttpStatus } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 import _ from 'lodash';
 import { ExceptionResponse } from '../types';
 
@@ -29,6 +29,41 @@ export const getCode = (exResponse: ExceptionResponse | string): string => {
  */
 const formatErrorCode = (error: string): string => {
   return _.toUpper(_.snakeCase(error));
+};
+
+/**
+ * Builds a normalized error payload from an exception.
+ * Shared between ExceptionsFilter and ElkService to avoid logic duplication.
+ */
+export const buildErrorPayload = (
+  apiPrefix: string,
+  method: string,
+  url: string,
+  exception: any,
+): { error: { status: number; instance: string; code: string; message: any; detail: any } } => {
+  const instance = `${_.toUpper(method)} ${url}`;
+  let status: number = HttpStatus.INTERNAL_SERVER_ERROR;
+  let message: any;
+  let detail: any;
+
+  if (exception instanceof HttpException) {
+    status = exception.getStatus();
+    const exceptionResponse = getErrorMessage(exception.getResponse(), HttpStatus[status]);
+    message = exceptionResponse.message;
+    detail = exceptionResponse.detail;
+  } else {
+    message = exception.message;
+  }
+
+  return {
+    error: {
+      status,
+      instance,
+      code: `${apiPrefix}-${getCode(HttpStatus[status])}`,
+      message,
+      detail,
+    },
+  };
 };
 
 /**

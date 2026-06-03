@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/typeorm",
-  "version": "2.0.12",
+  "version": "2.0.13-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo de ORM para base de datos",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/typeorm",
     "build": "pika build --out ../../dist/typeorm",
-    "test": "jest --runInBand --coverage --forceExit",
+    "test": "cross-env NODE_OPTIONS=--no-deprecation YARN_CACHE_FOLDER=.yarn-cache jest --runInBand --coverage",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -36,20 +36,20 @@
     "directory": "../../dist/typeorm"
   },
   "dependencies": {
-    "@nestjs/common": "^11.1.11",
-    "@nestjs/core": "^11.1.11",
-    "@nestjs/platform-express": "^11.1.11",
-    "@nestjs/typeorm": "^11.0.0",
-    "mongodb": "^7.0.0",
+    "@nestjs/common": "^11.1.24",
+    "@nestjs/core": "^11.1.24",
+    "@nestjs/platform-express": "^11.1.24",
+    "@nestjs/typeorm": "^11.0.1",
+    "mongodb": "^7.2.0",
     "mysql": "^2.18.1",
-    "mysql2": "^3.16.0",
-    "pg": "^8.16.3",
+    "mysql2": "^3.22.4",
+    "pg": "^8.21.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
-    "typeorm": "^0.3.28"
+    "typeorm": "^1.0.0"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.4",
+    "@tresdoce-nestjs-toolkit/config": "^0.5.5-beta.0",
     "@types/tresdoce-nestjs-toolkit": "^0.3.3"
   },
   "prettier": {

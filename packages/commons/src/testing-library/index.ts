@@ -4,7 +4,7 @@ interface IJestConfigProps {
   minCoveragePercent?: number;
 }
 
-export const minCoverageValue: number = 80;
+export const minCoverageValue: number = 100;
 export const maxCoverageValue: number = 100;
 
 export const jestConfig = ({
@@ -14,7 +14,6 @@ export const jestConfig = ({
 
   return {
     moduleFileExtensions: ['js', 'json', 'ts'],
-    forceExit: true,
     verbose: true,
     rootDir: '.',
     testRegex: '.*\\.(spec|it|test|e2e|e2e-spec)\\.(t|j)s$',

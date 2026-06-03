@@ -1,127 +1,92 @@
 import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
-import { tcName, TCRedisOptions, testContainers } from '@tresdoce-nestjs-toolkit/test-utils';
+import { Test, TestingModule } from '@nestjs/testing';
 
+import { REDIS_CLIENT } from '../redis/constants/redis.constants';
 import { RedisModule } from '../redis/redis.module';
+import { RedisService } from '../redis/services/redis.service';
 import { config } from './utils';
 
-jest.setTimeout(70000);
 describe('RedisModule', () => {
-  describe('with auth', () => {
-    let app: INestApplication;
-    let container: testContainers;
+  let app: INestApplication;
+  let redisClient: { quit: jest.Mock };
 
-    beforeAll(async () => {
-      container = await new testContainers('redis:6.2-alpine', {
-        ...TCRedisOptions,
-        command: ['redis-server', '--appendonly', 'yes', '--requirepass', '123456'],
-        containerName: `${tcName}-redis-module-with-auth`,
-      });
-      await container.start();
-    });
+  const createApp = async (imports: any[]) => {
+    redisClient = {
+      quit: jest.fn().mockResolvedValue('OK'),
+    };
 
-    afterAll(async () => {
-      await container.stop({ removeVolumes: true });
-    });
+    const module: TestingModule = await Test.createTestingModule({ imports })
+      .overrideProvider(REDIS_CLIENT)
+      .useValue(redisClient)
+      .compile();
 
-    describe('forRootAsync', () => {
-      beforeEach(async () => {
-        const module: TestingModule = await Test.createTestingModule({
-          imports: [
-            ConfigModule.forRoot({
-              isGlobal: true,
-              load: [config],
-            }),
-            RedisModule,
-          ],
-        }).compile();
+    app = module.createNestApplication();
+    await app.init();
 
-        app = module.createNestApplication();
-        await app.init();
-      });
+    return module;
+  };
 
-      afterEach(async () => {
-        await app.close();
-      });
+  afterEach(async () => {
+    await app?.close();
+  });
 
-      it('should be defined', async () => {
-        await expect(app).toBeDefined();
-      }, 50000);
-    });
+  describe('forRootAsync', () => {
+    it('should be defined', async () => {
+      const module = await createApp([
+        ConfigModule.forRoot({
+          isGlobal: true,
+          load: [config],
+        }),
+        RedisModule,
+      ]);
 
-    describe('register', () => {
-      beforeEach(async () => {
-        const module: TestingModule = await Test.createTestingModule({
-          imports: [
-            RedisModule.register({
-              name: 'test-redis-module',
-              username: encodeURIComponent('default'),
-              password: encodeURIComponent('123456'),
-              host: global.hostContainer,
-              port: parseInt('6379', 10),
-            }),
-          ],
-        }).compile();
-
-        app = module.createNestApplication();
-        await app.init();
-      });
-
-      afterEach(async () => {
-        await app.close();
-      });
-
-      it('should be defined', async () => {
-        await expect(app).toBeDefined();
-      }, 50000);
+      expect(app).toBeDefined();
+      expect(module.get(RedisService)).toBeDefined();
     });
   });
 
-  describe('without auth', () => {
-    let app: INestApplication;
-    let container: testContainers;
+  describe('register', () => {
+    it('should be defined with auth', async () => {
+      const module = await createApp([
+        RedisModule.register({
+          name: 'test-redis-module',
+          username: encodeURIComponent('default'),
+          password: encodeURIComponent('123456'),
+          host: 'localhost',
+          port: 6379,
+        }),
+      ]);
 
-    beforeAll(async () => {
-      container = await new testContainers('redis:6.2-alpine', {
-        ...TCRedisOptions,
-        containerName: `${tcName}-redis-module-without-auth`,
-        envs: {},
-        ports: [
-          {
-            container: 6379,
-            host: 6380,
-          },
-        ],
-      });
-      await container.start();
+      expect(app).toBeDefined();
+      expect(module.get(RedisService)).toBeDefined();
     });
 
-    afterAll(async () => {
-      await container.stop({ removeVolumes: true });
+    it('should be defined without auth', async () => {
+      const module = await createApp([
+        RedisModule.register({
+          host: 'localhost',
+          port: 6380,
+          database: 1,
+        }),
+      ]);
+
+      expect(app).toBeDefined();
+      expect(module.get(RedisService)).toBeDefined();
     });
+  });
 
-    beforeEach(async () => {
-      const module: TestingModule = await Test.createTestingModule({
-        imports: [
-          RedisModule.register({
-            host: global.hostContainer,
-            port: parseInt('6380', 10),
-            database: 1,
-          }),
-        ],
-      }).compile();
+  it('should close the redis client on module destroy', async () => {
+    await createApp([
+      RedisModule.register({
+        host: 'localhost',
+        port: 6379,
+      }),
+    ]);
 
-      app = module.createNestApplication();
-      await app.init();
-    });
+    await app.close();
 
-    afterEach(async () => {
-      await app.close();
-    });
-
-    it('should be defined', async () => {
-      await expect(app).toBeDefined();
-    }, 50000);
+    expect(redisClient.quit).toHaveBeenCalledTimes(1);
+    app = undefined;
   });
 });

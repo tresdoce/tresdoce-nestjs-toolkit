@@ -18,11 +18,11 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 
 ## Glosario
 
-- [🥳 Demo](https://nestjs-starter.tresdoce.com.ar/v1/docs)
 - [📝 Requerimientos básicos](#basic-requirements)
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [⚙️ Configuración](#configurations)
 - [👨‍💻 Uso](#use)
+- [📖 API Reference](#api-reference)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
 
@@ -49,16 +49,22 @@ npm install -S @tresdoce-nestjs-toolkit/aws-sqs
 yarn add @tresdoce-nestjs-toolkit/aws-sqs
 ```
 
+## 📦 Dependencias internas
+
+Este paquete no tiene dependencias internas del toolkit. Puede utilizarse de forma independiente.
+
 <a name="configurations"></a>
 
 ## ⚙️ Configuración
 
-Agregar los datos de la configuración de **AWS Simple Queue Service** en `configuration.ts` utilizando el key sqs que obtenga los datos desde las variables de entorno.
+Agregar los datos de la configuración de **AWS Simple Queue Service** en `configuration.ts` utilizando el key `sqs` que
+obtenga los datos desde las variables de entorno.
 
 ```typescript
 //./src/config/configuration.ts
 import { Typings } from '@tresdoce-nestjs-toolkit/paas';
 import { registerAs } from '@nestjs/config';
+
 export default registerAs('config', (): Typings.AppConfig => {
   return {
     //...
@@ -78,7 +84,6 @@ export default registerAs('config', (): Typings.AppConfig => {
           name: process.env.AWS_SQS_QUEUE_NAME_2,
           url: process.env.AWS_SQS_QUEUE_URL_2,
         },
-        //...
       ],
     },
     //...
@@ -92,30 +97,51 @@ export default registerAs('config', (): Typings.AppConfig => {
 `region`: Es la region de la cuenta de AWS.
 
 - Type: `String`
+- Required: `true`
 - Values: `us-east-1`
 
-`endpoint`: Es el contexto de AWS y se utiliza para especificar la URL del servicio al que se quiere conectar.
+`endpoint`: Es el contexto de AWS y se utiliza para especificar la URL del servicio al que se quiere conectar. Es útil
+para apuntar a emuladores locales como LocalStack.
 
 - Type: `String`
+- Required: `false`
 - Values: `https://sqs.us-east-1.amazonaws.com | http://localhost:4566`
 
 #### credentials
 
-Credenciales de la cuenta de AWS
+Credenciales de la cuenta de AWS.
 
-`accessKeyId`: Es el Access Key ID de aws.
-
-- Type: `String`
-- Default: `test`
-
-`secretAccessKey`: Es el Secret Access Key de aws.
+`accessKeyId`: Es el Access Key ID de AWS.
 
 - Type: `String`
-- Default: `test`
+- Required: `true`
 
-`queues`: Es la lista de las colas creadas en AWS SQS, cada item requiere del nombre y la url de la cola.
+`secretAccessKey`: Es el Secret Access Key de AWS.
 
-- Type: `Array`
+- Type: `String`
+- Required: `true`
+
+#### queues
+
+Es la lista de las colas registradas. Cada ítem requiere el nombre lógico y la URL de la cola.
+
+- Type: `Array<QueueConfig>`
+- Required: `true`
+
+`queues[].name`: Nombre lógico de la cola. Se utiliza como identificador en toda la aplicación.
+
+- Type: `String`
+- Required: `true`
+
+`queues[].url`: URL completa de la cola en AWS SQS.
+
+- Type: `String`
+- Required: `true`
+
+`queues[].attributes`: Atributos opcionales adicionales de la cola.
+
+- Type: `Record<string, string>`
+- Required: `false`
 
 </details>
 
@@ -123,49 +149,41 @@ Credenciales de la cuenta de AWS
 
 ## 👨‍💻 Uso
 
-Importar el `AwsSqsModule` en el archivo `app.module.ts`, y el módulo se encargará de obtener la configuración y realizar la connexion automáticamente.
+### Importar el módulo
+
+Importar el `AwsSqsModule` en el archivo `app.module.ts`. El módulo está marcado como `@Global()`, por lo que una vez
+registrado queda disponible en toda la aplicación sin necesidad de importarlo nuevamente en cada módulo.
 
 ```typescript
 //./src/app.module.ts
 import { AwsSqsModule } from '@tresdoce-nestjs-toolkit/aws-sqs';
+
 @Module({
-  //...
   imports: [
     //...
     AwsSqsModule,
     //...
   ],
-  //...
 })
 export class AppModule {}
 ```
 
-> También es posible configurar el módulo de manera sincrónica y asincrónica utilizando los métodos register, registerAsync, forRoot y forRootAsync.
+> Cuando se usa `AwsSqsModule` sin argumentos, la configuración se obtiene automáticamente desde `config.sqs` del
+> `ConfigService`. También es posible configurar el módulo de manera sincrónica o asincrónica utilizando los métodos
+> `register`, `registerAsync`, `forRoot` y `forRootAsync` (ver sección [Métodos de instanciamiento](#instantiation-methods)).
 
-### Manejo de mensajes
+### Enviar mensajes
 
-El `AwsSqsService` es el núcleo de la integración con **AWS SQS**. Este servicio proporciona los métodos necesarios para
-**enviar**, **recibir** y **eliminar** mensajes de las colas de **SQS**, asegurando una gestión eficiente de los mismos.
-
-#### sendMessage
-
-Envía un mensaje a la cola especificada. Si el cuerpo es un objeto, se serializa como JSON.
-
-| Parameters        | Description                            | Required |
-| ----------------- | -------------------------------------- | :------: |
-| queueName         | Nombre de la cola                      |   true   |
-| messageBody       | Mensaje (puede ser un objeto o string) |   true   |
-| delaySeconds      | Retraso en segundos                    |  false   |
-| messageAttributes | Atributos adicionales                  |  false   |
-| groupId           | ID del grupo para colas FIFO           |  false   |
-| deduplicationId   | ID de deduplicación para FIFO          |  false   |
+Inyectar `AwsSqsService` y usar el método `sendMessage` para publicar mensajes en una cola.
 
 ```typescript
+import { Injectable } from '@nestjs/common';
 import { AwsSqsService } from '@tresdoce-nestjs-toolkit/aws-sqs';
+
 @Injectable()
 export class OrdersService {
-  constructor(private awsSqsService: AwsSqsService) {}
-  //...
+  constructor(private readonly awsSqsService: AwsSqsService) {}
+
   async sendOrder(): Promise<void> {
     await this.awsSqsService.sendMessage({
       queueName: 'orders',
@@ -173,167 +191,81 @@ export class OrdersService {
       delaySeconds: 5,
     });
   }
-  //...
 }
 ```
 
-#### receiveMessage
-
-Recibe mensajes de la cola especificada. Devuelve los mensajes recibidos o un array vacío si no hay mensajes.
-
-| Parameters          | Description                             | Required |
-| ------------------- | --------------------------------------- | :------: |
-| queueName           | Nombre de la cola                       |   true   |
-| maxNumberOfMessages | Número máximo de mensajes a recibir.    |   true   |
-| waitTimeSeconds     | Tiempo de espera para recibir mensajes. |  false   |
+### Recibir y eliminar mensajes manualmente
 
 ```typescript
-import { AwsSqsService } from '@tresdoce-nestjs-toolkit/aws-sqs';
-@Controller()
+import { Controller, Get } from '@nestjs/common';
+import { AwsSqsService, Message } from '@tresdoce-nestjs-toolkit/aws-sqs';
+
+@Controller('orders')
 export class OrdersController {
-  constructor(private awsSqsService: AwsSqsService) {}
-  //...
-  @Get('receive-order')
+  constructor(private readonly awsSqsService: AwsSqsService) {}
+
+  @Get('receive')
   async receiveOrder(): Promise<any> {
-    const messages = await this.sqsService.receiveMessage('orders', 5, 10);
+    const messages: Message[] = await this.awsSqsService.receiveMessage('orders', 5, 10);
     if (messages.length > 0) {
-      messages.forEach((msg) => console.log('Received message:', msg.Body));
+      for (const msg of messages) {
+        console.log('Received message:', msg.Body);
+        await this.awsSqsService.deleteMessage('orders', msg.ReceiptHandle!);
+      }
       return messages;
-    } else {
-      console.log('No messages available.');
-      return { message: 'No messages available' };
     }
+    return { message: 'No messages available' };
   }
-  //...
 }
 ```
 
-#### deleteMessage
+> `Message` es el tipo re-exportado desde `@aws-sdk/client-sqs`. Puede usarse para tipar los argumentos de los handlers.
 
-Elimina un mensaje utilizando su ReceiptHandle`.
+### Consumo automático con el decorador `@AwsSqsMessageHandler`
 
-| Parameters    | Description        | Required |
-| ------------- | ------------------ | :------: |
-| queueName     | Nombre de la cola  |   true   |
-| receiptHandle | Handle del mensaje |   true   |
+El decorador `@AwsSqsMessageHandler(queueName)` se coloca sobre un método de un **controller** para registrar un handler
+de mensajes. El `AwsSqsListener` descubre automáticamente estos handlers al iniciar el módulo y comienza a hacer polling
+a la cola indicada.
+
+**El método decorado debe estar dentro de una clase anotada con `@Controller()`**, ya que el listener escanea únicamente
+los controllers registrados en el módulo.
 
 ```typescript
-import { AwsSqsService } from '@tresdoce-nestjs-toolkit/aws-sqs';
+import { Controller } from '@nestjs/common';
+import { AwsSqsMessageHandler } from '@tresdoce-nestjs-toolkit/aws-sqs';
+import { Message } from '@tresdoce-nestjs-toolkit/aws-sqs';
+
 @Controller()
 export class OrdersController {
-  constructor(private awsSqsService: AwsSqsService) {}
-  //...
-  @Get('receive-order')
-  async receiveOrder(): Promise<any> {
-    const messages = await this.awsSqsService.receiveMessage('orders');
-    await this.awsSqsService.deleteMessage('orders', messages[0].ReceiptHandle!);
-    console.log('Message deleted');
-  }
-  //...
-}
-```
-
-### Decorator
-
-Utilizar el decorador `@AwsSqsMessageHandler(<QueueName>)` a nivel endpoint para poder obtener los mensajes de la cola y automatizar procesos.
-
-```typescript
-import { AwsSqsMessageHandler } from '@tresdoce-nestjs-toolkit/aws-sqs';
-export class Orders {
-  //...
   @AwsSqsMessageHandler('orders')
-  async handleOrderMessage(message: any) {
-    console.log(`Received message: ${JSON.stringify(message)}`);
-    // Resto del código para procesar el mensaje
+  async handleOrderMessage(message: Message): Promise<void> {
+    console.log(`Received message: ${JSON.stringify(message.Body)}`);
+    // Procesamiento del mensaje...
   }
-  //...
 }
 ```
 
-## LocalStack
+#### Comportamiento del listener
 
-[LocalStack](https://www.localstack.cloud/) es una excelente herramienta para probar servicios de AWS en un entorno local. A continuación, encontrarás una breve guía sobre cómo usar AWS SQS en LocalStack con ejemplos prácticos de comandos.
+- El `AwsSqsListener` inicia el polling al arrancar el módulo (`onModuleInit`) y se detiene al destruirlo (`onModuleDestroy`).
+- El intervalo entre polls es de **1 segundo**.
+- Los mensajes se eliminan de la cola **solo si el handler finaliza sin errores**. Si el handler lanza una excepción,
+  el mensaje **no se elimina** y permanece en la cola para ser re-procesado.
+- Si la cola especificada no existe en la configuración, se lanza el error: `Error: Queue "<queueName>" not found`.
 
-### Comandos básicos en LocalStack
-
-Asegúrate de tener configurada la CLI de AWS y de usar el **endpoint local** para conectarte a LocalStack.
-
-#### Configurar la CLI para LocalStack:
-
-Para las credenciales de AWS usa como valor test, para la region usa us-east-1 y para la output json.
-
-```
-aws configure --profile localstack
-```
-
-### Comandos Comunes de SQS
-
-### Crear una Cola
-
-```
-aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name orders
-```
-
-### Listar Colas
-
-```
-aws --endpoint-url=http://localhost:4566 sqs list-queues
-```
-
-### Enviar un Mensaje a la Cola
-
-```
-aws --endpoint-url=http://localhost:4566 sqs send-message --queue-url http://localhost:4566/000000000000/orders --message-body "Order 123: Laptop"
-```
-
-### Recibir Mensajes de la Cola
-
-```
-aws --endpoint-url=http://localhost:4566 sqs receive-message --queue-url http://localhost:4566/000000000000/orders
-```
-
-```
-{
-  "Messages": [
-    {
-      "MessageId": "12345",
-      "ReceiptHandle": "abc123",
-      "Body": "Order 123: Laptop"
-    }
-  ]
-}
-```
-
-### Eliminar un Mensaje de la Cola
-
-```
-aws --endpoint-url=http://localhost:4566 sqs delete-message --queue-url http://localhost:4566/000000000000/orders --receipt-handle <receipt-handle>
-```
-
-> Reemplaza <receipt-handle> con el valor real devuelto al recibir el mensaje.
-
-```
-aws --endpoint-url=http://localhost:4566 sqs delete-message --queue-url http://localhost:4566/000000000000/orders --receipt-handle abc123
-```
-
-### Eliminar una Cola
-
-```
-aws --endpoint-url=http://localhost:4566 sqs delete-queue --queue-url http://localhost:4566/000000000000/orders
-```
+<a name="instantiation-methods"></a>
 
 ### Métodos de instanciamiento
 
-#### Configuración Sincrónica (register)
+#### Configuración sincrónica (`register`)
 
-Usa este método cuando tienes la configuración del módulo lista al momento de inicializar la aplicación.
+Utilizar cuando toda la configuración es conocida en tiempo de arranque.
 
 ```typescript
 import { AwsSqsModule } from '@tresdoce-nestjs-toolkit/aws-sqs';
+
 @Module({
-  //...
   imports: [
-    //...
     AwsSqsModule.register({
       region: 'us-east-1',
       endpoint: 'https://sqs.us-east-1.amazonaws.com',
@@ -349,56 +281,71 @@ import { AwsSqsModule } from '@tresdoce-nestjs-toolkit/aws-sqs';
         },
       ],
     }),
-    //...
   ],
-  //...
 })
 export class AppModule {}
 ```
 
-#### Descripción
+#### Configuración asíncronica (`registerAsync`)
 
-- Se utiliza cuando toda la configuración es conocida de antemano.
-- Los parámetros como **region**, **endpoint**, **credentials** y las **colas** se pasan directamente en el momento de la configuración.
-
-#### Configuración Asíncronica (registerAsync)
-
-Usa este método si necesitas cargar configuraciones de forma asíncrona, por ejemplo, desde un servicio de configuración.
+Ideal cuando los valores se cargan desde un servicio como `ConfigService`. Soporta las opciones `useFactory`,
+`useClass` y `useExisting`.
 
 ```typescript
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AwsSqsModule } from '@tresdoce-nestjs-toolkit/aws-sqs';
+
 @Module({
-  //...
   imports: [
-    //...
     AwsSqsModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => configService.get('config.sqs'),
       inject: [ConfigService],
     }),
-    //...
   ],
-  //...
 })
 export class AppModule {}
 ```
 
-#### Descripción
+Con `useClass` (implementando `AwsSqsModuleOptionsFactory`):
 
-- Ideal para entornos complejos donde los valores se cargan de un servicio como `ConfigService`.
-- El uso de `useFactory` permite inicializar la configuración de manera asíncrona.
+```typescript
+import {
+  AwsSqsModule,
+  AwsSqsModuleOptions,
+  AwsSqsModuleOptionsFactory,
+} from '@tresdoce-nestjs-toolkit/aws-sqs';
+import { Injectable } from '@nestjs/common';
 
-#### Configuración Global Sincrónica (forRoot)
+@Injectable()
+class SqsConfigService implements AwsSqsModuleOptionsFactory {
+  async createOptions(): Promise<AwsSqsModuleOptions> {
+    return {
+      region: 'us-east-1',
+      queues: [{ name: 'orders', url: 'https://sqs.us-east-1.amazonaws.com/123456789/orders' }],
+    };
+  }
+}
 
-Este método hace que el módulo esté disponible en toda la aplicación sin necesidad de importarlo explícitamente en cada módulo.
+@Module({
+  imports: [
+    AwsSqsModule.registerAsync({
+      useClass: SqsConfigService,
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+#### Configuración global sincrónica (`forRoot`)
+
+Registra el módulo de forma global. No es necesario importarlo en los módulos hijos.
 
 ```typescript
 import { AwsSqsModule } from '@tresdoce-nestjs-toolkit/aws-sqs';
+
 @Module({
-  //...
   imports: [
-    //...
     AwsSqsModule.forRoot({
       region: 'us-east-1',
       endpoint: 'https://sqs.us-east-1.amazonaws.com',
@@ -414,45 +361,195 @@ import { AwsSqsModule } from '@tresdoce-nestjs-toolkit/aws-sqs';
         },
       ],
     }),
-    //...
   ],
-  //...
 })
 export class AppModule {}
 ```
 
-#### Descripción
+#### Configuración global asíncronica (`forRootAsync`)
 
-- Este método expone el módulo de manera global para que no sea necesario importarlo en cada módulo donde se necesite.
-- Útil para aplicaciones con múltiples módulos que requieren acceso a **AWS SQS**.
-
-#### Configuración Global Asíncronica (forRootAsync)
-
-Usa este método si deseas que el módulo sea global, pero necesitas cargar la configuración de manera asíncrona.
+Global y asíncrona. Recomendado cuando la configuración depende de variables de entorno o servicios externos.
 
 ```typescript
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AwsSqsModule } from '@tresdoce-nestjs-toolkit/aws-sqs';
+
 @Module({
-  //...
   imports: [
-    //...
     AwsSqsModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => configService.get('config.sqs'),
       inject: [ConfigService],
     }),
-    //...
   ],
-  //...
 })
 export class AppModule {}
 ```
 
-#### Descripción
+### LocalStack
 
-- Global y Asíncrona: El módulo estará disponible en toda la aplicación y cargará la configuración de forma asíncrona.
-- Recomendado cuando la configuración depende de variables de entorno o servicios externos.
+[LocalStack](https://www.localstack.cloud/) permite probar servicios de AWS en un entorno local.
+
+#### Configurar la CLI para LocalStack
+
+Para las credenciales usa `test`, para la región `us-east-1` y para el output `json`.
+
+```
+aws configure --profile localstack
+```
+
+#### Crear una cola
+
+```
+aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name orders
+```
+
+#### Listar colas
+
+```
+aws --endpoint-url=http://localhost:4566 sqs list-queues
+```
+
+#### Enviar un mensaje
+
+```
+aws --endpoint-url=http://localhost:4566 sqs send-message --queue-url http://localhost:4566/000000000000/orders --message-body "Order 123: Laptop"
+```
+
+#### Recibir mensajes
+
+```
+aws --endpoint-url=http://localhost:4566 sqs receive-message --queue-url http://localhost:4566/000000000000/orders
+```
+
+```json
+{
+  "Messages": [
+    {
+      "MessageId": "12345",
+      "ReceiptHandle": "abc123",
+      "Body": "Order 123: Laptop"
+    }
+  ]
+}
+```
+
+#### Eliminar un mensaje
+
+```
+aws --endpoint-url=http://localhost:4566 sqs delete-message --queue-url http://localhost:4566/000000000000/orders --receipt-handle abc123
+```
+
+#### Eliminar una cola
+
+```
+aws --endpoint-url=http://localhost:4566 sqs delete-queue --queue-url http://localhost:4566/000000000000/orders
+```
+
+<a name="api-reference"></a>
+
+## 📖 API Reference
+
+### `AwsSqsService`
+
+Servicio principal para interactuar con AWS SQS.
+
+#### `sendMessage(options: SendMessageOptions): Promise<void>`
+
+Envía un mensaje a la cola especificada. Si el cuerpo es un objeto, se serializa como JSON.
+
+| Propiedad           | Tipo                                    | Requerido | Descripción                                |
+| ------------------- | --------------------------------------- | :-------: | ------------------------------------------ |
+| `queueName`         | `string`                                |    Si     | Nombre lógico de la cola                   |
+| `messageBody`       | `string \| object`                      |    Si     | Cuerpo del mensaje                         |
+| `delaySeconds`      | `number`                                |    No     | Retraso en segundos antes de publicar      |
+| `messageAttributes` | `Record<string, MessageAttributeValue>` |    No     | Atributos adicionales del mensaje          |
+| `groupId`           | `string`                                |    No     | ID de grupo (solo para colas FIFO)         |
+| `deduplicationId`   | `string`                                |    No     | ID de deduplicación (solo para colas FIFO) |
+
+Lanza `Error: Queue "<queueName>" not found` si la cola no está registrada en la configuración.
+
+#### `receiveMessage(queueName, maxNumberOfMessages?, waitTimeSeconds?): Promise<Message[]>`
+
+Recibe mensajes de la cola especificada. Devuelve los mensajes recibidos o un array vacío si no hay mensajes.
+
+| Parámetro             | Tipo     | Requerido | Default | Descripción                                   |
+| --------------------- | -------- | :-------: | :-----: | --------------------------------------------- |
+| `queueName`           | `string` |    Si     |    —    | Nombre lógico de la cola                      |
+| `maxNumberOfMessages` | `number` |    No     |   `1`   | Número máximo de mensajes a recibir (máx. 10) |
+| `waitTimeSeconds`     | `number` |    No     |  `20`   | Tiempo de espera en segundos (long polling)   |
+
+Lanza `Error: Queue "<queueName>" not found` si la cola no está registrada en la configuración.
+
+#### `deleteMessage(queueName: string, receiptHandle: string): Promise<void>`
+
+Elimina un mensaje de la cola utilizando su `ReceiptHandle`.
+
+| Parámetro       | Tipo     | Requerido | Descripción                      |
+| --------------- | -------- | :-------: | -------------------------------- |
+| `queueName`     | `string` |    Si     | Nombre lógico de la cola         |
+| `receiptHandle` | `string` |    Si     | `ReceiptHandle` devuelto por SQS |
+
+Lanza `Error: Queue "<queueName>" not found` si la cola no está registrada en la configuración.
+
+---
+
+### `AwsSqsMessageHandler(queueName: string)`
+
+Decorador de método que registra un handler de mensajes para la cola indicada. El método debe pertenecer a una clase
+decorada con `@Controller()`.
+
+---
+
+### Interfaces exportadas
+
+#### `AwsSqsModuleOptions`
+
+Extiende `SQSClientConfig` del SDK de AWS e incluye:
+
+| Propiedad | Tipo            | Descripción                |
+| --------- | --------------- | -------------------------- |
+| `queues`  | `QueueConfig[]` | Lista de colas registradas |
+
+#### `QueueConfig`
+
+| Propiedad    | Tipo                     | Requerido | Descripción                     |
+| ------------ | ------------------------ | :-------: | ------------------------------- |
+| `name`       | `string`                 |    Si     | Nombre lógico de la cola        |
+| `url`        | `string`                 |    Si     | URL completa de la cola en SQS  |
+| `attributes` | `Record<string, string>` |    No     | Atributos opcionales de la cola |
+
+#### `SendMessageOptions`
+
+| Propiedad           | Tipo                                    | Requerido | Descripción                         |
+| ------------------- | --------------------------------------- | :-------: | ----------------------------------- |
+| `queueName`         | `string`                                |    Si     | Nombre lógico de la cola            |
+| `messageBody`       | `string \| object`                      |    Si     | Cuerpo del mensaje                  |
+| `delaySeconds`      | `number`                                |    No     | Retraso en segundos                 |
+| `messageAttributes` | `Record<string, MessageAttributeValue>` |    No     | Atributos adicionales del mensaje   |
+| `groupId`           | `string`                                |    No     | ID de grupo para colas FIFO         |
+| `deduplicationId`   | `string`                                |    No     | ID de deduplicación para colas FIFO |
+
+#### `AwsSqsModuleAsyncOptions`
+
+Opciones para registro asíncrono del módulo.
+
+| Propiedad        | Tipo                               | Descripción                                                |
+| ---------------- | ---------------------------------- | ---------------------------------------------------------- |
+| `useFactory`     | `(...args) => AwsSqsModuleOptions` | Función factory para construir las opciones dinámicamente  |
+| `useClass`       | `Type<AwsSqsModuleOptionsFactory>` | Clase que implementa `AwsSqsModuleOptionsFactory`          |
+| `useExisting`    | `Type<AwsSqsModuleOptionsFactory>` | Reutiliza un provider existente que implemente la interfaz |
+| `inject`         | `any[]`                            | Dependencias a inyectar en la factory                      |
+| `imports`        | `ModuleMetadata['imports']`        | Módulos adicionales a importar                             |
+| `extraProviders` | `Provider[]`                       | Providers adicionales a registrar en el módulo             |
+
+#### `Message`
+
+Tipo re-exportado desde `@aws-sdk/client-sqs`. Úsalo para tipar el parámetro de los handlers de mensajes.
+
+```typescript
+import { Message } from '@tresdoce-nestjs-toolkit/aws-sqs';
+```
 
 ## 📄 Changelog
 

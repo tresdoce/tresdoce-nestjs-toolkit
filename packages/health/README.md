@@ -15,7 +15,7 @@
 
 > ⚠️ Es importante tener en cuenta que este módulo se encuentra implementado en el package `@tresdoce-nestjs-toolkit/paas`, ya que es una funcionalidad core para el starter.
 
-Este módulo está pensada para ser utilizada en [NestJS Starter](https://github.com/rudemex/nestjs-starter), o cualquier
+Este módulo está pensado para ser utilizado en [NestJS Starter](https://github.com/rudemex/nestjs-starter), o cualquier
 proyecto que utilice una configuración centralizada, siguiendo la misma arquitectura del starter.
 
 ## Glosario
@@ -25,6 +25,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [⚙️ Configuración](#configurations)
 - [👨‍💻 Uso](#use)
+- [📋 API Reference](#api-reference)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
 
@@ -51,20 +52,22 @@ npm install -S @tresdoce-nestjs-toolkit/health
 yarn add @tresdoce-nestjs-toolkit/health
 ```
 
+## 📦 Dependencias internas
+
+Este paquete requiere los siguientes paquetes del toolkit:
+
+| Paquete                                          | Razón                                                            |
+| ------------------------------------------------ | ---------------------------------------------------------------- |
+| [`@tresdoce-nestjs-toolkit/core`](../core)       | Tipos `Typings.AppConfig`, decoradores base y utilidades comunes |
+| [`@tresdoce-nestjs-toolkit/tracing`](../tracing) | Decorador `@SkipTrace` y contexto de OpenTelemetry               |
+
 <a name="configurations"></a>
 
 ## ⚙️ Configuración
 
-El módulo tiene la capacidad de utilizar la configuración centralizada para poder realizar los health checks
-correspondientes a los servicios configurados.
+El módulo utiliza la configuración centralizada para ejecutar los health checks correspondientes a los servicios configurados.
 
-Siguiendo la arquitectura del [NestJS Starter](https://github.com/rudemex/nestjs-starter), la información que se agrega
-en la configuración de los `services` impacta en los health checks para él `readiness`, como
-asi también el uso de ciertos servicios como `elasticsearch`, `typeORM`, `Redis`, `Camunda`, etc.
-
-Utilizando la propiedad `timeout` para configurar el tiempo de respuesta del servicio, como también la
-propiedad `healthPath` para configurar la `url` a la cual realizar el ping check, si no se completa este campo, por
-defecto realiza el ping al dominio de la url.
+Siguiendo la arquitectura del [NestJS Starter](https://github.com/rudemex/nestjs-starter), la información agregada en `health` y `services` impacta directamente en el endpoint `/health/readiness`, así como también la presencia de configuraciones de `elasticsearch`, `typeorm`, `redis` y `camunda`.
 
 ```typescript
 //./src/config/configuration.ts
@@ -76,6 +79,14 @@ export default registerAs('config', (): Typings.AppConfig => {
     //...
     health: {
       skipChecks: getSkipHealthChecks(process.env.SKIP_HEALTH_CHECKS),
+      storage: {
+        path: '/',
+        thresholdPercent: 0.9,
+      },
+      memory: {
+        heap: 300 * 1024 * 1024, // 300 MB en bytes
+        rss: 300 * 1024 * 1024, // 300 MB en bytes
+      },
     },
     services: {
       myApi: {
@@ -84,7 +95,7 @@ export default registerAs('config', (): Typings.AppConfig => {
       myApiTwo: {
         url: process.env.MY_API_TWO_URL,
         timeout: 5000,
-        healthPath: '/health/endpoint/of/api',
+        healthPath: '/health/liveness',
       },
     },
     //...
@@ -97,32 +108,58 @@ export default registerAs('config', (): Typings.AppConfig => {
 
 ### Health
 
-`skipChecks`: Lista de servicios predefinida por arquitectura para skipear los ping checks del readiness,
-si no se requiere realizar un skipeo, lo recomendable es remover la variable y su configuración.
+`skipChecks`: Lista de checks a omitir en el readiness. Si no se requiere omitir ninguno, se recomienda remover la variable y su configuración.
 
 - Type: `String[]`
 - Values: `storage | memory | elasticsearch | redis | camunda | typeorm`
 - Example: `elasticsearch,memory`
 
+`storage`: Configuración para el check de disco mediante `DiskHealthIndicator.checkStorage()`.
+
+| Propiedad          | Type     | Description                                                                              |
+| ------------------ | -------- | ---------------------------------------------------------------------------------------- |
+| `path`             | `string` | Ruta del sistema de archivos a monitorear (ej: `'/'` en Linux, `'C:\\'` en Windows).     |
+| `thresholdPercent` | `number` | Porcentaje máximo de uso de disco permitido, entre `0` y `1`. Ej: `0.9` equivale al 90%. |
+
+`memory`: Configuración para los checks de memoria mediante `MemoryHealthIndicator`.
+
+| Propiedad | Type     | Description                                                                   |
+| --------- | -------- | ----------------------------------------------------------------------------- |
+| `heap`    | `number` | Límite en **bytes** para el uso del heap de Node.js (`checkHeap`).            |
+| `rss`     | `number` | Límite en **bytes** para el RSS (Resident Set Size) del proceso (`checkRSS`). |
+
 ### Services
 
-`timeout`: Es tiempo de respuesta del servicio a consumir.
+`timeout`: Tiempo máximo de respuesta del servicio en milisegundos.
 
 - Type: `Number`
 - Default: `0`
 
-`healthPath`: Endpoint a realizar el ping check del servicio
+`healthPath`: Endpoint al cual se realiza el ping check del servicio. Si no se especifica, se usa el path por defecto.
 
 - Type: `String`
 - Default: `/health/liveness`
 
 </details>
 
+### Checks automáticos por configuración
+
+El módulo agrega checks automáticamente al readiness si detecta las siguientes claves en la configuración centralizada:
+
+| Configuración presente    | Check agregado                              | Key de resultado en readiness |
+| ------------------------- | ------------------------------------------- | ----------------------------- |
+| `config.database.typeorm` | Ping a TypeORM con `TypeOrmHealthIndicator` | `typeorm-<type>`              |
+| `config.redis`            | Ping a Redis vía microservicio              | `redis` o `redis-<name>`      |
+| `config.elasticsearch`    | Ping HTTP al nodo de Elasticsearch          | `elasticsearch`               |
+| `config.camunda`          | Ping HTTP a `<camunda.baseUrl>/version`     | `camunda`                     |
+
+Cada uno de estos checks puede omitirse individualmente usando `health.skipChecks`.
+
 <a name="use"></a>
 
 ## 👨‍💻 Uso
 
-Importar `healthModule` en módulo principal de nuestra aplicación.
+Importar `HealthModule` en el módulo principal de la aplicación.
 
 ```typescript
 //./src/app.module.ts
@@ -139,12 +176,14 @@ import { HealthModule } from '@tresdoce-nestjs-toolkit/health';
 export class AppModule {}
 ```
 
-Para visualizar las respuestas de los endpoints, basta con navegar a `/health/liveness` y `/health/readiness`.
+Para visualizar las respuestas de los endpoints, navegar a `/health/liveness` y `/health/readiness`.
 
 ### Liveness
 
 **Schema:** `<http|https>://<server_url><:port>/<app-context>/health/liveness`<br/>
 **Example:** `http://localhost:8080/v1/health/liveness`
+
+El endpoint de liveness verifica que el proceso de Node.js está en ejecución. No depende de servicios externos.
 
 #### Response
 
@@ -159,56 +198,150 @@ Para visualizar las respuestas de los endpoints, basta con navegar a `/health/li
 **Schema:** `<http|https>://<server_url><:port>/<app-context>/health/readiness`<br/>
 **Example:** `http://localhost:8080/v1/health/readiness`
 
-#### Response
+El endpoint de readiness ejecuta todos los health checks configurados. Las claves de cada servicio en `services` aparecen con el prefijo `service-` en la respuesta.
+
+#### Response exitosa
 
 ```json
 {
   "status": "ok",
   "info": {
-    "myApi": {
+    "service-myApi": {
       "status": "up"
     },
-    "myApiTwo": {
+    "service-myApiTwo": {
       "status": "up"
     }
   },
   "error": {},
   "details": {
-    "myApi": {
+    "service-myApi": {
       "status": "up"
     },
-    "myApiTwo": {
+    "service-myApiTwo": {
       "status": "up"
     }
   }
 }
 ```
 
+#### Response con error
+
 ```json
 {
   "status": "error",
   "info": {
-    "myApi": {
+    "service-myApi": {
       "status": "up"
     }
   },
   "error": {
-    "myApiTwo": {
+    "service-myApiTwo": {
       "status": "down",
       "message": "connect ECONNREFUSED myApiTwo.example.com"
     }
   },
   "details": {
-    "myApi": {
+    "service-myApi": {
       "status": "up"
     },
-    "myApiTwo": {
+    "service-myApiTwo": {
       "status": "down",
       "message": "connect ECONNREFUSED myApiTwo.example.com"
     }
   }
 }
 ```
+
+#### Response con checks adicionales (storage, memory, typeorm)
+
+```json
+{
+  "status": "ok",
+  "info": {
+    "storage": {
+      "status": "up"
+    },
+    "memory_heap": {
+      "status": "up"
+    },
+    "memory_rss": {
+      "status": "up"
+    },
+    "typeorm-postgres": {
+      "status": "up"
+    },
+    "service-myApi": {
+      "status": "up"
+    }
+  },
+  "error": {},
+  "details": {
+    "storage": {
+      "status": "up"
+    },
+    "memory_heap": {
+      "status": "up"
+    },
+    "memory_rss": {
+      "status": "up"
+    },
+    "typeorm-postgres": {
+      "status": "up"
+    },
+    "service-myApi": {
+      "status": "up"
+    }
+  }
+}
+```
+
+### Excluir rutas de salud en middlewares
+
+Para evitar que los middlewares globales (autenticación, logging, etc.) intercepten las rutas de health, se puede usar el array `controllersExcludes` exportado por el módulo:
+
+```typescript
+//./src/app.module.ts
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { HealthModule, controllersExcludes } from '@tresdoce-nestjs-toolkit/health';
+import { SomeMiddleware } from './some.middleware';
+
+@Module({
+  imports: [HealthModule],
+})
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(SomeMiddleware)
+      .exclude(...controllersExcludes)
+      .forRoutes('*');
+  }
+}
+```
+
+El array `controllersExcludes` contiene las rutas `GET /health/liveness` y `GET /health/readiness`.
+
+<a name="api-reference"></a>
+
+## 📋 API Reference
+
+### Constantes exportadas
+
+| Constante                       | Valor                | Descripción                                                                                |
+| ------------------------------- | -------------------- | ------------------------------------------------------------------------------------------ |
+| `DEFAULT_SERVICE_LIVENESS_PATH` | `'/health/liveness'` | Path por defecto usado en el ping check de servicios cuando no se especifica `healthPath`. |
+| `controllersExcludes`           | `RouteInfo[]`        | Array con las rutas de liveness y readiness, útil para excluirlas de middlewares globales. |
+
+### HealthModule
+
+Módulo global que registra los controllers de liveness y readiness, e inyecta la configuración centralizada mediante el token `CONFIG_OPTIONS`.
+
+### Endpoints
+
+| Método | Ruta                | Descripción                                         |
+| ------ | ------------------- | --------------------------------------------------- |
+| `GET`  | `/health/liveness`  | Retorna `{ status: 'up' }` si el proceso está vivo. |
+| `GET`  | `/health/readiness` | Ejecuta todos los health checks configurados.       |
 
 ## 📄 Changelog
 

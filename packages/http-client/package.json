@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/http-client",
-  "version": "2.0.11",
+  "version": "2.0.12-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo http request con axios y axios-retry",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/http-client",
     "build": "pika build --out ../../dist/http-client",
-    "test": "jest --runInBand --coverage --forceExit",
+    "test": "cross-env NODE_OPTIONS=--no-deprecation YARN_CACHE_FOLDER=.yarn-cache jest --runInBand --coverage",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -36,18 +36,18 @@
     "directory": "../../dist/http-client"
   },
   "dependencies": {
-    "@nestjs/common": "^11.1.11",
-    "@nestjs/config": "^4.0.2",
-    "@nestjs/core": "^11.1.11",
-    "@nestjs/platform-express": "^11.1.11",
-    "axios": "^1.13.2",
+    "@nestjs/common": "^11.1.24",
+    "@nestjs/config": "^4.0.4",
+    "@nestjs/core": "^11.1.24",
+    "@nestjs/platform-express": "^11.1.24",
+    "axios": "^1.17.0",
     "axios-retry": "^4.5.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.18.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.4",
+    "@tresdoce-nestjs-toolkit/config": "^0.5.5-beta.0",
     "@types/tresdoce-nestjs-toolkit": "^0.3.3"
   },
   "prettier": {
