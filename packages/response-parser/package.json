@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/response-parser",
-  "version": "2.0.11",
+  "version": "2.0.12-beta.0",
   "description": "Tresdoce NestJS Toolkit - Interceptor de formateo de respuesta",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -39,12 +39,12 @@
     "@nestjs/common": "^11.1.24",
     "@nestjs/core": "^11.1.24",
     "@nestjs/platform-express": "^11.1.24",
-    "@tresdoce-nestjs-toolkit/filters": "^2.0.11",
+    "@tresdoce-nestjs-toolkit/filters": "^2.0.12-beta.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.4",
+    "@tresdoce-nestjs-toolkit/config": "^0.5.5-beta.0",
     "@types/tresdoce-nestjs-toolkit": "^0.3.3"
   },
   "prettier": {
