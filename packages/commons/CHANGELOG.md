@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@1.4.4...@tresdoce-nestjs-toolkit/commons@1.4.5) (2026-06-03)
+
+### 👨‍💻 Chores
+
+- update dependencies
+
 ## <small>1.4.4 (2025-12-30)</small>
 
 - ci(version): version packages as pre-release ([8eb61ae](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/8eb61ae))
