@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/camunda",
     "build": "pika build --out ../../dist/camunda",
-    "test": "cross-env NODE_OPTIONS=--no-deprecation YARN_CACHE_FOLDER=.yarn-cache jest --runInBand --coverage",
+    "test": "jest --runInBand --coverage",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -36,7 +36,7 @@
     "directory": "../../dist/camunda"
   },
   "dependencies": {
-    "@nestjs/microservices": "^11.1.24",
+    "@nestjs/microservices": "^11.2.1",
     "camunda-external-task-client-js": "^2.3.1"
   },
   "devDependencies": {

@@ -1,0 +1,102 @@
+{
+  "name": "@tresdoce-nestjs-toolkit/auth",
+  "version": "0.1.0",
+  "description": "Tresdoce NestJS Toolkit - Módulo de autenticación JWT con roles y refresh tokens",
+  "author": {
+    "name": "Maximiliano \"Mex\" Delgado",
+    "email": "mdelgado@tresdoce.com.ar",
+    "url": "https://rudemex.github.io/"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "keywords": [
+    "nestjs",
+    "auth",
+    "jwt",
+    "passport",
+    "refresh-token"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tresdoce/tresdoce-nestjs-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tresdoce/tresdoce-nestjs-toolkit/issues"
+  },
+  "homepage": "https://github.com/tresdoce/tresdoce-nestjs-toolkit#readme",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf ../../dist/auth",
+    "build": "pika build --out ../../dist/auth",
+    "test": "jest --runInBand --coverage",
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "../../dist/auth"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.2.1",
+    "@nestjs/core": "^11.2.1",
+    "@nestjs/jwt": "^11.0.2",
+    "@nestjs/passport": "^11.0.5",
+    "@nestjs/platform-express": "^11.2.1",
+    "@tresdoce-nestjs-toolkit/core": "^2.0.12",
+    "@tresdoce-nestjs-toolkit/redis": "^2.0.12",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "uuid": "^14.0.1"
+  },
+  "devDependencies": {
+    "@tresdoce-nestjs-toolkit/config": "^0.5.5",
+    "@types/passport-jwt": "^4.0.1",
+    "@types/tresdoce-nestjs-toolkit": "^0.3.3",
+    "@types/uuid": "^10.0.0"
+  },
+  "prettier": {
+    "semi": true,
+    "tabWidth": 2,
+    "singleQuote": true,
+    "printWidth": 100,
+    "trailingComma": "all"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-ts-standard-pkg",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-node",
+        {
+          "exclude": [
+            "**/__test__/*"
+          ]
+        }
+      ],
+      [
+        "pika-plugin-package.json",
+        {
+          "*files": [
+            "-bin/",
+            "-dist-*/",
+            "+dist-*/*",
+            "+CHANGELOG.md",
+            "+LICENSE.md",
+            "+package.json",
+            "+README.md"
+          ]
+        }
+      ]
+    ]
+  }
+}

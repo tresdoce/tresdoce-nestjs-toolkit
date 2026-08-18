@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/elk",
     "build": "pika build --out ../../dist/elk",
-    "test": "cross-env NODE_OPTIONS=--no-deprecation YARN_CACHE_FOLDER=.yarn-cache jest --runInBand --coverage",
+    "test": "jest --runInBand --coverage",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -36,10 +36,10 @@
     "directory": "../../dist/elk"
   },
   "dependencies": {
-    "@elastic/elasticsearch": "^9.4.2",
-    "@nestjs/common": "^11.1.24",
-    "@nestjs/core": "^11.1.24",
-    "@nestjs/platform-express": "^11.1.24",
+    "@elastic/elasticsearch": "^9.5.0",
+    "@nestjs/common": "^11.2.1",
+    "@nestjs/core": "^11.2.1",
+    "@nestjs/platform-express": "^11.2.1",
     "@tresdoce-nestjs-toolkit/utils": "^2.0.12",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"

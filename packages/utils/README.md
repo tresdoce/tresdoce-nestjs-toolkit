@@ -667,11 +667,11 @@ this.bcryptService.generateSalt(10, 'a');
 
 ### Tipos y enums
 
-| Símbolo         | Tipo | Valores / Descripción                      |
+| Símbolo | Tipo | Valores / Descripción |
 | --------------- | ---- | ------------------------------------------ | --------- | --------- | ------- | ------ | ------- | -------- | -------- |
-| `BcryptVersion` | type | `'a'                                       | 'b'`      |
-| `TimeUnit`      | type | `'milliseconds'                            | 'seconds' | 'minutes' | 'hours' | 'days' | 'weeks' | 'months' | 'years'` |
-| `TimeSuffixes`  | enum | `ms`, `s`, `min`, `h`, `d`, `w`, `mo`, `y` |
+| `BcryptVersion` | type | `'a'                                       | 'b'` |
+| `TimeUnit` | type | `'milliseconds'                            | 'seconds' | 'minutes' | 'hours' | 'days' | 'weeks' | 'months' | 'years'` |
+| `TimeSuffixes` | enum | `ms`, `s`, `min`, `h`, `d`, `w`, `mo`, `y` |
 
 ### Constantes
 

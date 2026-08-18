@@ -393,7 +393,7 @@ A partir de ese punto, cada request válido que pase por `CsrfGuard` generará a
 
 ### `@Public()`
 
-Marca un endpoint o controller como público (no requiere autenticación). Setea el metadata `isPublic: true`, que los guards de autenticación pueden leer con `IS_PUBLIC_KEY`.
+Marca un endpoint o controller como público (no requiere autenticación). Setea el metadata `isPublic: true`, leído por `RolesGuard` (ver sección [Roles y autorización](#roles-y-autorización)) para omitir la verificación de roles.
 
 ```typescript
 import { Public } from '@tresdoce-nestjs-toolkit/core';
@@ -415,7 +415,7 @@ export class AppController {
 
 ### `@Roles(...roles)`
 
-Setea metadata de roles sobre un endpoint o controller. Los guards de autorización pueden leer los roles con `ROLES_KEY`.
+Setea metadata de roles sobre un endpoint o controller, leída por `RolesGuard` (ver sección [Roles y autorización](#roles-y-autorización)).
 
 ```typescript
 import { Roles } from '@tresdoce-nestjs-toolkit/core';
@@ -434,6 +434,52 @@ export class AppController {
     return '...';
   }
 }
+```
+
+---
+
+## Roles y autorización
+
+`RolesGuard` aplica el control de acceso basado en los metadata seteados por `@Roles(...roles)` y `@Public()`:
+
+- Si el endpoint (o su controller) tiene `@Public()`, se permite el acceso sin más verificaciones.
+- Si no se especificó `@Roles(...)`, se permite el acceso — la guardia no restringe por defecto, solo cuando se le pide explícitamente.
+- En caso contrario, compara los roles requeridos contra `request.user.roles` (convención estándar de NestJS/Passport: se espera que un guard de autenticación previo, como `AuthGuard('jwt')`, ya haya poblado `request.user`). Si ninguno coincide, lanza `403 Forbidden`.
+
+#### Nivel endpoint
+
+```typescript
+import { Roles, RolesGuard } from '@tresdoce-nestjs-toolkit/core';
+import { UseGuards } from '@nestjs/common';
+
+export class MyController {
+  @Get('admin')
+  @Roles('admin')
+  @UseGuards(RolesGuard)
+  async onlyAdmin() {
+    /*...*/
+  }
+}
+```
+
+#### Aplicado globalmente
+
+Para exigir roles en toda la aplicación por defecto (y usar `@Public()` para las excepciones), registrá `RolesGuard` como `APP_GUARD`:
+
+```typescript
+import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from '@tresdoce-nestjs-toolkit/core';
+
+@Module({
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
+})
+export class AppModule {}
 ```
 
 ### `@ExcludeFilter()`
@@ -700,9 +746,10 @@ findAll(@Pagination() pagination: PaginationParams): PaginationResponse<UserEnti
 
 ### Guards
 
-| Export      | Descripción                                                                                                      |
-| ----------- | ---------------------------------------------------------------------------------------------------------------- |
-| `CsrfGuard` | Guard que valida el token CSRF, el User-Agent y la IP del cliente. Lanza `403 Forbidden` si la validación falla. |
+| Export       | Descripción                                                                                                                     |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| `CsrfGuard`  | Guard que valida el token CSRF, el User-Agent y la IP del cliente. Lanza `403 Forbidden` si la validación falla.                |
+| `RolesGuard` | Guard que compara los roles requeridos (`@Roles()`) contra `request.user.roles`, respetando `@Public()`. Lanza `403 Forbidden`. |
 
 ### DTOs y Entities
 

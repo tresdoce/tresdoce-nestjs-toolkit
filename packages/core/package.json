@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/core",
     "build": "pika build --out ../../dist/core",
-    "test": "cross-env NODE_OPTIONS=--no-deprecation YARN_CACHE_FOLDER=.yarn-cache jest --runInBand --coverage",
+    "test": "jest --runInBand --coverage",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -38,17 +38,18 @@
   "dependencies": {
     "@nestjs/class-transformer": "^0.4.0",
     "@nestjs/class-validator": "^0.13.4",
-    "@nestjs/common": "^11.1.24",
-    "@nestjs/core": "^11.1.24",
-    "@nestjs/platform-express": "^11.1.24",
+    "@nestjs/common": "^11.2.1",
+    "@nestjs/core": "^11.2.1",
+    "@nestjs/platform-express": "^11.2.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
     "cookie": "^1.1.1",
     "cookie-signature": "^1.2.2",
     "csrf": "^3.1.0",
-    "joi": "^18.2.1",
+    "joi": "^18.2.3",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.2"
+    "rxjs": "^7.8.2",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.5",
