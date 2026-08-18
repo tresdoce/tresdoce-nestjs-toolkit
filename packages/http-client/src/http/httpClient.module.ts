@@ -23,7 +23,10 @@ import {
 const createAxiosRetry = (config: HttpModuleOptions = {}) => {
   const axiosInstanceConfig: HttpModuleOptions = _.merge({}, defaultConfigInstanceAxios, config);
   const axiosInstance: AxiosInstance = Axios.create(axiosInstanceConfig);
-  axiosRetry(axiosInstance, axiosInstanceConfig);
+  // Axios exposes separate ESM and CommonJS declarations. With TypeScript 6,
+  // axios-retry can resolve the other declaration even though both types
+  // describe the same runtime instance.
+  axiosRetry(axiosInstance as Parameters<typeof axiosRetry>[0], axiosInstanceConfig);
   return axiosInstance;
 };
 

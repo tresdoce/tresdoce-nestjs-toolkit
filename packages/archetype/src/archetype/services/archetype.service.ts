@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import _ from 'lodash';
 import * as path from 'path';
@@ -12,7 +12,19 @@ export class ArchetypeService {
 
   async readFile(pathSegment: string, filename: string): Promise<any> {
     const file = path.resolve(pathSegment, filename);
-    return JSON.parse(fs.readFileSync(file, 'utf8'));
+    let raw: string;
+
+    try {
+      raw = fs.readFileSync(file, 'utf8');
+    } catch (error) {
+      throw new InternalServerErrorException(`ArchetypeService: unable to read file "${file}"`);
+    }
+
+    try {
+      return JSON.parse(raw);
+    } catch (error) {
+      throw new InternalServerErrorException(`ArchetypeService: invalid JSON in file "${file}"`);
+    }
   }
 
   async getArchetypeVersion() {

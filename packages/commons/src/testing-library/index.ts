@@ -18,7 +18,7 @@ export const jestConfig = ({
     rootDir: '.',
     testRegex: '.*\\.(spec|it|test|e2e|e2e-spec)\\.(t|j)s$',
     transform: {
-      '^.+\\.(t|j)s$': 'ts-jest',
+      '^.+\\.(t|j)s$': ['ts-jest', { tsconfig: 'tsconfig.test.json' }],
     },
     roots: ['<rootDir>/test/', '<rootDir>/src/'],
     collectCoverage: true,

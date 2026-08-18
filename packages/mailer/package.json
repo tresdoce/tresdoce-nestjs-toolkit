@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/mailer",
-  "version": "2.0.12",
+  "version": "2.0.13-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo para envíos de mail",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/mailer",
     "build": "pika build --out ../../dist/mailer",
-    "test": "cross-env NODE_OPTIONS=--no-deprecation YARN_CACHE_FOLDER=.yarn-cache jest --runInBand --coverage",
+    "test": "jest --runInBand --coverage",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -36,15 +36,15 @@
     "directory": "../../dist/mailer"
   },
   "dependencies": {
-    "@css-inline/css-inline": "^0.20.2",
-    "@nestjs/common": "^11.1.24",
-    "@nestjs/core": "^11.1.24",
-    "@nestjs/platform-express": "^11.1.24",
+    "@css-inline/css-inline": "^0.21.1",
+    "@nestjs/common": "^11.2.1",
+    "@nestjs/core": "^11.2.1",
+    "@nestjs/platform-express": "^11.2.1",
     "ejs": "^6.0.1",
     "glob": "13.0.6",
     "handlebars": "^4.7.9",
-    "mjml": "^5.3.0",
-    "nodemailer": "8.0.10",
+    "mjml": "^5.4.0",
+    "nodemailer": "9.0.5",
     "pug": "^3.0.4",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"

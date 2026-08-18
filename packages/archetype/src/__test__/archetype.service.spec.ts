@@ -1,5 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
+import { InternalServerErrorException } from '@nestjs/common';
+import * as fs from 'fs';
+import * as path from 'path';
 
 import { config, manifest } from '@tresdoce-nestjs-toolkit/test-utils';
 
@@ -83,6 +86,27 @@ describe('ArchetypeService', () => {
         '@nestjs/testing': '^9.4.0',
       },
     });
+  });
+
+  it('should throw InternalServerErrorException when the file does not exist', async () => {
+    const missingFile = path.resolve(__dirname, 'nonexistent-package.json');
+
+    await expect(service.readFile(__dirname, 'nonexistent-package.json')).rejects.toThrow(
+      new InternalServerErrorException(`ArchetypeService: unable to read file "${missingFile}"`),
+    );
+  });
+
+  it('should throw InternalServerErrorException when the file contains invalid JSON', async () => {
+    const invalidFile = path.resolve(__dirname, 'invalid.json');
+    fs.writeFileSync(invalidFile, '{ this is not valid json');
+
+    try {
+      await expect(service.readFile(__dirname, 'invalid.json')).rejects.toThrow(
+        new InternalServerErrorException(`ArchetypeService: invalid JSON in file "${invalidFile}"`),
+      );
+    } finally {
+      fs.unlinkSync(invalidFile);
+    }
   });
 
   it('should be return manifest', async () => {

@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/aws-sqs",
-  "version": "0.3.12",
+  "version": "0.3.13-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo de cola de mensajes de AWS Simple Queue Service",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/aws-sqs",
     "build": "pika build --out ../../dist/aws-sqs",
-    "test": "cross-env NODE_OPTIONS=--no-deprecation YARN_CACHE_FOLDER=.yarn-cache jest --runInBand --coverage",
+    "test": "jest --runInBand --coverage",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -36,7 +36,7 @@
     "directory": "../../dist/aws-sqs"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.1060.0"
+    "@aws-sdk/client-sqs": "^3.1112.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.5",

@@ -16,12 +16,7 @@ import { CsrfCookieOptions } from '../commons/index';
 export type TAppStage = 'local' | 'test' | 'snd' | 'dev' | 'qa' | 'homo' | 'prod';
 
 export type TSkipHealthChecks =
-  | 'storage'
-  | 'memory'
-  | 'elasticsearch'
-  | 'camunda'
-  | 'typeorm'
-  | 'redis';
+  'storage' | 'memory' | 'elasticsearch' | 'camunda' | 'typeorm' | 'redis';
 
 export enum EAppStage {
   local = 'local',

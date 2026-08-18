@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/health",
-  "version": "2.0.13",
+  "version": "2.0.14-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo health checks liveness y readiness",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/health",
     "build": "pika build --out ../../dist/health",
-    "test": "cross-env NODE_OPTIONS=--no-deprecation YARN_CACHE_FOLDER=.yarn-cache jest --runInBand --coverage",
+    "test": "jest --runInBand --coverage",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -37,17 +37,17 @@
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.1",
-    "@nestjs/common": "^11.1.24",
-    "@nestjs/core": "^11.1.24",
-    "@nestjs/microservices": "^11.1.24",
-    "@nestjs/platform-express": "^11.1.24",
-    "@nestjs/swagger": "^11.4.4",
+    "@nestjs/common": "^11.2.1",
+    "@nestjs/core": "^11.2.1",
+    "@nestjs/microservices": "^11.2.1",
+    "@nestjs/platform-express": "^11.2.1",
+    "@nestjs/swagger": "^11.4.7",
     "@nestjs/terminus": "^11.1.1",
-    "@nestjs/typeorm": "^11.0.1",
+    "@nestjs/typeorm": "^11.0.3",
     "lodash": "^4.18.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
-    "typeorm": "^1.0.0"
+    "typeorm": "^1.1.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.5",

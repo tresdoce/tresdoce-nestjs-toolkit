@@ -182,12 +182,12 @@ Módulo global (`@Global()`) que registra el controller y el service de archetyp
 
 ### `ArchetypeService`
 
-| Método                            | Descripción                                                                                                                                  |
-| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `generateManifest()`              | Combina `getArchetypeVersion()` y `getApplicationInfo()` en un único objeto.                                                                 |
-| `getArchetypeVersion()`           | Lee la versión del paquete `@tresdoce-nestjs-toolkit/archetype` instalado.                                                                   |
-| `getApplicationInfo()`            | Lee `config.project` y `config.server.appStage` de la configuración centralizada, y filtra las dependencias del `package.json` del proyecto. |
-| `readFile(pathSegment, filename)` | Utilidad interna para leer y parsear archivos JSON.                                                                                          |
+| Método                            | Descripción                                                                                                                                           |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `generateManifest()`              | Combina `getArchetypeVersion()` y `getApplicationInfo()` en un único objeto.                                                                          |
+| `getArchetypeVersion()`           | Lee la versión del paquete `@tresdoce-nestjs-toolkit/archetype` instalado.                                                                            |
+| `getApplicationInfo()`            | Lee `config.project` y `config.server.appStage` de la configuración centralizada, y filtra las dependencias del `package.json` del proyecto.          |
+| `readFile(pathSegment, filename)` | Utilidad interna para leer y parsear archivos JSON. Lanza `InternalServerErrorException` si el archivo no existe o si su contenido no es JSON válido. |
 
 ### Constants
 

@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/paas",
-  "version": "2.0.13",
+  "version": "2.0.14-beta.0",
   "description": "Tresdoce NestJS Toolkit - Librería centralizada de funcionalidades cross",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -29,7 +29,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/paas",
     "build": "pika build --out ../../dist/paas",
-    "test": "cross-env NODE_OPTIONS=--no-deprecation YARN_CACHE_FOLDER=.yarn-cache jest --runInBand --coverage --passWithNoTests",
+    "test": "jest --runInBand --coverage --passWithNoTests",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -37,13 +37,13 @@
     "directory": "../../dist/paas"
   },
   "dependencies": {
-    "@tresdoce-nestjs-toolkit/core": "^2.0.12",
-    "@tresdoce-nestjs-toolkit/filters": "^2.0.12",
-    "@tresdoce-nestjs-toolkit/health": "^2.0.13",
-    "@tresdoce-nestjs-toolkit/rate-limit": "^0.2.12",
-    "@tresdoce-nestjs-toolkit/response-parser": "^2.0.12",
-    "@tresdoce-nestjs-toolkit/tracing": "^2.0.12",
-    "@tresdoce-nestjs-toolkit/utils": "^2.0.12"
+    "@tresdoce-nestjs-toolkit/core": "^2.1.0-beta.0",
+    "@tresdoce-nestjs-toolkit/filters": "^2.0.13-beta.0",
+    "@tresdoce-nestjs-toolkit/health": "^2.0.14-beta.0",
+    "@tresdoce-nestjs-toolkit/rate-limit": "^0.2.13-beta.0",
+    "@tresdoce-nestjs-toolkit/response-parser": "^2.0.13-beta.0",
+    "@tresdoce-nestjs-toolkit/tracing": "^2.0.13-beta.0",
+    "@tresdoce-nestjs-toolkit/utils": "^2.0.13-beta.0"
   },
   "devDependencies": {
     "@tresdoce-nestjs-toolkit/config": "^0.5.5",

@@ -363,9 +363,7 @@ new HandlebarsAdapter(undefined, {
 // O con opciones de @css-inline/css-inline:
 new EjsAdapter({
   inlineCssEnabled: true,
-  inlineCssOptions: {
-    /* opciones de css-inline */
-  },
+  inlineCssOptions: {/* opciones de css-inline */},
 });
 ```
 
