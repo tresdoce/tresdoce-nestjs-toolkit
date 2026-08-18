@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.6](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/%40tresdoce-nestjs-toolkit%2Fcommons%401.4.5...%40tresdoce-nestjs-toolkit%2Fcommons%401.4.6) (2026-08-18)
+
+- **version:** version packages as pre-release ([502b36b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/502b36b94a5ad53fc032803a0281dd677bc2d2e0))
+
+### 🐛 Bug Fixes
+
+- **commons:** externalize hoisted deps in webpack build, add tsconfig.test.json to jest transform ([94ea577](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/94ea577b29eb131823938c7650b1262241ae348c))
+- **http-client:** cast axios instance for axios-retry TS6 compatibility ([b33d190](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/b33d190b013c7b7ecabcfa1289dda9201b0f8c0c))
+
 ## [1.4.5](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/commons@1.4.4...@tresdoce-nestjs-toolkit/commons@1.4.5) (2026-06-03)
 
 ### 👨‍💻 Chores

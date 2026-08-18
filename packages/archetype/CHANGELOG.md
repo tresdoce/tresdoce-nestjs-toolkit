@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.13](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/%40tresdoce-nestjs-toolkit%2Farchetype%402.0.12...%40tresdoce-nestjs-toolkit%2Farchetype%402.0.13) (2026-08-18)
+
+- **version:** version packages as pre-release ([502b36b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/502b36b94a5ad53fc032803a0281dd677bc2d2e0))
+
+### 🐛 Bug Fixes
+
+- **archetype:** handle errors in readFile when package.json is missing or malformed ([ec198d2](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/ec198d230650a9d44fd72440e0ad7cbabc580bde))
+- **http-client:** cast axios instance for axios-retry TS6 compatibility ([b33d190](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/b33d190b013c7b7ecabcfa1289dda9201b0f8c0c))
+
 ## [2.0.12](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/archetype@2.0.11...@tresdoce-nestjs-toolkit/archetype@2.0.12) (2026-06-03)
 
 ### 👨‍💻 Chores

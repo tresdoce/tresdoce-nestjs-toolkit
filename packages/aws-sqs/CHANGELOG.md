@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.13](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/%40tresdoce-nestjs-toolkit%2Faws-sqs%400.3.12...%40tresdoce-nestjs-toolkit%2Faws-sqs%400.3.13) (2026-08-18)
+
+- **version:** version packages as pre-release ([502b36b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/502b36b94a5ad53fc032803a0281dd677bc2d2e0))
+
+### 🐛 Bug Fixes
+
+- **http-client:** cast axios instance for axios-retry TS6 compatibility ([b33d190](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/b33d190b013c7b7ecabcfa1289dda9201b0f8c0c))
+
+### 👨‍💻 Chores
+
+- bump dependencies to latest patch/minor versions ([4a71d6d](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/4a71d6d571e00ddd0c17917f8fe5c4ca04d5c126))
+
 ## [0.3.12](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/aws-sqs@0.3.11...@tresdoce-nestjs-toolkit/aws-sqs@0.3.12) (2026-06-03)
 
 ### 👨‍💻 Chores
