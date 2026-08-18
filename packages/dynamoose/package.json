@@ -37,10 +37,10 @@
     "directory": "../../dist/dynamoose"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.1060.0",
-    "@nestjs/common": "^11.1.24",
-    "@nestjs/core": "^11.1.24",
-    "@nestjs/platform-express": "^11.1.24",
+    "@aws-sdk/client-dynamodb": "^3.1112.0",
+    "@nestjs/common": "^11.2.1",
+    "@nestjs/core": "^11.2.1",
+    "@nestjs/platform-express": "^11.2.1",
     "dynamoose": "^4.2.0",
     "dynamoose-logger": "^4.2.0",
     "reflect-metadata": "^0.2.2",

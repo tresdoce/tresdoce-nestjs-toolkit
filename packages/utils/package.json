@@ -36,12 +36,12 @@
     "directory": "../../dist/utils"
   },
   "dependencies": {
-    "@nestjs/common": "^11.1.24",
-    "@nestjs/core": "^11.1.24",
-    "@nestjs/platform-express": "^11.1.24",
+    "@nestjs/common": "^11.2.1",
+    "@nestjs/core": "^11.2.1",
+    "@nestjs/platform-express": "^11.2.1",
     "bcrypt": "^6.0.0",
     "fast-redact": "^3.5.0",
-    "luxon": "^3.7.1",
+    "luxon": "^3.7.2",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
