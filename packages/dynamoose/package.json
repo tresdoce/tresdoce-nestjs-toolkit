@@ -29,7 +29,7 @@
   "scripts": {
     "prebuild": "rimraf ../../dist/dynamoose",
     "build": "pika build --out ../../dist/dynamoose",
-    "test": "cross-env NODE_OPTIONS=--no-deprecation YARN_CACHE_FOLDER=.yarn-cache jest --runInBand --coverage",
+    "test": "jest --runInBand --coverage",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {

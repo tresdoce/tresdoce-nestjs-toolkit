@@ -1,12 +1,12 @@
 export enum TimeSuffixes {
-  'milliseconds' = 'ms',
-  'seconds' = 's',
-  'minutes' = 'min',
-  'hours' = 'h',
-  'days' = 'd',
-  'weeks' = 'w',
-  'months' = 'mo',
-  'years' = 'y',
+  milliseconds = 'ms',
+  seconds = 's',
+  minutes = 'min',
+  hours = 'h',
+  days = 'd',
+  weeks = 'w',
+  months = 'mo',
+  years = 'y',
 }
 
 export type TimeUnit = keyof typeof TimeSuffixes;
