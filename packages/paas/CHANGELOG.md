@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.14](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/%40tresdoce-nestjs-toolkit%2Fpaas%402.0.13...%40tresdoce-nestjs-toolkit%2Fpaas%402.0.14) (2026-08-18)
+
+- **version:** version packages as pre-release ([502b36b](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/502b36b94a5ad53fc032803a0281dd677bc2d2e0))
+
+### 🐛 Bug Fixes
+
+- **http-client:** cast axios instance for axios-retry TS6 compatibility ([b33d190](https://github.com/tresdoce/tresdoce-nestjs-toolkit/commit/b33d190b013c7b7ecabcfa1289dda9201b0f8c0c))
+
 ## [2.0.13](https://github.com/tresdoce/tresdoce-nestjs-toolkit/compare/@tresdoce-nestjs-toolkit/paas@2.0.12...@tresdoce-nestjs-toolkit/paas@2.0.13) (2026-06-03)
 
 ### 🐛 Bug Fixes
