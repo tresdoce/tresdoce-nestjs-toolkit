@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/snowflake-uid",
-  "version": "0.3.12",
+  "version": "0.3.13-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo de SnowFlake ID",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",

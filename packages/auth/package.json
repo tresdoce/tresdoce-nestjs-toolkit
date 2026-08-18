@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/auth",
-  "version": "0.1.0",
+  "version": "0.2.0-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo de autenticación JWT con roles y refresh tokens",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -44,8 +44,8 @@
     "@nestjs/jwt": "^11.0.2",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.2.1",
-    "@tresdoce-nestjs-toolkit/core": "^2.0.12",
-    "@tresdoce-nestjs-toolkit/redis": "^2.0.12",
+    "@tresdoce-nestjs-toolkit/core": "^2.1.0-beta.0",
+    "@tresdoce-nestjs-toolkit/redis": "^2.0.14-beta.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
