@@ -13,7 +13,7 @@ import {
 import { ApiExcludeEndpoint, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Transport } from '@nestjs/microservices';
 import { SkipTrace } from '@tresdoce-nestjs-toolkit/tracing';
-import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import { Public, Typings } from '@tresdoce-nestjs-toolkit/core';
 import _ from 'lodash';
 import { URL } from 'url';
 
@@ -32,6 +32,7 @@ export class ReadinessController {
     private microservice: MicroserviceHealthIndicator,
   ) {}
 
+  @Public()
   @Get('readiness')
   @ApiExcludeEndpoint()
   @ApiOperation({
