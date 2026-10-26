@@ -117,9 +117,9 @@ export class AwsSqsListener implements OnModuleInit, OnModuleDestroy {
         this.logger.debug(`No messages received from ${queueName}.`);
         return;
       }
-      // One at a time, in order: FIFO queues rely on it.
+      // One at a time, in order: FIFO queues rely on it, so this await stays inside the loop.
       for (const message of messages) {
-        await this.processMessage(queueName, message, handler);
+        await this.processMessage(queueName, message, handler); // NOSONAR
       }
     } catch (error) {
       this.logger.error(`Error polling queue ${queueName}: ${error.message}`);
