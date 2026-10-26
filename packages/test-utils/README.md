@@ -595,6 +595,20 @@ new testContainers('mongo:8.0', {
 });
 ```
 
+`start()` reintenta hasta 3 veces cuando Docker corta la conexión con un error transitorio (`EPIPE`,
+`ECONNRESET`, `socket hang up`), algo frecuente en runners de CI justo después de detener otro container.
+Si el container tiene un nombre fijo (`containerName`), antes de reintentar se borra el que pudo haber
+quedado a medio crear. Para tus propios containers podés usar el mismo helper:
+
+```typescript
+import { retryOnTransientDockerError } from '@tresdoce-nestjs-toolkit/test-utils';
+import { GenericContainer } from 'testcontainers';
+
+const container = await retryOnTransientDockerError(() =>
+  new GenericContainer('redis:8.2-alpine').withExposedPorts(6379).start(),
+);
+```
+
 Para limpiar containers, imágenes y volumes:
 
 ```bash
@@ -833,10 +847,13 @@ Retorna una función async compatible con el `teardown` de `globalSetup` de Vite
 
 ### Utilidades
 
-| Función    | Firma                                           | Descripción                          |
-| ---------- | ----------------------------------------------- | ------------------------------------ |
-| `delay`    | `(timeout?: number) => Promise<void>`           | Espera `timeout` ms (default: 10000) |
-| `pathJoin` | `(dirName: string, fileName: string) => string` | Une dos segmentos de path            |
+| Función                       | Firma                                                                   | Descripción                                                                                             |
+| ----------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `delay`                       | `(timeout?: number) => Promise<void>`                                   | Espera `timeout` ms (default: 10000)                                                                    |
+| `pathJoin`                    | `(dirName: string, fileName: string) => string`                         | Une dos segmentos de path                                                                               |
+| `retryOnTransientDockerError` | `<T>(fn: () => Promise<T>, options?: DockerRetryOptions) => Promise<T>` | Reintenta `fn` ante errores transitorios del socket de Docker (`attempts` 3, `delayMs` 2000, `onRetry`) |
+| `isTransientDockerError`      | `(error: unknown) => boolean`                                           | Indica si el error es `EPIPE`, `ECONNRESET` o `socket hang up`                                          |
+| `removeContainerByName`       | `(name: string) => Promise<void>`                                       | Borra (forzado) el container con ese nombre, si existe                                                  |
 
 ## 📄 Changelog
 
