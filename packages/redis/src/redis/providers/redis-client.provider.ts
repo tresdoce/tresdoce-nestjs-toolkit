@@ -1,6 +1,6 @@
-import { Logger, Provider } from '@nestjs/common';
+import { Logger, type Provider } from '@nestjs/common';
 import { createClient } from 'redis';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'node:crypto';
 
 import {
   REDIS_CLIENT,
@@ -8,38 +8,47 @@ import {
   REDIS_MSG_ERROR_CONNECTED,
   REDIS_MSG_IS_READY,
   REDIS_MSG_SUCCESSFULLY_CONNECTED,
-} from '../constants/redis.constants';
-import { RedisOptions } from '../interfaces/redis.interface';
+} from '../constants/redis.constants.js';
+import type { RedisOptions } from '../interfaces/redis.interface.js';
+
+const LOGGER_CONTEXT = 'RedisModule';
+
+/**
+ * Builds a Redis connection URL.
+ * redis[s]://[[username][:password]@][host][:port][/db-number]
+ */
+export const buildRedisUrl = ({
+  protocol = 'redis',
+  host,
+  port,
+  username,
+  password,
+  database,
+}: RedisOptions): string => {
+  const passwordSegment = password ? `:${password}` : '';
+  const credentials = username || password ? `${username ?? ''}${passwordSegment}@` : '';
+  const db = database ? `/${database}` : '';
+
+  return `${protocol}://${credentials}${host}:${port}${db}`;
+};
 
 export const createRedisClient = (): Provider => ({
   provide: REDIS_CLIENT,
   useFactory: async (options: RedisOptions) => {
-    const {
-      protocol = 'redis',
-      host,
-      port,
-      username,
-      password,
-      database,
-      name = uuidv4(),
-    } = options;
-
-    // redis[s]://[[username][:password]@][host][:port][/db-number]
-    const redisUsername = username ? `${username}` : '';
-    const redisPassword = password ? `:${password}@` : '';
-    const db = database ? `/${database}` : '';
-
-    const url = `${protocol}://${redisUsername}${redisPassword}${host}:${port}${db}`;
+    const { name = randomUUID() } = options;
+    const url = buildRedisUrl(options);
 
     const client = createClient({ ...options, url, name });
-    await client.connect();
 
-    /* istanbul ignore next */
-    client.on('ready', () => Logger.log(REDIS_MSG_IS_READY));
-    /* istanbul ignore next */
-    client.on('connect', () => Logger.log(REDIS_MSG_SUCCESSFULLY_CONNECTED));
-    /* istanbul ignore next */
-    client.on('error', (error) => Logger.error(`${REDIS_MSG_ERROR_CONNECTED} ${error}`));
+    // Listeners must be attached before connect(): otherwise the first
+    // 'connect'/'ready' events are lost and early 'error' events are unhandled.
+    client.on('connect', () => Logger.log(REDIS_MSG_SUCCESSFULLY_CONNECTED, LOGGER_CONTEXT));
+    client.on('ready', () => Logger.log(REDIS_MSG_IS_READY, LOGGER_CONTEXT));
+    client.on('error', (error: Error) =>
+      Logger.error(`${REDIS_MSG_ERROR_CONNECTED} ${error.message}`, LOGGER_CONTEXT),
+    );
+
+    await client.connect();
 
     return client;
   },

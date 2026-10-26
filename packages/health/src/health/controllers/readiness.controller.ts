@@ -5,19 +5,21 @@ import {
   HttpHealthIndicator,
   TypeOrmHealthIndicator,
   MicroserviceHealthIndicator,
-  HealthCheckResult,
-  HealthIndicatorResult,
+  HealthIndicatorService,
   MemoryHealthIndicator,
   DiskHealthIndicator,
+  type HealthCheckResult,
+  type HealthIndicatorFunction,
 } from '@nestjs/terminus';
 import { ApiExcludeEndpoint, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Transport } from '@nestjs/microservices';
 import { SkipTrace } from '@tresdoce-nestjs-toolkit/tracing';
-import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import { Public, type Typings } from '@tresdoce-nestjs-toolkit/core';
 import _ from 'lodash';
-import { URL } from 'url';
 
-import { CONFIG_OPTIONS, DEFAULT_SERVICE_LIVENESS_PATH } from '../constants';
+import { CONFIG_OPTIONS, DEFAULT_SERVICE_LIVENESS_PATH } from '../constants.js';
+
+type ElasticsearchConfig = Typings.AppConfig['elasticsearch'];
 
 @Controller('health')
 @ApiTags('Monitoring')
@@ -26,12 +28,14 @@ export class ReadinessController {
     @Inject(CONFIG_OPTIONS) private readonly appConfig: Typings.AppConfig,
     private readonly disk: DiskHealthIndicator,
     private readonly memory: MemoryHealthIndicator,
-    private health: HealthCheckService,
-    private http: HttpHealthIndicator,
-    private typeOrm: TypeOrmHealthIndicator,
-    private microservice: MicroserviceHealthIndicator,
+    private readonly health: HealthCheckService,
+    private readonly http: HttpHealthIndicator,
+    private readonly typeOrm: TypeOrmHealthIndicator,
+    private readonly microservice: MicroserviceHealthIndicator,
+    private readonly healthIndicator: HealthIndicatorService,
   ) {}
 
+  @Public()
   @Get('readiness')
   @ApiExcludeEndpoint()
   @ApiOperation({
@@ -54,145 +58,108 @@ export class ReadinessController {
     ]);
   }
 
-  private getDiskChecks() {
-    if (
-      !_.has(this.appConfig.health, 'storage') ||
-      _.isEmpty(this.appConfig.health.storage) ||
-      _.includes(this.appConfig.health.skipChecks, 'storage')
-    )
-      return [];
+  /** `true` si `path` existe en la config, no está vacío y el check no fue omitido en `health.skipChecks`. */
+  private isEnabled(path: string, check?: Typings.TSkipHealthChecks): boolean {
+    return (
+      !_.isEmpty(_.get(this.appConfig, path)) &&
+      !(this.appConfig.health?.skipChecks ?? []).includes(check)
+    );
+  }
 
+  private getDiskChecks(): HealthIndicatorFunction[] {
+    if (!this.isEnabled('health.storage', 'storage')) return [];
     const { storage } = this.appConfig.health;
-    /* istanbul ignore next */
-    if (!Object.keys(storage).length) return [];
-    /* istanbul ignore next */
-    return [
-      async (): Promise<HealthIndicatorResult> => this.disk.checkStorage('storage', { ...storage }),
-    ];
+    return [() => this.disk.checkStorage('storage', { ...storage })];
   }
 
-  private getMemoryChecks() {
-    if (
-      !_.has(this.appConfig.health, 'memory') ||
-      _.isEmpty(this.appConfig.health.memory) ||
-      _.includes(this.appConfig.health.skipChecks, 'memory')
-    )
-      return [];
-
-    const { memory } = this.appConfig.health;
-    /* istanbul ignore next */
-    if (!Object.keys(memory).length) return [];
-    /* istanbul ignore next */
-    return [
-      async (): Promise<HealthIndicatorResult> => this.memory.checkHeap('memory_heap', memory.heap),
-      async (): Promise<HealthIndicatorResult> => this.memory.checkRSS('memory_rss', memory.rss),
-    ];
+  private getMemoryChecks(): HealthIndicatorFunction[] {
+    if (!this.isEnabled('health.memory', 'memory')) return [];
+    const { heap, rss } = this.appConfig.health.memory;
+    const checks: HealthIndicatorFunction[] = [];
+    if (Number.isFinite(heap)) checks.push(() => this.memory.checkHeap('memory_heap', heap));
+    if (Number.isFinite(rss)) checks.push(() => this.memory.checkRSS('memory_rss', rss));
+    return checks;
   }
 
-  private getServicesPingChecks() {
-    /* istanbul ignore next */
-    if (!_.has(this.appConfig, 'services') || _.isEmpty(this.appConfig.services)) return [];
+  private getServicesPingChecks(): HealthIndicatorFunction[] {
+    if (!this.isEnabled('services')) return [];
 
-    const { services } = this.appConfig;
-    /* istanbul ignore next */
-    if (!Object.keys(services).length) return [];
-    /* istanbul ignore next */
-    return Object.entries(services).map(([_key, _service]) => {
-      const { url, timeout = 0, healthPath = DEFAULT_SERVICE_LIVENESS_PATH } = _service;
-      const urlService = new URL(url);
+    return Object.entries(this.appConfig.services).map(([key, service]) => {
+      const name = `service-${key}`;
+      const { url, timeout = 0, healthPath = DEFAULT_SERVICE_LIVENESS_PATH } = service ?? {};
 
-      return async (): Promise<HealthIndicatorResult> =>
-        this.http.pingCheck(`service-${_key}`, `${urlService.origin}${healthPath}`, {
-          timeout,
-        });
+      if (!URL.canParse(url)) {
+        return () => this.healthIndicator.check(name).down({ message: `Invalid URL: ${url}` });
+      }
+
+      const { origin } = new URL(url);
+      return () => this.http.pingCheck(name, `${origin}${healthPath}`, { timeout });
     });
   }
 
-  private getTypeOrmChecks() {
-    if (
-      !_.has(this.appConfig, 'database.typeorm') ||
-      _.isEmpty(this.appConfig.database.typeorm) ||
-      _.includes(this.appConfig.health.skipChecks, 'typeorm')
-    )
-      return [];
-
-    const {
-      database: { typeorm },
-    } = this.appConfig;
-    /* istanbul ignore next */
-    if (!Object.keys(typeorm).length) return [];
-    /* istanbul ignore next */
-    return [
-      async (): Promise<HealthIndicatorResult> => this.typeOrm.pingCheck(`typeorm-${typeorm.type}`),
-    ];
+  private getTypeOrmChecks(): HealthIndicatorFunction[] {
+    if (!this.isEnabled('database.typeorm', 'typeorm')) return [];
+    const { type } = this.appConfig.database.typeorm;
+    return [() => this.typeOrm.pingCheck(`typeorm-${type}`)];
   }
 
-  private getRedisChecks() {
-    if (
-      !_.has(this.appConfig, 'redis') ||
-      _.isEmpty(this.appConfig.redis) ||
-      _.includes(this.appConfig.health.skipChecks, 'redis')
-    )
-      return [];
+  private getRedisChecks(): HealthIndicatorFunction[] {
+    if (!this.isEnabled('redis', 'redis')) return [];
 
     const { redis } = this.appConfig;
-    /* istanbul ignore next */
-    if (!Object.keys(redis).length) return [];
+    const redisName = _.isEmpty(redis.name) ? 'redis' : `redis-${redis.name}`;
 
-    /* istanbul ignore next */
-    const redisName =
-      _.has(redis, 'name') && !_.isEmpty(redis.name) ? `redis-${redis.name}` : 'redis';
-
-    /* istanbul ignore next */
     return [
-      async (): Promise<HealthIndicatorResult> =>
+      () =>
         this.microservice.pingCheck(redisName, {
           transport: Transport.REDIS,
-          options: { ...redis },
+          options: {
+            host: redis.host,
+            port: redis.port,
+            username: redis.username,
+            password: redis.password,
+            ...(Number.isInteger(redis.database) && { db: redis.database }),
+            ...(redis.protocol === 'rediss' && { tls: {} }),
+          },
         }),
     ];
   }
 
-  private getElkChecks() {
-    if (
-      !_.has(this.appConfig, 'elasticsearch') ||
-      _.isEmpty(this.appConfig.elasticsearch) ||
-      _.includes(this.appConfig.health.skipChecks, 'elasticsearch')
-    )
-      return [];
+  private getElkChecks(): HealthIndicatorFunction[] {
+    if (!this.isEnabled('elasticsearch', 'elasticsearch')) return [];
 
     const { elasticsearch } = this.appConfig;
-    /* istanbul ignore next */
-    if (!Object.keys(elasticsearch).length) return [];
-
-    /* istanbul ignore next */
-    const options =
-      _.has(elasticsearch, 'auth') && !_.isEmpty(elasticsearch.auth)
-        ? { auth: elasticsearch.auth }
-        : {};
-
-    /* istanbul ignore next */
     return [
-      async (): Promise<HealthIndicatorResult> =>
-        this.http.pingCheck(`elasticsearch`, `${elasticsearch.node}`, options),
+      () =>
+        this.http.pingCheck(
+          'elasticsearch',
+          ReadinessController.getElasticsearchUrl(elasticsearch),
+          ReadinessController.getElasticsearchAuth(elasticsearch.auth),
+        ),
     ];
   }
 
-  private getCamundaChecks() {
-    if (
-      !_.has(this.appConfig, 'camunda') ||
-      _.isEmpty(this.appConfig.camunda) ||
-      _.includes(this.appConfig.health.skipChecks, 'camunda')
-    )
-      return [];
+  private getCamundaChecks(): HealthIndicatorFunction[] {
+    if (!this.isEnabled('camunda', 'camunda')) return [];
+    const { baseUrl } = this.appConfig.camunda;
+    return [() => this.http.pingCheck('camunda', `${baseUrl}/version`)];
+  }
 
-    const { camunda } = this.appConfig;
-    /* istanbul ignore next */
-    if (!Object.keys(camunda).length) return [];
-    /* istanbul ignore next */
-    return [
-      async (): Promise<HealthIndicatorResult> =>
-        this.http.pingCheck(`camunda`, `${camunda.baseUrl}/version`),
-    ];
+  /** Primer nodo configurado (`node`/`nodes` aceptan string, string[], NodeOptions o NodeOptions[]). */
+  private static getElasticsearchUrl({ node, nodes }: ElasticsearchConfig): string {
+    const first = _.head(_.castArray(node ?? nodes));
+    return String(typeof first === 'object' ? first.url : first);
+  }
+
+  /** Traduce `auth` del cliente de Elasticsearch a opciones de axios (basic, apiKey o bearer). */
+  private static getElasticsearchAuth(auth: ElasticsearchConfig['auth']) {
+    if (_.isEmpty(auth)) return {};
+    if ('username' in auth) return { auth: { username: auth.username, password: auth.password } };
+    if ('bearer' in auth) return { headers: { Authorization: `Bearer ${auth.bearer}` } };
+    const apiKey =
+      typeof auth.apiKey === 'string'
+        ? auth.apiKey
+        : Buffer.from(`${auth.apiKey.id}:${auth.apiKey.api_key}`).toString('base64');
+    return { headers: { Authorization: `ApiKey ${apiKey}` } };
   }
 }

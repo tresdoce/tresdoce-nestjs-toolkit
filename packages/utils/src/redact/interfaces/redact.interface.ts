@@ -16,6 +16,11 @@ export interface RedactModuleOptionsFactory {
 }
 
 export interface RedactModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {
+  /**
+   * Registers `RedactService`/`REDACT_PROVIDER` globally (default `true`). Libraries that only need
+   * redaction internally should pass `false`, so their options never replace the app's.
+   */
+  isGlobal?: boolean;
   useClass?: Type<RedactModuleOptionsFactory>;
   useFactory?: (...args: any[]) => Promise<RedactModuleOptions> | RedactModuleOptions;
   inject?: any[];

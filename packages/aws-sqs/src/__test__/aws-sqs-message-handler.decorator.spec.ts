@@ -1,6 +1,6 @@
 import { Reflector } from '@nestjs/core';
-import { AwsSqsMessageHandler } from '../aws-sqs/decorators/aws-sqs-message-handler.decorator';
-import { AWS_SQS_MESSAGE_HANDLER } from '../aws-sqs/constants/aws-sqs.constant';
+import { AwsSqsMessageHandler } from '../aws-sqs/decorators/aws-sqs-message-handler.decorator.js';
+import { AWS_SQS_MESSAGE_HANDLER } from '../aws-sqs/constants/aws-sqs.constant.js';
 
 describe('AwsSqsMessageHandler Decorator', () => {
   const reflector = new Reflector();

@@ -1,17 +1,22 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { REDACT_PROVIDER } from '../constants/redact.constant';
+import type fastRedact from 'fast-redact';
+
+import { REDACT_PROVIDER } from '../constants/redact.constant.js';
 
 @Injectable()
 export class RedactService {
-  constructor(@Inject(REDACT_PROVIDER) private readonly redact) {}
+  constructor(@Inject(REDACT_PROVIDER) private readonly redact: fastRedact.redactFn) {}
 
-  get redactRef() {
+  get redactRef(): fastRedact.redactFn | null {
     /* istanbul ignore next */
     return this.redact ? this.redact : null;
   }
 
-  /*
-   * Obfuscate data
+  /**
+   * Obfusca los paths configurados sobre una copia (JSON) de `_data`; el original no se modifica.
+   * @param _data Objeto a ofuscar.
+   * @param _serialize `true` (default) devuelve el resultado de fast-redact (objeto, salvo que se
+   * configure `serialize`); `false` devuelve ese resultado como string JSON.
    */
   public obfuscate(_data: any, _serialize = true): any {
     const tempData = JSON.parse(JSON.stringify(_data));

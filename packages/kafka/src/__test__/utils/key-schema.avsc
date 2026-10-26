@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "namespace": "testTopic",
+  "name": "key",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string"
+    }
+  ]
+}

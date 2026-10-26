@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { REDACT_PROVIDER } from '../redact/constants/redact.constant';
+import { REDACT_PROVIDER } from '../redact/constants/redact.constant.js';
 import {
   RedactModule,
   RedactModuleOptions,
   RedactModuleAsyncOptions,
   RedactModuleOptionsFactory,
-} from '../';
+} from '../index.js';
 import { ConfigModule } from '@nestjs/config';
 import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
 

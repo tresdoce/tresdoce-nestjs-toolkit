@@ -1,2 +1,2 @@
-export { default as config } from './configuration';
-export * from './dynamic-configuration';
+export { default as config } from './configuration.js';
+export * from './dynamic-configuration.js';

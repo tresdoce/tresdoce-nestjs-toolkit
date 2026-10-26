@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsIn } from '@nestjs/class-validator';
-import { DEFAULT_SORT_DIRECTION } from '../constants/sorting.constant';
+import { DEFAULT_SORT_DIRECTION } from '../constants/sorting.constant.js';
 
 export class SortCriteriaDto {
   @IsString()

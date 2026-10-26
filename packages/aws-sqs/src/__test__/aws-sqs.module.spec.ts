@@ -3,7 +3,12 @@ import { INestApplication } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
 
-import { AwsSqsModule, AwsSqsModuleOptions, AwsSqsModuleOptionsFactory, AwsSqsService } from '..';
+import {
+  AwsSqsModule,
+  AwsSqsModuleOptions,
+  AwsSqsModuleOptionsFactory,
+  AwsSqsService,
+} from '../index.js';
 
 const endpoint: string = 'http://localhost:4566';
 const queueNames: string[] = ['orders', 'notifications'];

@@ -1,9 +1,9 @@
 import { flatten } from '@nestjs/common';
-import * as dynamoose from 'dynamoose';
-import { getModelToken } from '../common/index';
-import { DYNAMOOSE_INITIALIZATION } from '../constants/dynamoose.constant';
-import { AsyncModelFactory, ModelDefinition } from '../interfaces';
-import { ModelType } from 'dynamoose/dist/General';
+import dynamoose from 'dynamoose';
+import { getModelToken } from '../common/index.js';
+import { DYNAMOOSE_INITIALIZATION } from '../constants/dynamoose.constant.js';
+import { AsyncModelFactory, ModelDefinition } from '../interfaces/index.js';
+import { ModelType } from 'dynamoose/dist/General.js';
 
 export const createDynamooseProviders = (models: ModelDefinition[] = []) => {
   return models.map((model) => ({
@@ -34,7 +34,7 @@ export const createDynamooseAsyncProviders = (modelFactories: AsyncModelFactory[
 
         let modelDefinition: Omit<ModelDefinition, 'name'> | undefined;
         let schema: ModelDefinition['schema'] | undefined;
-        if (object.hasOwnProperty('schema')) {
+        if (Object.hasOwn(object, 'schema')) {
           modelDefinition = object as Omit<ModelDefinition, 'name'>;
           schema = modelDefinition.schema;
         } else {

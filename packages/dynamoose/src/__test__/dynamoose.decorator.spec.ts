@@ -1,12 +1,13 @@
+import type { Mock } from 'vitest';
 import { Inject } from '@nestjs/common';
-import { getModelToken } from '../dynamoose/common/index';
-import { InjectModel } from '../dynamoose/decorators/index';
+import { getModelToken } from '../dynamoose/common/index.js';
+import { InjectModel } from '../dynamoose/decorators/index.js';
 
-jest.mock('@nestjs/common', () => ({
-  Inject: jest.fn(),
+vi.mock('@nestjs/common', () => ({
+  Inject: vi.fn(),
 }));
-jest.mock('../dynamoose/common/index', () => ({
-  getModelToken: jest.fn(),
+vi.mock('../dynamoose/common/index.js', () => ({
+  getModelToken: vi.fn(),
 }));
 
 describe('Decorator', () => {
@@ -14,7 +15,7 @@ describe('Decorator', () => {
     const model = 'MyModel';
 
     beforeAll(() => {
-      (getModelToken as jest.Mock).mockReturnValue(model);
+      (getModelToken as Mock).mockReturnValue(model);
     });
 
     it('should call Inject with correct token', () => {

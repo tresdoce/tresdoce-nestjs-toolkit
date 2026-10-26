@@ -1,5 +1,5 @@
-import { calculatePagination, getSkipHealthChecks } from '../utils';
-import { TSkipHealthChecks } from '../typings';
+import { calculatePagination, getSkipHealthChecks } from '../utils/index.js';
+import type { TSkipHealthChecks } from '../typings/index.js';
 
 describe('Utils', () => {
   describe('getSkipHealthChecks', () => {
@@ -15,6 +15,10 @@ describe('Utils', () => {
         ' Storage ,MEMORY , elasticsearch , camUnda , redis , typeORM',
       );
       expect(result).toEqual(['storage', 'memory', 'elasticsearch', 'camunda', 'redis', 'typeorm']);
+    });
+
+    it('should ignore empty items', () => {
+      expect(getSkipHealthChecks('storage,, memory,')).toEqual(['storage', 'memory']);
     });
 
     it('should return an empty array when _value is empty', () => {

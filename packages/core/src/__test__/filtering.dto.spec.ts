@@ -1,4 +1,4 @@
-import { FilteringParamsDto, FilteringCriteriaDto } from '../decorators';
+import { FilteringParamsDto, FilteringCriteriaDto } from '../decorators/index.js';
 import { validate } from '@nestjs/class-validator';
 import { plainToClass } from '@nestjs/class-transformer';
 

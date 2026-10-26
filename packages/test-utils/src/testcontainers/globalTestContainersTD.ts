@@ -1,13 +1,17 @@
-import { DockerComposeEnvironment, StartedDockerComposeEnvironment, Wait } from 'testcontainers';
-import { ComposeDownOptions } from 'testcontainers/build/container-runtime';
+import {
+  DockerComposeEnvironment,
+  type StartedDockerComposeEnvironment,
+  Wait,
+} from 'testcontainers';
+import type { ComposeDownOptions } from 'testcontainers/build/container-runtime/index.js';
 import _ from 'lodash';
 
-let environment: StartedDockerComposeEnvironment;
+let environment: StartedDockerComposeEnvironment | undefined;
 
 /**
  * Options for customizing how `initDockerCompose` waits for containers to become ready.
  */
-type InitDockerComposeOptions = {
+export type InitDockerComposeOptions = {
   /**
    * Explicit container names that should use `Wait.forHealthCheck()` as wait strategy.
    * The values must be real container names, not docker-compose service names.
@@ -22,7 +26,7 @@ type InitDockerComposeOptions = {
 };
 
 /**
- * Creates a Jest-compatible global setup function that boots a docker-compose environment.
+ * Creates a Vitest `globalSetup` compatible setup function that boots a docker-compose environment.
  *
  * @param _services - Optional subset of docker-compose services to start.
  * @param _composeFilePath - Directory where the compose file is located.
@@ -75,7 +79,7 @@ export const initDockerCompose = (
 };
 
 /**
- * Creates a Jest-compatible global teardown function that stops the docker-compose environment.
+ * Creates a Vitest `globalSetup` compatible teardown function that stops the docker-compose environment.
  *
  * @param _options - Optional docker compose down options.
  * @returns An async function that tears down the compose environment.
@@ -86,6 +90,8 @@ export const closeDockerCompose = (_options?: Partial<ComposeDownOptions>) => {
     try {
       const startedEnvironment = environment ?? globalThis.__TESTCONTAINERS__;
       await startedEnvironment.down(_options);
+      environment = undefined;
+      globalThis.__TESTCONTAINERS__ = undefined;
       console.info(`👌 Container(s) stopped successfully.`);
     } catch (_error) {
       /* istanbul ignore next */

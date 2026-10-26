@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
 import { config } from '@tresdoce-nestjs-toolkit/test-utils';
 
-import { HealthModule } from '../health/health.module';
+import { HealthModule } from '../health/health.module.js';
 
 describe('HealthModule', () => {
   let app: INestApplication;
@@ -24,7 +24,7 @@ describe('HealthModule', () => {
   });
 
   afterEach(async () => {
-    await Promise.all([app.close()]);
+    await app.close();
   });
 
   it('should be define', async () => {

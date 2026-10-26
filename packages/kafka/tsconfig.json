@@ -1,0 +1,9 @@
+{
+  "extends": "@tresdoce-nestjs-toolkit/config",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "../../dist/kafka"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "coverage"]
+}

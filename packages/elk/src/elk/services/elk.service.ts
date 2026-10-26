@@ -1,16 +1,17 @@
 import { ExecutionContext, Inject, Injectable, Logger } from '@nestjs/common';
-import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { ConfigService } from '@nestjs/config';
 import { buildErrorPayload } from '@tresdoce-nestjs-toolkit/filters';
 import { excludePaths } from '@tresdoce-nestjs-toolkit/core';
 import { FormatService, RedactService } from '@tresdoce-nestjs-toolkit/utils';
-import { Client } from '@elastic/elasticsearch';
-import { Request, Response } from 'express';
-import { v4 as uuid } from 'uuid';
+import type { Client } from '@elastic/elasticsearch';
+import type { Request, Response } from 'express';
+import { randomUUID as uuid } from 'node:crypto';
 import _ from 'lodash';
 
-import { ELK_MODULE_OPTIONS, ELK_CLIENT } from '../constants/elk.constant';
-import { ElasticsearchOptions } from '../interfaces/elk.interface';
+import { ELK_MODULE_OPTIONS, ELK_CLIENT } from '../constants/elk.constant.js';
+import type { ElasticsearchOptions } from '../interfaces/elk.interface.js';
+
+type HttpArgumentsHost = ReturnType<ExecutionContext['switchToHttp']>;
 
 @Injectable()
 export class ElkService {
@@ -34,9 +35,8 @@ export class ElkService {
     this.excludedPaths = excludePaths();
   }
 
-  get clientRef() {
-    /* istanbul ignore next */
-    return this.elkClient ? this.elkClient : null;
+  get clientRef(): Client {
+    return this.elkClient;
   }
 
   /*
@@ -67,7 +67,6 @@ export class ElkService {
         document: elkDocument,
       });
     } catch (_error) {
-      /* istanbul ignore next */
       Logger.error(`Create document: ${_error.message}`, 'ElkModule');
     }
   }
@@ -79,7 +78,7 @@ export class ElkService {
     _timeRequest: number,
     _context: ExecutionContext,
     _response: any,
-    _isException: any,
+    _isException: boolean,
   ): Promise<void> {
     const requestDuration = this.formatService.calculateTimestampDiff({
       startTime: _timeRequest,
@@ -106,7 +105,7 @@ export class ElkService {
     let statusCode: number = res.statusCode;
     let response: any = _response;
 
-    if (_.isUndefined(this.excludedPaths.find((path) => _.startsWith(req.path, path)))) {
+    if (_.isUndefined(this.excludedPaths.find((_path) => _.startsWith(req.path, _path)))) {
       if (_isException) {
         const responseException = this.responseException(req, _response);
         response = responseException;

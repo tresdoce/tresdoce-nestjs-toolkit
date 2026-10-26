@@ -1,65 +1,75 @@
-import type { Config } from 'jest';
+import type { ViteUserConfig } from 'vitest/config';
+import { ignoreDecoratorMetadataCoverage } from './ignore-decorator-metadata-coverage.plugin.js';
 
-interface IJestConfigProps {
+export { ignoreDecoratorMetadataCoverage };
+
+export interface IVitestConfigProps {
+  /** Minimum coverage (0-100) required for branches, functions, lines and statements. Default: 100. */
   minCoveragePercent?: number;
+  /** Extra setup files, resolved from the project root. Default: none. */
+  setupFiles?: string[];
+  /**
+   * Excludes the `_decorate` helpers that Vite's TS transform emits for decorators
+   * (`@Injectable()`, `@Controller()`, ...) from coverage, so they are not reported as
+   * uncovered branches. Default: true.
+   */
+  ignoreDecoratorMetadata?: boolean;
 }
 
-export const minCoverageValue: number = 100;
+export const defaultCoverageValue: number = 100;
+export const minCoverageValue: number = 0;
 export const maxCoverageValue: number = 100;
 
-export const jestConfig = ({
-  minCoveragePercent = minCoverageValue,
-}: IJestConfigProps = {}): Config => {
-  minCoveragePercent = Math.min(maxCoverageValue, Math.max(minCoverageValue, minCoveragePercent));
+/**
+ * Vitest config for apps built on the NestJS Starter (Nest 12, ESM).
+ *
+ * @example
+ * ```ts
+ * // vitest.config.ts
+ * import { defineConfig } from 'vitest/config';
+ * import { vitestConfig } from '@tresdoce-nestjs-toolkit/commons';
+ *
+ * export default defineConfig(vitestConfig({ minCoveragePercent: 90 }));
+ * ```
+ */
+export const vitestConfig = ({
+  minCoveragePercent = defaultCoverageValue,
+  setupFiles = [],
+  ignoreDecoratorMetadata = true,
+}: IVitestConfigProps = {}): ViteUserConfig => {
+  const threshold = Math.min(maxCoverageValue, Math.max(minCoverageValue, minCoveragePercent));
 
   return {
-    moduleFileExtensions: ['js', 'json', 'ts'],
-    verbose: true,
-    rootDir: '.',
-    testRegex: '.*\\.(spec|it|test|e2e|e2e-spec)\\.(t|j)s$',
-    transform: {
-      '^.+\\.(t|j)s$': ['ts-jest', { tsconfig: 'tsconfig.test.json' }],
-    },
-    roots: ['<rootDir>/test/', '<rootDir>/src/'],
-    collectCoverage: true,
-    collectCoverageFrom: ['**/*.(t|j)s', '!**/*.entity.(t|j)s'],
-    coverageDirectory: './coverage',
-    coveragePathIgnorePatterns: [
-      'node_modules',
-      'node_modules/*',
-      'dist',
-      'dist/*',
-      'src/main.ts',
-      'src/*/entities/*',
-    ],
-    testEnvironment: 'node',
-    setupFilesAfterEnv: ['./jest.setup.ts', 'jest-extended/all'],
-    moduleDirectories: ['node_modules'],
-    preset: 'ts-jest',
-    testResultsProcessor: 'jest-sonar-reporter',
-    displayName: `${process.env.npm_package_name}`,
-    coverageReporters: ['html', 'text', 'text-summary', 'cobertura', 'clover', 'json', 'lcov'],
-    reporters: [
-      'default',
-      [
-        'jest-junit',
-        {
-          classNameTemplate: `{classname}`,
-          titleTemplate: '{title}',
-          ancestorSeparator: ' › ',
-          uniqueOutputName: 'false',
-          suiteNameTemplate: '{filepath}',
-          includeConsoleOutput: true,
-          addFileAttribute: 'true',
-        },
+    plugins: ignoreDecoratorMetadata ? [ignoreDecoratorMetadataCoverage()] : [],
+    resolve: { tsconfigPaths: true },
+    test: {
+      globals: true,
+      environment: 'node',
+      include: ['src/**/*.{spec,it,test}.ts', 'test/**/*.{spec,e2e-spec}.ts'],
+      setupFiles,
+      reporters: [
+        'default',
+        ['junit', { outputFile: 'junit.xml' }],
+        ['vitest-sonar-reporter', { outputFile: 'test-report.xml' }],
       ],
-    ],
-    coverageThreshold: {
-      global: {
-        branches: minCoveragePercent,
-        functions: minCoveragePercent,
-        lines: minCoveragePercent,
-        statements: minCoveragePercent,
+      coverage: {
+        provider: 'istanbul',
+        include: ['src/**/*.ts'],
+        exclude: [
+          'src/main.ts',
+          'src/**/__test__/**',
+          'src/**/entities/**',
+          'src/**/*.entity.ts',
+          'src/**/*.d.ts',
+        ],
+        reportsDirectory: './coverage',
+        reporter: ['html', 'text', 'text-summary', 'cobertura', 'clover', 'json', 'lcov'],
+        thresholds: {
+          branches: threshold,
+          functions: threshold,
+          lines: threshold,
+          statements: threshold,
+        },
       },
     },
   };

@@ -1,5 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
-import { AWS_SQS_MESSAGE_HANDLER } from '../constants/aws-sqs.constant';
+import { AWS_SQS_MESSAGE_HANDLER } from '../constants/aws-sqs.constant.js';
 
 /**
  * A decorator to mark a method as an AWS SQS message handler for a specific queue.

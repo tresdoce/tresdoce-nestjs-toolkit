@@ -1,10 +1,11 @@
-import Joi from 'joi';
+import { z } from 'zod';
 import {
   validateSchema,
   baseValidationSchemaApp,
   validateSchemaForApp,
   validationSchemaCsrf,
-} from '../validations';
+  zBooleanFromEnv,
+} from '../validations/index.js';
 
 const baseInput = {
   NODE_ENV: 'test',
@@ -28,116 +29,131 @@ const baseInput = {
   SKIP_HEALTH_CHECKS: 'storage,memory',
 };
 
-describe('appConfigValidationSchema', () => {
-  describe('validateSchema for apps', () => {
+const VALID_CSRF_SECRET = '9r@F5z!X8w*L3q&H2s^J7p#K1n$Y4m?A';
+
+describe('appConfigValidationSchema (Zod)', () => {
+  describe('validateSchema', () => {
     it('should validate the base schema correctly', () => {
-      const validationSchema = {
-        ...baseValidationSchemaApp,
-      };
-      const result = validateSchema(validationSchema, baseInput);
-      expect(result).toEqual(baseInput);
+      const schema = z.object({ ...baseValidationSchemaApp });
+      expect(validateSchema(schema, baseInput)).toEqual(baseInput);
     });
 
-    it('should throw an error for invalid APP_STAGE value in base schema', () => {
-      const validationSchema = {
-        ...baseValidationSchemaApp,
-      };
-      const input = {
-        ...baseInput,
-        APP_STAGE: 'sarasa',
-        field: 123,
-      };
-      expect(() => validateSchema(validationSchema, input)).toThrow(Error);
+    it('should throw an error for invalid APP_STAGE value', () => {
+      const schema = z.object({ ...baseValidationSchemaApp });
+      expect(() => validateSchema(schema, { ...baseInput, APP_STAGE: 'sarasa' })).toThrow(
+        /APP_STAGE/,
+      );
     });
 
-    it('should throw an error for invalid SKIP_HEALTH_CHECKS value in base schema', () => {
-      const validationSchema = {
-        ...baseValidationSchemaApp,
-      };
-      const input = {
-        ...baseInput,
-        SKIP_HEALTH_CHECKS: 'sarasa',
-        field: 123,
-      };
-      expect(() => validateSchema(validationSchema, input)).toThrow(Error);
+    it('should throw an error for invalid SKIP_HEALTH_CHECKS value', () => {
+      const schema = z.object({ ...baseValidationSchemaApp });
+      expect(() => validateSchema(schema, { ...baseInput, SKIP_HEALTH_CHECKS: 'sarasa' })).toThrow(
+        /SKIP_HEALTH_CHECKS/,
+      );
     });
 
-    it('should validate the base schema with a new input correctly', () => {
-      const validationSchema = {
-        ...baseValidationSchemaApp,
-        field: Joi.string().required(),
-      };
-      const input = {
-        ...baseInput,
-        field: 'test',
-      };
-      const result = validateSchema(validationSchema, input);
-      expect(result).toEqual(input);
+    it('should allow SKIP_HEALTH_CHECKS to be omitted entirely', () => {
+      const schema = z.object({ ...baseValidationSchemaApp });
+      const { SKIP_HEALTH_CHECKS: _omitted, ...input } = baseInput;
+      expect(validateSchema(schema, input).SKIP_HEALTH_CHECKS).toBeUndefined();
     });
 
-    it('should throw an error for invalid input in the base schema', () => {
-      const validationSchema = {
-        ...baseValidationSchemaApp,
-        field: Joi.string().required(),
-      };
-      const input = {
-        ...baseInput,
-        field: 123,
-      };
-      expect(() => validateSchema(validationSchema, input)).toThrow(Error);
+    it('should validate the base schema extended with a new field', () => {
+      const schema = z.object({ ...baseValidationSchemaApp, field: z.string() });
+      const input = { ...baseInput, field: 'test' };
+      expect(validateSchema(schema, input)).toEqual(input);
     });
 
-    it('should validate CSRF_SECRET correctly in prod stage', () => {
-      const validationSchema = {
-        ...baseValidationSchemaApp,
-        ...validationSchemaCsrf,
-      };
-      const input = {
-        ...baseInput,
-        APP_STAGE: 'prod',
-        CSRF_SECRET: '9r@F5z!X8w*L3q&H2s^J7p#K1n$Y4m?A',
-      };
-      const result = validateSchema(validationSchema, input);
-      expect(result).toEqual(input);
+    it('should report root-level issues without a field path', () => {
+      expect(() => validateSchema(z.string(), 123)).toThrow(/^Invalid input/);
     });
 
-    it('should throw an error for invalid CSRF_SECRET in prod stage', () => {
-      const validationSchema = {
-        ...baseValidationSchemaApp,
-        ...validationSchemaCsrf,
-      };
-      const input = {
-        ...baseInput,
-        APP_STAGE: 'prod',
-        CSRF_SECRET: 'invalidsecret',
-      };
-      expect(() => validateSchema(validationSchema, input)).toThrow(Error);
+    it('should report every invalid field in a single error', () => {
+      const schema = z.object({ ...baseValidationSchemaApp, field: z.string() });
+      expect(() => validateSchema(schema, { ...baseInput, field: 123, PORT: 'abc' })).toThrow(
+        /"PORT".*"field"|"field".*"PORT"/,
+      );
+    });
+  });
+
+  describe('zBooleanFromEnv', () => {
+    it.each([
+      ['true', true],
+      ['TRUE', true],
+      [' false ', false],
+      ['false', false],
+      [true, true],
+      [false, false],
+    ])('should parse %j as %j', (input, expected) => {
+      expect(zBooleanFromEnv().parse(input)).toBe(expected);
     });
 
-    it('should allow optional CSRF_SECRET in non-prod stages', () => {
-      const validationSchema = {
-        ...baseValidationSchemaApp,
-        ...validationSchemaCsrf,
-      };
-      const input = {
-        ...baseInput,
-        CSRF_SECRET: undefined,
-      };
-      const result = validateSchema(validationSchema, input);
-      expect(result).toEqual(input);
+    it('should reject values that are not booleans', () => {
+      expect(() => zBooleanFromEnv().parse('yes')).toThrow();
     });
   });
 
   describe('validateSchemaForApp', () => {
-    it('should validate the schema for app correctly', () => {
-      const validationSchema = {
-        TEST_KEY: Joi.string().required(),
-        RICK_AND_MORTY_API_URL: Joi.string().required(),
-        RICK_AND_MORTY_API_URL_LIVENESS: Joi.string().required(),
+    it('should return a Standard Schema that @nestjs/config can consume', async () => {
+      const schema = validateSchemaForApp();
+      const result = await schema['~standard'].validate(baseInput);
+      expect(result.issues).toBeUndefined();
+      expect('value' in result && result.value).toEqual(baseInput);
+    });
+
+    it('should validate the base schema plus extra fields', () => {
+      const schema = validateSchemaForApp({
+        TEST_KEY: z.string(),
+        RICK_AND_MORTY_API_URL: z.string(),
+      });
+      const input = {
+        ...baseInput,
+        TEST_KEY: 'testKeyEnv-example',
+        RICK_AND_MORTY_API_URL: 'https://rickandmortyapi.com/api',
       };
-      const result = validateSchemaForApp(validationSchema);
-      expect(result).toBeDefined();
-      expect(result).toEqual(expect.any(Object));
+      expect(schema.parse(input)).toEqual(input);
+    });
+
+    it('should fail for invalid extra fields', () => {
+      const schema = validateSchemaForApp({ TEST_KEY: z.string() });
+      expect(schema.safeParse({ ...baseInput, TEST_KEY: 123 }).success).toBe(false);
+    });
+
+    it('should coerce env strings to numbers and booleans', () => {
+      const result = validateSchemaForApp().parse({
+        ...baseInput,
+        PORT: '8081',
+        CORS_ENABLED: 'false',
+        SWAGGER_ENABLED: 'true',
+      });
+      expect(result.PORT).toBe(8081);
+      expect(result.CORS_ENABLED).toBe(false);
+      expect(result.SWAGGER_ENABLED).toBe(true);
+    });
+
+    it('should accept a valid CSRF_SECRET in prod stage', () => {
+      const schema = validateSchemaForApp({ ...validationSchemaCsrf });
+      const input = { ...baseInput, APP_STAGE: 'prod', CSRF_SECRET: VALID_CSRF_SECRET };
+      expect(schema.parse(input)).toEqual(input);
+    });
+
+    it('should reject an invalid CSRF_SECRET in prod stage', () => {
+      const schema = validateSchemaForApp({ ...validationSchemaCsrf });
+      const result = schema.safeParse({ ...baseInput, APP_STAGE: 'prod', CSRF_SECRET: 'invalid' });
+      expect(result.success).toBe(false);
+      expect(result.error?.issues[0].message).toBe('"CSRF_SECRET" is invalid.');
+    });
+
+    it('should require CSRF_SECRET in prod stage', () => {
+      const schema = validateSchemaForApp({ ...validationSchemaCsrf });
+      const result = schema.safeParse({ ...baseInput, APP_STAGE: 'prod' });
+      expect(result.success).toBe(false);
+      expect(result.error?.issues[0].message).toMatch(/is required/);
+    });
+
+    it('should allow a missing CSRF_SECRET outside prod', () => {
+      const schema = validateSchemaForApp({ ...validationSchemaCsrf });
+      expect(schema.safeParse(baseInput).success).toBe(true);
     });
   });
 });

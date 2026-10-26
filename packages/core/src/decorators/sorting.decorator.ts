@@ -1,6 +1,6 @@
 import { BadRequestException, createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { Request } from 'express';
-import { DEFAULT_SORT_DIRECTION, sortPattern } from './constants/sorting.constant';
+import type { Request } from 'express';
+import { DEFAULT_SORT_DIRECTION, sortPattern } from './constants/sorting.constant.js';
 
 /**
  * Type representing the order of sorting.
@@ -52,7 +52,11 @@ export interface SortCriteria {
 export const Sorting = createParamDecorator(
   (sortingFieldNames: string[], ctx: ExecutionContext): SortCriteria[] => {
     const request: Request = ctx.switchToHttp().getRequest<Request>();
-    const sortParam: string = request.query.sort as string;
+    const rawSort = request.query.sort;
+    // `?sort=a&sort=b` llega como array: se trata igual que `?sort=a,b`.
+    const sortParam: string = Array.isArray(rawSort)
+      ? rawSort.filter((value): value is string => typeof value === 'string').join(',')
+      : (rawSort as string);
 
     if (!sortParam) {
       return [];

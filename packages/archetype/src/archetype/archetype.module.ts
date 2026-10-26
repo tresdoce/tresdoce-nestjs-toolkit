@@ -1,11 +1,11 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import type { Typings } from '@tresdoce-nestjs-toolkit/core';
 
-import { ArchetypeController } from './controllers/archetype.controller';
-import { ArchetypeService } from './services/archetype.service';
+import { ArchetypeController } from './controllers/archetype.controller.js';
+import { ArchetypeService } from './services/archetype.service.js';
 
-import { CONFIG_OPTIONS } from './constants/archetype.constants';
+import { CONFIG_OPTIONS } from './constants/archetype.constants.js';
 
 @Global()
 @Module({

@@ -1,4 +1,4 @@
-import { BcryptOptions } from '../interfaces/bcrypt.interface';
+import { BcryptOptions } from '../interfaces/bcrypt.interface.js';
 
 export const BCRYPT_MODULE_OPTIONS = Symbol('BCRYPT_MODULE_OPTIONS');
 export const DEFAULT_SALT_ROUNDS = 16;

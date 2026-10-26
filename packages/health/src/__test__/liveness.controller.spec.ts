@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { LivenessController } from '../health/controllers/liveness.controller';
+import { LivenessController } from '../health/controllers/liveness.controller.js';
 
 describe('LivenessController', () => {
   let controller: LivenessController;

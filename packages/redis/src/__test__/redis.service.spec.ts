@@ -1,21 +1,22 @@
-import { REDIS_CLIENT } from '../redis/constants/redis.constants';
-import { RedisService } from '../redis/services/redis.service';
+import type { Mock } from 'vitest';
+import { REDIS_CLIENT } from '../redis/constants/redis.constants.js';
+import { RedisService } from '../redis/services/redis.service.js';
 
 describe('RedisService', () => {
-  let client: Record<string, jest.Mock>;
+  let client: Record<string, Mock>;
   let service: RedisService;
 
   beforeEach(() => {
     client = {
-      copy: jest.fn(),
-      del: jest.fn(),
-      echo: jest.fn(),
-      exists: jest.fn(),
-      flushAll: jest.fn(),
-      get: jest.fn(),
-      rename: jest.fn(),
-      set: jest.fn(),
-      setEx: jest.fn(),
+      copy: vi.fn(),
+      del: vi.fn(),
+      echo: vi.fn(),
+      exists: vi.fn(),
+      flushAll: vi.fn(),
+      get: vi.fn(),
+      rename: vi.fn(),
+      set: vi.fn(),
+      setEx: vi.fn(),
     };
 
     service = new RedisService(client as any);
@@ -107,4 +108,33 @@ describe('RedisService', () => {
 
     expect(await service.flushAll()).toEqual('OK');
   });
+
+  it('should return the raw value when stored data is not JSON', async () => {
+    client.get.mockResolvedValue('plain-text');
+
+    expect(await service.get('rawKey')).toEqual('plain-text');
+  });
+
+  it('should return null when stored data is an empty string', async () => {
+    client.get.mockResolvedValue('');
+
+    expect(await service.get('emptyKey')).toBeNull();
+  });
+
+  it('should return typed objects', async () => {
+    client.get.mockResolvedValue(JSON.stringify({ id: 1 }));
+
+    expect(await service.get<{ id: number }>('objKey')).toEqual({ id: 1 });
+  });
+
+  it.each([0, -5, Number.NaN, Number.POSITIVE_INFINITY, undefined])(
+    'should not set expiration when seconds is %s',
+    async (seconds) => {
+      client.set.mockResolvedValue('OK');
+
+      expect(await service.set('myKey', { a: 1 }, seconds)).toEqual('OK');
+      expect(client.setEx).not.toHaveBeenCalled();
+      expect(client.set).toHaveBeenCalledWith('myKey', JSON.stringify({ a: 1 }));
+    },
+  );
 });

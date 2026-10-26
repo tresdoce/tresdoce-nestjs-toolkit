@@ -1,7 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { QRCodeToBufferOptions, QRCodeToDataURLOptions } from 'qrcode';
+import QRCode from 'qrcode';
+import type { QRCodeToBufferOptions, QRCodeToDataURLOptions } from 'qrcode';
 
-import { QrCodeService } from '../qr-code/services/qr-code.service';
+import { QrCodeService } from '../qr-code/services/qr-code.service.js';
 
 const options: QRCodeToDataURLOptions = {
   width: 100,
@@ -363,6 +364,96 @@ describe('QrCodeService', () => {
       await expect(service.createQrCodeBuffer({ type: 'url', url: 'invalid-url' })).rejects.toThrow(
         'URL not valid',
       );
+    });
+  });
+
+  describe('Encoded payload', () => {
+    const encodedPayload = async (data: Parameters<QrCodeService['createQrCode']>[0]) => {
+      const spy = vi.spyOn(QRCode, 'toDataURL');
+      await service.createQrCode(data);
+      const [payload] = spy.mock.calls[0];
+      spy.mockRestore();
+      return payload;
+    };
+
+    it('should escape special characters in wifi ssid and password', async () => {
+      const payload = await encodedPayload({
+        type: 'wifi',
+        ssid: 'My;Wifi',
+        password: 'pa:ss,"w\\d',
+        encryption: 'WPA',
+      });
+      expect(payload).toBe(String.raw`WIFI:T:WPA;S:My\;Wifi;P:pa\:ss\,\"w\\d;;`);
+    });
+
+    it('should support open (nopass) and hidden wifi networks', async () => {
+      const payload = await encodedPayload({
+        type: 'wifi',
+        ssid: 'OpenWifi',
+        password: 'ignored',
+        encryption: 'nopass',
+        hidden: true,
+      });
+      expect(payload).toBe('WIFI:T:nopass;S:OpenWifi;H:true;;');
+    });
+
+    it('should use an empty password when it is not provided', async () => {
+      const payload = await encodedPayload({ type: 'wifi', ssid: 'MyWifi', encryption: 'WPA' });
+      expect(payload).toBe('WIFI:T:WPA;S:MyWifi;P:;;');
+    });
+
+    it('should escape vcard text values', async () => {
+      const payload = await encodedPayload({
+        type: 'vcard',
+        name: 'Doe, John',
+        organization: 'ACME; Inc\\Labs',
+        phone: '+123456789',
+        email: 'john.doe@example.com',
+      });
+      expect(payload).toBe(
+        'BEGIN:VCARD\nVERSION:3.0\nFN:Doe\\, John\nORG:ACME\\; Inc\\\\Labs\nTEL:+123456789\nEMAIL:john.doe@example.com\nEND:VCARD',
+      );
+    });
+
+    it('should escape event summary', async () => {
+      const payload = await encodedPayload({
+        type: 'event',
+        summary: 'Meeting\nRoom 1, floor 2',
+        start: '20231015T170000Z',
+        end: '20231015T190000Z',
+      });
+      expect(payload).toBe(
+        'BEGIN:VEVENT\nSUMMARY:Meeting\\nRoom 1\\, floor 2\nDTSTART:20231015T170000Z\nDTEND:20231015T190000Z\nEND:VEVENT',
+      );
+    });
+
+    it('should keep only digits in whatsapp phone', async () => {
+      const payload = await encodedPayload({
+        type: 'whatsapp',
+        phone: '+54 9 11-1234-5678',
+        message: 'Hola Mundo',
+      });
+      expect(payload).toBe('https://wa.me/5491112345678?text=Hola%20Mundo');
+    });
+
+    it('should reject Object.prototype keys as QR code type', async () => {
+      await expect(
+        // @ts-expect-error invalid type
+        service.createQrCode({ type: 'toString' }),
+      ).rejects.toThrow('Invalid QR Code data type');
+    });
+
+    it('should reject missing data', async () => {
+      await expect(service.createQrCode(undefined)).rejects.toThrow('Invalid QR Code data type');
+    });
+
+    it('should keep the original error as cause', async () => {
+      const error = await service
+        .createQrCodeBuffer({ type: 'url', url: 'invalid-url' })
+        .catch((_e: Error) => _e);
+      expect(error).toBeInstanceOf(Error);
+      expect((error as Error).message).toBe('[Buffer] Error creating QR code: URL not valid');
+      expect((error as Error).cause).toBeInstanceOf(Error);
     });
   });
 });

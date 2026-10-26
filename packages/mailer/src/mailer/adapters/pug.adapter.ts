@@ -1,44 +1,31 @@
-import _ from 'lodash';
 import { renderFile } from 'pug';
-import { inline } from '@css-inline/css-inline';
 
-import { MailerOptions } from '../interfaces/mailer-options.interface';
-import { TemplateAdapter } from '../interfaces/template-adapter.interface';
-import { TemplateAdapterConfig } from '../interfaces/template-adapter-config.interface';
-import { defaultConfigMailer, getTemplatePath } from '../utils/utils';
+import type { MailerOptions } from '../interfaces/mailer-options.interface.js';
+import type { TemplateAdapter } from '../interfaces/template-adapter.interface.js';
+import type { TemplateAdapterConfig } from '../interfaces/template-adapter-config.interface.js';
+import { applyRenderedHtml, buildAdapterConfig, getTemplatePath } from '../utils/utils.js';
 
 export class PugAdapter implements TemplateAdapter {
-  private config: TemplateAdapterConfig = defaultConfigMailer;
+  private readonly config: TemplateAdapterConfig;
 
   constructor(config?: TemplateAdapterConfig) {
-    Object.assign(this.config, config);
+    this.config = buildAdapterConfig(config);
   }
 
-  public compile(mail: any, callback: any, mailerOptions: MailerOptions): void {
+  public compile(mail: any, callback: (err?: any) => any, mailerOptions: MailerOptions): void {
     const { context, template } = mail.data;
-    const templatePath = getTemplatePath(template, mailerOptions, '.pug');
+    const templatePath = getTemplatePath(template, mailerOptions?.template?.dir, '.pug');
 
     const options = {
       ...context,
-      ..._.get(mailerOptions, 'template.options', {}),
+      ...mailerOptions?.template?.options,
     };
 
     renderFile(templatePath, options, (err, body) => {
       if (err) {
-        throw new Error(err.message);
+        return callback(err);
       }
-
-      if (this.config.inlineCssEnabled) {
-        try {
-          mail.data.html = inline(body, this.config.inlineCssOptions);
-        } catch (_error) {
-          /* istanbul ignore next */
-          callback(_error);
-        }
-      } else {
-        mail.data.html = body;
-      }
-      return callback();
+      return applyRenderedHtml(mail, body, this.config, callback);
     });
   }
 }

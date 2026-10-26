@@ -1,4 +1,4 @@
-import { RedactModuleOptions } from '../interfaces';
+import { RedactModuleOptions } from '../interfaces/index.js';
 
 export const REDACT_MODULE_OPTIONS = Symbol('REDACT_MODULE_OPTIONS');
 export const REDACT_PROVIDER = Symbol('REDACT_PROVIDER');

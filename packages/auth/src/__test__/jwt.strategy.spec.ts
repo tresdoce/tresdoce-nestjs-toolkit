@@ -1,5 +1,7 @@
-import { JwtStrategy } from '../auth/strategies/jwt.strategy';
-import { IJwtPayload } from '../auth/interfaces/auth.interface';
+import { UnauthorizedException } from '@nestjs/common';
+
+import { JwtStrategy } from '../auth/strategies/jwt.strategy.js';
+import { IJwtPayload } from '../auth/interfaces/auth.interface.js';
 
 describe('JwtStrategy', () => {
   let strategy: JwtStrategy;
@@ -29,5 +31,14 @@ describe('JwtStrategy', () => {
       roles: undefined,
       tenant: 'acme',
     });
+  });
+
+  it('should not let extra claims override the mapped fields', () => {
+    const payload: IJwtPayload = { sub: 'user-1', id: 'spoofed', roles: ['user'] };
+    expect(strategy.validate(payload)).toEqual({ id: 'user-1', email: undefined, roles: ['user'] });
+  });
+
+  it('should reject a payload without "sub"', () => {
+    expect(() => strategy.validate({} as IJwtPayload)).toThrow(UnauthorizedException);
   });
 });

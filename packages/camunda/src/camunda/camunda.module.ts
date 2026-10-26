@@ -1,9 +1,9 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Typings } from '@tresdoce-nestjs-toolkit/paas';
 
-import { CONFIG_MODULE_OPTIONS } from './constants/camunda.constants';
-import { CamundaTaskConnector } from './providers/camunda.provider';
+import { CONFIG_MODULE_OPTIONS } from './constants/camunda.constants.js';
+import type { CamundaOptions } from './interfaces/camunda.interface.js';
+import { CamundaTaskConnector } from './providers/camunda.provider.js';
 
 @Global()
 @Module({
@@ -12,11 +12,11 @@ import { CamundaTaskConnector } from './providers/camunda.provider';
     CamundaTaskConnector,
     {
       provide: CONFIG_MODULE_OPTIONS,
-      useFactory: async (configService: ConfigService): Promise<Typings.AppConfig> =>
-        configService.get<Typings.AppConfig>('config.camunda'),
+      useFactory: (configService: ConfigService): CamundaOptions =>
+        configService.get<CamundaOptions>('config.camunda'),
       inject: [ConfigService],
     },
   ],
-  exports: [],
+  exports: [CamundaTaskConnector],
 })
 export class CamundaModule {}

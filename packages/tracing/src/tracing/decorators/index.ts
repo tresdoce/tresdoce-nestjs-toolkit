@@ -1,1 +1,1 @@
-export * from './tracing.decorator';
+export * from './tracing.decorator.js';

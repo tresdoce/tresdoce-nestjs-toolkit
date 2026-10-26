@@ -1,17 +1,20 @@
-import { RedisOptions } from '@tresdoce-nestjs-toolkit/redis';
-import { MailerOptions } from '@tresdoce-nestjs-toolkit/mailer';
-import { TracingOptions } from '@tresdoce-nestjs-toolkit/tracing';
-import { DatabaseOptions } from '@tresdoce-nestjs-toolkit/typeorm';
-import { CamundaOptions } from '@tresdoce-nestjs-toolkit/camunda';
-import { ElasticsearchOptions } from '@tresdoce-nestjs-toolkit/elk';
-import { HttpModuleOptions } from '@tresdoce-nestjs-toolkit/http-client';
-import { RedactOptions, BcryptOptions } from '@tresdoce-nestjs-toolkit/utils';
-import { SnowFlakeOptions } from '@tresdoce-nestjs-toolkit/snowflake-uid';
-import { AwsSqsModuleOptions } from '@tresdoce-nestjs-toolkit/aws-sqs';
-import { ThrottlerModuleOptions } from '@tresdoce-nestjs-toolkit/rate-limit';
-import { DiskHealthIndicatorOptions } from '@nestjs/terminus';
-import { AxiosRequestConfig } from 'axios';
-import { CsrfCookieOptions } from '../commons/index';
+import type { RedisOptions } from '@tresdoce-nestjs-toolkit/redis';
+import type { MailerOptions } from '@tresdoce-nestjs-toolkit/mailer';
+import type { TracingOptions } from '@tresdoce-nestjs-toolkit/tracing';
+import type { DatabaseOptions } from '@tresdoce-nestjs-toolkit/typeorm';
+import type { CamundaOptions } from '@tresdoce-nestjs-toolkit/camunda';
+import type { ElasticsearchOptions } from '@tresdoce-nestjs-toolkit/elk';
+import type { HttpModuleOptions } from '@tresdoce-nestjs-toolkit/http-client';
+import type { RedactOptions, BcryptOptions } from '@tresdoce-nestjs-toolkit/utils';
+import type { SnowFlakeOptions } from '@tresdoce-nestjs-toolkit/snowflake-uid';
+import type { AwsSqsModuleOptions } from '@tresdoce-nestjs-toolkit/aws-sqs';
+import type { LoggerModuleOptions } from '@tresdoce-nestjs-toolkit/logger';
+import type { MongoModuleOptions } from '@tresdoce-nestjs-toolkit/database';
+import type { KafkaModuleOptions } from '@tresdoce-nestjs-toolkit/kafka';
+import type { ThrottlerModuleOptions } from '@tresdoce-nestjs-toolkit/rate-limit';
+import type { DiskHealthIndicatorOptions } from '@nestjs/terminus';
+import type { AxiosRequestConfig } from 'axios';
+import type { CsrfCookieOptions } from '../commons/index.js';
 
 export type TAppStage = 'local' | 'test' | 'snd' | 'dev' | 'qa' | 'homo' | 'prod';
 
@@ -118,6 +121,11 @@ export interface IServicesConfig extends AxiosRequestConfig {
   [key: string]: any;
 }
 
+/** `database.typeorm` lo lee `@tresdoce-nestjs-toolkit/typeorm`; `database.mongo`, `@tresdoce-nestjs-toolkit/database`. */
+export interface DatabaseModuleOptions extends DatabaseOptions {
+  mongo?: MongoModuleOptions;
+}
+
 export interface AppConfig {
   project: IProjectConfig;
   server: IServerConfig;
@@ -126,7 +134,7 @@ export interface AppConfig {
   params?: IParamsConfig;
   httpClient?: IHttpClientConfig;
   services?: Record<string, IServicesConfig>;
-  database?: DatabaseOptions;
+  database?: DatabaseModuleOptions;
   redis?: RedisOptions;
   mailer?: MailerOptions;
   camunda?: CamundaOptions;
@@ -136,5 +144,7 @@ export interface AppConfig {
   bcrypt?: BcryptOptions;
   snowflakeUID?: SnowFlakeOptions;
   sqs?: AwsSqsModuleOptions;
+  logger?: LoggerModuleOptions;
+  kafka?: KafkaModuleOptions;
   [key: string]: any;
 }

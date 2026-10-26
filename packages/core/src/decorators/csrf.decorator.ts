@@ -1,5 +1,5 @@
 import { applyDecorators, SetMetadata, UseGuards } from '@nestjs/common';
-import { CsrfGuard } from '../guards/index';
+import { CsrfGuard } from '../guards/index.js';
 
 /**
  * Decorador para proteger las rutas contra ataques CSRF (Cross-Site Request Forgery).

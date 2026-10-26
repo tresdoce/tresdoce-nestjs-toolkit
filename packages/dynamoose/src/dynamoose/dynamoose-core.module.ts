@@ -1,39 +1,61 @@
 import { DynamicModule, Global, Logger, Module, Provider } from '@nestjs/common';
-import { aws, logger, Table } from 'dynamoose';
-import { DynamooseModule } from './dynamoose.module';
-import { LoggerProvider } from './providers/dynamoose-logger.provider';
+import type { DynamoDBClientConfig } from '@aws-sdk/client-dynamodb';
+import dynamoose from 'dynamoose';
+import { LoggerProvider } from './providers/dynamoose-logger.provider.js';
 import {
   DynamooseModuleAsyncOptions,
   DynamooseModuleOptions,
   DynamooseOptionsFactory,
-} from './interfaces';
+} from './interfaces/index.js';
 
-import { DYNAMOOSE_INITIALIZATION, DYNAMOOSE_MODULE_OPTIONS } from './constants/dynamoose.constant';
+import {
+  DYNAMOOSE_INITIALIZATION,
+  DYNAMOOSE_LOCAL_ENDPOINT,
+  DYNAMOOSE_MODULE_OPTIONS,
+} from './constants/dynamoose.constant.js';
 
-async function initialization(options: DynamooseModuleOptions): Promise<void> {
+export function buildDynamoDBClientConfig(
+  aws: DynamooseModuleOptions['aws'] = {},
+  endpoint?: string,
+): DynamoDBClientConfig {
+  const { accessKeyId, secretAccessKey, region } = aws;
+  return {
+    ...(region && { region }),
+    ...(accessKeyId && secretAccessKey && { credentials: { accessKeyId, secretAccessKey } }),
+    ...(endpoint && { endpoint }),
+  };
+}
+
+/** `local: true` uses the default DynamoDB Local endpoint; a string is used as is. */
+const resolveLocalEndpoint = (local: DynamooseModuleOptions['local']): string | undefined => {
+  if (typeof local === 'string') return local;
+  return local ? DYNAMOOSE_LOCAL_ENDPOINT : undefined;
+};
+
+export async function initialization(options?: DynamooseModuleOptions): Promise<void> {
+  if (!options) return;
+
+  const endpoint = resolveLocalEndpoint(options.local);
+
   if (options.ddb) {
-    aws.ddb.set(options.ddb);
-  } else if (options.aws) {
-    aws.ddb.set(new aws.ddb.DynamoDB(options.aws));
-  }
-
-  if (options.local) {
-    if (typeof options.local === 'boolean') {
-      aws.ddb.local();
-    } else {
-      aws.ddb.local(options.local);
-    }
+    dynamoose.aws.ddb.set(options.ddb);
+    // Se respeta el comportamiento de dynamoose: `local` reemplaza el cliente por uno apuntando al endpoint.
+    if (endpoint) dynamoose.aws.ddb.local(endpoint);
+  } else if (options.aws || endpoint) {
+    dynamoose.aws.ddb.set(
+      new dynamoose.aws.ddb.DynamoDB(buildDynamoDBClientConfig(options.aws, endpoint)),
+    );
   }
 
   if (options.table) {
-    Table.defaults.set(options.table);
+    dynamoose.Table.defaults.set(options.table);
   }
 
   /* istanbul ignore next */
   if (options.logger) {
-    (await logger()).providers.add(
+    (await dynamoose.logger()).providers.add(
       new LoggerProvider(
-        typeof options.logger === 'boolean' ? new Logger(DynamooseModule.name) : options.logger,
+        typeof options.logger === 'boolean' ? new Logger('DynamooseModule') : options.logger,
       ),
     );
   }
@@ -58,8 +80,8 @@ export class DynamooseCoreModule {
   static forRootAsync(options: DynamooseModuleAsyncOptions): DynamicModule {
     const initialProvider = {
       provide: DYNAMOOSE_INITIALIZATION,
-      useFactory: (dynamoooseModuleOptions: DynamooseModuleOptions) =>
-        initialization(dynamoooseModuleOptions),
+      useFactory: (dynamooseModuleOptions: DynamooseModuleOptions) =>
+        initialization(dynamooseModuleOptions),
       inject: [DYNAMOOSE_MODULE_OPTIONS],
     };
 
@@ -77,7 +99,6 @@ export class DynamooseCoreModule {
       return [this.createAsyncOptionsProvider(options)];
     }
     /* istanbul ignore next */
-    //const useClass = options.useClass as Type<DynamooseOptionsFactory>;
     const useClass = options.useClass;
     /* istanbul ignore next */
     return [
@@ -98,7 +119,6 @@ export class DynamooseCoreModule {
       };
     }
     /* istanbul ignore next */
-    //const inject = [(options.useClass || options.useExisting) as Type<DynamooseOptionsFactory>];
     const inject = [options.useClass || options.useExisting];
     /* istanbul ignore next */
     return {

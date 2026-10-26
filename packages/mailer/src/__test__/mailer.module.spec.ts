@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { MailerModule } from '../mailer/mailer.module';
+import { MailerModule } from '../mailer/mailer.module.js';
 import { ConfigModule } from '@nestjs/config';
 import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
 

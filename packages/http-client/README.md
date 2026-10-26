@@ -4,9 +4,9 @@
 </div>
 
 <div align="center">
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v22.21.1&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="NodeJS"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v22.22%2B&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="NodeJS"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v11.6.4&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="NPM"/>
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v11.1.11&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/><br/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v12&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/><br/>
     <img src="https://img.shields.io/github/license/tresdoce/tresdoce-nestjs-toolkit?style=flat" alt="GitHub license" >
     <img alt="Release" src="https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/http-client.svg">
     <br/>
@@ -23,6 +23,7 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 - [🛠️ Instalar dependencia](#install-dependencies)
 - [⚙️ Configuración](#configurations)
 - [👨‍💻 Uso](#use)
+- [🧪 Testing](#testing)
 - [📚 API Reference](#api-reference)
 - [📄 Changelog](./CHANGELOG.md)
 - [📜 License MIT](./license.md)
@@ -34,9 +35,9 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 ## 📝 Requerimientos básicos
 
 - [NestJS Starter](https://github.com/rudemex/nestjs-starter)
-- Node.js v22.21.1 or higher ([Download](https://nodejs.org/es/download/))
+- Node.js v22.22 or higher ([Download](https://nodejs.org/es/download/))
 - YARN ≥ 1.22.22 o NPM ≥ 11.6.4
-- NestJS v11.1.11 or higher ([Documentación](https://nestjs.com/))
+- NestJS v12 or higher ([Documentación](https://nestjs.com/))
 
 <a name="install-dependencies"></a>
 
@@ -50,13 +51,18 @@ npm install -S @tresdoce-nestjs-toolkit/http-client
 yarn add @tresdoce-nestjs-toolkit/http-client
 ```
 
+El paquete es **ESM-only** (`"type": "module"`) y no requiere ningún servicio externo (no hace falta `docker-compose`).
+
 ## 📦 Dependencias internas
 
 Este paquete requiere los siguientes paquetes del toolkit:
 
-| Paquete                                    | Razón                                                            |
-| ------------------------------------------ | ---------------------------------------------------------------- |
-| [`@tresdoce-nestjs-toolkit/core`](../core) | Tipos `Typings.AppConfig`, decoradores base y utilidades comunes |
+| Paquete                                        | Razón                                                                           |
+| ---------------------------------------------- | ------------------------------------------------------------------------------- |
+| [`@tresdoce-nestjs-toolkit/logger`](../logger) | Logs opcionales de requests salientes (solo si la app registra `LoggingModule`) |
+
+La key `httpClient` está tipada en `Typings.AppConfig` de [`@tresdoce-nestjs-toolkit/core`](../core) (`Typings.IHttpClientConfig`).
+El paquete también exporta la interfaz equivalente `HttpClientConfig` por si no usás `core`.
 
 <a name="configurations"></a>
 
@@ -68,7 +74,7 @@ permite propagar headers a las peticiones salientes mediante `propagateHeaders`.
 
 ```typescript
 //./src/config/configuration.ts
-import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import type { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('config', (): Typings.AppConfig => {
@@ -94,7 +100,7 @@ export default registerAs('config', (): Typings.AppConfig => {
 
 #### `httpOptions`
 
-Objeto que combina `AxiosRequestConfig` y `AxiosRetryConfig`. Algunas propiedades destacadas:
+Objeto que combina `CreateAxiosDefaults` (Axios) e `IAxiosRetryConfig` (Axios-retry). Algunas propiedades destacadas:
 
 `timeout`: Tiempo máximo de espera por respuesta en milisegundos.
 
@@ -123,7 +129,8 @@ y [AxiosRetryConfig](https://github.com/softonic/axios-retry#options).
 
 Array de nombres de headers que se propagarán desde el request entrante hacia las peticiones salientes.
 Además de los definidos aquí, siempre se propagan automáticamente los headers de traza:
-`uber-trace-id` y `x-amzn-trace-id`.
+`uber-trace-id` y `x-amzn-trace-id`. La comparación no distingue mayúsculas/minúsculas
+(`X-Custom-Header` y `x-custom-header` son equivalentes).
 
 - Type: `String[]`
 - Default: `[]`
@@ -154,7 +161,15 @@ sin necesidad de configuración adicional:
 - `x-amzn-trace-id`
 
 Para propagar headers adicionales se usa `propagateHeaders` en la configuración o `PROPAGATE_HEADERS_HTTP` como
-variable de entorno (strings separados por coma).
+variable de entorno (strings separados por coma, ej: `PROPAGATE_HEADERS_HTTP=x-request-id,x-tenant-id`).
+
+> ℹ️ `propagateHeaders` siempre se lee de `config.httpClient.propagateHeaders`, también cuando el módulo se registra
+> con `.register()` o `.registerAsync()`.
+
+> ℹ️ `HttpClientService` es un singleton, pero los headers propagados no se guardan en la instancia:
+> `initAxios()` (que llama `HttpClientInterceptor` en cada request) los guarda en el contexto asíncrono del
+> request con `AsyncLocalStorage`. Con requests entrantes concurrentes, cada llamada saliente lleva los headers
+> del request que la originó. Fuera de un request (crons, bootstrap) solo se envían los headers por defecto.
 
 ### Importar el módulo
 
@@ -165,6 +180,7 @@ Es un interceptor con scope `REQUEST`, por lo que tiene acceso al contexto de la
 
 ```typescript
 //./src/app.module.ts
+import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpClientModule, HttpClientInterceptor } from '@tresdoce-nestjs-toolkit/http-client';
 
@@ -196,6 +212,8 @@ de [AxiosRequestConfig](https://github.com/axios/axios#request-config)
 y/o [AxiosRetryConfig](https://github.com/softonic/axios-retry#options) por medio del método `.register()`:
 
 ```typescript
+import { Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpClientModule, HttpClientInterceptor } from '@tresdoce-nestjs-toolkit/http-client';
 
 @Module({
@@ -230,6 +248,9 @@ Cuando necesite pasar las opciones del módulo de forma asincrónica, utilice el
 Desde la configuración centralizada, obtener las opciones con `ConfigService`:
 
 ```typescript
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { HttpClientModule } from '@tresdoce-nestjs-toolkit/http-client';
+
 HttpClientModule.registerAsync({
   imports: [ConfigModule],
   useFactory: async (configService: ConfigService) =>
@@ -261,6 +282,12 @@ HttpClientModule.registerAsync({
 El `HttpConfigService` debe implementar la interfaz `HttpModuleOptionsFactory`:
 
 ```typescript
+import { Injectable } from '@nestjs/common';
+import type {
+  HttpModuleOptions,
+  HttpModuleOptionsFactory,
+} from '@tresdoce-nestjs-toolkit/http-client';
+
 @Injectable()
 class HttpConfigService implements HttpModuleOptionsFactory {
   async createHttpOptions(): Promise<HttpModuleOptions> {
@@ -276,10 +303,13 @@ class HttpConfigService implements HttpModuleOptionsFactory {
 
 - **useExisting**
 
+Reutiliza un provider ya registrado que implemente `HttpModuleOptionsFactory` (por ejemplo, el
+`HttpConfigService` anterior, exportado desde otro módulo o agregado en `extraProviders`):
+
 ```typescript
 HttpClientModule.registerAsync({
-  imports: [ConfigModule],
-  useExisting: ConfigService,
+  imports: [HttpConfigModule], // módulo que exporta HttpConfigService
+  useExisting: HttpConfigService,
 });
 ```
 
@@ -304,40 +334,130 @@ HttpClientModule.registerAsync({
 Inyectar el `HttpClientService` en el constructor de la clase y realizar el request utilizando el servicio.
 
 ```typescript
-//./src/app.service.ts
-import { Injectable } from '@nestjs/common';
-import { HttpException } from '@nestjs/common';
+//./src/characters/characters.service.ts
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { isAxiosError } from 'axios';
 import { HttpClientService } from '@tresdoce-nestjs-toolkit/http-client';
 
+interface Character {
+  id: number;
+  name: string;
+  status: string;
+}
+
 @Injectable()
-export class AppService {
+export class CharactersService {
   constructor(private readonly httpClient: HttpClientService) {}
 
-  async getInfoFromApi() {
+  async getCharacter(id: number): Promise<Character> {
     try {
-      const { status, data } = await this.httpClient.get('https://api.domain.com/resource');
+      const { data } = await this.httpClient.get<Character>(
+        `https://rickandmortyapi.com/api/character/${id}`,
+      );
       return data;
     } catch (error) {
-      throw new HttpException(error.response.data, error.response.status);
+      if (isAxiosError(error) && error.response) {
+        throw new HttpException(error.response.data, error.response.status);
+      }
+      throw new HttpException('Upstream unavailable', HttpStatus.BAD_GATEWAY);
     }
   }
 
-  async createResource(payload: any) {
-    try {
-      const { data } = await this.httpClient.post('https://api.domain.com/resource', {
-        data: payload,
-      });
-      return data;
-    } catch (error) {
-      throw new HttpException(error.response.data, error.response.status);
-    }
+  async createResource(payload: Record<string, unknown>) {
+    // El body va en `config.data`, no como segundo argumento posicional como en axios.post().
+    const { data } = await this.httpClient.post('https://api.domain.com/resource', {
+      data: payload,
+    });
+    return data;
   }
 }
+```
+
+Los métodos devuelven el `AxiosResponse` completo. Ejemplo del objeto resuelto por `getCharacter` antes de quedarse con `data`:
+
+```json
+{
+  "status": 200,
+  "statusText": "OK",
+  "headers": { "content-type": "application/json; charset=utf-8" },
+  "data": { "id": 1, "name": "Rick Sanchez", "status": "Alive" }
+}
+```
+
+Ante un error HTTP (4xx/5xx) la promesa se rechaza con un `AxiosError` (si el error cumple `retryCondition`, recién después de agotar los `retries`):
+
+```json
+{
+  "message": "Request failed with status code 404",
+  "code": "ERR_BAD_REQUEST",
+  "response": { "status": 404, "data": { "error": "Character not found" } }
+}
+```
+
+### Logs de requests salientes
+
+Si la aplicación registra `LoggingModule` de `@tresdoce-nestjs-toolkit/logger` (ya viene incluido en `paas`), `HttpClientService` loguea cada request saliente con formato estructurado:
+
+```json
+{
+  "application_name": "nestjs-starter",
+  "application_version": "1.0.0",
+  "logger_name": "@tresdoce-nestjs-toolkit/logger",
+  "logger_version": "1.0.0",
+  "@timestamp": "2026-10-25T12:00:00.000Z",
+  "log_level": "INFO",
+  "log_type": "OUTGOING_REQUEST",
+  "context": "HttpClientService",
+  "message": "Outgoing request executed",
+  "outgoing_http_request_method": "GET",
+  "outgoing_http_request_address": "https://rickandmortyapi.com/api/character",
+  "outgoing_http_request_remote_address": "::1",
+  "outgoing_http_response_status_code": 200,
+  "outgoing_http_request_duration_ms": 182
+}
+```
+
+Los requests que fallan se loguean con nivel `error` y la excepción se vuelve a lanzar. El mensaje de error es `Outgoing request failed: <error.message>` y `outgoing_http_response_status_code` vale `"-"` si no hubo respuesta (timeout, error de red).
+Headers, body, query string, fragmento (`#...`) y credenciales embebidas en la URL (`user:pass@`) no se loguean, porque suelen tener tokens o datos personales.
+`outgoing_http_request_remote_address` es la IP del request entrante (seteada por `HttpClientInterceptor`), o `"-"`. Sin `LoggingModule`, el servicio funciona igual y no loguea nada.
+
+<a name="testing"></a>
+
+## 🧪 Testing
+
+Para testear servicios que usan `HttpClientService` sin pegarle a APIs reales, mockeá las respuestas con `nock`
+(por ejemplo con `createMock` de `@tresdoce-nestjs-toolkit/test-utils`):
+
+```typescript
+import { createMock, cleanAllMock } from '@tresdoce-nestjs-toolkit/test-utils';
+
+beforeEach(() => {
+  createMock({
+    url: 'https://rickandmortyapi.com/api/character/1',
+    method: 'get',
+    statusCode: 200,
+    responseBody: { id: 1, name: 'Rick Sanchez', status: 'Alive' },
+  });
+});
+
+afterEach(() => cleanAllMock());
 ```
 
 <a name="api-reference"></a>
 
 ## 📚 API Reference
+
+### Exports
+
+| Export                     | Tipo        | Descripción                                                        |
+| -------------------------- | ----------- | ------------------------------------------------------------------ |
+| `HttpClientModule`         | Módulo      | Módulo `@Global()` que provee `HttpClientService`.                 |
+| `HttpClientService`        | Servicio    | Cliente HTTP sobre una instancia de Axios con Axios-retry.         |
+| `HttpClientInterceptor`    | Interceptor | Interceptor `Scope.REQUEST` que inicializa los headers a propagar. |
+| `HttpModuleOptions`        | Tipo        | `CreateAxiosDefaults & IAxiosRetryConfig`.                         |
+| `HttpModuleAsyncOptions`   | Interfaz    | Opciones de `registerAsync()`.                                     |
+| `HttpModuleOptionsFactory` | Interfaz    | Contrato para `useClass` / `useExisting`.                          |
+| `HttpClientConfig`         | Interfaz    | Forma de `config.httpClient` (`httpOptions`, `propagateHeaders`).  |
 
 ### `HttpClientModule`
 
@@ -385,7 +505,8 @@ Combina `CreateAxiosDefaults` (Axios) e `IAxiosRetryConfig` (Axios-retry). Propi
 | `head(url, config?)`   | `head<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>`   | Realiza un request HTTP HEAD.                                                                                          |
 | `request(config)`      | `request<T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>>`              | Realiza un request HTTP con configuración completa (método, url, headers, data, etc.).                                 |
 
-Todos los métodos de request aplican automáticamente los headers configurados (defaults + propagados) y codifican la URL con `encodeURI`.
+Todos los métodos de request aplican automáticamente los headers configurados (defaults + propagados) y codifican la URL con `encodeURI`
+(no pases URLs ya codificadas: `%20` se convertiría en `%2520`; usá `params` para la query string).
 
 Ejemplo con `request()` para casos avanzados:
 

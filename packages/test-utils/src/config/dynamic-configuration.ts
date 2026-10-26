@@ -1,8 +1,8 @@
-import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import type { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { registerAs } from '@nestjs/config';
 import _ from 'lodash';
 
-import { appConfigBase } from '../fixtures/appConfigBase';
+import { appConfigBase } from '../fixtures/appConfigBase.js';
 
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];

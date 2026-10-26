@@ -1,1 +1,1 @@
-export * from './jest.mocks';
+export * from './vitest.mocks.js';

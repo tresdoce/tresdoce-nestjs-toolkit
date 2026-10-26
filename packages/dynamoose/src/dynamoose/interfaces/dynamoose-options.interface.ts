@@ -1,7 +1,7 @@
 import { LoggerService } from '@nestjs/common';
-import { ModuleMetadata, Type } from '@nestjs/common/interfaces';
+import type { ModuleMetadata, Type } from '@nestjs/common';
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
-import { TableOptionsOptional } from 'dynamoose/dist/Table';
+import { TableOptionsOptional } from 'dynamoose/dist/Table/index.js';
 
 export interface DynamooseModuleOptions {
   aws?: {

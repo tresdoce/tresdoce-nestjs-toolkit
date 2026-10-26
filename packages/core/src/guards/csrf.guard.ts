@@ -4,18 +4,20 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  InternalServerErrorException,
 } from '@nestjs/common';
-import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { Observable } from 'rxjs';
 import {
-  ICsrfRequest,
+  type ICsrfRequest,
   extractDeviceData,
   getCsrfFromRequest,
   getSecretFromRequest,
   verify,
   getIpAddress,
   getUserAgent,
-} from '../commons/csrf-token';
+} from '../commons/csrf-token.js';
+
+type HttpArgumentsHost = ReturnType<import('@nestjs/common').ExecutionContext['switchToHttp']>;
 
 /**
  * Guardia para proteger las rutas contra ataques CSRF (Cross-Site Request Forgery).
@@ -43,6 +45,12 @@ export class CsrfGuard implements CanActivate {
   canActivate(_context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     const ctx: HttpArgumentsHost = _context.switchToHttp();
     const request: ICsrfRequest = ctx.getRequest<ICsrfRequest>();
+
+    if (!request.cookieConfig) {
+      throw new InternalServerErrorException(
+        'CSRF middleware is not configured. Register csrfToken() with app.use() before using CsrfGuard.',
+      );
+    }
 
     const secret: string | false | undefined = getSecretFromRequest(
       request,

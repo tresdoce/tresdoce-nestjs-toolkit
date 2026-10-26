@@ -1,9 +1,9 @@
-import { setHttpsOptions } from '../index';
+import { setHttpsOptions } from '../index.js';
 import * as path from 'path';
 describe('https-certificate', () => {
   it('should be return https certificate config', () => {
-    const crtPath = path.resolve(__dirname, './utils/localhost.crt');
-    const keyPath = path.resolve(__dirname, './utils/localhost.key');
+    const crtPath = path.resolve(import.meta.dirname, './utils/localhost.crt');
+    const keyPath = path.resolve(import.meta.dirname, './utils/localhost.key');
 
     const config = setHttpsOptions(crtPath, keyPath);
     expect(typeof config).toBe('object');
@@ -13,8 +13,8 @@ describe('https-certificate', () => {
   });
 
   it('should be return https certificate config empty', () => {
-    const crtPath = path.resolve(__dirname, './utils/my-localhost.crt');
-    const keyPath = path.resolve(__dirname, './utils/my-localhost.key');
+    const crtPath = path.resolve(import.meta.dirname, './utils/my-localhost.crt');
+    const keyPath = path.resolve(import.meta.dirname, './utils/my-localhost.key');
 
     const config = setHttpsOptions(crtPath, keyPath);
     expect(typeof config).toBe('object');

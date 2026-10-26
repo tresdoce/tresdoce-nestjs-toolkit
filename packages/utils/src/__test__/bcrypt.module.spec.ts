@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
 import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
 
-import { BcryptModule } from '../bcrypt/bcrypt.module';
+import { BcryptModule } from '../bcrypt/bcrypt.module.js';
 
 describe('BcryptModule', () => {
   let app: INestApplication;

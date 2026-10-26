@@ -1,7 +1,7 @@
-import { Pagination, PaginationParams } from '../decorators';
+import { Pagination, type PaginationParams } from '../decorators/index.js';
 import { BadRequestException } from '@nestjs/common';
 import { ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
-import { DEFAULT_SIZE, DEFAULT_PAGE } from '../decorators/constants/pagination.constant';
+import { DEFAULT_SIZE, DEFAULT_PAGE } from '../decorators/constants/pagination.constant.js';
 
 describe('Pagination Decorator', () => {
   function getParamDecoratorFactory(decorator: Function) {

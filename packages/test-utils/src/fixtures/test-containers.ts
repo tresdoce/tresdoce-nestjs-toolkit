@@ -1,4 +1,4 @@
-import { ITestContainerOptions } from '../testcontainers';
+import type { ITestContainerOptions } from '../testcontainers/index.js';
 
 export const tcUsername = 'root';
 export const tcPassword = '123456';

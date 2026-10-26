@@ -2,13 +2,13 @@ import { INestApplication, Injectable, Module } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
-import * as dynamoose from 'dynamoose';
+import dynamoose from 'dynamoose';
 
-import { DynamooseModule } from '../dynamoose/dynamoose.module';
-import { DynamooseModuleOptions, DynamooseOptionsFactory } from '../dynamoose/interfaces';
+import { DynamooseModule } from '../dynamoose/dynamoose.module.js';
+import { DynamooseModuleOptions, DynamooseOptionsFactory } from '../dynamoose/interfaces/index.js';
 
-import { DYNAMOOSE_OPTIONS } from '../dynamoose/constants/dynamoose.constant';
-import { UserSchema } from './utils/user.schema';
+import { DYNAMOOSE_OPTIONS } from '../dynamoose/constants/dynamoose.constant.js';
+import { UserSchema } from './utils/user.schema.js';
 
 // 🧪 Config de entorno
 process.env.AWS_ACCESS_KEY_ID = 'local';

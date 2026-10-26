@@ -1,4 +1,4 @@
-import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import type { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { appConfigBase } from '@tresdoce-nestjs-toolkit/test-utils';
 import { registerAs } from '@nestjs/config';
 

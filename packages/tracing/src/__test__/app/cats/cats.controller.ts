@@ -1,8 +1,8 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { SkipTrace } from '../../../tracing/decorators';
+import { SkipTrace } from '../../../tracing/decorators/index.js';
 
-import { CatsService } from './cats.service';
-import { Cat } from './interfaces/cat.interface';
+import { CatsService } from './cats.service.js';
+import { Cat } from './interfaces/cat.interface.js';
 
 @Controller('cats')
 export class CatsController {

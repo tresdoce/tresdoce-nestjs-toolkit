@@ -2,16 +2,16 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
-import * as dynamoose from 'dynamoose';
+import dynamoose from 'dynamoose';
 
-import { DynamooseModule } from '../dynamoose/dynamoose.module';
+import { DynamooseModule } from '../dynamoose/dynamoose.module.js';
 import {
   createDynamooseAsyncProviders,
   createDynamooseProviders,
-} from '../dynamoose/providers/dynamoose.provider';
+} from '../dynamoose/providers/dynamoose.provider.js';
 import process from 'process';
-import { DynamooseModuleOptions, ModelDefinition } from '../dynamoose/interfaces';
-import { UserSchema } from './utils/user.schema';
+import { DynamooseModuleOptions, ModelDefinition } from '../dynamoose/interfaces/index.js';
+import { UserSchema } from './utils/user.schema.js';
 
 process.env.AWS_ACCESS_KEY_ID = 'local';
 process.env.AWS_SECRET_ACCESS_KEY = 'local';
@@ -210,8 +210,8 @@ describe('DynamooseModule', () => {
               options: { timestamps: true },
               serializers: {
                 serializerName: {
-                  input: jest.fn(),
-                  output: jest.fn(),
+                  input: vi.fn(),
+                  output: vi.fn(),
                 },
               },
             }),

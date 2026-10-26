@@ -1,16 +1,28 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { Server, CustomTransportStrategy, MessageHandler } from '@nestjs/microservices';
-import { Client, ClientConfig } from 'camunda-external-task-client-js';
+import { Server, type CustomTransportStrategy, type MessageHandler } from '@nestjs/microservices';
+import camunda, { type ClientConfig, type SubscribeOptions } from 'camunda-external-task-client-js';
+import { lastValueFrom } from 'rxjs';
 
-import { CONFIG_MODULE_OPTIONS } from '../constants/camunda.constants';
+import {
+  CAMUNDA_SUBSCRIBE_OPTIONS,
+  CONFIG_MODULE_OPTIONS,
+} from '../constants/camunda.constants.js';
+
+interface CamundaSubscription {
+  topic: string;
+  options: SubscribeOptions | null;
+}
 
 @Injectable()
 export class CamundaTaskConnector extends Server implements CustomTransportStrategy {
-  private readonly client: Client;
+  private readonly client: InstanceType<typeof camunda.Client>;
 
   constructor(@Inject(CONFIG_MODULE_OPTIONS) private readonly clientConfig: ClientConfig) {
     super();
-    this.client = new Client(this.clientConfig);
+    // Polling starts in `listen()`, once the handlers are subscribed. With `autoPoll: true`
+    // (the library default) the client would poll as soon as it is instantiated, and `start()`
+    // would then launch a second polling loop.
+    this.client = new camunda.Client({ ...this.clientConfig, autoPoll: false });
   }
 
   public async listen(callback: () => void) {
@@ -24,22 +36,49 @@ export class CamundaTaskConnector extends Server implements CustomTransportStrat
   }
 
   protected init(): void {
+    this.getHandlers().forEach((messageHandler: MessageHandler, key: string) => {
+      const { topic, options } = this.resolveSubscription(key, messageHandler);
+      this.client.subscribe(topic, options, ({ task, taskService }) =>
+        this.handleTask(messageHandler, task, taskService),
+      );
+    });
+
     this.client.start();
     Logger.log('External Task Client started', CamundaTaskConnector.name);
+  }
 
-    const handlers = this.getHandlers();
-    handlers.forEach((messageHandler: MessageHandler, key: string) => {
-      const { topic, options } = JSON.parse(key);
-      /* istanbul ignore next */
-      this.client.subscribe(topic, options, async ({ task, taskService }): Promise<void> => {
-        await messageHandler(task, taskService);
-      });
+  /**
+   * Runs the Nest handler and waits for its result. Nest wraps handlers with interceptors in a
+   * lazy Observable and turns thrown errors into an error Observable, so it must be subscribed
+   * for the handler to run and for failures to reach the client (`handler:error` event).
+   * Unknown errors are already logged by Nest's `RpcExceptionsHandler`.
+   */
+  protected async handleTask(
+    messageHandler: MessageHandler,
+    task: unknown,
+    taskService: unknown,
+  ): Promise<void> {
+    await lastValueFrom(this.transformToObservable(messageHandler(task, taskService)), {
+      defaultValue: undefined,
     });
+  }
+
+  private resolveSubscription(key: string, messageHandler: MessageHandler): CamundaSubscription {
+    const extras = messageHandler.extras ?? {};
+    if (CAMUNDA_SUBSCRIBE_OPTIONS in extras) {
+      return { topic: key, options: extras[CAMUNDA_SUBSCRIBE_OPTIONS] };
+    }
+    // Backward compatibility with `@MessagePattern({ topic, options })` patterns.
+    if (key.startsWith('{')) {
+      const { topic, options } = JSON.parse(key);
+      if (typeof topic === 'string') return { topic, options: options ?? null };
+    }
+    return { topic: key, options: null };
   }
 
   public on<EventKey extends string = string, EventCallback extends Function = Function>(
     event: EventKey,
-    callback: EventCallback,
+    _callback: EventCallback,
   ): any {
     Logger.log(`Registered event: ${event}`, CamundaTaskConnector.name);
   }

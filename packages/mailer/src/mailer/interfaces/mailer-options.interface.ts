@@ -1,13 +1,13 @@
 /** Interfaces **/
 import { Transport, TransportOptions } from 'nodemailer';
-import * as SMTPTransport from 'nodemailer/lib/smtp-transport';
-import * as SMTPPool from 'nodemailer/lib/smtp-pool';
-import * as SendmailTransport from 'nodemailer/lib/sendmail-transport';
-import * as StreamTransport from 'nodemailer/lib/stream-transport';
-import * as JSONTransport from 'nodemailer/lib/json-transport';
-import * as SESTransport from 'nodemailer/lib/ses-transport';
+import * as SMTPTransport from 'nodemailer/lib/smtp-transport/index.js';
+import * as SMTPPool from 'nodemailer/lib/smtp-pool/index.js';
+import * as SendmailTransport from 'nodemailer/lib/sendmail-transport/index.js';
+import * as StreamTransport from 'nodemailer/lib/stream-transport/index.js';
+import * as JSONTransport from 'nodemailer/lib/json-transport/index.js';
+import * as SESTransport from 'nodemailer/lib/ses-transport/index.js';
 
-import { TemplateAdapter } from './template-adapter.interface';
+import { TemplateAdapter } from './template-adapter.interface.js';
 
 type Options =
   | SMTPTransport.Options

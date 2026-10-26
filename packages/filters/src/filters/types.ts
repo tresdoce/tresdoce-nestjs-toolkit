@@ -24,3 +24,14 @@ export interface IErrorDetail {
     code?: string;
   };
 }
+
+/** Normalized error payload returned by `buildErrorPayload` and sent by `ExceptionsFilter`. */
+export interface IErrorPayload {
+  error: {
+    status: number;
+    instance: string;
+    code: string;
+    message: any;
+    detail?: any;
+  };
+}

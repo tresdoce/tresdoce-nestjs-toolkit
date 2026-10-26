@@ -1,1 +1,1 @@
-export * from './dynamoose.utils';
+export * from './dynamoose.utils.js';

@@ -6,8 +6,15 @@ import * as path from 'path';
 
 import { config, manifest } from '@tresdoce-nestjs-toolkit/test-utils';
 
-import { ArchetypeModule } from '../archetype/archetype.module';
-import { ArchetypeService } from '../archetype/services/archetype.service';
+import { ArchetypeModule } from '../archetype/archetype.module.js';
+import { ArchetypeService } from '../archetype/services/archetype.service.js';
+
+const pickToolkitAndNest = (deps: Record<string, string> = {}) =>
+  Object.fromEntries(
+    Object.entries(deps).filter(
+      ([name]) => name.startsWith('@tresdoce-nestjs-toolkit') || name.startsWith('@nestjs'),
+    ),
+  );
 
 describe('ArchetypeService', () => {
   let service: ArchetypeService;
@@ -31,13 +38,13 @@ describe('ArchetypeService', () => {
   });
 
   it('should be read package file', async () => {
-    const packageFile = await service.readFile(__dirname, '../../package.json');
+    const packageFile = await service.readFile(import.meta.dirname, '../../package.json');
     expect(packageFile).toBeDefined();
     expect(packageFile).toEqual(expect.any(Object));
   });
 
   it('should be return archetype version', async () => {
-    service.readFile = jest.fn().mockImplementation(() => ({ version: manifest.archetypeVersion }));
+    service.readFile = vi.fn().mockImplementation(() => ({ version: manifest.archetypeVersion }));
 
     expect(await service.getArchetypeVersion()).toEqual({
       archetypeVersion: manifest.archetypeVersion,
@@ -45,7 +52,7 @@ describe('ArchetypeService', () => {
   });
 
   it('should be return application info', async () => {
-    service.readFile = jest.fn().mockImplementation(() => ({
+    service.readFile = vi.fn().mockImplementation(() => ({
       appStage: manifest.appStage,
       apiPrefix: manifest.apiPrefix,
       name: manifest.name,
@@ -67,54 +74,80 @@ describe('ArchetypeService', () => {
       author: manifest.author,
       repository: manifest.repository,
       homepage: manifest.homepage,
-      dependencies: {
-        '@tresdoce-nestjs-toolkit/archetype': '0.0.1',
-        '@tresdoce-nestjs-toolkit/health': '0.0.1',
-        '@tresdoce-nestjs-toolkit/http-client': '0.0.1',
-        '@nestjs/class-transformer': '^0.4.0',
-        '@nestjs/class-validator': '^0.13.3',
-        '@nestjs/common': '^9.2.1',
-        '@nestjs/config': '^2.2.0',
-        '@nestjs/core': '^8.2.5',
-        '@nestjs/platform-express': '^8.2.5',
-        '@nestjs/swagger': '^5.1.5',
-      },
-      devDependencies: {
-        '@tresdoce-nestjs-toolkit/commons': '0.0.1',
-        '@nestjs/cli': '^9.1.8',
-        '@nestjs/schematics': '^9.1.0',
-        '@nestjs/testing': '^9.4.0',
-      },
+      // Only toolkit and Nest packages are listed; derived from the fixture so it stays in sync.
+      dependencies: pickToolkitAndNest(manifest.dependencies),
+      devDependencies: pickToolkitAndNest(manifest.devDependencies),
+      currentCommit: '',
+      seed: {},
     });
   });
 
-  it('should throw InternalServerErrorException when the file does not exist', async () => {
-    const missingFile = path.resolve(__dirname, 'nonexistent-package.json');
+  it('should include the seed info and the current commit when available', async () => {
+    vi.stubEnv('CURRENT_COMMIT', 'abcd1234');
+    service.readFile = vi.fn().mockImplementation(() => ({
+      dependencies: {},
+      devDependencies: {},
+      seed: { name: 'nestjs-starter', version: '5.0.0' },
+    }));
 
-    await expect(service.readFile(__dirname, 'nonexistent-package.json')).rejects.toThrow(
-      new InternalServerErrorException(`ArchetypeService: unable to read file "${missingFile}"`),
-    );
+    const info = await service.getApplicationInfo();
+
+    expect(info.currentCommit).toBe('abcd1234');
+    expect(info.seed).toEqual({ name: 'nestjs-starter', version: '5.0.0' });
+    vi.unstubAllEnvs();
+  });
+
+  it('should return empty dependency lists when the app package.json has none', async () => {
+    service.readFile = vi.fn().mockImplementation(() => ({}));
+
+    const info = await service.getApplicationInfo();
+
+    expect(info.dependencies).toEqual({});
+    expect(info.devDependencies).toEqual({});
+    expect(info.seed).toEqual({});
+  });
+
+  it('should read the archetype version from its own package.json', async () => {
+    const ownPackage = await service.readFile(import.meta.dirname, '../../package.json');
+
+    expect(await service.getArchetypeVersion()).toEqual({ archetypeVersion: ownPackage.version });
+  });
+
+  it('should throw InternalServerErrorException when the file does not exist', async () => {
+    const missingFile = path.resolve(import.meta.dirname, 'nonexistent-package.json');
+
+    const promise = service.readFile(import.meta.dirname, 'nonexistent-package.json');
+
+    await expect(promise).rejects.toBeInstanceOf(InternalServerErrorException);
+    await expect(promise).rejects.toThrow(`ArchetypeService: unable to read file "${missingFile}"`);
+    await expect(promise).rejects.toMatchObject({
+      cause: expect.objectContaining({ code: 'ENOENT' }),
+    });
   });
 
   it('should throw InternalServerErrorException when the file contains invalid JSON', async () => {
-    const invalidFile = path.resolve(__dirname, 'invalid.json');
+    const invalidFile = path.resolve(import.meta.dirname, 'invalid.json');
     fs.writeFileSync(invalidFile, '{ this is not valid json');
 
     try {
-      await expect(service.readFile(__dirname, 'invalid.json')).rejects.toThrow(
-        new InternalServerErrorException(`ArchetypeService: invalid JSON in file "${invalidFile}"`),
+      const promise = service.readFile(import.meta.dirname, 'invalid.json');
+
+      await expect(promise).rejects.toBeInstanceOf(InternalServerErrorException);
+      await expect(promise).rejects.toThrow(
+        `ArchetypeService: invalid JSON in file "${invalidFile}"`,
       );
+      await expect(promise).rejects.toMatchObject({ cause: expect.any(SyntaxError) });
     } finally {
       fs.unlinkSync(invalidFile);
     }
   });
 
   it('should be return manifest', async () => {
-    service.getArchetypeVersion = jest.fn().mockImplementation(() => ({
+    service.getArchetypeVersion = vi.fn().mockImplementation(() => ({
       archetypeVersion: manifest.archetypeVersion,
     }));
 
-    service.getApplicationInfo = jest.fn().mockImplementation(() => ({
+    service.getApplicationInfo = vi.fn().mockImplementation(() => ({
       appStage: manifest.appStage,
       apiPrefix: manifest.apiPrefix,
       name: manifest.name,

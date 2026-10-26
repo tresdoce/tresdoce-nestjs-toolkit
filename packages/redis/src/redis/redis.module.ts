@@ -1,11 +1,11 @@
 import { DynamicModule, Global, Inject, Module, OnModuleDestroy } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RedisClientType } from 'redis';
+import type { RedisClientType } from 'redis';
 
-import { REDIS_CLIENT, REDIS_MODULE_OPTIONS } from './constants/redis.constants';
-import { RedisService } from './services/redis.service';
-import { createRedisClient } from './providers/redis-client.provider';
-import { RedisOptions } from './interfaces/redis.interface';
+import { REDIS_CLIENT, REDIS_MODULE_OPTIONS } from './constants/redis.constants.js';
+import { RedisService } from './services/redis.service.js';
+import { createRedisClient } from './providers/redis-client.provider.js';
+import type { RedisOptions } from './interfaces/redis.interface.js';
 
 @Global()
 @Module({
@@ -23,10 +23,7 @@ import { RedisOptions } from './interfaces/redis.interface';
   exports: [REDIS_CLIENT, RedisService],
 })
 export class RedisModule implements OnModuleDestroy {
-  constructor(
-    @Inject(REDIS_MODULE_OPTIONS) private readonly options: RedisOptions,
-    @Inject(REDIS_CLIENT) private readonly redisClient: RedisClientType,
-  ) {}
+  constructor(@Inject(REDIS_CLIENT) private readonly redisClient: RedisClientType) {}
 
   static register(options: RedisOptions): DynamicModule {
     return {
@@ -44,7 +41,16 @@ export class RedisModule implements OnModuleDestroy {
     };
   }
 
-  async onModuleDestroy() {
-    await this.redisClient.quit();
+  async onModuleDestroy(): Promise<void> {
+    const client = this.redisClient;
+    if (!client || client.isOpen === false) return;
+
+    // `quit()` is deprecated since node-redis v5: prefer `close()` (waits for pending
+    // commands) and fall back to `quit()` for clients/mocks that only implement it.
+    if (typeof client.close === 'function') {
+      await client.close();
+    } else {
+      await client.quit();
+    }
   }
 }

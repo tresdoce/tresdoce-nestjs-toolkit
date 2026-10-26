@@ -1,5 +1,5 @@
-import { ModuleMetadata } from '@nestjs/common/interfaces';
-import { ModelDefinition } from './model-definition.interface';
+import type { ModuleMetadata } from '@nestjs/common';
+import { ModelDefinition } from './model-definition.interface.js';
 
 export interface AsyncModelFactory
   extends

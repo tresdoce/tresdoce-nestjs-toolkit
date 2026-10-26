@@ -1,8 +1,8 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModule, type TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-import { TYPE_ORM_MODULE_OPTIONS } from './constants/typerom.constants';
+import { TYPE_ORM_MODULE_OPTIONS } from './constants/typeorm.constants.js';
 
 @Global()
 @Module({
@@ -24,7 +24,14 @@ import { TYPE_ORM_MODULE_OPTIONS } from './constants/typerom.constants';
   exports: [TypeOrmModule, TYPE_ORM_MODULE_OPTIONS],
 })
 export class TypeOrmClientModule {
-  static forFeature(features): DynamicModule {
-    return TypeOrmModule.forFeature(features);
+  /**
+   * Registra los repositorios de las entidades indicadas en el scope del módulo.
+   * Delegado de `TypeOrmModule.forFeature` de `@nestjs/typeorm`.
+   */
+  static forFeature(
+    entities?: Parameters<typeof TypeOrmModule.forFeature>[0],
+    dataSource?: Parameters<typeof TypeOrmModule.forFeature>[1],
+  ): DynamicModule {
+    return TypeOrmModule.forFeature(entities, dataSource);
   }
 }
