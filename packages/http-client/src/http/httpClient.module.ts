@@ -35,19 +35,18 @@ const createAxiosRetry = (config: HttpModuleOptions = {}) => {
     HttpClientService,
     {
       provide: HTTP_MODULE_CONFIG,
-      useFactory: async (configService: ConfigService): Promise<HttpClientConfig> =>
+      useFactory: (configService: ConfigService): HttpClientConfig =>
         configService.get<HttpClientConfig>('config.httpClient') || {},
       inject: [ConfigService],
     },
     {
       provide: HTTP_MODULE_PROPAGATE_HEADERS,
-      useFactory: async (httpClient: HttpClientConfig): Promise<string[]> =>
-        httpClient.propagateHeaders || [],
+      useFactory: (httpClient: HttpClientConfig): string[] => httpClient.propagateHeaders || [],
       inject: [HTTP_MODULE_CONFIG],
     },
     {
       provide: AXIOS_INSTANCE_TOKEN,
-      useFactory: async (httpClient: HttpClientConfig): Promise<AxiosInstance> =>
+      useFactory: (httpClient: HttpClientConfig): AxiosInstance =>
         createAxiosRetry(httpClient.httpOptions),
       inject: [HTTP_MODULE_CONFIG],
     },

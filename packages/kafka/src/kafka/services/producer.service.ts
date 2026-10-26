@@ -41,7 +41,7 @@ import { KafkaRequestSerializer } from '../serializer/kafka-request.serializer.j
 @Injectable()
 export class ProducerService implements OnModuleDestroy {
   private readonly kafkaInstance: Kafka;
-  private producer: Producer;
+  private readonly producer: Producer;
   /** Conexión en curso/establecida; se reutiliza entre envíos y se limpia al desconectar. */
   private connection: Promise<void> | null = null;
   private serializer: Serializer<any, KafkaRequest>;
@@ -95,7 +95,7 @@ export class ProducerService implements OnModuleDestroy {
    * Desconecta el producer si estaba conectado.
    */
   async disconnect(): Promise<void> {
-    if (!this.connection) return;
+    if (this.connection === null) return;
     this.connection = null;
     await this.producer.disconnect();
   }

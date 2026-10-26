@@ -25,10 +25,10 @@ import { ConsumerService } from './services/consumer.service.js';
        * Esto permite personalizar los parámetros de Kafka desde un archivo de configuración o variables de entorno.
        *
        * @param configService - El servicio de configuración de NestJS, utilizado para acceder a las variables de configuración.
-       * @returns {Promise<KafkaModuleOptions>} - Las opciones de configuración de Kafka.
+       * @returns {KafkaModuleOptions} - Las opciones de configuración de Kafka.
        */
       provide: KAFKA_MODULE_OPTIONS,
-      useFactory: async (configService: ConfigService): Promise<KafkaModuleOptions> =>
+      useFactory: (configService: ConfigService): KafkaModuleOptions =>
         configService.get<KafkaModuleOptions>('config.kafka'),
       inject: [ConfigService],
     },

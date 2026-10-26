@@ -119,7 +119,7 @@ export class HttpClientService {
     const log = {
       ...this.logger.getGenericLog(level, 'OUTGOING_REQUEST', startTime),
       message: error
-        ? `Outgoing request failed: ${error instanceof Error ? error.message : String(error)}`
+        ? `Outgoing request failed: ${HttpClientService.errorMessage(error)}`
         : 'Outgoing request executed',
       outgoing_http_request_method: (config.method ?? 'GET').toUpperCase(),
       outgoing_http_request_address: HttpClientService.sanitizeUrl(url ?? config.baseURL),
@@ -132,6 +132,11 @@ export class HttpClientService {
     } else {
       this.logger.log(log, HttpClientService.name);
     }
+  }
+
+  private static errorMessage(error: unknown): string {
+    if (error instanceof Error) return error.message;
+    return typeof error === 'string' ? error : JSON.stringify(error);
   }
 
   /**

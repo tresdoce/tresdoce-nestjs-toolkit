@@ -50,6 +50,10 @@ interface ConsumerServiceTestAccess {
   fetchTopicOffsetsWithRetry(topic: string): Promise<(SeekEntry & { high: string; low: string })[]>;
   waitForGroupJoin(): Promise<void>;
   seekWithRetry(topic: string, partition: number, offset: string): Promise<void>;
+  resolveSeekOffset(
+    seekPoint: number | 'earliest' | Date,
+    topicOffset: { partition: number; offset: string; low: string },
+  ): string;
 }
 
 const asInternal = (service: ConsumerService): ConsumerServiceTestAccess =>
@@ -256,6 +260,17 @@ describe('ConsumerService retry logic', () => {
     );
   });
 
+  it.each([
+    ['earliest', '3'],
+    [new Date(1_700_000_000_000), '1700000000000'],
+    [42, '42'],
+  ] as const)('should resolve the seek offset for %s', (seekPoint, expected) => {
+    const service = new ConsumerService(kafkaOptions);
+    expect(
+      asInternal(service).resolveSeekOffset(seekPoint, { partition: 0, offset: '9', low: '3' }),
+    ).toBe(expected);
+  });
+
   it('should retry seek until it succeeds', async () => {
     useImmediateTimeouts();
     consumerMock.seek.mockImplementationOnce(() => {
@@ -369,7 +384,10 @@ describe('ConsumerService retry logic', () => {
     await service.onModuleInit();
 
     expect(adminMock.fetchTopicOffsets).toHaveBeenCalledWith('orders');
-    expect(consumerMock.subscribe).toHaveBeenCalledWith({ topic: 'orders', fromBeginning: true });
+    expect(consumerMock.subscribe).toHaveBeenCalledWith({
+      topics: ['orders'],
+      fromBeginning: true,
+    });
     expect(service.isConsumerConnected()).toBe(true);
 
     const { eachMessage } = consumerMock.run.mock.calls[0][0] as {

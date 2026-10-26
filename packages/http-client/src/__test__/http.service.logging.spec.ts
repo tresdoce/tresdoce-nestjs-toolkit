@@ -88,6 +88,22 @@ describe('HttpClientService - outgoing request logs', () => {
     );
   });
 
+  it('should serialize non-Error, non-string failures as JSON', async () => {
+    const logger = createLoggerMock();
+    const service = new HttpClientService(
+      createAxiosMock(vi.fn().mockRejectedValue({ code: 'E_TIMEOUT' })),
+      [],
+      logger,
+    );
+
+    await expect(service.get('https://api.test')).rejects.toEqual({ code: 'E_TIMEOUT' });
+
+    expect(logger.error).toHaveBeenCalledWith(
+      expect.objectContaining({ message: 'Outgoing request failed: {"code":"E_TIMEOUT"}' }),
+      'HttpClientService',
+    );
+  });
+
   it('should not fail when LoggingModule is not registered', async () => {
     const service = new HttpClientService(
       createAxiosMock(vi.fn().mockResolvedValue({ status: 204 })),

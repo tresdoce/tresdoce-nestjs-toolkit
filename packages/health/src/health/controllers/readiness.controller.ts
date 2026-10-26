@@ -62,7 +62,7 @@ export class ReadinessController {
   private isEnabled(path: string, check?: Typings.TSkipHealthChecks): boolean {
     return (
       !_.isEmpty(_.get(this.appConfig, path)) &&
-      !_.includes(this.appConfig.health?.skipChecks, check)
+      !(this.appConfig.health?.skipChecks ?? []).includes(check)
     );
   }
 
