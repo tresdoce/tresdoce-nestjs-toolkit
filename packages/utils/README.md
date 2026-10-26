@@ -4,9 +4,9 @@
 </div>
 
 <div align="center">
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v22.21.1&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="NodeJS"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v22.22%2B&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="NodeJS"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v11.6.4&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="NPM"/>
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v11.1.11&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/><br/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v12&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/><br/>
     <img src="https://img.shields.io/github/license/tresdoce/tresdoce-nestjs-toolkit?style=flat" alt="GitHub license" >
     <img alt="Release" src="https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/utils.svg">
     <br/>
@@ -38,9 +38,9 @@ proyecto que utilice una configuración centralizada, siguiendo la misma arquite
 ## 📝 Requerimientos básicos
 
 - [NestJS Starter](https://github.com/rudemex/nestjs-starter)
-- Node.js v22.21.1 or higher ([Download](https://nodejs.org/es/download/))
+- Node.js v22.22 or higher ([Download](https://nodejs.org/es/download/))
 - YARN ≥ 1.22.22 o NPM ≥ 11.6.4
-- NestJS v11.1.11 or higher ([Documentación](https://nestjs.com/))
+- NestJS v12 or higher ([Documentación](https://nestjs.com/))
 
 <a name="install-dependencies"></a>
 
@@ -60,6 +60,18 @@ yarn add @tresdoce-nestjs-toolkit/utils
 
 Este paquete no tiene dependencias internas del toolkit. Puede utilizarse de forma independiente.
 
+Es un paquete **ESM-only** (`"type": "module"`): se consume con `import` desde proyectos ESM.
+`RedactModule` (sin `.register()`) y `BcryptModule` leen su configuración con `ConfigService`, por lo que
+requieren `ConfigModule.forRoot({ isGlobal: true, load: [configuration] })` de `@nestjs/config` en la aplicación.
+
+| Módulo         | Key de `Typings.AppConfig` | Dependencias externas                                             |
+| -------------- | -------------------------- | ----------------------------------------------------------------- |
+| `RedactModule` | `config.redact`            | [`fast-redact`](https://github.com/davidmarkclements/fast-redact) |
+| `FormatModule` | —                          | [`luxon`](https://moment.github.io/luxon/), `Intl` nativo         |
+| `BcryptModule` | `config.bcrypt`            | [`bcrypt`](https://github.com/kelektiv/node.bcrypt.js) (nativo)   |
+
+> No requiere servicios externos (Redis, bases de datos, etc.), por lo que no hace falta `docker-compose`.
+
 <a name="modules"></a>
 
 ---
@@ -68,7 +80,8 @@ Este paquete no tiene dependencias internas del toolkit. Puede utilizarse de for
 
 El módulo **Redact** está pensado para el ofuscamiento de datos sensibles tanto en librerías como en aplicaciones.
 Utiliza como base [`fast-redact`](https://github.com/davidmarkclements/fast-redact) con algunas mejoras adicionales
-(obfuscación parcial de valores desde la izquierda o la derecha).
+(obfuscación parcial de valores desde la izquierda o la derecha). Es utilizado internamente por
+`@tresdoce-nestjs-toolkit/logger`, `elk`, `tracing` y `http-client` para ofuscar headers, bodies y query params.
 
 <a name="configuración-redact"></a>
 
@@ -113,10 +126,12 @@ para impactar sin re-deploy. Sigue la sintaxis estándar de EcmaScript.
   - `*.b`
   - `a[0].b`
 
-`censor`: Valor por el cual se reemplaza el dato sensible. La longitud del censor determina cuántos caracteres se
+`censor`: Valor por el cual se reemplaza el dato sensible. Si es un string, su longitud determina cuántos caracteres se
 reemplazan en el valor original (los últimos N si `obfuscateFrom` es `right`, los primeros N si es `left`).
+Los valores que **no son string** (números, booleanos, objetos o arrays) y los strings más cortos que el censor se
+reemplazan por el censor completo. También puede ser una función `(value) => any` que recibe el valor original.
 
-- Type: `String`
+- Type: `String | Function`
 - Default: `****`
 - Example: `400012345678****`
 
@@ -127,7 +142,9 @@ reemplazan en el valor original (los últimos N si `obfuscateFrom` es `right`, l
 - Values: `left | right`
 - Example: `****123456784126` (left) | `400012345678****` (right)
 
-`remove`: Si es `true`, elimina la key y su valor del objeto en lugar de ofuscar.
+`remove`: Si es `true`, elimina la key y su valor del objeto en lugar de ofuscar. `fast-redact` solo lo permite
+cuando la salida se serializa con `JSON.stringify`, así que debe combinarse con `serialize: true` (si no, el módulo
+falla al inicializarse con `remove option may only be set when serializer is JSON.stringify`).
 
 - Type: `Boolean`
 - Default: `false`
@@ -215,9 +232,27 @@ export class AppModule {}
 
 ### Inyectando `RedactService`
 
-> ⚠️ `RedactModule` es `@Global()`, por lo que `RedactService` está disponible en toda la aplicación una vez importado el módulo en `AppModule`.
+> ⚠️ `RedactModule` es global por defecto, por lo que `RedactService` está disponible en toda la aplicación una vez importado el módulo en `AppModule`.
 
-> ⚠️ El método `obfuscate()` realiza una **mutación** del objeto recibido internamente (trabaja sobre una copia profunda). El objeto original no se modifica.
+Para usar una configuración de redacción **local** a un módulo (por ejemplo, en una librería que no debe
+pisar la configuración global de la app), pasá `isGlobal: false`. Así lo hacen internamente `logger` y `elk`:
+
+```typescript
+@Module({
+  imports: [
+    RedactModule.registerAsync({
+      isGlobal: false,
+      useFactory: () => ({ paths: ['password'], censor: '****' }),
+    }),
+    // o bien: RedactModule.register({ paths: ['password'] }, false)
+  ],
+  providers: [MyLibraryService], // recibe el RedactService con esta configuración
+})
+export class MyLibraryModule {}
+```
+
+> ⚠️ `obfuscate()` trabaja sobre una copia profunda (`JSON.parse(JSON.stringify(data))`): el objeto original no se
+> modifica, pero los valores no serializables a JSON (funciones, `undefined`, `Date` → string) se pierden o transforman.
 
 ```typescript
 // ./my-service.ts
@@ -240,12 +275,73 @@ export class MyService {
 }
 ```
 
+#### 📤 Ejemplos de salida
+
+Con `paths: ['card.number', 'headers.authorization', 'pin', 'user.address']` y el censor por defecto:
+
+```typescript
+this.redactService.obfuscate({
+  card: { number: '4000123456784126', holder: 'Juan' },
+  headers: { authorization: 'Bearer abc.def' },
+  pin: 1234,
+  user: { address: { street: 'Av. Siempre Viva' } },
+});
+```
+
+```json
+{
+  "card": { "number": "400012345678****", "holder": "Juan" },
+  "headers": { "authorization": "Bearer abc****" },
+  "pin": "****",
+  "user": { "address": "****" }
+}
+```
+
+| Opciones                                             | Entrada                                    | Salida                                     |
+| ---------------------------------------------------- | ------------------------------------------ | ------------------------------------------ |
+| `obfuscateFrom: 'left'`                              | `{ card: { number: '4000123456784126' } }` | `{ card: { number: '****123456784126' } }` |
+| `paths: ['password'], remove: true, serialize: true` | `{ user: 'mex', password: 'secret' }`      | `'{"user":"mex"}'`                         |
+| `RedactModule.register({})` (sin paths)              | `{ apiKey: '123456789' }`                  | `{ apiKey: '123456789' }`                  |
+
+> Con `serialize: true` (o una función) en la configuración, `obfuscate(data)` retorna un **string**.
+
 ---
 
 ## Format
 
-El módulo **Format** expone el servicio `FormatService` con utilidades para formatear números y fechas.
+El módulo **Format** expone el servicio `FormatService` con utilidades para formatear números, fechas y diferencias
+de tiempo (usado por `logger` y `tracing` para `http_duration_ms` y timestamps).
 `FormatModule` es un módulo global que puede importarse una sola vez en `AppModule`.
+
+> ℹ️ Desde Node 20/22 (ICU 72+), `Intl` usa espacios especiales: _no-break space_ (`U+00A0`) en monedas
+> (`$ 1.234,50`) y _narrow no-break space_ (`U+202F`) en separadores de miles (`fr-FR`) y meridianos
+> (`12:00 AM`, `11:37 a. m.`). `formatNumber()` y `formatDate()` los **normalizan a un espacio común**, para que la
+> salida sea estable entre versiones de Node y se pueda comparar en tests sin sorpresas.
+
+#### 📤 Ejemplos de salida
+
+| Llamada                                                                                                                     | Resultado                           |
+| --------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `formatNumber({ num: 123456.789 })`                                                                                         | `'123.456,789'`                     |
+| `formatNumber({ num: 123456.789, formatOptions: { style: 'currency', currency: 'USD', currencyDisplay: 'narrowSymbol' } })` | `'$ 123.456,79'`                    |
+| `formatNumber({ num: 123456.789, locale: 'en-US', formatOptions: { style: 'currency', currency: 'USD' } })`                 | `'$123,456.79'`                     |
+| `formatNumber({ num: 1234567.5, locale: 'fr-FR' })`                                                                         | `'1 234 567,5'`                     |
+| `formatNumber({ num: 0.123456, locale: 'en-US', formatOptions: { style: 'percent', minimumFractionDigits: 2 } })`           | `'12.35%'`                          |
+| `formatNumber({ num: 16, formatOptions: { style: 'unit', unit: 'liter', unitDisplay: 'long' } })`                           | `'16 litros'`                       |
+| `formatNumber({ num: 1500000, formatOptions: { notation: 'compact' } })`                                                    | `'1,5 M'`                           |
+| `formatDate({ date })`                                                                                                      | `'20/12/2022 14:37:17.020'`         |
+| `formatDate({ date, formatDate: 'fff', timezone: 'Europe/Paris', locale: 'fr' })`                                           | `'20 décembre 2022 à 15:37 UTC+1'`  |
+| `formatDate({ date, formatDate: 'DDDD', timezone: DEFAULT_TIMEZONE_LOCALE })`                                               | `'martes, 20 de diciembre de 2022'` |
+| `formatDate({ date, formatDate: 'hh:mm a', timezone: DEFAULT_TIMEZONE_LOCALE })`                                            | `'11:37 a. m.'`                     |
+| `formatDate({ date, formatDate: 't', locale: 'en-US', timezone: 'America/New_York' })`                                      | `'9:37 AM'`                         |
+| `dateToISO({ date })`                                                                                                       | `'2022-12-20T14:37:17.020Z'`        |
+| `dateToISO({ date, timezone: DEFAULT_TIMEZONE_LOCALE })`                                                                    | `'2022-12-20T11:37:17.020-03:00'`   |
+| `calculateTimestampDiff({ startTime: 0, endTime: 90000 })`                                                                  | `90000`                             |
+| `calculateTimestampDiff({ startTime: 0, endTime: 90000, options: { unit: 'minutes', addSuffix: true } })`                   | `'1.5min'`                          |
+| `calculateTimestampDiff({ startTime: 0, endTime: 5400000, options: { unit: 'hours' } })`                                    | `1.5`                               |
+
+_`date = new Date('2022-12-20T14:37:17.020Z')`; los resultados de `formatNumber`/`formatDate` dependen de los datos
+ICU de Node._
 
 ### ⚙️ Configuración
 
@@ -377,7 +473,7 @@ myFunction() {
       timezone: 'Europe/Paris',
       locale: 'fr',
     }),
-    // Return: '20 décembre 2022, 15:37.020 UTC+1'
+    // Return: '20 décembre 2022 à 15:37 UTC+1'
   };
 }
 ```
@@ -410,7 +506,7 @@ myFunction() {
 
 ### .dateToISO()
 
-Convierte un objeto `Date` a string en formato ISO 8601.
+Convierte un objeto `Date` a string en formato ISO 8601 (retorna `null` si la fecha es inválida).
 
 ```typescript
 myFunction() {
@@ -492,7 +588,9 @@ myFunction() {
 
 ## Bcrypt
 
-El módulo **Bcrypt** proporciona funcionalidades para encriptar, hashear y comparar datos usando el algoritmo bcrypt.
+El módulo **Bcrypt** proporciona funcionalidades para hashear y comparar datos (por ejemplo contraseñas) usando el
+algoritmo bcrypt. Cada hash se genera con una **sal aleatoria propia**, por lo que hashear dos veces el mismo valor
+produce resultados distintos; para verificar siempre se usa `compare()`/`compareSync()`, nunca comparación de strings.
 
 ### ⚙️ Configuración
 
@@ -518,10 +616,13 @@ export default registerAs('config', (): Typings.AppConfig => {
 <details>
 <summary>💬 Propiedades de BcryptOptions</summary>
 
-`rounds`: Número de rondas de sal para la generación del hash. A mayor valor, más seguro pero más lento.
+`rounds`: Costo (log2 de iteraciones) para la generación del hash. A mayor valor, más seguro pero más lento: cada
+ronda extra duplica el tiempo (16 rondas ≈ varios segundos por hash; 10–12 suele ser suficiente para APIs). En tests
+conviene usar `4` (mínimo de bcrypt).
 
 - Type: `number`
 - Default: `16`
+- Env sugerida: `BCRYPT_ROUNDS` (por ejemplo `rounds: parseInt(process.env.BCRYPT_ROUNDS ?? '12', 10)`)
 
 `minor`: Versión menor de bcrypt a utilizar (`'a'` o `'b'`).
 
@@ -532,7 +633,8 @@ export default registerAs('config', (): Typings.AppConfig => {
 
 ### 👨‍💻 Uso
 
-Importar `BcryptModule` en el módulo que lo requiera:
+Importar `BcryptModule` en el módulo que lo requiera (es `@Global()`, alcanza con importarlo una vez). Requiere
+`ConfigModule` global, ya que lee `config.bcrypt` con `ConfigService`:
 
 ```typescript
 // ./src/my.module.ts
@@ -609,7 +711,8 @@ generatePasswordHashExample() {
 
 #### validateHash
 
-Valida si un hash fue generado con las rondas de sal actuales.
+Valida si un hash fue generado con las rondas actuales (útil para detectar hashes que conviene regenerar luego de subir
+`rounds`). Lanza error si el string no es un hash bcrypt válido.
 
 ```typescript
 validateHashExample() {
@@ -621,12 +724,35 @@ validateHashExample() {
 
 #### generateSalt
 
-Genera una nueva sal. Se ejecuta automáticamente en el constructor con los valores configurados.
+Genera y retorna una sal. Se ejecuta automáticamente en el constructor con los valores configurados. Si se llama con
+valores custom, esos `rounds`/`minor` pasan a usarse en los hashes siguientes de esa instancia (cada hash sigue usando
+su propia sal aleatoria).
 
 ```typescript
-// Usar con valores custom (sobreescribe la sal interna del servicio)
-this.bcryptService.generateSalt(10, 'a');
+const salt = this.bcryptService.generateSalt(10, 'a'); // '$2a$10$…' (29 caracteres)
+this.bcryptService.encryptSync('password'); // '$2a$10$...'
 ```
+
+#### 📤 Ejemplos de salida y errores
+
+```typescript
+await this.bcryptService.encrypt('password');
+// '$2b$16$…'  (60 caracteres: $<minor>$<rounds>$<sal+hash>)
+await this.bcryptService.encrypt('password');
+// '$2b$16$…'  (distinto al anterior: sal aleatoria por hash)
+await this.bcryptService.compare('password', hash); // true
+await this.bcryptService.compare('otra', hash); // false
+await this.bcryptService.compare('password', 'no-es-un-hash'); // false
+this.bcryptService.validateHash('no-es-un-hash');
+// Error: Error validating hash: invalid hash provided
+await this.bcryptService.encrypt(undefined as unknown as string);
+// Error: Error encrypting data: data and salt arguments required
+```
+
+Todos los métodos envuelven los errores de `bcrypt` en un `Error` con prefijo descriptivo
+(`Error generating salt: …`, `Error encrypting data: …`, `Error synchronously encrypting data: …`,
+`Error comparing data: …`, `Error synchronously comparing data: …`, `Error generating password hash: …`,
+`Error validating hash: …`).
 
 ---
 
@@ -658,7 +784,7 @@ this.bcryptService.generateSalt(10, 'a');
 | `RedactModuleOptions`           | Alias de `RedactOptions`                        |
 | `RedactModuleOptionsFactory`    | Factory para opciones async de Redact           |
 | `RedactModuleAsyncOptions`      | Opciones async para `registerAsync()`           |
-| `BcryptOptions`                 | Opciones del módulo Bcrypt                      |
+| `BcryptOptions`                 | Opciones del módulo Bcrypt (`rounds`, `minor`)  |
 | `FormatNumberOptions`           | Parámetros de `formatNumber()`                  |
 | `FormatDateOptions`             | Parámetros de `formatDate()`                    |
 | `ISOFormatDateOptions`          | Parámetros de `dateToISO()`                     |
@@ -667,11 +793,11 @@ this.bcryptService.generateSalt(10, 'a');
 
 ### Tipos y enums
 
-| Símbolo | Tipo | Valores / Descripción |
-| --------------- | ---- | ------------------------------------------ | --------- | --------- | ------- | ------ | ------- | -------- | -------- |
-| `BcryptVersion` | type | `'a'                                       | 'b'` |
-| `TimeUnit` | type | `'milliseconds'                            | 'seconds' | 'minutes' | 'hours' | 'days' | 'weeks' | 'months' | 'years'` |
-| `TimeSuffixes` | enum | `ms`, `s`, `min`, `h`, `d`, `w`, `mo`, `y` |
+| Símbolo         | Tipo | Valores / Descripción                                                                             |
+| --------------- | ---- | ------------------------------------------------------------------------------------------------- |
+| `BcryptVersion` | type | `'a' \| 'b'`                                                                                      |
+| `TimeUnit`      | type | `'milliseconds' \| 'seconds' \| 'minutes' \| 'hours' \| 'days' \| 'weeks' \| 'months' \| 'years'` |
+| `TimeSuffixes`  | enum | `ms`, `s`, `min`, `h`, `d`, `w`, `mo`, `y`                                                        |
 
 ### Constantes
 

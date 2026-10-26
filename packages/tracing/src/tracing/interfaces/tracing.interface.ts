@@ -1,8 +1,13 @@
-import { DetectedResourceAttributes } from '@opentelemetry/resources/build/src/types';
-import { OTLPExporterNodeConfigBase } from '@opentelemetry/otlp-exporter-base';
-import { HttpInstrumentationConfig } from '@opentelemetry/instrumentation-http/build/src/types';
+import type { DetectedResourceAttributes } from '@opentelemetry/resources';
+import type { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
+import type { HttpInstrumentationConfig } from '@opentelemetry/instrumentation-http';
 
-interface IResourceAttributes extends DetectedResourceAttributes {
+/** Configuración del exporter OTLP (HTTP/protobuf), p. ej. `{ url, headers, timeoutMillis }`. */
+export type TracingExporterOptions = NonNullable<
+  ConstructorParameters<typeof OTLPTraceExporter>[0]
+>;
+
+export interface IResourceAttributes extends DetectedResourceAttributes {
   serviceName: string;
   version: string;
   'service.namespace': string;
@@ -11,7 +16,7 @@ interface IResourceAttributes extends DetectedResourceAttributes {
 
 export interface TracingOptions {
   resourceAttributes: IResourceAttributes;
-  exporter: OTLPExporterNodeConfigBase;
+  exporter: TracingExporterOptions;
   httpInstrumentation?: HttpInstrumentationConfig;
   ignorePaths?: string[];
 }

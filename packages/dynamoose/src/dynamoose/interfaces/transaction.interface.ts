@@ -1,6 +1,6 @@
 /* istanbul ignore file */
-import * as dynamoose from 'dynamoose';
-import { TransactionSettings } from 'dynamoose/dist/Transaction';
+import dynamoose from 'dynamoose';
+import { TransactionSettings } from 'dynamoose/dist/Transaction.js';
 import {
   CallbackType,
   ConditionTransactionInput,
@@ -8,7 +8,7 @@ import {
   DeleteTransactionInput,
   GetTransactionInput,
   UpdateTransactionInput,
-} from './model.interface';
+} from './model.interface.js';
 
 export type Transaction =
   | GetTransactionInput

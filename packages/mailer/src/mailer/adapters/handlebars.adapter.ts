@@ -1,107 +1,97 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as handlebars from 'handlebars';
-import { inline } from '@css-inline/css-inline';
-import _ from 'lodash';
-import { HelperDeclareSpec } from 'handlebars';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import handlebars from 'handlebars';
+import type { HelperDeclareSpec } from 'handlebars';
 
-import { MailerOptions } from '../interfaces/mailer-options.interface';
-import { TemplateAdapter } from '../interfaces/template-adapter.interface';
-import { TemplateAdapterConfig } from '../interfaces/template-adapter-config.interface';
-import { defaultConfigMailer } from '../utils/utils';
+import type { MailerOptions } from '../interfaces/mailer-options.interface.js';
+import type { TemplateAdapter } from '../interfaces/template-adapter.interface.js';
+import type { TemplateAdapterConfig } from '../interfaces/template-adapter-config.interface.js';
+import { applyRenderedHtml, buildAdapterConfig, getTemplatePath } from '../utils/utils.js';
 
 export class HandlebarsAdapter implements TemplateAdapter {
   private precompiledTemplates: {
+    [templatePath: string]: handlebars.TemplateDelegate;
+  } = {};
+
+  private partials: {
     [name: string]: handlebars.TemplateDelegate;
   } = {};
 
-  private config: TemplateAdapterConfig = defaultConfigMailer;
+  private partialsRegistered = false;
+
+  private readonly config: TemplateAdapterConfig;
 
   constructor(helpers?: HelperDeclareSpec, config?: TemplateAdapterConfig) {
-    /* istanbul ignore next */
-    handlebars.registerHelper('concat', (...args) => {
-      args.pop();
-      return args.join('');
-    });
+    handlebars.registerHelper('concat', (...args: unknown[]) =>
+      // el último argumento es el objeto `options` de handlebars
+      args.slice(0, -1).map(String).join(''),
+    );
     handlebars.registerHelper(helpers || {});
-    Object.assign(this.config, config);
+    this.config = buildAdapterConfig(config);
   }
 
-  public compile(mail: any, callback: any, mailerOptions: MailerOptions): void {
-    const precompile = (template: any, _callback: any, options: any) => {
-      const templateExt = path.extname(template) || '.hbs';
-      const templateName = path.basename(template, path.extname(template));
-      const templateDir = path.isAbsolute(template)
-        ? path.dirname(template)
-        : path.join(_.get(options, 'dir', ''), path.dirname(template));
-      const templatePath = path.join(templateDir, `${templateName}${templateExt}`);
+  private precompile(
+    templatePath: string,
+    compileOptions?: CompileOptions,
+  ): handlebars.TemplateDelegate {
+    if (!this.precompiledTemplates[templatePath]) {
+      const templateEmail = fs.readFileSync(templatePath, 'utf-8');
+      this.precompiledTemplates[templatePath] = handlebars.compile(
+        templateEmail,
+        compileOptions ?? {},
+      );
+    }
+    return this.precompiledTemplates[templatePath];
+  }
 
-      if (!this.precompiledTemplates[templateName]) {
-        try {
-          const templateEmail = fs.readFileSync(templatePath, 'utf-8');
-          this.precompiledTemplates[templateName] = handlebars.compile(
-            templateEmail,
-            _.get(options, 'options', {}),
-          );
-        } catch (err) {
-          throw new Error(err);
+  private registerPartials(partialsOptions: { dir: string; options?: CompileOptions }): void {
+    const readPartials = (dir: string): string[] =>
+      fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+        const entryPath = path.join(dir, entry.name);
+        if (entry.isDirectory()) {
+          return readPartials(entryPath);
         }
-      }
-
-      return {
-        templateExt,
-        templateName,
-        templateDir,
-        templatePath,
-      };
-    };
-
-    const precompileTemplate = precompile(mail.data.template, callback, mailerOptions.template);
-
-    const runtimeOptions = _.get(mailerOptions, 'options', {
-      partials: false,
-      data: {},
-    });
-
-    /* istanbul ignore next */
-    if (runtimeOptions.partials) {
-      const readPartials = (dir: string): string[] =>
-        fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-          const entryPath = path.join(dir, entry.name);
-          if (entry.isDirectory()) {
-            return readPartials(entryPath);
-          }
-          return entry.isFile() && path.extname(entry.name) === '.hbs' ? [entryPath] : [];
-        });
-      const files = readPartials(runtimeOptions.partials.dir);
-      files.forEach((file) => {
-        const partialTemplate = precompile(file, callback, runtimeOptions.partials);
-        const templateDir = path.relative(
-          runtimeOptions.partials.dir,
-          path.dirname(partialTemplate.templatePath),
-        );
-        handlebars.registerPartial(
-          path.join(templateDir, partialTemplate.templateName),
-          fs.readFileSync(partialTemplate.templatePath, 'utf-8'),
-        );
+        return entry.isFile() && path.extname(entry.name) === '.hbs' ? [entryPath] : [];
       });
-    }
 
-    const rendered = this.precompiledTemplates[precompileTemplate.templateName](mail.data.context, {
-      ...runtimeOptions,
-      partials: this.precompiledTemplates,
+    readPartials(partialsOptions.dir).forEach((file) => {
+      const templateName = path.basename(file, path.extname(file));
+      const templateDir = path.relative(partialsOptions.dir, path.dirname(file));
+      this.partials[templateName] = this.precompile(file, partialsOptions.options);
+      handlebars.registerPartial(
+        path.join(templateDir, templateName),
+        fs.readFileSync(file, 'utf-8'),
+      );
     });
+    this.partialsRegistered = true;
+  }
 
-    if (this.config.inlineCssEnabled) {
-      try {
-        mail.data.html = inline(rendered, this.config.inlineCssOptions);
-      } catch (_error) {
-        /* istanbul ignore next */
-        callback(_error);
+  public compile(mail: any, callback: (err?: any) => any, mailerOptions: MailerOptions): void {
+    const runtimeOptions = mailerOptions?.options ?? { partials: false, data: {} };
+
+    let rendered: string;
+    try {
+      const templatePath = getTemplatePath(
+        mail.data.template,
+        mailerOptions?.template?.dir,
+        '.hbs',
+      );
+      const template = this.precompile(templatePath, mailerOptions?.template?.options);
+
+      if (runtimeOptions.partials && !this.partialsRegistered) {
+        this.registerPartials(runtimeOptions.partials);
       }
-    } else {
-      mail.data.html = rendered;
+
+      rendered = template(mail.data.context, {
+        ...runtimeOptions,
+        partials: this.partials,
+      });
+    } catch (error) {
+      return callback(error);
     }
-    return callback();
+
+    return applyRenderedHtml(mail, rendered, this.config, callback);
   }
 }
+
+type CompileOptions = Parameters<typeof handlebars.compile>[1];

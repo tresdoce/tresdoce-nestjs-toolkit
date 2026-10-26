@@ -1,5 +1,5 @@
 import { SendMailOptions } from 'nodemailer';
-import * as DKIM from 'nodemailer/lib/dkim';
+import * as DKIM from 'nodemailer/lib/dkim/index.js';
 
 export type TextEncoding = 'quoted-printable' | 'base64';
 export type Headers =

@@ -1,58 +1,97 @@
-const mockStartedContainer = {
-  getHost: jest.fn(),
-  getName: jest.fn(),
-  getMappedPort: jest.fn(),
-  stop: jest.fn(),
-};
+const {
+  mockStartedContainer,
+  mockStart,
+  mockWithName,
+  mockWithNetworkMode,
+  mockWithExposedPorts,
+  mockWithEnvironment,
+  mockWithCommand,
+  mockWithStartupTimeout,
+  mockWithWaitStrategy,
+  mockWithReuse,
+  mockGenericContainerInstance,
+  mockGenericContainer,
+} = vi.hoisted(() => {
+  const mockStartedContainer = {
+    getHost: vi.fn(),
+    getName: vi.fn(),
+    getMappedPort: vi.fn(),
+    stop: vi.fn(),
+  };
 
-const mockStart = jest.fn();
-const mockWithName = jest.fn();
-const mockWithNetworkMode = jest.fn();
-const mockWithExposedPorts = jest.fn();
-const mockWithEnvironment = jest.fn();
-const mockWithCommand = jest.fn();
-const mockWithStartupTimeout = jest.fn();
-const mockWithWaitStrategy = jest.fn();
-const mockWithReuse = jest.fn();
+  const mockStart = vi.fn();
+  const mockWithName = vi.fn();
+  const mockWithNetworkMode = vi.fn();
+  const mockWithExposedPorts = vi.fn();
+  const mockWithEnvironment = vi.fn();
+  const mockWithCommand = vi.fn();
+  const mockWithStartupTimeout = vi.fn();
+  const mockWithWaitStrategy = vi.fn();
+  const mockWithReuse = vi.fn();
 
-const mockGenericContainerInstance = {
-  withName: mockWithName.mockReturnThis(),
-  withNetworkMode: mockWithNetworkMode.mockReturnThis(),
-  withExposedPorts: mockWithExposedPorts.mockReturnThis(),
-  withEnvironment: mockWithEnvironment.mockReturnThis(),
-  withCommand: mockWithCommand.mockReturnThis(),
-  withStartupTimeout: mockWithStartupTimeout.mockReturnThis(),
-  withWaitStrategy: mockWithWaitStrategy.mockReturnThis(),
-  withReuse: mockWithReuse.mockReturnThis(),
-  start: mockStart,
-};
+  const mockGenericContainerInstance = {
+    withName: mockWithName.mockReturnThis(),
+    withNetworkMode: mockWithNetworkMode.mockReturnThis(),
+    withExposedPorts: mockWithExposedPorts.mockReturnThis(),
+    withEnvironment: mockWithEnvironment.mockReturnThis(),
+    withCommand: mockWithCommand.mockReturnThis(),
+    withStartupTimeout: mockWithStartupTimeout.mockReturnThis(),
+    withWaitStrategy: mockWithWaitStrategy.mockReturnThis(),
+    withReuse: mockWithReuse.mockReturnThis(),
+    start: mockStart,
+  };
 
-const mockGenericContainer = jest.fn(() => mockGenericContainerInstance);
+  const mockGenericContainer = vi.fn(function () {
+    return mockGenericContainerInstance;
+  });
 
-jest.mock('testcontainers', () => ({
+  return {
+    mockStartedContainer,
+    mockStart,
+    mockWithName,
+    mockWithNetworkMode,
+    mockWithExposedPorts,
+    mockWithEnvironment,
+    mockWithCommand,
+    mockWithStartupTimeout,
+    mockWithWaitStrategy,
+    mockWithReuse,
+    mockGenericContainerInstance,
+    mockGenericContainer,
+  };
+});
+
+vi.mock('testcontainers', () => ({
   GenericContainer: mockGenericContainer,
   Wait: {
-    forHealthCheck: jest.fn(() => 'health-check-strategy'),
+    forHealthCheck: vi.fn(() => 'health-check-strategy'),
   },
-  RandomUuid: jest.fn(() => ({
-    nextUuid: jest.fn(() => 'generated-id'),
-  })),
+  RandomUuid: vi.fn(function () {
+    return { nextUuid: vi.fn(() => 'generated-id') };
+  }),
+}));
+
+const { removeContainerByNameMock } = vi.hoisted(() => ({ removeContainerByNameMock: vi.fn() }));
+
+vi.mock('../utilities/docker-retry.js', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../utilities/docker-retry.js')>()),
+  removeContainerByName: removeContainerByNameMock,
 }));
 
 import { Wait } from 'testcontainers';
 
-import { testContainers } from '../testcontainers';
+import { testContainers } from '../testcontainers/index.js';
 import {
   TCDynamoDBOptions,
   TCMongoOptions,
   TCMySqlOptions,
   TCPostgresOptions,
   TCRedisOptions,
-} from '../fixtures';
+} from '../fixtures/index.js';
 
 describe('TestContainers', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     (testContainers as any)._instance = undefined;
 
     mockStartedContainer.getHost.mockReturnValue('docker');
@@ -166,5 +205,78 @@ describe('TestContainers', () => {
     expect(TCMongoOptions).toBeDefined();
     expect(TCMySqlOptions).toBeDefined();
     expect(TCPostgresOptions).toBeDefined();
+  });
+
+  it('should not register non-singleton instances as the singleton', () => {
+    const container = new testContainers('redis:8.2.1-alpine', TCRedisOptions);
+    const singleton = testContainers.getInstance('postgres:17', TCPostgresOptions);
+
+    expect(singleton).not.toBe(container);
+    expect(() => new testContainers('mongo:8.0.13', TCMongoOptions)).not.toThrow();
+  });
+
+  it('should log the image name when start fails without options', async () => {
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
+    mockStart.mockRejectedValueOnce(new Error('boom'));
+    const container = new testContainers('redis:8.2.1-alpine');
+
+    await expect(container.start()).resolves.toBeUndefined();
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      '😰 [redis:8.2.1-alpine] Error initializing container: Error: boom',
+    );
+    expect(container.isStarted()).toBe(false);
+    consoleErrorSpy.mockRestore();
+  });
+
+  it('should log when stopping a container that was not started', async () => {
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(vi.fn());
+    const container = new testContainers('redis:8.2.1-alpine');
+
+    await expect(container.stop()).resolves.toBeUndefined();
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      '😒 [redis:8.2.1-alpine] Container not initialized',
+    );
+    consoleErrorSpy.mockRestore();
+  });
+
+  describe('transient Docker errors', () => {
+    const epipe = Object.assign(new Error('write EPIPE'), { code: 'EPIPE' });
+
+    beforeEach(() => {
+      vi.useFakeTimers();
+      vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+      vi.restoreAllMocks();
+    });
+
+    it('should retry the start and remove the half-created container with the fixed name', async () => {
+      mockStart.mockRejectedValueOnce(epipe).mockResolvedValue(mockStartedContainer);
+      const container = new testContainers('mongo:8.0', { containerName: 'fixed-name' });
+
+      const started = container.start();
+      await vi.advanceTimersByTimeAsync(2000);
+      await started;
+
+      expect(mockStart).toHaveBeenCalledTimes(2);
+      expect(removeContainerByNameMock).toHaveBeenCalledWith('fixed-name');
+      expect(container.isStarted()).toBe(true);
+    });
+
+    it('should retry without removing anything when the container has no fixed name', async () => {
+      mockStart.mockRejectedValueOnce(epipe).mockResolvedValue(mockStartedContainer);
+      const container = new testContainers('mongo:8.0');
+
+      const started = container.start();
+      await vi.advanceTimersByTimeAsync(2000);
+      await started;
+
+      expect(mockStart).toHaveBeenCalledTimes(2);
+      expect(removeContainerByNameMock).not.toHaveBeenCalled();
+    });
   });
 });

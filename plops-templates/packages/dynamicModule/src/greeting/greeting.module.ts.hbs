@@ -5,9 +5,9 @@ import {
   {{pascalCase moduleName}}ModuleAsyncOptions,
   {{pascalCase moduleName}}ModuleOptions,
   {{pascalCase moduleName}}ModuleOptionsFactory,
-} from './interfaces/{{camelCase moduleName}}.interface';
-import { {{constantCase moduleName}}_MODULE_OPTIONS } from './constants/{{camelCase moduleName}}.constant';
-import { {{pascalCase moduleName}}Service } from './services/{{camelCase moduleName}}.service';
+} from './interfaces/{{camelCase moduleName}}.interface.js';
+import { {{constantCase moduleName}}_MODULE_OPTIONS } from './constants/{{camelCase moduleName}}.constant.js';
+import { {{pascalCase moduleName}}Service } from './services/{{camelCase moduleName}}.service.js';
 
 @Global()
 @Module({
@@ -82,11 +82,9 @@ export class {{pascalCase moduleName}}Module {
 
     const providers: Provider<any>[] = [this.createAsyncOptionsProvider(options)];
 
-    if (options.useClass)
-      providers.push({
-        provide: options.useClass,
-        useClass: options.useClass,
-      });
+    // Without useFactory/useExisting, useClass is the only remaining option.
+
+    providers.push({ provide: options.useClass, useClass: options.useClass });
 
     return providers;
   }

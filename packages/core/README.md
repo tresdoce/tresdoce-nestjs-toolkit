@@ -4,9 +4,9 @@
 </div>
 
 <div align="center">
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v22.21.1&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="NodeJS"/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NodeJS&message=v22.22%2B&labelColor=339933&color=757575&logoColor=FFFFFF&logo=Node.js" alt="NodeJS"/>
     <img src="https://img.shields.io/static/v1.svg?style=flat&label=NPM&message=v11.6.4&labelColor=CB3837&logoColor=FFFFFF&color=757575&logo=npm" alt="NPM"/>
-    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v11.1.11&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/><br/>
+    <img src="https://img.shields.io/static/v1.svg?style=flat&label=NestJS&message=v12&labelColor=E0234E&logoColor=FFFFFF&color=757575&logo=Nestjs" alt="NestJS"/><br/>
     <img src="https://img.shields.io/github/license/tresdoce/tresdoce-nestjs-toolkit?style=flat" alt="GitHub license" >
     <img alt="Release" src="https://img.shields.io/npm/v/@tresdoce-nestjs-toolkit/core.svg">
     <br/>
@@ -32,9 +32,9 @@ Módulo central del toolkit que provee tipos, helpers, decoradores, guards y uti
 ## 📝 Requerimientos básicos
 
 - [NestJS Starter](https://github.com/rudemex/nestjs-starter)
-- Node.js v22.21.1 or higher ([Download](https://nodejs.org/es/download/))
+- Node.js v22.22 or higher ([Download](https://nodejs.org/es/download/))
 - YARN ≥ 1.22.22 o NPM ≥ 11.6.4
-- NestJS v11.1.11 or higher ([Documentación](https://nestjs.com/))
+- NestJS v12 or higher ([Documentación](https://nestjs.com/))
 
 <a name="install-dependencies"></a>
 
@@ -50,7 +50,13 @@ yarn add @tresdoce-nestjs-toolkit/core
 
 ## 📦 Dependencias internas
 
-Este paquete no tiene dependencias internas del toolkit. Puede utilizarse de forma independiente.
+Este paquete no tiene dependencias internas del toolkit en runtime. El namespace `Typings` referencia (solo como tipos, con `import type`) las opciones de los demás paquetes (`redis`, `typeorm`, `logger`, etc.) para modelar `Typings.AppConfig`.
+
+Las DTOs/entities usan `@nestjs/swagger` y `@nestjs/class-validator`, y el middleware CSRF lee `req.cookies`/`req.signedCookies`, por lo que la app tiene que registrar [`cookie-parser`](https://www.npmjs.com/package/cookie-parser).
+
+No necesita servicios externos (Redis, bases de datos, etc.), así que no hace falta `docker-compose` para usarlo.
+
+> **ESM + decoradores**: el paquete es ESM-only. Los tipos que se usan en parámetros decorados (`PaginationParams`, `SortCriteria`, `Filtering`, `ICsrfRequest`, `Typings`) se importan con `import type` (o `{ type X }`); con `isolatedModules` + `emitDecoratorMetadata` TypeScript lo exige (TS1272).
 
 <a name="use"></a>
 
@@ -62,7 +68,7 @@ El namespace `Typings` expone todas las interfaces y enums que modelan la config
 
 ```typescript
 // ./src/config/configuration.ts
-import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import { getSkipHealthChecks, type Typings } from '@tresdoce-nestjs-toolkit/core';
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('config', (): Typings.AppConfig => {
@@ -104,40 +110,98 @@ export default registerAs('config', (): Typings.AppConfig => {
       path: process.env.SWAGGER_PATH,
       enabled: process.env.SWAGGER_ENABLED === 'true',
     },
+    health: {
+      skipChecks: getSkipHealthChecks(process.env.SKIP_HEALTH_CHECKS),
+    },
   };
 });
+```
+
+`project`, `server` y `swagger` son obligatorias; el resto de las keys (`redis`, `database`, `logger`, `kafka`, …) son opcionales y cada paquete del toolkit lee la suya con `configService.get('config.<key>')`. `getSkipHealthChecks` (también de este paquete) convierte `'storage, memory'` en `['storage', 'memory']`.
+
+Para leer la configuración desde un servicio:
+
+```typescript
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import type { Typings } from '@tresdoce-nestjs-toolkit/core';
+
+@Injectable()
+export class AppService {
+  constructor(private readonly configService: ConfigService) {}
+
+  getServer(): Typings.IServerConfig {
+    return this.configService.get<Typings.AppConfig>('config').server;
+  }
+}
 ```
 
 ---
 
 ### Validation Schema
 
-La función `validateSchemaForApp` genera un schema Joi que combina las validaciones base obligatorias del starter con las validaciones custom del proyecto.
+La función `validateSchemaForApp` genera un schema **Zod** que combina las validaciones base obligatorias del starter con las validaciones custom del proyecto. `@nestjs/config` 12 acepta cualquier Standard Schema en `validationSchema`, así que se pasa directo:
 
 ```typescript
 // ./src/config/validationSchema.ts
-import Joi from 'joi';
+import { z } from 'zod';
 import { validateSchemaForApp } from '@tresdoce-nestjs-toolkit/core';
 
 export const validationSchema = validateSchemaForApp({
   // Parámetros custom de la aplicación
-  RICK_AND_MORTY_API_URL: Joi.string().required(),
+  RICK_AND_MORTY_API_URL: z.url(),
 });
+
+// ./src/app.module.ts
+ConfigModule.forRoot({ isGlobal: true, load: [config], validationSchema });
 ```
 
 Si la aplicación implementa CSRF, también hay que extender con `validationSchemaCsrf`:
 
 ```typescript
 // ./src/config/validationSchema.ts
-import Joi from 'joi';
+import { z } from 'zod';
 import { validateSchemaForApp, validationSchemaCsrf } from '@tresdoce-nestjs-toolkit/core';
 
 export const validationSchema = validateSchemaForApp({
   ...validationSchemaCsrf,
   // Parámetros custom adicionales
-  RICK_AND_MORTY_API_URL: Joi.string().required(),
+  RICK_AND_MORTY_API_URL: z.url(),
 });
 ```
+
+Las variables de entorno siempre llegan como string. Para booleanos y números usá los helpers:
+
+- `zBooleanFromEnv()`: acepta `true`/`false` o `'true'`/`'false'`. Ojo: `z.coerce.boolean()` convierte `'false'` en `true`.
+- `zNumberFromEnv()`: acepta `8080` o `'8080'`.
+
+Otros exports: `baseValidationSchema` y `baseValidationSchemaApp` (shapes para combinar con spread) y `validateSchema(schema, input)`, que valida y lanza un único `Error` con todos los problemas.
+
+<details>
+<summary>💬 Variables de entorno de <code>baseValidationSchemaApp</code></summary>
+
+| Variable                                                            | Requerida | Tipo                                                             |
+| ------------------------------------------------------------------- | --------- | ---------------------------------------------------------------- |
+| `NODE_ENV`, `API_PREFIX`, `CONTEXT`, `ORIGINS`                      | ✅        | `string`                                                         |
+| `ALLOWED_HEADERS`, `ALLOWED_METHODS`, `SWAGGER_PATH`                | ✅        | `string`                                                         |
+| `APP_STAGE`                                                         | ✅        | `local \| test \| snd \| dev \| qa \| homo \| prod`              |
+| `PORT`                                                              | ✅        | número (`zNumberFromEnv`)                                        |
+| `CORS_ENABLED`, `CORS_CREDENTIALS`, `SWAGGER_ENABLED`               | ✅        | booleano (`zBooleanFromEnv`)                                     |
+| `EXPOSED_HEADERS`, `PROPAGATE_HEADERS`, `HEALTH_CHECK_STORAGE_PATH` | ❌        | `string`                                                         |
+| `SKIP_HEALTH_CHECKS`                                                | ❌        | CSV de `storage, memory, elasticsearch, camunda, typeorm, redis` |
+| `HEALTH_CHECK_STORAGE_THRESHOLD(_PERCENT)`, `HEALTH_CHECK_MEMORY_*` | ❌        | número                                                           |
+| `TRACING_ENDPOINT`, `TRACING_AUTH_TOKEN`, `TRACING_IGNORE_PATHS`    | ❌        | `string`                                                         |
+| `CSRF_SECRET` (con `validationSchemaCsrf`)                          | solo prod | `string` de 32 caracteres                                        |
+
+</details>
+
+Ejemplo del error que lanza `validateSchema` (un único `Error` con todos los problemas):
+
+```text
+"PORT": Invalid input: expected number, received NaN. "API_PREFIX": Invalid input: expected string, received undefined. "CORS_CREDENTIALS": Invalid input: expected boolean, received undefined
+```
+
+> **Joi (obsoleto)**: las versiones anteriores siguen disponibles con sufijo `Joi` (`validateSchemaForAppJoi`, `baseValidationSchemaAppJoi`, `validationSchemaCsrfJoi`, `validateSchemaJoi`) para migrar de a poco. Joi 18 también implementa Standard Schema, así que funcionan con `@nestjs/config` 12. Se van a quitar en una próxima major.
 
 > **Regla de validación de `CSRF_SECRET`**: En entornos `prod` es obligatorio y debe ser una cadena de exactamente **32 caracteres** que incluya al menos una minúscula, una mayúscula, un dígito y un carácter especial (`^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{32}$`). En otros entornos es opcional.
 
@@ -194,12 +258,12 @@ Configura las opciones HTTPS para la aplicación NestJS leyendo el certificado y
 // ./src/main.ts
 import { setHttpsOptions } from '@tresdoce-nestjs-toolkit/core';
 
-const certPath = './path/to/secrets/public-certificate.pem';
-const pkeyPath = './path/to/secrets/private-key.pem';
+const certPath = './secrets/public-certificate.pem';
+const keyPath = './secrets/private-key.pem';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    httpsOptions: setHttpsOptions(certPath, pkeyPath),
+    httpsOptions: setHttpsOptions(certPath, keyPath),
   });
   //...
 }
@@ -219,7 +283,7 @@ El CSRF funciona utilizando cookies y requiere `CSRF_SECRET` en las variables de
 
 ```typescript
 // ./src/config/configuration.ts
-import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import type { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('config', (): Typings.AppConfig => {
@@ -290,7 +354,7 @@ export const validationSchema = validateSchemaForApp({
 - Type: `String`
 - Default: `/`
 
-`secure`: Si es `true`, la cookie solo se envía por HTTPS. El middleware lo establece automáticamente en `true` cuando `NODE_ENV === 'production'`.
+`secure`: Si es `true`, la cookie solo se envía por HTTPS. Por defecto vale `true` cuando `NODE_ENV === 'production'` (se evalúa al cargar el módulo).
 
 - Type: `Boolean`
 - Default: `false` (en local/test), `true` (en production)
@@ -300,18 +364,23 @@ export const validationSchema = validateSchemaForApp({
 - Type: `Number`
 - Default: `300` (5 minutos)
 
+También se aceptan `domain`, `expires`, `partitioned` y `priority`. Las opciones propias del middleware (`key`, `cookieName`, `secret`, `signed`) no se escriben en la cookie.
+
 </details>
 
 ### Implementación del middleware
 
 ```typescript
 // ./src/main.ts
-import { csrfToken } from '@tresdoce-nestjs-toolkit/core';
+import { NestFactory } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
 import cookieParser from 'cookie-parser';
+import { csrfToken, type Typings } from '@tresdoce-nestjs-toolkit/core';
+import { AppModule } from './app.module.js';
 
 async function bootstrap() {
-  //...
-  const appConfig = app.get<ConfigService>(ConfigService)['internalConfig']['config'];
+  const app = await NestFactory.create(AppModule);
+  const appConfig = app.get(ConfigService).get<Typings.AppConfig>('config');
   //...
   app.use([
     cookieParser(appConfig.server.csrf.secret),
@@ -320,7 +389,16 @@ async function bootstrap() {
   ]);
   //...
 }
-(async () => await bootstrap())();
+void bootstrap();
+```
+
+> `cookieParser` tiene que registrarse **antes** que `csrfToken`, con el mismo secreto, para que existan `req.signedCookies` (cookies firmadas, default) o `req.cookies`. Si `CsrfGuard` se ejecuta sin que el middleware haya corrido, lanza `500 Internal Server Error` con el mensaje `CSRF middleware is not configured...` en lugar de fallar con un `TypeError`.
+
+Cabeceras que setea el middleware en la respuesta (secreto de sesión y, al llamar a `req.csrfToken()`, el token):
+
+```text
+Set-Cookie: _csrf=s%3A<secreto-firmado>; Max-Age=300; Path=/; HttpOnly; SameSite=Strict
+Set-Cookie: xsrf-token=s%3A<token-firmado>; Max-Age=300; Path=/; HttpOnly; SameSite=Strict
 ```
 
 ### Decorador `@Csrf()`
@@ -367,8 +445,10 @@ export class MyController {
 El primer request debe generar el token de sesión llamando a `req.csrfToken()`. El lugar adecuado suele ser el endpoint de login o el primer endpoint público de la aplicación.
 
 ```typescript
-import { ICsrfRequest } from '@tresdoce-nestjs-toolkit/core';
+import { Controller, Get, Req } from '@nestjs/common';
+import type { ICsrfRequest } from '@tresdoce-nestjs-toolkit/core';
 
+@Controller('auth')
 export class AuthController {
   @Get('/login')
   async login(@Req() req: ICsrfRequest) {
@@ -378,7 +458,25 @@ export class AuthController {
 }
 ```
 
-A partir de ese punto, cada request válido que pase por `CsrfGuard` generará automáticamente un nuevo token.
+A partir de ese punto, cada request válido que pase por `CsrfGuard` llama a `req.csrfToken()`, que setea la cookie del token si todavía no se generó en ese request.
+
+`CsrfGuard` valida, en este orden: que existan secreto y token, que el User-Agent y la IP (primer valor de `x-forwarded-for`, o `req.ip`) coincidan con los que quedaron codificados en el secreto, y que el token sea válido. Respuestas posibles (formato por defecto de Nest; con `@tresdoce-nestjs-toolkit/filters` se envuelven en su propio formato):
+
+```json
+{ "statusCode": 403, "message": "CSRF token not found" }
+```
+
+```json
+{ "statusCode": 403, "message": "Invalid device" }
+```
+
+```json
+{ "statusCode": 403, "message": "Invalid IP device" }
+```
+
+```json
+{ "statusCode": 403, "message": "Invalid CSRF Token" }
+```
 
 ### Consideraciones
 
@@ -444,7 +542,23 @@ export class AppController {
 
 - Si el endpoint (o su controller) tiene `@Public()`, se permite el acceso sin más verificaciones.
 - Si no se especificó `@Roles(...)`, se permite el acceso — la guardia no restringe por defecto, solo cuando se le pide explícitamente.
-- En caso contrario, compara los roles requeridos contra `request.user.roles` (convención estándar de NestJS/Passport: se espera que un guard de autenticación previo, como `AuthGuard('jwt')`, ya haya poblado `request.user`). Si ninguno coincide, lanza `403 Forbidden`.
+- En caso contrario, compara los roles requeridos contra los del usuario (convención estándar de NestJS/Passport: se espera que un guard de autenticación previo, como `AuthGuard('jwt')`, ya haya poblado `request.user`). Si ninguno coincide, lanza `403 Forbidden`.
+- Los roles del usuario se leen de `request.user.roles` **o** `request.user.role`, como string, valor de enum o array. La comparación no distingue mayúsculas ni espacios, así que `@Roles(UserRole.Admin)` matchea con `role: 'admin'`.
+
+Respuesta cuando el usuario no tiene ninguno de los roles requeridos (o no hay `request.user`):
+
+```json
+{ "statusCode": 403, "message": "Insufficient role" }
+```
+
+Los helpers que usa la guardia también se exportan, por si necesitás la misma lógica en un servicio o en tests:
+
+```typescript
+import { hasAnyRequiredRole, normalizeRoles } from '@tresdoce-nestjs-toolkit/core';
+
+normalizeRoles([' Admin ', 'EDITOR']); // ['admin', 'editor']
+hasAnyRequiredRole({ role: 'admin' }, ['ADMIN', 'owner']); // true
+```
 
 #### Nivel endpoint
 
@@ -517,7 +631,7 @@ Extrae y valida los parámetros de paginación `page` y `size` del query string.
 
 ```typescript
 import { Controller, Get } from '@nestjs/common';
-import { Pagination, PaginationParams } from '@tresdoce-nestjs-toolkit/core';
+import { Pagination, type PaginationParams } from '@tresdoce-nestjs-toolkit/core';
 
 @Controller('users')
 export class UsersController {
@@ -550,6 +664,18 @@ Si `page` o `size` se proveen pero no son enteros positivos válidos, se lanza `
 
 </details>
 
+Valor recibido para `GET /users?page=2&size=20` → `{ "page": 2, "size": 20 }`; sin parámetros → `{ "page": 1, "size": 10 }`.
+
+Respuesta para `GET /users?size=150`:
+
+```json
+{
+  "message": "The size parameter is invalid. It must be a positive integer and cannot be more than 100.",
+  "error": "Bad Request",
+  "statusCode": 400
+}
+```
+
 #### URL Example
 
 - Schema: `<http|https>://<server_url><:port>/<context>/<endpoint>?page=<value>&size=<value>`
@@ -563,7 +689,7 @@ Extrae y valida el parámetro `sort` del query string. Retorna un array de `Sort
 
 ```typescript
 import { Controller, Get } from '@nestjs/common';
-import { Sorting, SortCriteria } from '@tresdoce-nestjs-toolkit/core';
+import { Sorting, type SortCriteria } from '@tresdoce-nestjs-toolkit/core';
 
 @Controller('users')
 export class UsersController {
@@ -596,7 +722,26 @@ Si el campo no está en la lista de campos válidos o el formato es inválido, s
 #### URL Example
 
 - Schema: `?sort=<field1>:<order1>,<field2>:<order2>`
-- Example: `http://localhost:8080/v1/users?sort=id:asc,email:desc`
+- Example: `http://localhost:8080/v1/users?sort=id:asc,email:desc` (también se acepta repetido: `?sort=id:asc&sort=email:desc`)
+
+Valor recibido para `?sort=id,email:desc`:
+
+```json
+[
+  { "field": "id", "order": "asc" },
+  { "field": "email", "order": "desc" }
+]
+```
+
+Respuesta para `?sort=password:asc`:
+
+```json
+{
+  "message": "The sorting property \"password\" is invalid. It should be one of the following: id, email, name.",
+  "error": "Bad Request",
+  "statusCode": 400
+}
+```
 
 ---
 
@@ -606,7 +751,7 @@ Extrae y valida el parámetro `filters` del query string. Retorna un array de `F
 
 ```typescript
 import { Controller, Get } from '@nestjs/common';
-import { FilteringParams, Filtering } from '@tresdoce-nestjs-toolkit/core';
+import { FilteringParams, type Filtering } from '@tresdoce-nestjs-toolkit/core';
 
 @Controller('users')
 export class UsersController {
@@ -645,6 +790,22 @@ Si la propiedad, la regla o el formato son inválidos, se lanza `BadRequestExcep
 - Schema: `?filters=<property1>:<rule1>:<value1>,<property2>:<rule2>:<value2>`
 - Example: `http://localhost:8080/v1/users?filters=age:gte:30,name:like:John,status:in:active,inactive`
 
+Los valores se convierten según la regla: `gt/gte/lt/lte` → `number`; `eq/neq` → `number` si es numérico, si no `string`; `in/nin` → array de strings separados por coma; `isnull/isnotnull` → sin valores. Valor recibido para `?filters=age:gte:30,status:in:active,inactive,deletedAt:isnull`:
+
+```json
+[
+  { "property": "age", "rule": "gte", "values": [30] },
+  { "property": "status", "rule": "in", "values": ["active", "inactive"] },
+  { "property": "deletedAt", "rule": "isnull", "values": [] }
+]
+```
+
+Respuesta para una propiedad no permitida (`?filters=password:eq:1234`):
+
+```json
+{ "message": "Invalid filter property: password", "error": "Bad Request", "statusCode": 400 }
+```
+
 ---
 
 ## Paginación con `calculatePagination`
@@ -668,17 +829,46 @@ const meta = calculatePagination({ page: 2, size: 10, total: 100 });
 Para estructurar la respuesta paginada en Swagger, se proveen las clases `PaginationMetaData` y `PaginationResponse<T>`:
 
 ```typescript
-import { PaginationMetaData, PaginationResponse } from '@tresdoce-nestjs-toolkit/core';
+import { Controller, Get } from '@nestjs/common';
+import { ApiOkResponse } from '@nestjs/swagger';
+import {
+  calculatePagination,
+  Pagination,
+  PaginationResponse,
+  type PaginationParams,
+} from '@tresdoce-nestjs-toolkit/core';
 
-// En un controller con Swagger:
-@ApiOkResponse({ type: PaginationResponse })
-@Get()
-findAll(@Pagination() pagination: PaginationParams): PaginationResponse<UserEntity> {
-  const [data, total] = await this.usersService.findAll(pagination);
-  return {
-    data,
-    meta: calculatePagination({ ...pagination, total }),
-  };
+@Controller('users')
+export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
+
+  @ApiOkResponse({ type: PaginationResponse })
+  @Get()
+  async findAll(
+    @Pagination() pagination: PaginationParams,
+  ): Promise<PaginationResponse<UserEntity>> {
+    const [data, total] = await this.usersService.findAll(pagination);
+    return {
+      data,
+      meta: calculatePagination({ ...pagination, total }),
+    };
+  }
+}
+```
+
+Respuesta HTTP:
+
+```json
+{
+  "data": [{ "id": 11, "email": "rick@sanchez.com" }],
+  "meta": {
+    "page": 2,
+    "size": 10,
+    "total": 30,
+    "totalPages": 3,
+    "hasNext": true,
+    "hasPrevious": true
+  }
 }
 ```
 
@@ -693,17 +883,18 @@ findAll(@Pagination() pagination: PaginationParams): PaginationResponse<UserEnti
 
 ### Namespace `Typings`
 
-| Export              | Descripción                                                                                                                                                                                                                                             |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `AppConfig`         | Interface raíz de la configuración centralizada. Incluye `project`, `server`, `swagger`, `health`, `params`, `httpClient`, `services`, `database`, `redis`, `mailer`, `camunda`, `elasticsearch`, `tracing`, `redact`, `bcrypt`, `snowflakeUID`, `sqs`. |
-| `IProjectConfig`    | Datos del proyecto (`apiPrefix`, `name`, `version`, `description`, `author`, `repository`, `bugs`, `homepage`).                                                                                                                                         |
-| `IServerConfig`     | Configuración del servidor (`isProd`, `appStage`, `port`, `context`, `origins`, `propagateHeaders`, `allowedHeaders`, `allowedMethods`, `corsEnabled`, `corsCredentials`, `csrf`, `rateLimits`).                                                        |
-| `IHealthConfig`     | Configuración de health checks (`skipChecks`, `storage`, `memory`).                                                                                                                                                                                     |
-| `ISwaggerConfig`    | Configuración de Swagger (`path`, `enabled`).                                                                                                                                                                                                           |
-| `TAppStage`         | `'local' \| 'test' \| 'snd' \| 'dev' \| 'qa' \| 'homo' \| 'prod'`                                                                                                                                                                                       |
-| `EAppStage`         | Enum equivalente a `TAppStage`.                                                                                                                                                                                                                         |
-| `TSkipHealthChecks` | `'storage' \| 'memory' \| 'elasticsearch' \| 'camunda' \| 'typeorm' \| 'redis'`                                                                                                                                                                         |
-| `ESkipHealthChecks` | Enum equivalente a `TSkipHealthChecks`.                                                                                                                                                                                                                 |
+| Export                                                                              | Descripción                                                                                                                                                                                                                                                                                                                         |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `AppConfig`                                                                         | Interface raíz de la configuración centralizada (key `'config'`). Obligatorias: `project`, `server`, `swagger`. Opcionales: `health`, `params`, `httpClient`, `services`, `database` (`typeorm` + `mongo`), `redis`, `mailer`, `camunda`, `elasticsearch`, `tracing`, `redact`, `bcrypt`, `snowflakeUID`, `sqs`, `logger`, `kafka`. |
+| `IProjectConfig`                                                                    | Datos del proyecto (`apiPrefix`, `name`, `version`, `description`, `author`, `repository`, `bugs`, `homepage`).                                                                                                                                                                                                                     |
+| `IServerConfig`                                                                     | Configuración del servidor (`isProd`, `appStage`, `port`, `context`, `origins`, `propagateHeaders`, `allowedHeaders`, `allowedMethods`, `corsEnabled`, `corsCredentials`, `csrf`, `rateLimits`).                                                                                                                                    |
+| `IHealthConfig`                                                                     | Configuración de health checks (`skipChecks`, `storage`, `memory`).                                                                                                                                                                                                                                                                 |
+| `IParamsConfig` / `IHttpClientConfig` / `IServicesConfig` / `DatabaseModuleOptions` | Tipos de `params`, `httpClient`, `services` y `database`.                                                                                                                                                                                                                                                                           |
+| `ISwaggerConfig`                                                                    | Configuración de Swagger (`path`, `enabled`).                                                                                                                                                                                                                                                                                       |
+| `TAppStage`                                                                         | `'local' \| 'test' \| 'snd' \| 'dev' \| 'qa' \| 'homo' \| 'prod'`                                                                                                                                                                                                                                                                   |
+| `EAppStage`                                                                         | Enum equivalente a `TAppStage`.                                                                                                                                                                                                                                                                                                     |
+| `TSkipHealthChecks`                                                                 | `'storage' \| 'memory' \| 'elasticsearch' \| 'camunda' \| 'typeorm' \| 'redis'`                                                                                                                                                                                                                                                     |
+| `ESkipHealthChecks`                                                                 | Enum equivalente a `TSkipHealthChecks`.                                                                                                                                                                                                                                                                                             |
 
 ### Commons (rutas y CSRF)
 
@@ -719,37 +910,45 @@ findAll(@Pagination() pagination: PaginationParams): PaginationResponse<UserEnti
 | `getSecretFromRequest(req, name, cookie)` | `function`                                        | Extrae el secreto de la request.                       |
 | `verify(secret, token)`                   | `function`                                        | Verifica si un token CSRF es válido contra su secreto. |
 
+`extractDeviceData`, `getIpAddress` y `getUserAgent` son helpers internos del guard (no se exportan desde el índice).
+
 ### Validations
 
-| Export                          | Tipo       | Descripción                                                                       |
-| ------------------------------- | ---------- | --------------------------------------------------------------------------------- |
-| `validateSchemaForApp(schema)`  | `function` | Retorna un schema Joi compuesto por `baseValidationSchemaApp` + el schema custom. |
-| `validateSchema(schema, input)` | `function` | Valida un input contra un schema Joi, lanzando `Error` si falla.                  |
-| `baseValidationSchema`          | `object`   | Schema Joi con las variables de entorno obligatorias base.                        |
-| `baseValidationSchemaApp`       | `object`   | `baseValidationSchema` + variables de tracing opcionales.                         |
-| `validationSchemaCsrf`          | `object`   | Schema Joi para `CSRF_SECRET`.                                                    |
+| Export                                   | Tipo                  | Descripción                                                                                                                      |
+| ---------------------------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `validateSchemaForApp(shape?)`           | `function`            | Schema Zod (Standard Schema) con `baseValidationSchemaApp` + el shape custom; aplica la regla de `CSRF_SECRET` si está presente. |
+| `validateSchema(schema, input)`          | `function`            | Valida un input contra un schema Zod y lanza un único `Error` con todos los problemas.                                           |
+| `baseValidationSchema`                   | `object`              | Shape Zod con las variables de entorno obligatorias base.                                                                        |
+| `baseValidationSchemaApp`                | `object`              | `baseValidationSchema` + variables de tracing opcionales.                                                                        |
+| `validationSchemaCsrf`                   | `object`              | Shape Zod para `CSRF_SECRET`.                                                                                                    |
+| `zBooleanFromEnv()` / `zNumberFromEnv()` | `function`            | Parsean booleanos y números que llegan como string desde el entorno.                                                             |
+| `*Joi` (`validateSchemaForAppJoi`, ...)  | `function` / `object` | Versiones Joi anteriores, obsoletas.                                                                                             |
 
 ### Decorators
 
-| Export                        | Descripción                                                             |
-| ----------------------------- | ----------------------------------------------------------------------- |
-| `Public()`                    | Marca el endpoint/controller como público.                              |
-| `IS_PUBLIC_KEY`               | `'isPublic'` — clave de metadata del decorador `@Public()`.             |
-| `Roles(...roles)`             | Setea metadata de roles.                                                |
-| `ROLES_KEY`                   | `'roles'` — clave de metadata del decorador `@Roles()`.                 |
-| `ExcludeFilter()`             | Excluye el endpoint/controller de filtros globales.                     |
-| `EXCLUDE_FILTER_KEY`          | `'excludeFilter'` — clave de metadata del decorador `@ExcludeFilter()`. |
-| `Csrf()`                      | Aplica `CsrfGuard` al endpoint/controller.                              |
-| `Pagination()`                | Param decorator que extrae `{ page, size }` del query string.           |
-| `Sorting(fields)`             | Param decorator que extrae y valida `sort` del query string.            |
-| `FilteringParams(properties)` | Param decorator que extrae y valida `filters` del query string.         |
+| Export                                                    | Descripción                                                             |
+| --------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `Public()`                                                | Marca el endpoint/controller como público.                              |
+| `IS_PUBLIC_KEY`                                           | `'isPublic'` — clave de metadata del decorador `@Public()`.             |
+| `Roles(...roles)`                                         | Setea metadata de roles.                                                |
+| `ROLES_KEY`                                               | `'roles'` — clave de metadata del decorador `@Roles()`.                 |
+| `ExcludeFilter()`                                         | Excluye el endpoint/controller de filtros globales.                     |
+| `EXCLUDE_FILTER_KEY`                                      | `'excludeFilter'` — clave de metadata del decorador `@ExcludeFilter()`. |
+| `Csrf()`                                                  | Aplica `CsrfGuard` al endpoint/controller.                              |
+| `Pagination()`                                            | Param decorator que extrae `{ page, size }` del query string.           |
+| `Sorting(fields)`                                         | Param decorator que extrae y valida `sort` del query string.            |
+| `FilteringParams(properties)`                             | Param decorator que extrae y valida `filters` del query string.         |
+| `parseFilters(value)` / `convertFilterValue(rule, value)` | Helpers del parser de `filters`.                                        |
 
 ### Guards
 
-| Export       | Descripción                                                                                                                     |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| `CsrfGuard`  | Guard que valida el token CSRF, el User-Agent y la IP del cliente. Lanza `403 Forbidden` si la validación falla.                |
-| `RolesGuard` | Guard que compara los roles requeridos (`@Roles()`) contra `request.user.roles`, respetando `@Public()`. Lanza `403 Forbidden`. |
+| Export                                     | Descripción                                                                                                                            |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `CsrfGuard`                                | Guard que valida el token CSRF, el User-Agent y la IP del cliente. Lanza `403 Forbidden` si la validación falla.                       |
+| `RolesGuard`                               | Guard que compara los roles requeridos (`@Roles()`) contra `request.user.roles`/`role`, respetando `@Public()`. Lanza `403 Forbidden`. |
+| `normalizeRoles(input)`                    | Normaliza uno o varios roles a strings en minúsculas sin espacios.                                                                     |
+| `hasAnyRequiredRole(user, required)`       | `true` si el usuario tiene al menos uno de los roles requeridos.                                                                       |
+| `RoleLike` / `RolesLike` / `IRolesRequest` | Tipos usados por `RolesGuard`.                                                                                                         |
 
 ### DTOs y Entities
 
@@ -765,13 +964,13 @@ findAll(@Pagination() pagination: PaginationParams): PaginationResponse<UserEnti
 
 ### Utils
 
-| Export                                | Tipo                                            | Descripción                                                 |
-| ------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------- |
-| `calculatePagination(params)`         | `(params: PaginateDataParams) => IPaginateData` | Calcula metadatos de paginación.                            |
-| `PaginateDataParams`                  | `interface`                                     | `{ page, size, total }`                                     |
-| `IPaginateData`                       | `interface`                                     | `PaginateDataParams & { totalPages, hasNext, hasPrevious }` |
-| `getSkipHealthChecks(value)`          | `(value: string) => TSkipHealthChecks[]`        | Parsea un string CSV de health checks a omitir.             |
-| `setHttpsOptions(certPath, pkeyPath)` | `function`                                      | Retorna `{ cert, key }` para habilitar HTTPS.               |
+| Export                               | Tipo                                            | Descripción                                                 |
+| ------------------------------------ | ----------------------------------------------- | ----------------------------------------------------------- |
+| `calculatePagination(params)`        | `(params: PaginateDataParams) => IPaginateData` | Calcula metadatos de paginación.                            |
+| `PaginateDataParams`                 | `interface`                                     | `{ page, size, total }`                                     |
+| `IPaginateData`                      | `interface`                                     | `PaginateDataParams & { totalPages, hasNext, hasPrevious }` |
+| `getSkipHealthChecks(value)`         | `(value: string) => TSkipHealthChecks[]`        | Parsea un string CSV de health checks a omitir.             |
+| `setHttpsOptions(certPath, keyPath)` | `(certPath, keyPath) => { cert, key }`          | Lee certificado y clave privada; `''` si no existen.        |
 
 ### Types y Enums
 

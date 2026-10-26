@@ -1,7 +1,7 @@
 {
   "name": "@tresdoce-nestjs-toolkit/commons",
-  "version": "1.4.6",
-  "description": "Tresdoce NestJS Toolkit - Centralización de configuraciones",
+  "version": "2.0.0-beta.0",
+  "description": "Tresdoce NestJS Toolkit - Configuraciones compartidas (Vitest y oxlint)",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
     "email": "mdelgado@tresdoce.com.ar",
@@ -27,8 +27,10 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf ../../dist/commons",
-    "build": "pika build --out ../../dist/commons",
-    "test": "jest --runInBand --coverage",
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/build-dist-package.mjs",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
+    "lint": "oxlint --type-aware src",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -36,65 +38,26 @@
     "directory": "../../dist/commons"
   },
   "dependencies": {
-    "jest-extended": "^7.0.0",
-    "jest-junit": "^17.0.0",
-    "jest-mock-extended": "^4.0.1",
-    "jest-sonar-reporter": "^2.0.0",
-    "terser-webpack-plugin": "^5.6.1",
-    "webpack-merge": "^6.0.1",
-    "webpack-node-externals": "^3.0.0"
+    "@vitest/coverage-istanbul": "^5.0.5",
+    "magic-string": "^1.4.3",
+    "vitest-sonar-reporter": "^3.0.0"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.5",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.3"
+    "@tresdoce-nestjs-toolkit/config": "^1.0.0-beta.0",
+    "@types/tresdoce-nestjs-toolkit": "^1.0.0-beta.0"
   },
-  "prettier": {
-    "semi": true,
-    "tabWidth": 2,
-    "singleQuote": true,
-    "printWidth": 100,
-    "trailingComma": "all"
+  "type": "module",
+  "peerDependencies": {
+    "oxlint": ">=1.0.0",
+    "oxlint-tsgolint": ">=7.0.0",
+    "vitest": "^5.0.0"
   },
-  "@pika/pack": {
-    "pipeline": [
-      [
-        "@pika/plugin-standard-pkg",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "@pika/plugin-build-node",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "@pika/plugin-build-types",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "pika-plugin-package.json",
-        {
-          "*files": [
-            "-bin/",
-            "-dist-*/",
-            "+dist-*/*",
-            "+CHANGELOG.md",
-            "+LICENSE.md",
-            "+package.json",
-            "+README.md"
-          ]
-        }
-      ]
-    ]
+  "peerDependenciesMeta": {
+    "oxlint": {
+      "optional": true
+    },
+    "oxlint-tsgolint": {
+      "optional": true
+    }
   }
 }

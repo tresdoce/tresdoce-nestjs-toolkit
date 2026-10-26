@@ -1,10 +1,8 @@
 # docker-compose.yml - Only for local debug purposes
 # docker-compose up -d elasticsearch kibana jaeger camunda redis mongo mysql postgres pgadmin
-version: '3.9'
-
 services:
   mongo:
-    image: mongo:5.0
+    image: mongo:8.0
     container_name: tresdoce-test-container-local-mongo
     restart: always
     ports:

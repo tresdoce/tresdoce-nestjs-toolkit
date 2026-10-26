@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   description: '✨ Generate new Dynamic Module',
   prompts: [
     {
@@ -42,18 +42,8 @@ module.exports = {
       },
       {
         type: 'add',
-        path: 'packages/{{kebabCase moduleName}}/jest.globalTeardown.ts',
-        templateFile: 'plops-templates/packages/dynamicModule/jest.globalTeardown.ts.hbs',
-      },
-      {
-        type: 'add',
-        path: 'packages/{{kebabCase moduleName}}/jest.globalSetup.ts',
-        templateFile: 'plops-templates/packages/dynamicModule/jest.globalSetup.ts.hbs',
-      },
-      {
-        type: 'add',
-        path: 'packages/{{kebabCase moduleName}}/jest.config.js',
-        templateFile: 'plops-templates/packages/dynamicModule/jest.config.js.hbs',
+        path: 'packages/{{kebabCase moduleName}}/vitest.config.ts',
+        templateFile: 'plops-templates/packages/dynamicModule/vitest.config.ts.hbs',
       },
       {
         type: 'add',

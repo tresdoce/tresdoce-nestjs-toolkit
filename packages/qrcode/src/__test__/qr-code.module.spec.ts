@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { QrCodeService } from '../qr-code/services/qr-code.service';
-import { QrCodeModule } from '../qr-code/qr-code.module';
+import { QrCodeService } from '../qr-code/services/qr-code.service.js';
+import { QrCodeModule } from '../qr-code/qr-code.module.js';
 
 describe('QrCodeModule', () => {
   let module: TestingModule;

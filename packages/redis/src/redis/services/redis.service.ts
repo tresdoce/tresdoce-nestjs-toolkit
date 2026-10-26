@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { RedisClientType } from 'redis';
+import type { RedisClientType } from 'redis';
 
-import { REDIS_CLIENT } from '../constants/redis.constants';
+import { REDIS_CLIENT } from '../constants/redis.constants.js';
 
 @Injectable()
 export class RedisService {
@@ -32,11 +32,11 @@ export class RedisService {
   /**
    * @Descripción: Save value in Redis
    * @Param key {string}
-   * @Param value {any}
-   * @Param seconds {number} expire data
+   * @Param value {unknown} se serializa con JSON.stringify
+   * @Param seconds {number} expire data (solo si es un número finito > 0)
    * @return: OK
    */
-  public async set(key: string, value: any, seconds?: number): Promise<any> {
+  public async set(key: string, value: unknown, seconds?: number): Promise<any> {
     const stringValue = JSON.stringify(value);
     return Number.isFinite(seconds) && seconds > 0
       ? await this.clientRef.setEx(key, seconds, stringValue)
@@ -46,11 +46,17 @@ export class RedisService {
   /**
    * @Descripción: Get value of Redis by key
    * @param key {string}
-   * @return:
+   * @return: valor parseado con JSON.parse, el string crudo si no es JSON válido, o null
    */
-  public async get(key: string): Promise<any> {
+  public async get<T = any>(key: string): Promise<T | null> {
     const data = await this.clientRef.get(key);
-    return data ? JSON.parse(data as string) : null;
+    if (data === null || data === undefined || data === '') return null;
+    try {
+      return JSON.parse(data as string) as T;
+    } catch {
+      // Valor no escrito por este servicio (no es JSON): se devuelve tal cual.
+      return data as T;
+    }
   }
 
   /**

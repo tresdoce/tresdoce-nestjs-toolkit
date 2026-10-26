@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext, BadRequestException } from '@nestjs/common';
-import { Request } from 'express';
-import { formatRegex, ruleRegex } from './constants/filtering.constant';
+import type { Request } from 'express';
+import { formatRegex, ruleRegex } from './constants/filtering.constant.js';
 
 /**
  * Enum representing valid filter rules for query parameters.

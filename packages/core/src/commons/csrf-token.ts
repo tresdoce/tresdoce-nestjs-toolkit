@@ -1,7 +1,7 @@
-import { serialize } from 'cookie';
+import { stringifySetCookie, type SetCookie } from 'cookie';
 import { sign } from 'cookie-signature';
 import Tokens from 'csrf';
-import { CookieOptions, Request, Response, NextFunction } from 'express';
+import type { CookieOptions, Request, Response, NextFunction } from 'express';
 
 /**
  * Opciones para la configuración de la cookie CSRF.
@@ -123,8 +123,11 @@ const createSecret = (req: Request): string => {
 export const extractDeviceData = (secret: string | false): { deviceData: string; ip: string } => {
   if (!secret) return { deviceData: null, ip: null };
   const [userData] = secret.split('-');
-  const [ip, deviceData] = Buffer.from(userData, 'base64').toString('ascii').split('-');
-  return { deviceData, ip };
+  const decoded: string = Buffer.from(userData, 'base64').toString('utf8');
+  // La IP nunca contiene '-', pero el User Agent sí puede: se corta solo en el primer separador.
+  const separatorIndex: number = decoded.indexOf('-');
+  if (separatorIndex === -1) return { deviceData: undefined, ip: decoded };
+  return { ip: decoded.slice(0, separatorIndex), deviceData: decoded.slice(separatorIndex + 1) };
 };
 
 /**
@@ -140,7 +143,7 @@ export const getIpAddress = (req: Request): string | undefined => {
     : req.headers['x-forwarded-for'];
 
   if (forwardedIps) {
-    const firstForwardedIp = forwardedIps.split(',')[0];
+    const firstForwardedIp = forwardedIps.split(',')[0].trim();
     /* istanbul ignore next */
     if (firstForwardedIp) {
       return firstForwardedIp;
@@ -229,7 +232,7 @@ const setCookie = (
   value: string,
   options: CsrfCookieOptions,
 ): void => {
-  const serializedCookie: string = serialize(name, value, options);
+  const serializedCookie: string = stringifySetCookie(toSetCookie(name, value, options));
   let existingHeaders: string | number | string[] = res.getHeader('Set-Cookie') || [];
 
   const headerArray: string[] = Array.isArray(existingHeaders)
@@ -240,6 +243,25 @@ const setCookie = (
 
   res.setHeader('Set-Cookie', [...headerArray, serializedCookie]);
 };
+
+/**
+ * Arma el objeto `SetCookie` de `cookie` con los atributos estándar de la cookie,
+ * descartando las opciones propias del middleware (`key`, `cookieName`, `secret`, `signed`).
+ * El modo objeto de `stringifySetCookie` es compatible con `cookie` 1.x y 2.x.
+ */
+const toSetCookie = (name: string, value: string, options: CsrfCookieOptions): SetCookie => ({
+  name,
+  value,
+  maxAge: options.maxAge,
+  expires: options.expires,
+  domain: options.domain,
+  path: options.path,
+  httpOnly: options.httpOnly,
+  secure: options.secure,
+  partitioned: options.partitioned,
+  priority: options.priority,
+  sameSite: options.sameSite,
+});
 
 /**
  * Obtiene el objeto de cookies de la solicitud.

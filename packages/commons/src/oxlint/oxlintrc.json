@@ -1,0 +1,26 @@
+{
+  "plugins": ["typescript", "unicorn", "oxc", "import", "node", "vitest"],
+  "env": {
+    "node": true,
+    "es2024": true
+  },
+  "rules": {
+    "typescript/no-explicit-any": "off",
+    "typescript/no-namespace": "off",
+    "typescript/no-empty-function": "off",
+    "typescript/no-require-imports": "error",
+    "typescript/no-floating-promises": "error",
+    "no-unused-vars": "off",
+    "typescript/no-useless-default-assignment": "off"
+  },
+  "overrides": [
+    {
+      "files": ["**/__test__/**", "**/*.spec.ts", "**/*.e2e-spec.ts"],
+      "rules": {
+        "typescript/no-floating-promises": "off",
+        "vitest/require-mock-type-parameters": "off",
+        "typescript/unbound-method": "off"
+      }
+    }
+  ]
+}

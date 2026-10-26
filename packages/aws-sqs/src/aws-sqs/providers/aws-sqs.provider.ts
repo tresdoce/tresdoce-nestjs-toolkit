@@ -1,51 +1,21 @@
-import { Provider } from '@nestjs/common';
+import type { Provider } from '@nestjs/common';
 
-import { AwsSqsModuleOptions, QueueConfig } from '../interfaces/aws-sqs.interface';
+import type { AwsSqsModuleOptions, QueueConfig } from '../interfaces/aws-sqs.interface.js';
 import {
   AWS_SQS_MODULE_OPTIONS,
   AWS_SQS_QUEUE,
   AWS_SQS_QUEUE_PROVIDERS,
-} from '../constants/aws-sqs.constant';
+} from '../constants/aws-sqs.constant.js';
 
 /**
- * Factory function to create providers for AWS SQS queues.
- * This function uses the `AWS_SQS_MODULE_OPTIONS` configuration to dynamically map
- * each queue into a NestJS provider. The resulting providers can be injected
- * into other parts of the application by their unique identifiers.
+ * Creates the `AWS_SQS_QUEUE_PROVIDERS` provider. It resolves (from `AWS_SQS_MODULE_OPTIONS`)
+ * to an array of `{ provide: 'AWS_SQS_QUEUE_<NAME>', useValue: QueueConfig }` descriptors.
  *
- * @returns An array of NestJS providers for the configured SQS queues.
+ * Note: the resolved array is a value, the descriptors are NOT registered as providers.
+ * Individual `AWS_SQS_QUEUE_<NAME>` tokens are only injectable when the module is configured
+ * synchronously (`register` / `forRoot`), see `getAwsSqsQueueToken`.
  *
- * @example
- * // AWS SQS Module Configuration
- * const sqsOptions = {
- *   region: 'us-east-1',
- *   queues: [
- *     { name: 'orders', url: 'https://sqs.us-east-1.amazonaws.com/123456/orders' },
- *     { name: 'notifications', url: 'https://sqs.us-east-1.amazonaws.com/123456/notifications' },
- *   ],
- * };
- *
- * // Providers created by this function
- * [
- *   { provide: 'AWS_SQS_QUEUE_ORDERS', useValue: { name: 'orders', url: 'https://sqs...' } },
- *   { provide: 'AWS_SQS_QUEUE_NOTIFICATIONS', useValue: { name: 'notifications', url: 'https://sqs...' } },
- * ];
- *
- * @example
- * // Injecting a queue into a service
- * import { Inject, Injectable } from '@nestjs/common';
- * import { QueueConfig } from '../interfaces/aws-sqs.interface';
- *
- * @Injectable()
- * export class OrdersService {
- *   constructor(
- *     @Inject('AWS_SQS_QUEUE_ORDERS') private readonly ordersQueue: QueueConfig,
- *   ) {}
- *
- *   getQueueUrl(): string {
- *     return this.ordersQueue.url;
- *   }
- * }
+ * @returns An array with the `AWS_SQS_QUEUE_PROVIDERS` provider.
  */
 export const createQueueProviders = (): Provider[] => [
   {
@@ -58,10 +28,26 @@ export const createQueueProviders = (): Provider[] => [
      * @returns An array of providers, each representing a configured SQS queue.
      */
     useFactory: (options: AwsSqsModuleOptions): Provider[] =>
-      options.queues.map((queue: QueueConfig) => ({
-        provide: `${AWS_SQS_QUEUE}_${queue.name.toUpperCase()}`,
-        useValue: queue,
-      })),
+      createQueueValueProviders(options?.queues),
     inject: [AWS_SQS_MODULE_OPTIONS],
   },
 ];
+
+/**
+ * Returns the injection token of a configured queue (`AWS_SQS_QUEUE_<NAME>`).
+ * @param queueName Logical name of the queue.
+ * @example
+ * constructor(@Inject(getAwsSqsQueueToken('orders')) private readonly ordersQueue: QueueConfig) {}
+ */
+export const getAwsSqsQueueToken = (queueName: string): string =>
+  `${AWS_SQS_QUEUE}_${queueName.toUpperCase()}`;
+
+/**
+ * Maps each queue to a value provider registered under `getAwsSqsQueueToken(queue.name)`.
+ * @param queues Configured queues.
+ */
+export const createQueueValueProviders = (queues: QueueConfig[] = []): Provider[] =>
+  queues.map((queue: QueueConfig) => ({
+    provide: getAwsSqsQueueToken(queue.name),
+    useValue: queue,
+  }));

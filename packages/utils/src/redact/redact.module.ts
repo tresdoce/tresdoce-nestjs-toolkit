@@ -1,13 +1,20 @@
 import { DynamicModule, Global, Module, Provider } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { REDACT_MODULE_OPTIONS, REDACT_PROVIDER } from './constants/redact.constant';
-import { redactProvider } from './providers/redact.provider';
+import { REDACT_MODULE_OPTIONS, REDACT_PROVIDER } from './constants/redact.constant.js';
+import { redactProvider } from './providers/redact.provider.js';
 import {
   RedactModuleAsyncOptions,
   RedactModuleOptions,
   RedactModuleOptionsFactory,
-} from './interfaces';
-import { RedactService } from './services/redact.service';
+} from './interfaces/index.js';
+import { RedactService } from './services/redact.service.js';
+
+/**
+ * Target of `register`/`registerAsync`. It is not decorated with `@Global()` because Nest treats
+ * a module as global whenever its class has that decorator, ignoring the dynamic `global` flag.
+ */
+@Module({})
+class RedactDynamicModule {}
 
 @Global()
 @Module({
@@ -25,10 +32,14 @@ import { RedactService } from './services/redact.service';
   exports: [REDACT_PROVIDER, RedactService],
 })
 export class RedactModule {
-  static register(_options: RedactModuleOptions): DynamicModule {
+  /**
+   * @param isGlobal Registers the providers globally (default `true`). Pass `false` to keep this
+   * redaction config local to the importing module.
+   */
+  static register(_options: RedactModuleOptions, isGlobal: boolean = true): DynamicModule {
     return {
-      global: true,
-      module: RedactModule,
+      global: isGlobal,
+      module: RedactDynamicModule,
       providers: [
         redactProvider(),
         RedactService,
@@ -43,8 +54,8 @@ export class RedactModule {
 
   static registerAsync(_options: RedactModuleAsyncOptions): DynamicModule {
     return {
-      global: true,
-      module: RedactModule,
+      global: _options.isGlobal ?? true,
+      module: RedactDynamicModule,
       imports: _options.imports,
       providers: [redactProvider(), RedactService, ...this.createAsyncProviders(_options)],
       exports: [REDACT_PROVIDER, RedactService],

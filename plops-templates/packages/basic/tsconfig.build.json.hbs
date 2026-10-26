@@ -1,15 +1,16 @@
 {
-    "extends": "./tsconfig",
-    "exclude": [
-      "node_modules",
-      "dist",
-      "test",
-      "__test__",
-      "**/__test__/**/*",
-      "**/*spec.ts",
-      "**/*it.ts",
-      "**/*test.ts",
-      "**/*e2e.ts",
-      "**/*e2e-spec.ts"
-    ]
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "sourceMap": false
+  },
+  "exclude": [
+    "node_modules",
+    "coverage",
+    "src/**/__test__/**",
+    "src/**/*.spec.ts",
+    "src/**/*.it.ts",
+    "src/**/*.test.ts",
+    "src/**/*.e2e.ts",
+    "src/**/*.e2e-spec.ts"
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/test-utils",
-  "version": "3.0.13",
+  "version": "4.0.0-beta.0",
   "description": "Tresdoce NestJS Toolkit - Utilities para testing",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -27,8 +27,10 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf ../../dist/test-utils",
-    "build": "pika build --out ../../dist/test-utils",
-    "test": "jest --runInBand --coverage",
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/build-dist-package.mjs",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
+    "lint": "oxlint --type-aware src",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -36,58 +38,22 @@
     "directory": "../../dist/test-utils"
   },
   "dependencies": {
-    "@nestjs/common": "^11.2.1",
-    "@nestjs/core": "^11.2.1",
-    "@nestjs/platform-express": "^11.2.1",
+    "@nestjs/common": "^12.2.0",
+    "@nestjs/config": "^12.0.1",
+    "@nestjs/core": "^12.2.0",
+    "@nestjs/platform-express": "^12.2.0",
     "lodash": "^4.18.1",
     "nock": "^14.0.17",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
-    "testcontainers": "^12.1.0"
+    "testcontainers": "^12.2.1"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.5",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.3"
+    "@tresdoce-nestjs-toolkit/config": "^1.0.0-beta.0",
+    "@types/tresdoce-nestjs-toolkit": "^1.0.0-beta.0"
   },
-  "prettier": {
-    "semi": true,
-    "tabWidth": 2,
-    "singleQuote": true,
-    "printWidth": 100,
-    "trailingComma": "all"
-  },
-  "@pika/pack": {
-    "pipeline": [
-      [
-        "@pika/plugin-ts-standard-pkg",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "@pika/plugin-build-node",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "pika-plugin-package.json",
-        {
-          "*files": [
-            "-bin/",
-            "-dist-*/",
-            "+dist-*/*",
-            "+CHANGELOG.md",
-            "+LICENSE.md",
-            "+package.json",
-            "+README.md"
-          ]
-        }
-      ]
-    ]
+  "type": "module",
+  "peerDependencies": {
+    "vitest": ">=5.0.0"
   }
 }

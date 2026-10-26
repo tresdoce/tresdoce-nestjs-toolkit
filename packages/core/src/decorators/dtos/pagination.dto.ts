@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from '@nestjs/class-transformer';
 import { IsOptional, IsPositive, Max, IsInt } from '@nestjs/class-validator';
-import { DEFAULT_PAGE, DEFAULT_SIZE, MAX_SIZE } from '../constants/pagination.constant';
+import { DEFAULT_PAGE, DEFAULT_SIZE, MAX_SIZE } from '../constants/pagination.constant.js';
 
 export class PaginationParamsDto {
   @IsOptional()

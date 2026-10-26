@@ -6,27 +6,29 @@ import { Observable, of, throwError } from 'rxjs';
 import { HttpConnection } from '@elastic/elasticsearch';
 import { URL } from 'url';
 
-import { ElkModule } from '../elk/elk.module';
-import { ElkInterceptor } from '../elk/interceptors/elk.interceptor';
-import { ElkService } from '../elk/services/elk.service';
+import { ElkModule } from '../elk/elk.module.js';
+import { ElkInterceptor } from '../elk/interceptors/elk.interceptor.js';
+import { ElkService } from '../elk/services/elk.service.js';
 
-jest.mock('@elastic/elasticsearch', () => {
-  const actual = jest.requireActual('@elastic/elasticsearch');
+vi.mock('@elastic/elasticsearch', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@elastic/elasticsearch')>();
 
   return {
     ...actual,
-    Client: jest.fn().mockImplementation((options) => ({
-      name: options.name,
-      requestId: options.generateRequestId(),
-      info: jest.fn().mockResolvedValue({ name: options.name }),
-      index: jest.fn().mockResolvedValue({}),
-      close: jest.fn().mockResolvedValue(undefined),
-    })),
+    Client: vi.fn().mockImplementation(function (options) {
+      return {
+        name: options.name,
+        requestId: options.generateRequestId(),
+        info: vi.fn().mockResolvedValue({ name: options.name }),
+        index: vi.fn().mockResolvedValue({}),
+        close: vi.fn().mockResolvedValue(undefined),
+      };
+    }),
   };
 });
 
 let executionContext: any = {
-  switchToHttp: jest.fn(() => ({
+  switchToHttp: vi.fn(() => ({
     getRequest: () => ({
       path: '/test',
       method: 'GET',
@@ -39,20 +41,20 @@ let executionContext: any = {
       },
     }),
     getResponse: () => ({
-      getHeaders: jest.fn().mockReturnValue({
+      getHeaders: vi.fn().mockReturnValue({
         'Content-Type': 'application/json',
         my_header: 'test-header',
       }),
       json: [fixtureUserResponse],
     }),
   })),
-  getType: jest.fn(() => 'http'),
-  getClass: jest.fn(() => 'testController'),
-  getHandler: jest.fn(() => 'handlerElk'),
+  getType: vi.fn(() => 'http'),
+  getClass: vi.fn(() => 'testController'),
+  getHandler: vi.fn(() => 'handlerElk'),
 };
 
 let executionContextParams: any = {
-  switchToHttp: jest.fn(() => ({
+  switchToHttp: vi.fn(() => ({
     getRequest: () => ({
       path: '/test',
       method: 'GET',
@@ -65,21 +67,21 @@ let executionContextParams: any = {
       },
     }),
     getResponse: () => ({
-      getHeaders: jest.fn().mockReturnValue({
+      getHeaders: vi.fn().mockReturnValue({
         'Content-Type': 'application/json',
         my_header: 'test-header',
       }),
       json: [fixtureUserResponse],
     }),
   })),
-  getType: jest.fn(() => 'http'),
-  getClass: jest.fn(() => 'testController'),
-  getHandler: jest.fn(() => 'handlerElk'),
+  getType: vi.fn(() => 'http'),
+  getClass: vi.fn(() => 'testController'),
+  getHandler: vi.fn(() => 'handlerElk'),
 };
 
 const elkIndexName = `test-elasticsearch`;
 
-jest.setTimeout(90000);
+vi.setConfig({ testTimeout: 90000 });
 describe('ElkInterceptor', () => {
   let app: INestApplication;
   let elkService: ElkService;
@@ -136,11 +138,11 @@ describe('ElkInterceptor', () => {
     });
 
     it('should be create document in elasticsearch when return success string', async () => {
-      const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
+      const interceptorServiceSpy = vi.spyOn(elkService, 'serializeResponseInterceptor');
       const timeRequest = Date.now();
 
       const callHandler: any = {
-        handle: jest.fn(() => of('this is a test')),
+        handle: vi.fn(() => of('this is a test')),
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
@@ -161,11 +163,11 @@ describe('ElkInterceptor', () => {
     });
 
     it('should be create document in elasticsearch when return success object', async () => {
-      const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
+      const interceptorServiceSpy = vi.spyOn(elkService, 'serializeResponseInterceptor');
       const timeRequest = Date.now();
 
       const callHandler: any = {
-        handle: jest.fn(() => of([fixtureUserResponse])),
+        handle: vi.fn(() => of([fixtureUserResponse])),
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
@@ -186,11 +188,11 @@ describe('ElkInterceptor', () => {
     });
 
     it('should be create document in elasticsearch when return success with parameters', async () => {
-      const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
+      const interceptorServiceSpy = vi.spyOn(elkService, 'serializeResponseInterceptor');
       const timeRequest = Date.now();
 
       const callHandler: any = {
-        handle: jest.fn(() => of([fixtureUserResponse])),
+        handle: vi.fn(() => of([fixtureUserResponse])),
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContextParams, callHandler);
@@ -216,13 +218,13 @@ describe('ElkInterceptor', () => {
     });
 
     it('should be create document in elasticsearch when return exception', async () => {
-      const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
+      const interceptorServiceSpy = vi.spyOn(elkService, 'serializeResponseInterceptor');
       const timeRequest = Date.now();
 
       const error = new Error(`User #$1 not found`);
 
       const callHandler: any = {
-        handle: jest.fn(() => throwError(error)),
+        handle: vi.fn(() => throwError(error)),
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
@@ -243,13 +245,13 @@ describe('ElkInterceptor', () => {
     });
 
     it('should be create document in elasticsearch when return exception http', async () => {
-      const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
+      const interceptorServiceSpy = vi.spyOn(elkService, 'serializeResponseInterceptor');
       const timeRequest = Date.now();
 
       const error = new HttpException('not found', 404);
 
       const callHandler: any = {
-        handle: jest.fn(() => throwError(error)),
+        handle: vi.fn(() => throwError(error)),
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
@@ -270,8 +272,8 @@ describe('ElkInterceptor', () => {
     });
 
     it('should skip logging if path is in excludePaths', async () => {
-      const spyCreateIndex = jest.spyOn(elkService as any, 'createIndexDocument');
-      const spyRedact = jest.spyOn(elkService as any, 'redactElkDocument');
+      const spyCreateIndex = vi.spyOn(elkService as any, 'createIndexDocument');
+      const spyRedact = vi.spyOn(elkService as any, 'redactElkDocument');
 
       const executionContextExcluded: any = {
         ...executionContext,
@@ -286,7 +288,7 @@ describe('ElkInterceptor', () => {
             cookies: {},
           }),
           getResponse: () => ({
-            getHeaders: jest.fn(() => ({})),
+            getHeaders: vi.fn(() => ({})),
             statusCode: 200,
           }),
         }),
@@ -358,11 +360,11 @@ describe('ElkInterceptor', () => {
     });
 
     it('should be create document in elasticsearch when return success string', async () => {
-      const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
+      const interceptorServiceSpy = vi.spyOn(elkService, 'serializeResponseInterceptor');
       const timeRequest = Date.now();
 
       const callHandler: any = {
-        handle: jest.fn(() => of('this is a test')),
+        handle: vi.fn(() => of('this is a test')),
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
@@ -383,11 +385,11 @@ describe('ElkInterceptor', () => {
     });
 
     it('should be create document in elasticsearch when return success object', async () => {
-      const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
+      const interceptorServiceSpy = vi.spyOn(elkService, 'serializeResponseInterceptor');
       const timeRequest = Date.now();
 
       const callHandler: any = {
-        handle: jest.fn(() => of([fixtureUserResponse])),
+        handle: vi.fn(() => of([fixtureUserResponse])),
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
@@ -408,11 +410,11 @@ describe('ElkInterceptor', () => {
     });
 
     it('should be create document in elasticsearch when return success with parameters', async () => {
-      const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
+      const interceptorServiceSpy = vi.spyOn(elkService, 'serializeResponseInterceptor');
       const timeRequest = Date.now();
 
       const callHandler: any = {
-        handle: jest.fn(() => of([fixtureUserResponse])),
+        handle: vi.fn(() => of([fixtureUserResponse])),
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContextParams, callHandler);
@@ -438,13 +440,13 @@ describe('ElkInterceptor', () => {
     });
 
     it('should be create document in elasticsearch when return exception', async () => {
-      const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
+      const interceptorServiceSpy = vi.spyOn(elkService, 'serializeResponseInterceptor');
       const timeRequest = Date.now();
 
       const error = new Error(`User #$1 not found`);
 
       const callHandler: any = {
-        handle: jest.fn(() => throwError(error)),
+        handle: vi.fn(() => throwError(error)),
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
@@ -465,13 +467,13 @@ describe('ElkInterceptor', () => {
     });
 
     it('should be create document in elasticsearch when return exception http', async () => {
-      const interceptorServiceSpy = jest.spyOn(elkService, 'serializeResponseInterceptor');
+      const interceptorServiceSpy = vi.spyOn(elkService, 'serializeResponseInterceptor');
       const timeRequest = Date.now();
 
       const error = new HttpException('not found', 404);
 
       const callHandler: any = {
-        handle: jest.fn(() => throwError(error)),
+        handle: vi.fn(() => throwError(error)),
       };
 
       const obs: Observable<any> = interceptor.intercept(executionContext, callHandler);
@@ -492,8 +494,8 @@ describe('ElkInterceptor', () => {
     });
 
     it('should skip logging if path is in excludePaths', async () => {
-      const spyCreateIndex = jest.spyOn(elkService as any, 'createIndexDocument');
-      const spyRedact = jest.spyOn(elkService as any, 'redactElkDocument');
+      const spyCreateIndex = vi.spyOn(elkService as any, 'createIndexDocument');
+      const spyRedact = vi.spyOn(elkService as any, 'redactElkDocument');
 
       const executionContextExcluded: any = {
         ...executionContext,
@@ -508,7 +510,7 @@ describe('ElkInterceptor', () => {
             cookies: {},
           }),
           getResponse: () => ({
-            getHeaders: jest.fn(() => ({})),
+            getHeaders: vi.fn(() => ({})),
             statusCode: 200,
           }),
         }),

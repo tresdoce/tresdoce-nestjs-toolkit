@@ -3,9 +3,9 @@ import { ConfigModule } from '@nestjs/config';
 
 import { config, manifest } from '@tresdoce-nestjs-toolkit/test-utils';
 
-import { ArchetypeModule } from '../archetype/archetype.module';
-import { ArchetypeController } from '../archetype/controllers/archetype.controller';
-import { ArchetypeService } from '../archetype/services/archetype.service';
+import { ArchetypeModule } from '../archetype/archetype.module.js';
+import { ArchetypeController } from '../archetype/controllers/archetype.controller.js';
+import { ArchetypeService } from '../archetype/services/archetype.service.js';
 
 describe('ArchetypeController', () => {
   let controller: ArchetypeController;

@@ -1,17 +1,25 @@
-import { Response } from 'express';
+import type { Mock } from 'vitest';
+import type { Response } from 'express';
 import { sign } from 'cookie-signature';
 import Tokens from 'csrf';
-import { serialize } from 'cookie';
-import { CsrfCookieOptions, csrfToken, getCsrfFromRequest, ICsrfRequest, verify } from '../commons';
+import { stringifySetCookie } from 'cookie';
+import {
+  type CsrfCookieOptions,
+  csrfToken,
+  getCsrfFromRequest,
+  type ICsrfRequest,
+  verify,
+} from '../commons/index.js';
+import { extractDeviceData, getIpAddress } from '../commons/csrf-token.js';
 
-jest.mock('cookie-signature');
-jest.mock('csrf');
-jest.mock('cookie');
+vi.mock('cookie-signature');
+vi.mock('csrf');
+vi.mock('cookie');
 
 describe('CsrfToken', () => {
   let mockRequest: Partial<ICsrfRequest>;
   let mockResponse: Partial<Response>;
-  let nextFunction: jest.Mock;
+  let nextFunction: Mock;
   let tokenProvider: Tokens = new Tokens({
     secretLength: 16,
     saltLength: 16,
@@ -26,22 +34,22 @@ describe('CsrfToken', () => {
       headers: {},
     };
     mockResponse = {
-      //getHeader: jest.fn().mockReturnValue(undefined),
-      getHeader: jest.fn(),
-      setHeader: jest.fn(),
+      //getHeader: vi.fn().mockReturnValue(undefined),
+      getHeader: vi.fn(),
+      setHeader: vi.fn(),
       locals: {},
     };
-    nextFunction = jest.fn();
-    (sign as jest.Mock).mockReturnValue('signed_value');
-    (Tokens as jest.Mock).mockImplementation(() => ({
-      secretSync: jest.fn().mockReturnValue('secret'),
-      create: jest.fn().mockReturnValue('token'),
-      verify: jest.fn().mockReturnValue(true),
+    nextFunction = vi.fn();
+    (sign as Mock).mockReturnValue('signed_value');
+    (Tokens as Mock).mockImplementation(() => ({
+      secretSync: vi.fn().mockReturnValue('secret'),
+      create: vi.fn().mockReturnValue('token'),
+      verify: vi.fn().mockReturnValue(true),
     }));
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it('should set a CSRF token with default options', () => {
@@ -59,7 +67,7 @@ describe('CsrfToken', () => {
       cookieName: 'custom_cookie_name',
       secret: 'custom_secret',
     };
-    (serialize as jest.Mock).mockReturnValue(options.cookieName);
+    (stringifySetCookie as Mock).mockReturnValue(options.cookieName);
 
     const middleware = csrfToken(options);
     middleware(mockRequest as ICsrfRequest, mockResponse as Response, nextFunction);
@@ -76,7 +84,7 @@ describe('CsrfToken', () => {
       secret: 'custom_secret',
       signed: true,
     };
-    (serialize as jest.Mock).mockReturnValue(options.cookieName);
+    (stringifySetCookie as Mock).mockReturnValue(options.cookieName);
 
     const middleware = csrfToken(options);
     middleware(mockRequest as ICsrfRequest, mockResponse as Response, nextFunction);
@@ -92,8 +100,8 @@ describe('CsrfToken', () => {
       sameSite: 'strict',
     };
 
-    (serialize as jest.Mock).mockImplementation((name, value, opts) => {
-      return `${name}=${value}; httpOnly; sameSite=${opts.sameSite}`;
+    (stringifySetCookie as Mock).mockImplementation(({ name, value, sameSite }) => {
+      return `${name}=${value}; httpOnly; sameSite=${sameSite}`;
     });
 
     const middleware = csrfToken(options);
@@ -115,10 +123,10 @@ describe('CsrfToken', () => {
       sameSite: 'strict',
     };
     const existingCookie = 'existing-cookie=existing-value';
-    mockResponse.getHeader = jest.fn().mockReturnValue(existingCookie);
+    mockResponse.getHeader = vi.fn().mockReturnValue(existingCookie);
 
-    (serialize as jest.Mock).mockImplementation((name, value, opts) => {
-      return `${name}=${value}; httpOnly; sameSite=${opts.sameSite}`;
+    (stringifySetCookie as Mock).mockImplementation(({ name, value, sameSite }) => {
+      return `${name}=${value}; httpOnly; sameSite=${sameSite}`;
     });
 
     const middleware = csrfToken(options);
@@ -153,7 +161,7 @@ describe('CsrfToken', () => {
   });
 
   it('should generate a new secret if none is present', () => {
-    (serialize as jest.Mock).mockReturnValue('_csrf');
+    (stringifySetCookie as Mock).mockReturnValue('_csrf');
     const middleware = csrfToken();
     middleware(mockRequest as ICsrfRequest, mockResponse as Response, nextFunction);
 
@@ -175,8 +183,8 @@ describe('CsrfToken', () => {
 
   it('should verify a valid token', () => {
     const secret = 'secret';
-    tokenProvider.create = jest.fn().mockImplementation((secret) => `token_${secret}`);
-    tokenProvider.verify = jest
+    tokenProvider.create = vi.fn().mockImplementation((secret) => `token_${secret}`);
+    tokenProvider.verify = vi
       .fn()
       .mockImplementation((secret, token) => token === `token_${secret}`);
 
@@ -187,7 +195,7 @@ describe('CsrfToken', () => {
   it('should not verify an invalid token using verify function', () => {
     const secret = 'secret';
     const token = 'invalid_token';
-    jest.spyOn(tokenProvider, 'verify').mockReturnValue(false);
+    vi.spyOn(tokenProvider, 'verify').mockReturnValue(false);
 
     expect(verify(secret, token)).toBeFalsy();
   });
@@ -233,10 +241,10 @@ describe('CsrfToken', () => {
   });
 
   it('should handle unexpected Set-Cookie header type gracefully', () => {
-    (mockResponse.getHeader as jest.Mock).mockReturnValue(12345); // tipo inesperado
+    (mockResponse.getHeader as Mock).mockReturnValue(12345); // tipo inesperado
 
-    (serialize as jest.Mock).mockImplementation((name, value, opts) => {
-      return `${name}=${value}; httpOnly; sameSite=${opts.sameSite}`;
+    (stringifySetCookie as Mock).mockImplementation(({ name, value, sameSite }) => {
+      return `${name}=${value}; httpOnly; sameSite=${sameSite}`;
     });
 
     const middleware = csrfToken();
@@ -246,5 +254,56 @@ describe('CsrfToken', () => {
       'Set-Cookie',
       expect.arrayContaining([expect.stringContaining('_csrf')]),
     );
+  });
+
+  it('should only pass standard cookie attributes to stringifySetCookie', () => {
+    const middleware = csrfToken({ secret: 'custom_secret', domain: 'example.com' });
+    middleware(mockRequest as ICsrfRequest, mockResponse as Response, nextFunction);
+
+    const [cookie] = (stringifySetCookie as Mock).mock.calls[0];
+    expect(cookie).toEqual(
+      expect.objectContaining({
+        name: '_csrf',
+        sameSite: 'strict',
+        httpOnly: true,
+        path: '/',
+        maxAge: 300,
+        domain: 'example.com',
+      }),
+    );
+    expect(cookie).not.toHaveProperty('secret');
+    expect(cookie).not.toHaveProperty('cookieName');
+    expect(cookie).not.toHaveProperty('key');
+    expect(cookie).not.toHaveProperty('signed');
+  });
+
+  describe('extractDeviceData', () => {
+    const encode = (value: string) => `${Buffer.from(value).toString('base64')}-secret-with-dash`;
+
+    it('should return nulls when there is no secret', () => {
+      expect(extractDeviceData(false)).toEqual({ deviceData: null, ip: null });
+    });
+
+    it('should keep dashes and non-ASCII chars of the user agent', () => {
+      const userAgent = 'Mozilla/5.0 (X11; Linux x86_64) Chrome-Lighthouse ñandú';
+      expect(extractDeviceData(encode(`10.0.0.1-${userAgent}`))).toEqual({
+        ip: '10.0.0.1',
+        deviceData: userAgent,
+      });
+    });
+
+    it('should return the whole value as ip when there is no separator', () => {
+      expect(extractDeviceData(encode('10.0.0.1'))).toEqual({
+        ip: '10.0.0.1',
+        deviceData: undefined,
+      });
+    });
+  });
+
+  describe('getIpAddress', () => {
+    it('should return the first trimmed x-forwarded-for ip', () => {
+      const req = { headers: { 'x-forwarded-for': ' 1.1.1.1 , 2.2.2.2' } } as any;
+      expect(getIpAddress(req)).toEqual('1.1.1.1');
+    });
   });
 });

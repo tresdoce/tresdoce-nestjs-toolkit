@@ -5,29 +5,38 @@ import {
   DEFAULT_OPTIONS_REDACT,
   REDACT_MODULE_OPTIONS,
   REDACT_PROVIDER,
-} from '../constants/redact.constant';
-import { RedactModuleOptions } from '../interfaces';
+} from '../constants/redact.constant.js';
+import type { RedactModuleOptions } from '../interfaces/index.js';
+
+/**
+ * Ofusca parcialmente un string reemplazando, desde `obfuscateFrom`, tantos caracteres como
+ * tenga el `censor`. Los valores que no son string (números, booleanos, objetos, arrays) se
+ * reemplazan por el `censor` completo para no filtrar datos ni serializar `[object Object]`.
+ */
+export const obfuscateValue = (
+  value: unknown,
+  censor: string,
+  obfuscateFrom: RedactModuleOptions['obfuscateFrom'] = 'right',
+): string => {
+  if (typeof value !== 'string') return censor;
+  return obfuscateFrom === 'right'
+    ? `${value.substring(0, value.length - censor.length)}${censor}`
+    : `${censor}${value.substring(censor.length)}`;
+};
 
 export const redactProvider = (): Provider => ({
   provide: REDACT_PROVIDER,
-  useFactory: async (_options: RedactModuleOptions): Promise<any> => {
+  useFactory: (_options: RedactModuleOptions | null): fastRedact.redactFn => {
     const redactOptions: RedactModuleOptions = {
       ...DEFAULT_OPTIONS_REDACT,
-      ...(_options || {}),
+      ..._options,
     };
-
-    const obfuscatedFrom = (_value): string => {
-      return redactOptions.obfuscateFrom === 'right'
-        ? `${_value.toString().substring(0, _value.length - redactOptions.censor.length)}${
-            redactOptions.censor
-          }`
-        : `${redactOptions.censor}${_value.toString().substring(redactOptions.censor.length)}`;
-    };
+    const { censor: censorOption, obfuscateFrom } = redactOptions;
 
     const censor =
-      typeof redactOptions.censor === 'string'
-        ? (_value): string => obfuscatedFrom(_value)
-        : redactOptions.censor;
+      typeof censorOption === 'string'
+        ? (value: unknown): string => obfuscateValue(value, censorOption, obfuscateFrom)
+        : censorOption;
 
     return fastRedact({
       ...redactOptions,

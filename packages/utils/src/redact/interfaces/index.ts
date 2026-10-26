@@ -1,1 +1,1 @@
-export * from './redact.interface';
+export * from './redact.interface.js';

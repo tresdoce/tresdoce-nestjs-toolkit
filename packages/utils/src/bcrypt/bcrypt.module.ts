@@ -1,9 +1,9 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { BcryptService } from './services/bcrypt.service';
-import { BCRYPT_DEFAULT_OPTIONS, BCRYPT_MODULE_OPTIONS } from './constants/bcrypt.constant';
-import { BcryptOptions } from './interfaces/bcrypt.interface';
+import { BcryptService } from './services/bcrypt.service.js';
+import { BCRYPT_DEFAULT_OPTIONS, BCRYPT_MODULE_OPTIONS } from './constants/bcrypt.constant.js';
+import { BcryptOptions } from './interfaces/bcrypt.interface.js';
 
 @Global()
 @Module({

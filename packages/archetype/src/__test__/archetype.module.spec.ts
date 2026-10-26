@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { config } from '@tresdoce-nestjs-toolkit/test-utils';
 
-import { ArchetypeModule } from '../archetype/archetype.module';
+import { ArchetypeModule } from '../archetype/archetype.module.js';
 
 describe('ArchetypeModule', () => {
   let app: INestApplication;

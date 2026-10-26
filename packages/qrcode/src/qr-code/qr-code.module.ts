@@ -1,5 +1,5 @@
 import { Global, Module } from '@nestjs/common';
-import { QrCodeService } from './services/qr-code.service';
+import { QrCodeService } from './services/qr-code.service.js';
 
 @Global()
 @Module({

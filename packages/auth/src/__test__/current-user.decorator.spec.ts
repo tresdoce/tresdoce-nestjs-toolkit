@@ -1,8 +1,8 @@
 import { ExecutionContext } from '@nestjs/common';
 import { ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
 
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
-import { IAuthenticatedUser } from '../auth/interfaces/auth.interface';
+import { CurrentUser } from '../auth/decorators/current-user.decorator.js';
+import { IAuthenticatedUser } from '../auth/interfaces/auth.interface.js';
 
 function getParamDecoratorFactory(decorator: Function) {
   class Test {
@@ -14,8 +14,8 @@ function getParamDecoratorFactory(decorator: Function) {
 
 const mockExecutionContext = (user: IAuthenticatedUser | undefined) =>
   ({
-    switchToHttp: jest.fn(() => ({
-      getRequest: jest.fn().mockReturnValue({ user }),
+    switchToHttp: vi.fn(() => ({
+      getRequest: vi.fn().mockReturnValue({ user }),
     })),
   }) as unknown as ExecutionContext;
 

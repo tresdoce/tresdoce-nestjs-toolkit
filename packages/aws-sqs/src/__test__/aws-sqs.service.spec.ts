@@ -1,3 +1,4 @@
+import type { MockInstance } from 'vitest';
 import {
   DeleteMessageCommand,
   ListQueuesCommand,
@@ -6,12 +7,12 @@ import {
   SQSClient,
 } from '@aws-sdk/client-sqs';
 
-import { AwsSqsService } from '..';
-import { AwsSqsModuleOptions } from '../aws-sqs/interfaces/aws-sqs.interface';
+import { AwsSqsService } from '../index.js';
+import { AwsSqsModuleOptions } from '../aws-sqs/interfaces/aws-sqs.interface.js';
 
 describe('AwsSqsService', () => {
   let service: AwsSqsService;
-  let sendMock: jest.SpyInstance;
+  let sendMock: MockInstance;
 
   const endpoint = 'http://localhost:4566';
   const queueNames = ['orders', 'notifications'];
@@ -35,7 +36,7 @@ describe('AwsSqsService', () => {
     messagesByQueue.clear();
     queueUrls.forEach((queueUrl) => messagesByQueue.set(queueUrl, []));
 
-    sendMock = jest.spyOn(SQSClient.prototype, 'send').mockImplementation(async (command: any) => {
+    sendMock = vi.spyOn(SQSClient.prototype, 'send').mockImplementation(async (command: any) => {
       if (command instanceof ListQueuesCommand) {
         return { QueueUrls: queueUrls };
       }
@@ -48,7 +49,7 @@ describe('AwsSqsService', () => {
           ReceiptHandle: `receipt-${messages.length + 1}`,
         });
         messagesByQueue.set(command.input.QueueUrl, messages);
-        return {};
+        return { MessageId: `${messages.length}` };
       }
 
       if (command instanceof ReceiveMessageCommand) {
@@ -78,7 +79,26 @@ describe('AwsSqsService', () => {
     expect(service).toBeDefined();
   });
 
+  it('should destroy the SQS client on module destroy', () => {
+    const destroySpy = vi.spyOn(SQSClient.prototype, 'destroy');
+    service.onModuleDestroy();
+    expect(destroySpy).toHaveBeenCalled();
+    destroySpy.mockRestore();
+  });
+
+  it('should throw "not found" when the module has no options', async () => {
+    const emptyService = new AwsSqsService(undefined);
+    await expect(emptyService.receiveMessage(queueNames[0])).rejects.toThrow(
+      `Queue "${queueNames[0]}" not found`,
+    );
+  });
+
   describe('sendMessage', () => {
+    it('should return the SendMessage output', async () => {
+      const result = await service.sendMessage({ queueName: queueNames[1], messageBody: 'hi' });
+      expect(result).toEqual({ MessageId: '1' });
+    });
+
     it('should send a message successfully', async () => {
       await service.sendMessage({
         queueName: queueNames[0],

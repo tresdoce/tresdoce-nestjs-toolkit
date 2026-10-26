@@ -1,4 +1,4 @@
-import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import type { Typings } from '@tresdoce-nestjs-toolkit/core';
 
 export const appConfigBase: Typings.AppConfig = {
   project: {

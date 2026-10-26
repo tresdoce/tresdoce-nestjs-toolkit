@@ -15,3 +15,12 @@ export interface HttpModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> 
   inject?: any[];
   extraProviders?: Provider[];
 }
+
+/**
+ * Shape of the `httpClient` key of the centralized config (`config.httpClient`).
+ * Mirrors `Typings.IHttpClientConfig` from `@tresdoce-nestjs-toolkit/core`.
+ */
+export interface HttpClientConfig {
+  httpOptions?: HttpModuleOptions;
+  propagateHeaders?: string[];
+}

@@ -5,11 +5,15 @@ import {
   AwsSqsModuleAsyncOptions,
   AwsSqsModuleOptions,
   AwsSqsModuleOptionsFactory,
-} from './interfaces/aws-sqs.interface';
-import { AWS_SQS_MODULE_OPTIONS, AWS_SQS_QUEUE_PROVIDERS } from './constants/aws-sqs.constant';
-import { AwsSqsService } from './services/aws-sqs.service';
-import { AwsSqsListener } from './aws-sqs.listener';
-import { createQueueProviders } from './providers/aws-sqs.provider';
+} from './interfaces/aws-sqs.interface.js';
+import { AWS_SQS_MODULE_OPTIONS, AWS_SQS_QUEUE_PROVIDERS } from './constants/aws-sqs.constant.js';
+import { AwsSqsService } from './services/aws-sqs.service.js';
+import { AwsSqsListener } from './aws-sqs.listener.js';
+import {
+  createQueueProviders,
+  createQueueValueProviders,
+  getAwsSqsQueueToken,
+} from './providers/aws-sqs.provider.js';
 
 /**
  * AWS SQS Module for NestJS, providing services and listeners to interact with AWS SQS.
@@ -45,13 +49,7 @@ export class AwsSqsModule {
   static register(options: AwsSqsModuleOptions): DynamicModule {
     return {
       module: AwsSqsModule,
-      providers: [
-        { provide: AWS_SQS_MODULE_OPTIONS, useValue: options },
-        AwsSqsService,
-        AwsSqsListener,
-        ...createQueueProviders(),
-      ],
-      exports: [AwsSqsService, AWS_SQS_MODULE_OPTIONS, AWS_SQS_QUEUE_PROVIDERS],
+      ...this.createSyncMetadata(options),
     };
   }
 
@@ -93,13 +91,7 @@ export class AwsSqsModule {
     return {
       global: true,
       module: AwsSqsModule,
-      providers: [
-        { provide: AWS_SQS_MODULE_OPTIONS, useValue: options },
-        AwsSqsService,
-        AwsSqsListener,
-        ...createQueueProviders(),
-      ],
-      exports: [AwsSqsService, AWS_SQS_MODULE_OPTIONS, AWS_SQS_QUEUE_PROVIDERS],
+      ...this.createSyncMetadata(options),
     };
   }
 
@@ -121,6 +113,29 @@ export class AwsSqsModule {
         ...createQueueProviders(),
       ],
       exports: [AwsSqsService, AWS_SQS_MODULE_OPTIONS, AWS_SQS_QUEUE_PROVIDERS],
+    };
+  }
+
+  /**
+   * Builds the providers/exports for synchronous registration, including one injectable
+   * `AWS_SQS_QUEUE_<NAME>` provider per configured queue.
+   * @param options Configuration options for AWS SQS.
+   */
+  private static createSyncMetadata(
+    options: AwsSqsModuleOptions,
+  ): Pick<DynamicModule, 'providers' | 'exports'> {
+    const queueTokens: string[] = (options?.queues ?? []).map((queue) =>
+      getAwsSqsQueueToken(queue.name),
+    );
+    return {
+      providers: [
+        { provide: AWS_SQS_MODULE_OPTIONS, useValue: options },
+        AwsSqsService,
+        AwsSqsListener,
+        ...createQueueProviders(),
+        ...createQueueValueProviders(options?.queues),
+      ],
+      exports: [AwsSqsService, AWS_SQS_MODULE_OPTIONS, AWS_SQS_QUEUE_PROVIDERS, ...queueTokens],
     };
   }
 

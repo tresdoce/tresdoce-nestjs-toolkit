@@ -1,13 +1,14 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
-import { CsrfGuard } from '../guards/csrf.guard';
-import { getCsrfFromRequest, getSecretFromRequest, verify } from '../commons';
-import { getIpAddress } from '../commons/csrf-token';
+import type { Mock } from 'vitest';
+import { HttpException, HttpStatus, InternalServerErrorException } from '@nestjs/common';
+import { CsrfGuard } from '../guards/csrf.guard.js';
+import { getCsrfFromRequest, getSecretFromRequest, verify } from '../commons/index.js';
+import { getIpAddress } from '../commons/csrf-token.js';
 
-jest.mock('../commons/csrf-token', () => ({
-  ...jest.requireActual('../commons/csrf-token'),
-  getSecretFromRequest: jest.fn(),
-  getCsrfFromRequest: jest.fn(),
-  verify: jest.fn(),
+vi.mock('../commons/csrf-token.js', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../commons/csrf-token.js')>()),
+  getSecretFromRequest: vi.fn(),
+  getCsrfFromRequest: vi.fn(),
+  verify: vi.fn(),
 }));
 
 const mockIp = '10.20.30.40';
@@ -17,10 +18,10 @@ const mockReqDta = Buffer.from(`${mockIp}-${mockUserAgent}`).toString('base64');
 
 const mockExecutionContext = (token: string, secret: string, options: Partial<any> = {}) =>
   ({
-    getClass: jest.fn(),
-    getHandler: jest.fn(),
-    switchToHttp: jest.fn(() => ({
-      getRequest: jest.fn().mockReturnValue({
+    getClass: vi.fn(),
+    getHandler: vi.fn(),
+    switchToHttp: vi.fn(() => ({
+      getRequest: vi.fn().mockReturnValue({
         headers: {
           'csrf-token': token,
           ...options.headers,
@@ -36,8 +37,8 @@ const mockExecutionContext = (token: string, secret: string, options: Partial<an
         route: {
           path: '/',
         },
-        cookieConfig: options.cookieConfig || {},
-        csrfToken: jest.fn(),
+        cookieConfig: options.cookieConfig === null ? undefined : options.cookieConfig || {},
+        csrfToken: vi.fn(),
       }),
     })),
   }) as any;
@@ -47,11 +48,16 @@ describe('CsrfGuard', () => {
 
   beforeEach(async () => {
     csrfGuard = new CsrfGuard();
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it('should be defined', () => {
     expect(csrfGuard).toBeDefined();
+  });
+
+  it('should throw an explicit error if the csrfToken middleware is not configured', () => {
+    const context = mockExecutionContext('', '', { cookieConfig: null });
+    expect(() => csrfGuard.canActivate(context)).toThrow(InternalServerErrorException);
   });
 
   it('should throw an exception if CSRF token is not found', () => {
@@ -71,9 +77,9 @@ describe('CsrfGuard', () => {
       },
     };
     const context = mockExecutionContext(token, secret, options);
-    (getSecretFromRequest as jest.Mock).mockReturnValue(secret);
-    (getCsrfFromRequest as jest.Mock).mockReturnValue(token);
-    (verify as jest.Mock).mockReturnValue(false);
+    (getSecretFromRequest as Mock).mockReturnValue(secret);
+    (getCsrfFromRequest as Mock).mockReturnValue(token);
+    (verify as Mock).mockReturnValue(false);
     expect(() => csrfGuard.canActivate(context)).toThrow(
       new HttpException('Invalid CSRF Token', HttpStatus.FORBIDDEN),
     );
@@ -89,9 +95,9 @@ describe('CsrfGuard', () => {
       },
     };
     const context = mockExecutionContext(token, secret, options);
-    (getSecretFromRequest as jest.Mock).mockReturnValue(secret);
-    (getCsrfFromRequest as jest.Mock).mockReturnValue(token);
-    (verify as jest.Mock).mockReturnValue(false);
+    (getSecretFromRequest as Mock).mockReturnValue(secret);
+    (getCsrfFromRequest as Mock).mockReturnValue(token);
+    (verify as Mock).mockReturnValue(false);
     expect(() => csrfGuard.canActivate(context)).toThrow(
       new HttpException('Invalid device', HttpStatus.FORBIDDEN),
     );
@@ -107,9 +113,9 @@ describe('CsrfGuard', () => {
       },
     };
     const context = mockExecutionContext(token, secret, options);
-    (getSecretFromRequest as jest.Mock).mockReturnValue(secret);
-    (getCsrfFromRequest as jest.Mock).mockReturnValue(token);
-    (verify as jest.Mock).mockReturnValue(false);
+    (getSecretFromRequest as Mock).mockReturnValue(secret);
+    (getCsrfFromRequest as Mock).mockReturnValue(token);
+    (verify as Mock).mockReturnValue(false);
     expect(() => csrfGuard.canActivate(context)).toThrow(
       new HttpException('Invalid IP device', HttpStatus.FORBIDDEN),
     );
@@ -125,9 +131,9 @@ describe('CsrfGuard', () => {
       },
     };
     const context = mockExecutionContext(token, secret, options);
-    (getSecretFromRequest as jest.Mock).mockReturnValue(secret);
-    (getCsrfFromRequest as jest.Mock).mockReturnValue(token);
-    (verify as jest.Mock).mockReturnValue(true);
+    (getSecretFromRequest as Mock).mockReturnValue(secret);
+    (getCsrfFromRequest as Mock).mockReturnValue(token);
+    (verify as Mock).mockReturnValue(true);
     expect(csrfGuard.canActivate(context)).toBeTruthy();
   });
 
@@ -142,9 +148,9 @@ describe('CsrfGuard', () => {
       },
     };
     const context = mockExecutionContext('', secret, options);
-    (getSecretFromRequest as jest.Mock).mockReturnValue(secret);
-    (getCsrfFromRequest as jest.Mock).mockReturnValue(token);
-    (verify as jest.Mock).mockReturnValue(false);
+    (getSecretFromRequest as Mock).mockReturnValue(secret);
+    (getCsrfFromRequest as Mock).mockReturnValue(token);
+    (verify as Mock).mockReturnValue(false);
     expect(() => csrfGuard.canActivate(context)).toThrow(
       new HttpException('Invalid CSRF Token', HttpStatus.FORBIDDEN),
     );
@@ -161,9 +167,9 @@ describe('CsrfGuard', () => {
       },
     };
     const context = mockExecutionContext('', secret, options);
-    (getSecretFromRequest as jest.Mock).mockReturnValue(secret);
-    (getCsrfFromRequest as jest.Mock).mockReturnValue(token);
-    (verify as jest.Mock).mockReturnValue(false);
+    (getSecretFromRequest as Mock).mockReturnValue(secret);
+    (getCsrfFromRequest as Mock).mockReturnValue(token);
+    (verify as Mock).mockReturnValue(false);
     expect(() => csrfGuard.canActivate(context)).toThrow(
       new HttpException('Invalid CSRF Token', HttpStatus.FORBIDDEN),
     );
@@ -181,9 +187,9 @@ describe('CsrfGuard', () => {
       },
     };
     const context = mockExecutionContext('', secret, options);
-    (getSecretFromRequest as jest.Mock).mockReturnValue(secret);
-    (getCsrfFromRequest as jest.Mock).mockReturnValue(token);
-    (verify as jest.Mock).mockReturnValue(false);
+    (getSecretFromRequest as Mock).mockReturnValue(secret);
+    (getCsrfFromRequest as Mock).mockReturnValue(token);
+    (verify as Mock).mockReturnValue(false);
     expect(() => csrfGuard.canActivate(context)).toThrow(
       new HttpException('Invalid CSRF Token', HttpStatus.FORBIDDEN),
     );
@@ -201,9 +207,9 @@ describe('CsrfGuard', () => {
       },
     };
     const context = mockExecutionContext('', secret, options);
-    (getSecretFromRequest as jest.Mock).mockReturnValue(secret);
-    (getCsrfFromRequest as jest.Mock).mockReturnValue(token);
-    (verify as jest.Mock).mockReturnValue(false);
+    (getSecretFromRequest as Mock).mockReturnValue(secret);
+    (getCsrfFromRequest as Mock).mockReturnValue(token);
+    (verify as Mock).mockReturnValue(false);
     expect(() => csrfGuard.canActivate(context)).toThrow(
       new HttpException('Invalid CSRF Token', HttpStatus.FORBIDDEN),
     );

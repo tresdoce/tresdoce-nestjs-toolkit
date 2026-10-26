@@ -3,9 +3,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import nock from 'nock';
 
-import { HttpClientService } from '../http/services/httpClient.service';
-import { HttpClientModule } from '../http/httpClient.module';
-import { config } from './utils';
+import { HttpClientService } from '../http/services/httpClient.service.js';
+import { HttpClientModule } from '../http/httpClient.module.js';
+import { config } from './utils/index.js';
 
 const API_NESTJS_STARTER = 'https://json-server.up.railway.app/api';
 //const API_NESTJS_STARTER = 'http://localhost:6767/api';
@@ -183,7 +183,7 @@ describe('HttpService', () => {
     const { status, data } = await service.get(`${API_NESTJS_STARTER}/users/1`);
     expect(status).toBe(200);
     expect(data).toBeDefined();
-    expect(data).not.toBeEmpty();
+    expect(Object.keys(data).length).toBeGreaterThan(0);
   });
 
   it('should be return status 200 - put', async () => {
@@ -233,12 +233,9 @@ describe('HttpService', () => {
   });
 
   it('should be return error', async () => {
-    try {
-      const { data } = await service.get(`${API_NESTJS_STARTER}/postss`);
-      expect(data).toBe(200);
-    } catch (error) {
-      expect(error.response.status).toBe(404);
-      expect(error.message).toBe('Request failed with status code 404');
-    }
+    await expect(service.get(`${API_NESTJS_STARTER}/postss`)).rejects.toMatchObject({
+      response: { status: 404 },
+      message: 'Request failed with status code 404',
+    });
   });
 });

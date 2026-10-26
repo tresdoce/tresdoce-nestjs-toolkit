@@ -1,4 +1,4 @@
-import { createMock, cleanAllMock } from '../utilities';
+import { createMock, cleanAllMock } from '../utilities/index.js';
 import axios from 'axios';
 
 describe('createMock', () => {
@@ -131,6 +131,33 @@ describe('createMock', () => {
       headers: { authorization: 'Bearer token' },
     });
     expect(res.status).toBe(200);
+    expect(res.data).toEqual({ success: true });
+  });
+
+  it('should use the query string of the url when queryParams is not provided', async () => {
+    const interceptor = createMock({
+      url: 'http://test.com/api/search?q=rick&page=2',
+      method: 'get',
+      statusCode: 200,
+      responseBody: { success: true },
+    });
+
+    const res = await axios.get('http://test.com/api/search', { params: { q: 'rick', page: 2 } });
+    expect(res.status).toBe(200);
+    expect(res.data).toEqual({ success: true });
+    expect(interceptor).toBeDefined();
+  });
+
+  it('should prioritize queryParams over the query string of the url', async () => {
+    createMock({
+      url: 'http://test.com/api/search?q=ignored',
+      method: 'get',
+      statusCode: 200,
+      responseBody: { success: true },
+      queryParams: { q: 'morty' },
+    });
+
+    const res = await axios.get('http://test.com/api/search', { params: { q: 'morty' } });
     expect(res.data).toEqual({ success: true });
   });
 });

@@ -1,17 +1,16 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { HttpModule } from '@nestjs/axios';
 import { TerminusModule } from '@nestjs/terminus';
-import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import type { Typings } from '@tresdoce-nestjs-toolkit/core';
 
-import { LivenessController } from './controllers/liveness.controller';
-import { ReadinessController } from './controllers/readiness.controller';
+import { LivenessController } from './controllers/liveness.controller.js';
+import { ReadinessController } from './controllers/readiness.controller.js';
 
-import { CONFIG_OPTIONS } from './constants';
+import { CONFIG_OPTIONS } from './constants.js';
 
 @Global()
 @Module({
-  imports: [ConfigModule, TerminusModule, HttpModule],
+  imports: [ConfigModule, TerminusModule],
   controllers: [LivenessController, ReadinessController],
   exports: [LivenessController, ReadinessController],
   providers: [

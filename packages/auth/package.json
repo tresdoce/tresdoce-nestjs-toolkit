@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/auth",
-  "version": "0.2.0",
+  "version": "1.0.0-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo de autenticación JWT con roles y refresh tokens",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -30,8 +30,10 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf ../../dist/auth",
-    "build": "pika build --out ../../dist/auth",
-    "test": "jest --runInBand --coverage",
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/build-dist-package.mjs",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
+    "lint": "oxlint --type-aware src",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -39,64 +41,22 @@
     "directory": "../../dist/auth"
   },
   "dependencies": {
-    "@nestjs/common": "^11.2.1",
-    "@nestjs/core": "^11.2.1",
-    "@nestjs/jwt": "^11.0.2",
-    "@nestjs/passport": "^11.0.5",
-    "@nestjs/platform-express": "^11.2.1",
-    "@tresdoce-nestjs-toolkit/core": "^2.1.0",
-    "@tresdoce-nestjs-toolkit/redis": "^2.0.14",
+    "@nestjs/common": "^12.2.0",
+    "@nestjs/core": "^12.2.0",
+    "@nestjs/jwt": "^12.0.3",
+    "@nestjs/passport": "^12.0.0",
+    "@nestjs/platform-express": "^12.2.0",
+    "@tresdoce-nestjs-toolkit/core": "^3.0.0-beta.0",
+    "@tresdoce-nestjs-toolkit/redis": "^3.0.0-beta.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.2",
-    "uuid": "^14.0.1"
+    "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.5",
+    "@tresdoce-nestjs-toolkit/config": "^1.0.0-beta.0",
     "@types/passport-jwt": "^4.0.1",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.3",
-    "@types/uuid": "^10.0.0"
+    "@types/tresdoce-nestjs-toolkit": "^1.0.0-beta.0"
   },
-  "prettier": {
-    "semi": true,
-    "tabWidth": 2,
-    "singleQuote": true,
-    "printWidth": 100,
-    "trailingComma": "all"
-  },
-  "@pika/pack": {
-    "pipeline": [
-      [
-        "@pika/plugin-ts-standard-pkg",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "@pika/plugin-build-node",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "pika-plugin-package.json",
-        {
-          "*files": [
-            "-bin/",
-            "-dist-*/",
-            "+dist-*/*",
-            "+CHANGELOG.md",
-            "+LICENSE.md",
-            "+package.json",
-            "+README.md"
-          ]
-        }
-      ]
-    ]
-  }
+  "type": "module"
 }

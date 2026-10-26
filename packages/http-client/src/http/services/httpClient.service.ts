@@ -1,13 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
-import Axios, {
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosError,
-  InternalAxiosRequestConfig,
-} from 'axios';
+import { Inject, Injectable, Optional } from '@nestjs/common';
+import { LoggingService } from '@tresdoce-nestjs-toolkit/logger';
+import Axios, { type AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import _ from 'lodash';
-import { Request } from 'express';
+import type { Request } from 'express';
+import { AsyncLocalStorage } from 'node:async_hooks';
 
 import {
   AXIOS_INSTANCE_TOKEN,
@@ -15,28 +11,34 @@ import {
   HTTP_MODULE_PROPAGATE_HEADERS,
   propagateDefaultHeaders,
   RequestMethod,
-} from '../constants/http.constants';
+} from '../constants/http.constants.js';
+
+/** Headers and client IP captured from the incoming request that triggered an outgoing call. */
+interface OutgoingRequestContext {
+  headers: Record<string, unknown>;
+  ip?: string;
+}
+
+/**
+ * Per-request storage. `HttpClientService` is a singleton shared by every incoming request, so
+ * the propagated headers live in the request's async context instead of on the instance.
+ */
+const outgoingRequestContext = new AsyncLocalStorage<OutgoingRequestContext>();
 
 @Injectable()
 export class HttpClientService {
-  private ip: string;
-  private headers: any = defaultConfigInstanceAxios.headers;
   private readonly propagateHeadersList: string[];
 
   /* istanbul ignore next */
   constructor(
     @Inject(AXIOS_INSTANCE_TOKEN) private readonly _instance: AxiosInstance = Axios,
     @Inject(HTTP_MODULE_PROPAGATE_HEADERS) private readonly httpPropagateHeaders: string[] = [],
+    // Optional: outgoing requests are logged only when the app registers LoggingModule.
+    @Optional() @Inject(LoggingService) private readonly logger?: LoggingService,
   ) {
-    this.propagateHeadersList = _.union(propagateDefaultHeaders, this.httpPropagateHeaders);
-    this.axiosRef.interceptors.request.use(
-      (
-        config: InternalAxiosRequestConfig<any>,
-      ): InternalAxiosRequestConfig<any> | Promise<InternalAxiosRequestConfig<any>> => config,
-    );
-    this.axiosRef.interceptors.response.use(
-      (response: AxiosResponse): AxiosResponse => response,
-      (error: AxiosError): Promise<AxiosError> => Promise.reject(error),
+    // Express lowercases incoming header names, so the configured list is lowercased too.
+    this.propagateHeadersList = _.union(propagateDefaultHeaders, this.httpPropagateHeaders).map(
+      (header) => header.toLowerCase(),
     );
   }
 
@@ -44,12 +46,28 @@ export class HttpClientService {
     return this._instance;
   }
 
+  /**
+   * Captures the headers to propagate (and the client IP) from the incoming request. They are
+   * stored in the current async context, so concurrent requests never see each other's headers.
+   * `HttpClientInterceptor` calls it for every request; outside a request (crons, bootstrap)
+   * only the default headers are sent.
+   */
   public initAxios({ headers, ip }: Request): void {
     const propagateHeaders = Object.keys(headers)
       .filter((key) => this.propagateHeadersList.includes(key))
       .reduce((obj, key) => ({ ...obj, [key]: headers[key] }), {});
-    this.ip = ip;
-    this.headers = _.merge({}, defaultConfigInstanceAxios.headers, propagateHeaders);
+    outgoingRequestContext.enterWith({
+      headers: _.merge({}, defaultConfigInstanceAxios.headers, propagateHeaders),
+      ip,
+    });
+  }
+
+  private get requestContext(): OutgoingRequestContext {
+    return (
+      outgoingRequestContext.getStore() ?? {
+        headers: defaultConfigInstanceAxios.headers as Record<string, unknown>,
+      }
+    );
   }
 
   // Methods
@@ -64,12 +82,70 @@ export class HttpClientService {
     config: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> => {
     config = _.omit(config, ['url']);
-    config.headers = _.merge({}, this.headers, config.headers);
-    return this.axiosRef.request({
-      url: encodeURI(url),
-      ...config,
-    });
+    config.headers = _.merge({}, this.requestContext.headers, config.headers);
+    const startTime = Date.now();
+    try {
+      const response = await this.axiosRef.request<T>({
+        url: url === undefined ? undefined : encodeURI(url),
+        ...config,
+      });
+      this.logOutgoingRequest(url, config, startTime, response.status);
+      return response;
+    } catch (error) {
+      this.logOutgoingRequest(
+        url,
+        config,
+        startTime,
+        (error as AxiosError)?.response?.status,
+        error,
+      );
+      throw error;
+    }
   };
+
+  /**
+   * Logs an outgoing request through LoggingService, when available. Headers, body and query
+   * string are left out on purpose: they often carry tokens or personal data.
+   */
+  private logOutgoingRequest(
+    url: string,
+    config: AxiosRequestConfig,
+    startTime: number,
+    status?: number,
+    error?: unknown,
+  ): void {
+    if (!this.logger) return;
+    const level = error ? 'error' : 'info';
+    const log = {
+      ...this.logger.getGenericLog(level, 'OUTGOING_REQUEST', startTime),
+      message: error
+        ? `Outgoing request failed: ${HttpClientService.errorMessage(error)}`
+        : 'Outgoing request executed',
+      outgoing_http_request_method: (config.method ?? 'GET').toUpperCase(),
+      outgoing_http_request_address: HttpClientService.sanitizeUrl(url ?? config.baseURL),
+      outgoing_http_request_remote_address: this.requestContext.ip ?? '-',
+      outgoing_http_response_status_code: status ?? '-',
+      outgoing_http_request_duration_ms: Date.now() - startTime,
+    };
+    if (error) {
+      this.logger.error(log, HttpClientService.name);
+    } else {
+      this.logger.log(log, HttpClientService.name);
+    }
+  }
+
+  private static errorMessage(error: unknown): string {
+    if (error instanceof Error) return error.message;
+    return typeof error === 'string' ? error : JSON.stringify(error);
+  }
+
+  /**
+   * Removes query string, fragment and credentials (`user:pass@`) from a URL before logging it.
+   */
+  private static sanitizeUrl(url?: string): string {
+    if (!url) return '-';
+    return url.split(/[?#]/)[0].replace(/\/\/[^/@]*@/, '//');
+  }
 
   /**
    * Make http request  based on axios using user´s config

@@ -1,5 +1,5 @@
-import { config, dynamicConfig } from '../config/index';
-import { appConfigBase } from '../fixtures';
+import { config, dynamicConfig } from '../config/index.js';
+import { appConfigBase } from '../fixtures/index.js';
 
 describe('Config', () => {
   describe('baseConfig', () => {

@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/aws-sqs",
-  "version": "0.3.13",
+  "version": "1.0.0-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo de cola de mensajes de AWS Simple Queue Service",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -27,8 +27,10 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf ../../dist/aws-sqs",
-    "build": "pika build --out ../../dist/aws-sqs",
-    "test": "jest --runInBand --coverage",
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/build-dist-package.mjs",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
+    "lint": "oxlint --type-aware src",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -36,51 +38,14 @@
     "directory": "../../dist/aws-sqs"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.1112.0"
+    "@aws-sdk/client-sqs": "^3.1156.0",
+    "@nestjs/common": "^12.2.0",
+    "@nestjs/config": "^12.0.1",
+    "@nestjs/core": "^12.2.0"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.5",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.3"
+    "@tresdoce-nestjs-toolkit/config": "^1.0.0-beta.0",
+    "@types/tresdoce-nestjs-toolkit": "^1.0.0-beta.0"
   },
-  "prettier": {
-    "semi": true,
-    "tabWidth": 2,
-    "singleQuote": true,
-    "printWidth": 100,
-    "trailingComma": "all"
-  },
-  "@pika/pack": {
-    "pipeline": [
-      [
-        "@pika/plugin-ts-standard-pkg",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "@pika/plugin-build-node",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "pika-plugin-package.json",
-        {
-          "*files": [
-            "-bin/",
-            "-dist-*/",
-            "+dist-*/*",
-            "+CHANGELOG.md",
-            "+LICENSE.md",
-            "+package.json",
-            "+README.md"
-          ]
-        }
-      ]
-    ]
-  }
+  "type": "module"
 }

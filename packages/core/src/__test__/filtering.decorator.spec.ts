@@ -1,4 +1,4 @@
-import { FilteringParams, Filtering, FilterRule } from '../decorators';
+import { FilteringParams, Filtering, FilterRule } from '../decorators/index.js';
 import { BadRequestException } from '@nestjs/common';
 import { ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
 

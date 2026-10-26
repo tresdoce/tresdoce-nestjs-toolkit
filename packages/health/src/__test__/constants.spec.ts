@@ -1,5 +1,5 @@
 import { RequestMethod } from '@nestjs/common';
-import { controllersExcludes } from '../health/constants';
+import { controllersExcludes } from '../health/constants.js';
 
 describe('healthConstants', () => {
   it('should be return exclude to prefix global', async () => {

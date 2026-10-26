@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/mailer",
-  "version": "2.0.13",
+  "version": "3.0.0-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo para envíos de mail",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -27,8 +27,10 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf ../../dist/mailer",
-    "build": "pika build --out ../../dist/mailer",
-    "test": "jest --runInBand --coverage",
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/build-dist-package.mjs",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
+    "lint": "oxlint --type-aware src",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -36,62 +38,21 @@
     "directory": "../../dist/mailer"
   },
   "dependencies": {
-    "@css-inline/css-inline": "^0.21.1",
-    "@nestjs/common": "^11.2.1",
-    "@nestjs/core": "^11.2.1",
-    "@nestjs/platform-express": "^11.2.1",
-    "ejs": "^6.0.1",
-    "glob": "13.0.6",
-    "handlebars": "^4.7.9",
-    "mjml": "^5.4.0",
-    "nodemailer": "9.0.5",
+    "@css-inline/css-inline": "^0.23.1",
+    "@nestjs/common": "^12.2.0",
+    "@nestjs/config": "^12.0.1",
+    "@nestjs/core": "^12.2.0",
+    "@nestjs/platform-express": "^12.2.0",
+    "ejs": "^7.0.2",
+    "handlebars": "^4.7.10",
+    "nodemailer": "9.1.1",
     "pug": "^3.0.4",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.5",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.3"
+    "@tresdoce-nestjs-toolkit/config": "^1.0.0-beta.0",
+    "@types/tresdoce-nestjs-toolkit": "^1.0.0-beta.0"
   },
-  "prettier": {
-    "semi": true,
-    "tabWidth": 2,
-    "singleQuote": true,
-    "printWidth": 100,
-    "trailingComma": "all"
-  },
-  "@pika/pack": {
-    "pipeline": [
-      [
-        "@pika/plugin-ts-standard-pkg",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "@pika/plugin-build-node",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "pika-plugin-package.json",
-        {
-          "*files": [
-            "-bin/",
-            "-dist-*/",
-            "+dist-*/*",
-            "+CHANGELOG.md",
-            "+LICENSE.md",
-            "+package.json",
-            "+README.md"
-          ]
-        }
-      ]
-    ]
-  }
+  "type": "module"
 }

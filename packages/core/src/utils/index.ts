@@ -1,4 +1,4 @@
-import { TSkipHealthChecks } from '../typings';
+import type { TSkipHealthChecks } from '../typings/index.js';
 
 /**
  * Parses a comma-separated string of health checks to skip and returns an array of skipped health checks.
@@ -19,7 +19,10 @@ import { TSkipHealthChecks } from '../typings';
  */
 export const getSkipHealthChecks = (_value: string): TSkipHealthChecks[] => {
   return _value
-    ? (_value.split(',').map((_item: string) => _item.toLowerCase().trim()) as TSkipHealthChecks[])
+    ? (_value
+        .split(',')
+        .map((_item: string) => _item.toLowerCase().trim())
+        .filter(Boolean) as TSkipHealthChecks[])
     : [];
 };
 

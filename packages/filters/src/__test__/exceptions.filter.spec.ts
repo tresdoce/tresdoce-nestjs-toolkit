@@ -1,281 +1,361 @@
-import { BadRequestException, ForbiddenException, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  BadRequestException,
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  NotFoundException,
+} from '@nestjs/common';
+import { ConfigModule, ConfigService, registerAs } from '@nestjs/config';
+import { Test } from '@nestjs/testing';
 import { config } from '@tresdoce-nestjs-toolkit/test-utils';
-import { ExceptionsFilter, PROBLEM_CONTENT_TYPE, IErrorDetail, IProblemDetail } from '../';
+import {
+  DEFAULT_API_PREFIX,
+  ExceptionsFilter,
+  PROBLEM_CONTENT_TYPE,
+  IErrorDetail,
+  IProblemDetail,
+} from '../index.js';
 
-const mockJson = jest.fn();
-
-const mockStatus = jest.fn().mockImplementation(() => ({
-  json: mockJson,
+vi.mock('@tresdoce-nestjs-toolkit/core', () => ({
+  excludePaths: vi.fn(() => ['/excluded']),
 }));
 
-const mockType = jest.fn().mockImplementation(() => ({
-  status: mockStatus,
-}));
+const mockJson = vi.fn((_body: any) => undefined);
+const mockStatus = vi.fn((_status: number) => ({ json: mockJson }));
+const mockType = vi.fn((_type: string) => ({ status: mockStatus }));
 
-const mockGetResponse = jest.fn().mockImplementation(() => ({
-  type: mockType,
-  status: mockStatus,
-}));
-
-const mockUrl = jest.fn().mockImplementation(() => ({
-  url: mockJson,
-}));
-
-const mockGetRequest = jest.fn().mockImplementation(() => ({
-  type: mockUrl,
-}));
-
-const mockHttpArgumentsHost = jest.fn().mockImplementation(() => ({
-  getResponse: mockGetResponse,
-  getRequest: mockGetRequest,
-}));
+let request: Record<string, unknown>;
+let response: Record<string, unknown>;
 
 const mockArgumentsHost = {
-  switchToHttp: mockHttpArgumentsHost,
-  getArgByIndex: jest.fn(),
-  getArgs: jest.fn(),
-  getType: jest.fn(),
-  switchToRpc: jest.fn(),
-  switchToWs: jest.fn(),
-};
+  switchToHttp: () => ({
+    getResponse: () => response,
+    getRequest: () => request,
+    getNext: vi.fn(),
+  }),
+  getArgByIndex: vi.fn(),
+  getArgs: vi.fn(),
+  getType: vi.fn(),
+  switchToRpc: vi.fn(),
+  switchToWs: vi.fn(),
+} as unknown as ArgumentsHost;
 
-jest.mock('@tresdoce-nestjs-toolkit/core', () => ({
-  excludePaths: jest.fn(() => ['/excluded']),
-}));
+const API_PREFIX = 'API-TEST';
 
-describe('filters', () => {
+/** What the filter wrote to the response: content type, status and JSON body. */
+const sentResponse = () => ({
+  contentType: mockType.mock.calls[0]?.[0],
+  status: mockStatus.mock.calls[0]?.[0],
+  body: mockJson.mock.calls[0]?.[0],
+});
+
+const problemResponse = (expected: IProblemDetail) => ({
+  contentType: PROBLEM_CONTENT_TYPE,
+  status: expected.status,
+  body: { error: expected },
+});
+
+describe('ExceptionsFilter', () => {
+  const appConfig = config();
+  const filter = new ExceptionsFilter(appConfig);
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    request = { method: 'get', url: '/api/users' };
+    response = { type: mockType, status: mockStatus, headersSent: false };
+  });
+
+  it('should read the apiPrefix from the app config', () => {
+    expect(appConfig.project.apiPrefix).toEqual(API_PREFIX);
+  });
+
   describe('code exception', () => {
-    const appConfig = config();
-    const filter = new ExceptionsFilter(appConfig);
-
-    it('should map a regular code exception', () => {
-      const status = HttpStatus.INTERNAL_SERVER_ERROR;
-      const expectation: IProblemDetail = {
-        message: HttpStatus[status],
-        status,
-        code: HttpStatus[status],
-      };
+    it('should map a regular code exception to a 500', () => {
       try {
         const linea: any = undefined;
         linea.split('');
       } catch (error) {
         filter.catch(error, mockArgumentsHost);
-        assertResponse(status, expectation);
       }
+      expect(mockJson).toHaveBeenCalledTimes(1);
+      const [[body]] = mockJson.mock.calls;
+      expect(body.error).toMatchObject({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        instance: 'GET /api/users',
+        code: `${API_PREFIX}-INTERNAL_SERVER_ERROR`,
+      });
+      expect(typeof body.error.message).toBe('string');
+      expect(mockType).toHaveBeenCalledWith(PROBLEM_CONTENT_TYPE);
+    });
+
+    it('should use the message of a generic Error', () => {
+      filter.catch(new Error('this is an error'), mockArgumentsHost);
+      expect(sentResponse()).toEqual(
+        problemResponse({
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          instance: 'GET /api/users',
+          code: `${API_PREFIX}-INTERNAL_SERVER_ERROR`,
+          message: 'this is an error',
+          detail: undefined,
+        }),
+      );
+    });
+
+    it('should use a thrown string as message', () => {
+      filter.catch('boom', mockArgumentsHost);
+      expect(sentResponse()).toEqual(
+        problemResponse({
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          instance: 'GET /api/users',
+          code: `${API_PREFIX}-INTERNAL_SERVER_ERROR`,
+          message: 'boom',
+          detail: undefined,
+        }),
+      );
+    });
+
+    it.each([null, undefined, {}])('should not break when %s is thrown', (thrown) => {
+      filter.catch(thrown, mockArgumentsHost);
+      expect(sentResponse()).toEqual(
+        problemResponse({
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          instance: 'GET /api/users',
+          code: `${API_PREFIX}-INTERNAL_SERVER_ERROR`,
+          message: 'Internal Server Error',
+          detail: undefined,
+        }),
+      );
     });
   });
 
-  describe('HttpExceptions', () => {
-    describe('Default HttpExceptions', () => {
-      const appConfig = config();
-      const filter = new ExceptionsFilter(appConfig);
-      it('should map default exception when thrown with not parameters', () => {
-        const status = HttpStatus.BAD_REQUEST;
-        const expectation: IProblemDetail = {
-          message: HttpStatus[status],
-          status,
-          code: HttpStatus[status],
-        };
+  describe('Default HttpExceptions', () => {
+    it('should map default exception when thrown with not parameters', () => {
+      filter.catch(new BadRequestException(), mockArgumentsHost);
+      expect(sentResponse()).toEqual(
+        problemResponse({
+          status: HttpStatus.BAD_REQUEST,
+          instance: 'GET /api/users',
+          code: `${API_PREFIX}-BAD_REQUEST`,
+          message: 'Bad Request',
+          detail: undefined,
+        }),
+      );
+    });
 
-        filter.catch(new BadRequestException(), mockArgumentsHost);
+    it('should map a NotFoundException with message', () => {
+      request = { method: 'GET', url: '/api/users/123456' };
+      filter.catch(new NotFoundException('User #123456 not found'), mockArgumentsHost);
+      expect(sentResponse()).toEqual(
+        problemResponse({
+          status: HttpStatus.NOT_FOUND,
+          instance: 'GET /api/users/123456',
+          code: `${API_PREFIX}-NOT_FOUND`,
+          message: 'User #123456 not found',
+          detail: 'Not Found',
+        }),
+      );
+    });
 
-        assertResponse(status, expectation);
-      });
+    it('should map default exception when thrown with error details', () => {
+      filter.catch(new ForbiddenException('not pass!'), mockArgumentsHost);
+      expect(sentResponse()).toEqual(
+        problemResponse({
+          status: HttpStatus.FORBIDDEN,
+          instance: 'GET /api/users',
+          code: `${API_PREFIX}-FORBIDDEN`,
+          message: 'not pass!',
+          detail: 'Forbidden',
+        }),
+      );
+    });
 
-      it('should map default exception when thrown with error details', () => {
-        const status = HttpStatus.FORBIDDEN;
-        const message = 'not pass!';
+    it('should map default exception when thrown with error details and description', () => {
+      filter.catch(new ForbiddenException('passing?', 'not pass!'), mockArgumentsHost);
+      expect(sentResponse()).toEqual(
+        problemResponse({
+          status: HttpStatus.FORBIDDEN,
+          instance: 'GET /api/users',
+          code: `${API_PREFIX}-FORBIDDEN`,
+          message: 'passing?',
+          detail: 'not pass!',
+        }),
+      );
+    });
 
-        const expectation: IProblemDetail = {
-          message,
-          status,
-          code: HttpStatus[status],
-          detail: HttpStatus[status],
-        };
-        filter.catch(new ForbiddenException(message), mockArgumentsHost);
-
-        assertResponse(status, expectation);
-      });
-
-      it('should map default exception when thrown with error details and description', () => {
-        const status = HttpStatus.FORBIDDEN;
-        const message = 'passing?';
-        const details = 'not pass!';
-
-        const expectation: IProblemDetail = {
-          message,
-          detail: details,
-          status,
-          code: HttpStatus[status],
-        };
-        filter.catch(new ForbiddenException(message, details), mockArgumentsHost);
-
-        assertResponse(status, expectation);
-      });
-
-      it('should map HttpException response when called with an object', () => {
-        const errorObject: IErrorDetail = {
-          message: 'some message',
-          error: {
-            instance: 'instance',
-            type: 'some-problem-detail',
-          },
-        };
-
-        const status = HttpStatus.BAD_REQUEST;
-        const expectation: IProblemDetail = {
+    it('should map HttpException response when called with an object', () => {
+      const errorObject: IErrorDetail = {
+        message: 'some message',
+        error: { instance: 'instance', type: 'some-problem-detail' },
+      };
+      filter.catch(new HttpException(errorObject, HttpStatus.BAD_REQUEST), mockArgumentsHost);
+      expect(sentResponse()).toEqual(
+        problemResponse({
+          status: HttpStatus.BAD_REQUEST,
+          instance: 'GET /api/users',
+          code: `${API_PREFIX}-BAD_REQUEST`,
           message: errorObject.message,
           detail: errorObject.error,
-          status,
-          instance: errorObject.error.instance,
-          code: HttpStatus[status],
-        };
-
-        filter.catch(new HttpException(errorObject, status), mockArgumentsHost);
-
-        assertResponse(status, expectation);
-      });
+        }),
+      );
     });
 
-    describe('Generic HttpException', () => {
-      const appConfig = config();
-      const filter = new ExceptionsFilter(appConfig);
-
-      it('should map HttpException response when called with a string', () => {
-        const status = HttpStatus.SEE_OTHER;
-        const message = 'Not passing';
-
-        const expectation: IProblemDetail = {
-          message,
-          status,
-          code: HttpStatus[status],
-        };
-
-        filter.catch(new HttpException(message, status), mockArgumentsHost);
-
-        assertResponse(status, expectation);
-      });
-
-      it('should map HttpException response when called with an object', () => {
-        const status = HttpStatus.SEE_OTHER;
-        const errorObject: IErrorDetail = {
-          message: 'some message',
-        };
-
-        const expectation: IProblemDetail = {
-          message: errorObject.message,
-          status,
-          code: HttpStatus[status],
-        };
-
-        filter.catch(new HttpException(errorObject, status), mockArgumentsHost);
-
-        assertResponse(status, expectation);
-      });
-
-      it('should map HttpException response when called with an object with empty message', () => {
-        const status = HttpStatus.SEE_OTHER;
-        const errorObject: IErrorDetail = {
-          message: '',
-        };
-
-        const expectation: IProblemDetail = {
-          message: errorObject.message,
-          status,
-          code: HttpStatus[status],
-        };
-
-        filter.catch(new HttpException(errorObject, status), mockArgumentsHost);
-
-        assertResponse(status, expectation);
-      });
-
-      it('should map HttpException response when called with an array', () => {
-        const status = HttpStatus.SEE_OTHER;
-        const errorObject = {
-          message: ['some message', 'some message 2'],
-          error: 'Bad Request',
-        };
-
-        const expectation: IProblemDetail = {
-          message: errorObject.error,
-          detail: [{ message: errorObject.message[0] }, { message: errorObject.message[1] }],
-          status,
-          code: HttpStatus[status],
-        };
-
-        filter.catch(new HttpException(errorObject, status), mockArgumentsHost);
-        assertResponse(status, expectation);
-      });
+    it('should map validation errors (array of messages) into detail', () => {
+      request = { method: 'POST', url: '/api/users' };
+      filter.catch(
+        new BadRequestException(['firstName must be a string', 'email must be an email']),
+        mockArgumentsHost,
+      );
+      expect(sentResponse()).toEqual(
+        problemResponse({
+          status: HttpStatus.BAD_REQUEST,
+          instance: 'POST /api/users',
+          code: `${API_PREFIX}-BAD_REQUEST`,
+          message: 'Bad Request',
+          detail: [
+            { message: 'firstName must be a string' },
+            { message: 'email must be an email' },
+          ],
+        }),
+      );
     });
   });
 
-  describe('when used outside a module', () => {
-    const appConfig = config();
-    const filter = new ExceptionsFilter(appConfig);
-    it('should map default exception when thrown with not parameters', () => {
-      const status = HttpStatus.BAD_REQUEST;
-      const expectation: IProblemDetail = {
-        message: HttpStatus[status],
-        status,
-        code: HttpStatus[status],
-      };
+  describe('Generic HttpException', () => {
+    const status = HttpStatus.SEE_OTHER;
+    const base = { status, instance: 'GET /api/users', code: `${API_PREFIX}-SEE_OTHER` };
 
+    it('should map HttpException response when called with a string', () => {
+      filter.catch(new HttpException('Not passing', status), mockArgumentsHost);
+      expect(sentResponse()).toEqual(
+        problemResponse({ ...base, message: 'Not passing', detail: undefined }),
+      );
+    });
+
+    it('should map HttpException response when called with an object', () => {
+      filter.catch(new HttpException({ message: 'some message' }, status), mockArgumentsHost);
+      expect(sentResponse()).toEqual(
+        problemResponse({ ...base, message: 'some message', detail: undefined }),
+      );
+    });
+
+    it('should fallback to the status name when message is empty', () => {
+      filter.catch(new HttpException({ message: '' }, status), mockArgumentsHost);
+      expect(sentResponse()).toEqual(
+        problemResponse({ ...base, message: 'See Other', detail: undefined }),
+      );
+    });
+
+    it('should map HttpException response when called with an array', () => {
+      const errorObject = { message: ['some message', 'some message 2'], error: 'Bad Request' };
+      filter.catch(new HttpException(errorObject, status), mockArgumentsHost);
+      expect(sentResponse()).toEqual(
+        problemResponse({
+          ...base,
+          message: 'Bad Request',
+          detail: [{ message: 'some message' }, { message: 'some message 2' }],
+        }),
+      );
+    });
+
+    it('should not break when the response body is null', () => {
+      filter.catch(new HttpException(null as any, status), mockArgumentsHost);
+      expect(sentResponse()).toEqual(
+        problemResponse({ ...base, message: 'See Other', detail: undefined }),
+      );
+    });
+
+    it('should support custom status codes outside the HttpStatus enum', () => {
+      filter.catch(new HttpException('Client closed request', 499), mockArgumentsHost);
+      expect(sentResponse()).toEqual(
+        problemResponse({
+          status: 499,
+          instance: 'GET /api/users',
+          code: `${API_PREFIX}-499`,
+          message: 'Client closed request',
+          detail: undefined,
+        }),
+      );
+    });
+  });
+
+  describe('configuration', () => {
+    it.each([undefined, {} as any])(
+      'should use the default prefix when the app config is %s',
+      (cfg) => {
+        new ExceptionsFilter(cfg).catch(new BadRequestException(), mockArgumentsHost);
+        expect(sentResponse()).toEqual(
+          problemResponse({
+            status: HttpStatus.BAD_REQUEST,
+            instance: 'GET /api/users',
+            code: `${DEFAULT_API_PREFIX}-BAD_REQUEST`,
+            message: 'Bad Request',
+            detail: undefined,
+          }),
+        );
+      },
+    );
+
+    it('should handle a request without url and method', () => {
+      request = {};
       filter.catch(new BadRequestException(), mockArgumentsHost);
-
-      assertResponse(status, expectation);
+      expect(mockJson.mock.calls[0][0].error.instance).toBe(' ');
     });
   });
 
-  describe('configuration is defined with values', () => {
-    const appConfig = config();
-    const filter = new ExceptionsFilter(appConfig);
+  describe('dependency injection', () => {
+    const badRequest = (prefix: string) =>
+      problemResponse({
+        status: HttpStatus.BAD_REQUEST,
+        instance: 'GET /api/users',
+        code: `${prefix}-BAD_REQUEST`,
+        message: 'Bad Request',
+        detail: undefined,
+      });
 
-    it('should be return application info', async () => {
-      expect(appConfig.project.apiPrefix).toEqual('API-TEST');
+    it('should read the app config from a ConfigService', () => {
+      const configService = new ConfigService({ config: config() });
+      new ExceptionsFilter(configService).catch(new BadRequestException(), mockArgumentsHost);
+      expect(sentResponse()).toEqual(badRequest(API_PREFIX));
     });
 
-    const status = HttpStatus.BAD_REQUEST;
-    const expectation: IProblemDetail = {
-      message: HttpStatus[status],
-      status,
-      code: HttpStatus[status],
-    };
+    it('should be resolved by Nest DI with ConfigService injected', async () => {
+      const moduleRef = await Test.createTestingModule({
+        imports: [
+          ConfigModule.forRoot({ isGlobal: true, load: [registerAs('config', () => config())] }),
+        ],
+        providers: [ExceptionsFilter],
+      }).compile();
 
-    filter.catch(new BadRequestException(), mockArgumentsHost);
+      moduleRef.get(ExceptionsFilter).catch(new BadRequestException(), mockArgumentsHost);
+      expect(sentResponse()).toEqual(badRequest(API_PREFIX));
+      await moduleRef.close();
+    });
 
-    assertResponse(status, expectation);
+    it('should be resolved by Nest DI without ConfigModule (optional dependency)', async () => {
+      const moduleRef = await Test.createTestingModule({
+        providers: [ExceptionsFilter],
+      }).compile();
+
+      moduleRef.get(ExceptionsFilter).catch(new BadRequestException(), mockArgumentsHost);
+      expect(sentResponse()).toEqual(badRequest(DEFAULT_API_PREFIX));
+      await moduleRef.close();
+    });
   });
 
-  describe('configuration is undefined', () => {
-    const appConfig = undefined;
-    const filter = new ExceptionsFilter(appConfig);
-    const status = HttpStatus.BAD_REQUEST;
-    const expectation: IProblemDetail = {
-      message: HttpStatus[status],
-      status,
-      code: HttpStatus[status],
-    };
-
-    filter.catch(new BadRequestException(), mockArgumentsHost);
-    assertResponse(status, expectation);
+  describe('headers already sent', () => {
+    it('should not write the response', () => {
+      response.headersSent = true;
+      filter.catch(new BadRequestException(), mockArgumentsHost);
+      expect(mockType).not.toHaveBeenCalled();
+      expect(mockStatus).not.toHaveBeenCalled();
+      expect(mockJson).not.toHaveBeenCalled();
+    });
   });
 
   describe('Exclude Paths', () => {
-    const appConfig = config();
-    const filter = new ExceptionsFilter(appConfig);
-
-    it('should exclude paths correctly', () => {
-      mockJson.mockClear();
-      mockStatus.mockClear();
-      mockType.mockClear();
-      mockGetResponse.mockClear();
-      mockUrl.mockClear();
-      mockGetRequest.mockClear();
-      mockHttpArgumentsHost.mockClear();
-
-      mockGetRequest.mockImplementation(() => ({ url: '/excluded' }));
-
+    it('should return the raw HttpException response on excluded paths', () => {
+      request = { method: 'GET', url: '/excluded' };
       const exception = new HttpException('Not Found', HttpStatus.NOT_FOUND);
       filter.catch(exception, mockArgumentsHost);
 
@@ -283,26 +363,19 @@ describe('filters', () => {
       expect(mockJson).toHaveBeenCalledWith(exception.getResponse());
       expect(mockType).not.toHaveBeenCalled();
     });
-  });
 
-  describe('Exclude Paths (non-HttpException)', () => {
-    const appConfig = config();
-    const filter = new ExceptionsFilter(appConfig);
+    it('should ignore the query string when matching excluded paths', () => {
+      request = { method: 'GET', url: '/excluded?verbose=true' };
+      filter.catch(new HttpException('Unavailable', 503), mockArgumentsHost);
+
+      expect(mockStatus).toHaveBeenCalledWith(503);
+      expect(mockJson).toHaveBeenCalledWith('Unavailable');
+      expect(mockType).not.toHaveBeenCalled();
+    });
 
     it('should exclude paths and return 500 if error is generic (non-HttpException)', () => {
-      mockJson.mockClear();
-      mockStatus.mockClear();
-      mockType.mockClear();
-      mockGetResponse.mockClear();
-      mockUrl.mockClear();
-      mockGetRequest.mockClear();
-      mockHttpArgumentsHost.mockClear();
-
-      mockGetRequest.mockImplementation(() => ({ url: '/excluded', method: 'GET' }));
-
-      const genericError = new Error('Generic error');
-
-      filter.catch(genericError, mockArgumentsHost);
+      request = { method: 'GET', url: '/excluded' };
+      filter.catch(new Error('Generic error'), mockArgumentsHost);
 
       expect(mockStatus).toHaveBeenCalledWith(HttpStatus.INTERNAL_SERVER_ERROR);
       expect(mockJson).toHaveBeenCalledWith({ message: 'Internal server error' });
@@ -310,8 +383,3 @@ describe('filters', () => {
     });
   });
 });
-
-function assertResponse(expectedStatus: number, expectedJson: IProblemDetail) {
-  expect(mockType).toHaveBeenCalledWith(PROBLEM_CONTENT_TYPE);
-  expect(mockStatus).toHaveBeenCalledWith(expectedStatus);
-}

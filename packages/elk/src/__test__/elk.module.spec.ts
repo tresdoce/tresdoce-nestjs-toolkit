@@ -5,28 +5,30 @@ import { config, dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
 import { HttpConnection } from '@elastic/elasticsearch';
 import { URL } from 'url';
 
-import { ElkModule } from '../elk/elk.module';
-import { ElkInterceptor } from '../elk/interceptors/elk.interceptor';
-import { ElkService } from '../elk/services/elk.service';
+import { ElkModule } from '../elk/elk.module.js';
+import { ElkInterceptor } from '../elk/interceptors/elk.interceptor.js';
+import { ElkService } from '../elk/services/elk.service.js';
 
-jest.mock('@elastic/elasticsearch', () => {
-  const actual = jest.requireActual('@elastic/elasticsearch');
+vi.mock('@elastic/elasticsearch', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@elastic/elasticsearch')>();
 
   return {
     ...actual,
-    Client: jest.fn().mockImplementation((options) => ({
-      name: options.name,
-      requestId: options.generateRequestId(),
-      info: jest.fn().mockResolvedValue({ name: options.name }),
-      index: jest.fn().mockResolvedValue({}),
-      close: jest.fn().mockResolvedValue(undefined),
-    })),
+    Client: vi.fn().mockImplementation(function (options) {
+      return {
+        name: options.name,
+        requestId: options.generateRequestId(),
+        info: vi.fn().mockResolvedValue({ name: options.name }),
+        index: vi.fn().mockResolvedValue({}),
+        close: vi.fn().mockResolvedValue(undefined),
+      };
+    }),
   };
 });
 
 const elkIndexName = `test-elasticsearch`;
 
-jest.setTimeout(90000);
+vi.setConfig({ testTimeout: 90000 });
 describe('ElkModule', () => {
   let app: INestApplication;
   let elkService: ElkService;

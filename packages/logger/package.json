@@ -1,0 +1,57 @@
+{
+  "name": "@tresdoce-nestjs-toolkit/logger",
+  "version": "1.0.0-beta.0",
+  "description": "Tresdoce NestJS Toolkit - Módulo de logging estructurado con pino.",
+  "author": {
+    "name": "Maximiliano \"Mex\" Delgado",
+    "email": "mdelgado@tresdoce.com.ar",
+    "url": "https://rudemex.github.io/"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "keywords": [
+    "nestjs",
+    "logger"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tresdoce/tresdoce-nestjs-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tresdoce/tresdoce-nestjs-toolkit/issues"
+  },
+  "homepage": "https://github.com/tresdoce/tresdoce-nestjs-toolkit#readme",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf ../../dist/logger",
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/build-dist-package.mjs",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
+    "lint": "oxlint --type-aware src",
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "../../dist/logger"
+  },
+  "dependencies": {
+    "@nestjs/common": "^12.2.0",
+    "@nestjs/config": "^12.0.1",
+    "@nestjs/core": "^12.2.0",
+    "@nestjs/platform-express": "^12.2.0",
+    "@tresdoce-nestjs-toolkit/core": "^3.0.0-beta.0",
+    "@tresdoce-nestjs-toolkit/utils": "^3.0.0-beta.0",
+    "pino": "^10.4.0",
+    "pino-pretty": "^13.2.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@tresdoce-nestjs-toolkit/config": "^1.0.0-beta.0",
+    "@types/tresdoce-nestjs-toolkit": "^1.0.0-beta.0"
+  },
+  "type": "module"
+}
