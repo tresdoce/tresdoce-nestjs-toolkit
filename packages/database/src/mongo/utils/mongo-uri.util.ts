@@ -38,8 +38,8 @@ export const buildMongoUri = (options: MongoModuleOptions): string => {
   const queryString = buildQueryString(authSource, params);
   const querySegment = queryString ? `?${queryString}` : '';
   // The "/" before the query string is mandatory even without a database.
-  const databaseSegment =
-    database || queryString ? `/${database ? encodeUriComponent(database) : ''}` : '';
+  const databasePath = database ? encodeUriComponent(database) : '';
+  const databaseSegment = database || queryString ? `/${databasePath}` : '';
 
   return `${connection}://${buildCredentials(username, password)}${host}${portSegment}${databaseSegment}${querySegment}`;
 };

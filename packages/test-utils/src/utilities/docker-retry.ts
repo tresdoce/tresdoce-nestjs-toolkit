@@ -16,12 +16,12 @@ export interface DockerRetryOptions {
   onRetry?: (error: unknown, attempt: number) => Promise<void> | void;
 }
 
-const describeError = (error: unknown): string =>
-  error instanceof Error
-    ? `${error.message} ${(error as NodeJS.ErrnoException).code ?? ''}`
-    : typeof error === 'string'
-      ? error
-      : JSON.stringify(error);
+const describeError = (error: unknown): string => {
+  if (error instanceof Error)
+    return `${error.message} ${(error as NodeJS.ErrnoException).code ?? ''}`;
+  if (typeof error === 'string') return error;
+  return JSON.stringify(error);
+};
 
 /** True for transient Docker socket errors (`EPIPE`, `ECONNRESET`, `socket hang up`). */
 export const isTransientDockerError = (error: unknown): boolean =>
