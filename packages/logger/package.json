@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/logger",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0",
   "description": "Tresdoce NestJS Toolkit - Módulo de logging estructurado con pino.",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -42,16 +42,16 @@
     "@nestjs/config": "^12.0.1",
     "@nestjs/core": "^12.2.0",
     "@nestjs/platform-express": "^12.2.0",
-    "@tresdoce-nestjs-toolkit/core": "^3.0.0-beta.0",
-    "@tresdoce-nestjs-toolkit/utils": "^3.0.0-beta.0",
+    "@tresdoce-nestjs-toolkit/core": "^3.0.0",
+    "@tresdoce-nestjs-toolkit/utils": "^3.0.0",
     "pino": "^10.4.0",
     "pino-pretty": "^13.2.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^1.0.0-beta.0",
-    "@types/tresdoce-nestjs-toolkit": "^1.0.0-beta.0"
+    "@tresdoce-nestjs-toolkit/config": "^1.0.0",
+    "@types/tresdoce-nestjs-toolkit": "^1.0.0"
   },
   "type": "module"
 }

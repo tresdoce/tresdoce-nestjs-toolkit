@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/archetype",
-  "version": "3.0.0-beta.0",
+  "version": "3.0.0",
   "description": "Tresdoce NestJS Toolkit - Módulo informativo de la app",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -42,13 +42,13 @@
     "@nestjs/config": "^12.0.1",
     "@nestjs/core": "^12.2.0",
     "@nestjs/swagger": "^12.0.4",
-    "@tresdoce-nestjs-toolkit/core": "^3.0.0-beta.0",
+    "@tresdoce-nestjs-toolkit/core": "^3.0.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^1.0.0-beta.0",
-    "@types/tresdoce-nestjs-toolkit": "^1.0.0-beta.0"
+    "@tresdoce-nestjs-toolkit/config": "^1.0.0",
+    "@types/tresdoce-nestjs-toolkit": "^1.0.0"
   },
   "type": "module"
 }
