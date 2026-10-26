@@ -34,7 +34,7 @@ export class SnowflakeService {
   private static sequence: number = 0;
 
   constructor(@Inject(SNOWFLAKE_MODULE_OPTIONS) private readonly options: SnowFlakeOptions) {
-    const { epoch = DEFAULT_EPOCH, workerId, processId, asString, toString } = this.options;
+    const { epoch = DEFAULT_EPOCH, workerId, processId, asString } = this.options;
 
     if (!SnowflakeService.isInRange(workerId, MAX_WORKER_ID)) {
       throw new Error(`Worker ID must be between 0 and ${MAX_WORKER_ID}`);
@@ -47,13 +47,18 @@ export class SnowflakeService {
     this.EPOCH = SnowflakeService.toEpoch(epoch);
     this.workerId = workerId;
     this.processId = processId;
-    // `toString` is inherited from Object.prototype when omitted: only a real boolean counts.
-    this.asString =
-      typeof asString === 'boolean'
-        ? asString
-        : typeof toString === 'boolean'
-          ? toString
-          : DEFAULT_TO_STRING;
+    this.asString = SnowflakeService.resolveAsString(asString, this.options);
+  }
+
+  /**
+   * `asString` wins; the deprecated `toString` option is the fallback. `toString` is inherited
+   * from Object.prototype when omitted, so only a real boolean counts.
+   */
+  private static resolveAsString(asString: unknown, options: object): boolean {
+    if (typeof asString === 'boolean') return asString;
+    const legacyToString: unknown = (options as { toString?: unknown }).toString;
+    if (typeof legacyToString === 'boolean') return legacyToString;
+    return DEFAULT_TO_STRING;
   }
 
   generate(date: Date = new Date()): string | bigint {

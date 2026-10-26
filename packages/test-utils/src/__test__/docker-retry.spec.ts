@@ -35,6 +35,8 @@ describe('docker-retry', () => {
       [Object.assign(new Error('read'), { code: 'ECONNRESET' }), true],
       [new Error('socket hang up'), true],
       ['write EPIPE', true],
+      [{ code: 'EPIPE' }, true],
+      [{ reason: 'busy' }, false],
       [new Error('Conflict. The container name is already in use'), false],
       [new Error('pull access denied'), false],
     ])('should classify %s as %s', (error, expected) => {

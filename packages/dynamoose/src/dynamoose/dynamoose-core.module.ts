@@ -26,15 +26,16 @@ export function buildDynamoDBClientConfig(
   };
 }
 
+/** `local: true` uses the default DynamoDB Local endpoint; a string is used as is. */
+const resolveLocalEndpoint = (local: DynamooseModuleOptions['local']): string | undefined => {
+  if (typeof local === 'string') return local;
+  return local ? DYNAMOOSE_LOCAL_ENDPOINT : undefined;
+};
+
 export async function initialization(options?: DynamooseModuleOptions): Promise<void> {
   if (!options) return;
 
-  const endpoint =
-    typeof options.local === 'string'
-      ? options.local
-      : options.local
-        ? DYNAMOOSE_LOCAL_ENDPOINT
-        : undefined;
+  const endpoint = resolveLocalEndpoint(options.local);
 
   if (options.ddb) {
     dynamoose.aws.ddb.set(options.ddb);

@@ -45,6 +45,7 @@ interface KafkaAvroRequestSerializerTestAccess {
   lastSchemaFetchInterval: Map<string, number>;
   schemas: Map<string, KafkaSchemaMap>;
   registerSchema(schema: KafkaAvroRequestSerializerSchema): Promise<void | Error>;
+  ensureInitialized(): Promise<void>;
 }
 
 const asInternal = (serializer: KafkaAvroRequestSerializer): KafkaAvroRequestSerializerTestAccess =>
@@ -81,6 +82,7 @@ describe('KafkaAvroRequestSerializer', () => {
   });
 
   it('should handle schema registry errors', async () => {
+    await serializer.serialize({ topic: TOPIC_NAME, messages: { value: 'warm-up' } });
     asInternal(serializer).lastSchemaFetchInterval.clear();
     mockRegistry.getLatestSchemaId
       .mockResolvedValueOnce(1)
@@ -174,15 +176,16 @@ describe('KafkaAvroRequestSerializer', () => {
     ).rejects.toThrow('Error serializing: No Avro schema configured for topic unknownTopic');
   });
 
-  it('should log debug messages when debug mode is enabled', () => {
+  it('should log debug messages when debug mode is enabled', async () => {
     process.env.KAFKA_TEST_DEBUG = 'true';
 
-    new KafkaAvroRequestSerializer({
+    const lazy = new KafkaAvroRequestSerializer({
       schemas: [],
       config: { host: schemaRegistryHost },
       options: {},
     });
+    await asInternal(lazy).ensureInitialized();
 
-    expect(consoleLogSpy).toHaveBeenCalledWith('[kafka-serializer] constructor:initializeSchemas');
+    expect(consoleLogSpy).toHaveBeenCalledWith('[kafka-serializer] initializeSchemas:start');
   });
 });

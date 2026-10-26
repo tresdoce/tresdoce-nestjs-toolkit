@@ -103,31 +103,44 @@ export class AwsSqsListener implements OnModuleInit, OnModuleDestroy {
     const maxIterations: number = isTest ? 2 : Infinity;
 
     do {
-      try {
-        const messages: Message[] = await this.sqsService.receiveMessage(queueName);
-
-        if (messages.length > 0) {
-          for (const message of messages) {
-            try {
-              await handler(message);
-              if (message.ReceiptHandle) {
-                await this.sqsService.deleteMessage(queueName, message.ReceiptHandle);
-                this.logger.log(`Message deleted: ${message.MessageId}`);
-              }
-            } catch (error) {
-              this.logger.error(`Error processing message ${message.MessageId}: ${error.message}`);
-            }
-          }
-        } else {
-          this.logger.debug(`No messages received from ${queueName}.`);
-        }
-      } catch (error) {
-        this.logger.error(`Error polling queue ${queueName}: ${error.message}`);
-      }
-
+      await this.pollQueue(queueName, handler);
       if (isTest && ++iterationCount >= maxIterations) break;
       await this.delay(1000);
     } while (this.isListening);
+  }
+
+  /** Receives one batch from the queue and processes it; polling errors are logged. */
+  private async pollQueue(queueName: string, handler: AwsSqsHandler): Promise<void> {
+    try {
+      const messages: Message[] = await this.sqsService.receiveMessage(queueName);
+      if (messages.length === 0) {
+        this.logger.debug(`No messages received from ${queueName}.`);
+        return;
+      }
+      // One at a time, in order: FIFO queues rely on it.
+      for (const message of messages) {
+        await this.processMessage(queueName, message, handler);
+      }
+    } catch (error) {
+      this.logger.error(`Error polling queue ${queueName}: ${error.message}`);
+    }
+  }
+
+  /** Runs the handler and deletes the message only if it succeeded. */
+  private async processMessage(
+    queueName: string,
+    message: Message,
+    handler: AwsSqsHandler,
+  ): Promise<void> {
+    try {
+      await handler(message);
+      if (message.ReceiptHandle) {
+        await this.sqsService.deleteMessage(queueName, message.ReceiptHandle);
+        this.logger.log(`Message deleted: ${message.MessageId}`);
+      }
+    } catch (error) {
+      this.logger.error(`Error processing message ${message.MessageId}: ${error.message}`);
+    }
   }
 
   /**

@@ -7,11 +7,11 @@ import {
   LoggerService,
 } from '@nestjs/common';
 import { FormatService, RedactService } from '@tresdoce-nestjs-toolkit/utils';
-import * as path from 'path';
-import * as fs from 'fs';
+import * as path from 'node:path';
+import * as fs from 'node:fs';
 import pino from 'pino';
 import type { Request, Response } from 'express';
-import type { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
+import type { IncomingHttpHeaders, OutgoingHttpHeaders } from 'node:http';
 
 import {
   DEFAULT_BASE_GENERIC_LOG,
@@ -233,7 +233,7 @@ export class LoggingService implements LoggerService {
 
   /** Nest convention: the trailing string param is the context. */
   private static extractContext(optionalParams: unknown[]): string | undefined {
-    const last = optionalParams[optionalParams.length - 1];
+    const last = optionalParams.at(-1);
     return typeof last === 'string' ? last : undefined;
   }
 
@@ -271,7 +271,7 @@ export class LoggingService implements LoggerService {
       logger_name: packageInfo.name,
       logger_version: packageInfo.version,
       '@timestamp': this.formatService.dateToISO({
-        date: new Date(timestamp ? timestamp : Date.now()),
+        date: new Date(timestamp || Date.now()),
       }),
       log_level: loggingLevel.toUpperCase(),
       log_type: logType,
@@ -319,11 +319,10 @@ export class LoggingService implements LoggerService {
     responseLog.http_response_headers = response.getHeaders();
     /* istanbul ignore next */
     const responseContentType = String(responseLog.http_response_headers['content-type']);
-    responseLog.http_response_body = !this.excludeContentType.includes(responseContentType)
-      ? isException
-        ? LoggingService.getExceptionBody(body)
-        : body
-      : `The response body was excluded because of the content-type: ${responseContentType}`;
+    const responseBody = isException ? LoggingService.getExceptionBody(body) : body;
+    responseLog.http_response_body = this.excludeContentType.includes(responseContentType)
+      ? `The response body was excluded because of the content-type: ${responseContentType}`
+      : responseBody;
     responseLog.http_duration_ms = this.formatService.calculateTimestampDiff({
       startTime: timeRequest,
       endTime: Date.now(),
@@ -368,9 +367,9 @@ export class LoggingService implements LoggerService {
     jsonLog.span_id = jaegerIds[1] ?? '-';
     jsonLog.span_parent_id = jaegerIds[2] ?? '-';
     jsonLog['x-amzn-trace-id'] = tracingHeaderXray;
-    jsonLog.x_amzn_trace_id = (xRayIds[0] ?? '-').replace(/Root=/g, '');
-    jsonLog.x_amzn_paren_id = (xRayIds[1] ?? '-').replace(/Parent=/g, '');
-    jsonLog.x_amzn_sampled_id = (xRayIds[2] ?? '-').replace(/Sampled=/g, '');
+    jsonLog.x_amzn_trace_id = (xRayIds[0] ?? '-').replaceAll('Root=', '');
+    jsonLog.x_amzn_paren_id = (xRayIds[1] ?? '-').replaceAll('Parent=', '');
+    jsonLog.x_amzn_sampled_id = (xRayIds[2] ?? '-').replaceAll('Sampled=', '');
   }
 
   /* Redact Logs*/

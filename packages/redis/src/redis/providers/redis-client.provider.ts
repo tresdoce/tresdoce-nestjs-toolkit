@@ -25,8 +25,8 @@ export const buildRedisUrl = ({
   password,
   database,
 }: RedisOptions): string => {
-  const credentials =
-    username || password ? `${username ?? ''}${password ? `:${password}` : ''}@` : '';
+  const passwordSegment = password ? `:${password}` : '';
+  const credentials = username || password ? `${username ?? ''}${passwordSegment}@` : '';
   const db = database ? `/${database}` : '';
 
   return `${protocol}://${credentials}${host}:${port}${db}`;

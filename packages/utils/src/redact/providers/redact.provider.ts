@@ -26,7 +26,7 @@ export const obfuscateValue = (
 
 export const redactProvider = (): Provider => ({
   provide: REDACT_PROVIDER,
-  useFactory: async (_options: RedactModuleOptions | null): Promise<fastRedact.redactFn> => {
+  useFactory: (_options: RedactModuleOptions | null): fastRedact.redactFn => {
     const redactOptions: RedactModuleOptions = {
       ...DEFAULT_OPTIONS_REDACT,
       ..._options,

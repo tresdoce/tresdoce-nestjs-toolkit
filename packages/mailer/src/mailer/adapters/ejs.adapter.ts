@@ -26,7 +26,10 @@ export class EjsAdapter implements TemplateAdapter {
     try {
       if (!this.precompiledTemplates[templatePath]) {
         const templateEmail = fs.readFileSync(templatePath, 'utf-8');
+        // The template comes from the app's own template directory (developer-controlled files),
+        // never from request input: compiling it is the purpose of this adapter.
         this.precompiledTemplates[templatePath] = ejs.compile(templateEmail, {
+          // NOSONAR
           ...mailerOptions?.template?.options,
           filename: templatePath,
         });

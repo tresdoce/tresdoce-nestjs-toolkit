@@ -18,6 +18,12 @@ import { REQUEST_RECEIVED, RESPONSE_RECEIVED, SKIP_TRACE } from '../constants/tr
 import * as Tags from '../constants/tags.constant.js';
 import { buildIgnorePaths, isPathIgnored } from '../utils/tracing.util.js';
 
+/** Normalizes anything thrown by a handler into an `Error` for the span. */
+const toError = (value: unknown): Error => {
+  if (value instanceof Error) return value;
+  return new Error(typeof value === 'string' ? value : JSON.stringify(value));
+};
+
 @Injectable({ scope: Scope.REQUEST })
 export class TracingInterceptor implements NestInterceptor {
   constructor(
@@ -82,10 +88,7 @@ export class TracingInterceptor implements NestInterceptor {
         error: (_error: unknown) => {
           statusCode =
             _error instanceof HttpException ? _error.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
-          const error =
-            _error instanceof Error
-              ? _error
-              : new Error(typeof _error === 'string' ? _error : JSON.stringify(_error));
+          const error = toError(_error);
           span.recordException(error);
           span.setStatus({ code: SpanStatusCode.ERROR, message: error.message });
           span.setAttribute(Tags.ERROR, true);

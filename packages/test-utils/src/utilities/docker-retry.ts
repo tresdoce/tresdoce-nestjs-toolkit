@@ -19,7 +19,9 @@ export interface DockerRetryOptions {
 const describeError = (error: unknown): string =>
   error instanceof Error
     ? `${error.message} ${(error as NodeJS.ErrnoException).code ?? ''}`
-    : String(error);
+    : typeof error === 'string'
+      ? error
+      : JSON.stringify(error);
 
 /** True for transient Docker socket errors (`EPIPE`, `ECONNRESET`, `socket hang up`). */
 export const isTransientDockerError = (error: unknown): boolean =>
@@ -29,22 +31,21 @@ export const isTransientDockerError = (error: unknown): boolean =>
  * Runs `fn` and retries it when it fails with a transient Docker socket error.
  * Any other error is thrown right away.
  */
-export const retryOnTransientDockerError = async <T>(
+export const retryOnTransientDockerError = <T>(
   fn: () => Promise<T>,
   { attempts = 3, delayMs = 2000, onRetry }: DockerRetryOptions = {},
 ): Promise<T> => {
-  for (let attempt = 1; ; attempt++) {
-    try {
-      return await fn();
-    } catch (error) {
+  const run = (attempt: number): Promise<T> =>
+    fn().catch(async (error: unknown) => {
       if (attempt >= attempts || !isTransientDockerError(error)) throw error;
       console.warn(
         `🔁 Transient Docker error (${describeError(error).trim()}), retrying (${attempt}/${attempts - 1})...`,
       );
       await onRetry?.(error, attempt);
       await new Promise((resolve) => setTimeout(resolve, delayMs));
-    }
-  }
+      return run(attempt + 1);
+    });
+  return run(1);
 };
 
 /** Force-removes the container with that name, if it exists. */

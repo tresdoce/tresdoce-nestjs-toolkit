@@ -28,16 +28,16 @@ type QRDataGenerators = {
 /**
  * Escapa los caracteres especiales del formato `WIFI:` (`\\`, `;`, `,`, `:` y `"`).
  */
-const escapeWiFi = (_value: string): string => _value.replace(/([\\;,:"])/g, '\\$1');
+const escapeWiFi = (_value: string): string => _value.replace(/([\\;,:"])/g, String.raw`\$1`);
 
 /**
  * Escapa los caracteres especiales de un valor de texto vCard (RFC 6350) / iCalendar (RFC 5545).
  */
 const escapeText = (_value: string): string =>
   _value
-    .replace(/\\/g, '\\\\')
-    .replace(/([;,])/g, '\\$1')
-    .replace(/\r?\n/g, '\\n');
+    .replaceAll('\\', String.raw`\\`)
+    .replace(/([;,])/g, String.raw`\$1`)
+    .replace(/\r?\n/g, String.raw`\n`);
 
 @Injectable()
 export class QrCodeService {

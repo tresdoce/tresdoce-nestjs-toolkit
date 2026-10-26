@@ -41,9 +41,9 @@ export class ConsumerService implements OnModuleInit, OnModuleDestroy {
   private static readonly SEEK_RETRY_ATTEMPTS = 5;
   private static readonly SEEK_RETRY_DELAY_MS = 500;
   private static readonly GROUP_JOIN_TIMEOUT_MS = 5000;
-  private kafkaInstance: Kafka;
-  private admin: Admin;
-  private consumer: Consumer;
+  private readonly kafkaInstance: Kafka;
+  private readonly admin: Admin;
+  private readonly consumer: Consumer;
   private consumerConnected = false;
   private adminConnected = false;
   private consumerRunning = false;
@@ -214,46 +214,58 @@ export class ConsumerService implements OnModuleInit, OnModuleDestroy {
   }
 
   /**
-   * Suscribe el consumidor a todos los tópicos configurados utilizando los decoradores de suscripción.
+   * Suscribe el consumidor, en una sola llamada, a todos los tópicos registrados con `@SubscribeTo`.
    */
   private async subscribeToAllTopics(): Promise<void> {
-    for (const topic of SUBSCRIBER_MAP.keys()) {
-      await this.subscribe(topic);
-    }
-  }
-
-  /**
-   * Suscribe el consumidor a un tópico específico, con la opción de comenzar desde el inicio del tópico.
-   *
-   * @param {string} topic - El tópico al que suscribirse.
-   */
-  private async subscribe(topic: string): Promise<void> {
-    this.debugLog(`subscribe:start:${topic}`);
+    const topics = [...SUBSCRIBER_MAP.keys()];
+    this.debugLog(`subscribe:start:${topics.join(',')}`);
     await this.consumer.subscribe({
-      topic,
+      topics,
       fromBeginning: this.options?.subscribe?.fromBeginning || false,
     });
-    this.debugLog(`subscribe:done:${topic}`);
+    this.debugLog(`subscribe:done:${topics.join(',')}`);
   }
 
   /**
-   * Recupera y almacena los offsets de tópicos específicos a los que el consumidor está suscrito.
+   * Recupera y almacena, en paralelo, los offsets de los tópicos a los que el consumidor está suscrito.
    */
   private async getTopicOffsets(): Promise<void> {
-    const topics = SUBSCRIBER_MAP.keys();
-    for (const topic of topics) {
-      try {
-        this.debugLog(`getTopicOffsets:start:${topic}`);
-        const topicOffsets = await this.fetchTopicOffsetsWithRetry(topic);
-        this.topicOffsets.set(topic, topicOffsets);
-        this.debugLog(`getTopicOffsets:done:${topic}`);
-      } catch (error) {
-        /* istanbul ignore next */
-        throw new Error(
-          `Error fetching topic offset ${topic}: ${error instanceof Error ? error.message : String(error)}`,
-          { cause: error },
-        );
-      }
+    await Promise.all(
+      [...SUBSCRIBER_MAP.keys()].map(async (topic) => {
+        try {
+          this.debugLog(`getTopicOffsets:start:${topic}`);
+          const topicOffsets = await this.fetchTopicOffsetsWithRetry(topic);
+          this.topicOffsets.set(topic, topicOffsets);
+          this.debugLog(`getTopicOffsets:done:${topic}`);
+        } catch (error) {
+          /* istanbul ignore next */
+          throw new Error(
+            `Error fetching topic offset ${topic}: ${error instanceof Error ? error.message : String(error)}`,
+            { cause: error },
+          );
+        }
+      }),
+    );
+  }
+
+  /**
+   * Ejecuta `fn` y, si falla, la reintenta hasta `attempts` veces esperando `delayMs` entre intentos.
+   * Si todos los intentos fallan, lanza el último error.
+   */
+  private async withRetry<T>(
+    fn: (attempt: number) => Promise<T> | T,
+    attempts: number,
+    delayMs: number,
+    onError: (error: Error, attempt: number) => void,
+    attempt = 1,
+  ): Promise<T> {
+    try {
+      return await fn(attempt);
+    } catch (error) {
+      onError(error as Error, attempt);
+      if (attempt >= attempts) throw error;
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+      return this.withRetry(fn, attempts, delayMs, onError, attempt + 1);
     }
   }
 
@@ -263,30 +275,19 @@ export class ConsumerService implements OnModuleInit, OnModuleDestroy {
    * @param {string} topic - Tópico del que se desean consultar offsets.
    * @returns {Promise<(SeekEntry & { high: string; low: string })[]>} Offsets del tópico.
    */
-  private async fetchTopicOffsetsWithRetry(
+  private fetchTopicOffsetsWithRetry(
     topic: string,
   ): Promise<(SeekEntry & { high: string; low: string })[]> {
-    let lastError: Error = new Error(`Error fetching topic offset ${topic}`);
-
-    for (let attempt = 1; attempt <= ConsumerService.TOPIC_OFFSETS_RETRY_ATTEMPTS; attempt++) {
-      try {
+    return this.withRetry(
+      (attempt) => {
         this.debugLog(`fetchTopicOffsets:attempt:${topic}:${attempt}`);
-        return await this.admin.fetchTopicOffsets(topic);
-      } catch (error) {
-        lastError = error as Error;
-        this.debugLog(`fetchTopicOffsets:error:${topic}:${attempt}:${lastError.message}`);
-
-        if (attempt === ConsumerService.TOPIC_OFFSETS_RETRY_ATTEMPTS) {
-          break;
-        }
-
-        await new Promise((resolve) =>
-          setTimeout(resolve, ConsumerService.TOPIC_OFFSETS_RETRY_DELAY_MS),
-        );
-      }
-    }
-
-    throw lastError;
+        return this.admin.fetchTopicOffsets(topic);
+      },
+      ConsumerService.TOPIC_OFFSETS_RETRY_ATTEMPTS,
+      ConsumerService.TOPIC_OFFSETS_RETRY_DELAY_MS,
+      (error, attempt) =>
+        this.debugLog(`fetchTopicOffsets:error:${topic}:${attempt}:${error.message}`),
+    );
   }
 
   /**
@@ -360,61 +361,52 @@ export class ConsumerService implements OnModuleInit, OnModuleDestroy {
 
   /**
    * Busca en los tópicos específicos para ajustar el punto de inicio de la lectura de mensajes según una configuración o timestamp.
+   * Cada partición se ajusta por separado, así que todos los seeks corren en paralelo.
    */
   private async seekTopics(): Promise<void> {
-    for (const topic of Object.keys(this.options.seek)) {
-      const topicOffsets =
-        this.topicOffsets.get(topic) || (await this.fetchTopicOffsetsWithRetry(topic));
-
-      /* istanbul ignore next */
-      if (topicOffsets) {
-        const seekPoint = this.options.seek[topic];
-
-        for (const topicOffset of topicOffsets) {
-          let seek = String(seekPoint);
-
-          // Seek by timestamp
-          if (typeof seekPoint == 'object') {
-            const time = seekPoint;
-            seek = time.getTime().toString();
-          }
-
-          // Seek to the earliest timestamp.
-          if (seekPoint === 'earliest') {
-            seek = topicOffset.low;
-          }
-
-          await this.seekWithRetry(topic, topicOffset.partition, seek);
-        }
-      }
-    }
+    await Promise.all(Object.keys(this.options.seek).map((topic) => this.seekTopic(topic)));
   }
 
-  private async seekWithRetry(topic: string, partition: number, offset: string): Promise<void> {
-    let lastError: Error = new Error(`Error seeking topic ${topic}`);
+  private async seekTopic(topic: string): Promise<void> {
+    const topicOffsets =
+      this.topicOffsets.get(topic) || (await this.fetchTopicOffsetsWithRetry(topic));
 
-    for (let attempt = 1; attempt <= ConsumerService.SEEK_RETRY_ATTEMPTS; attempt++) {
-      try {
-        this.debugLog(`seek:attempt:${topic}:${partition}:${attempt}:${offset}`);
-        this.consumer.seek({
+    /* istanbul ignore next */
+    if (!topicOffsets) return;
+
+    const seekPoint = this.options.seek[topic];
+    await Promise.all(
+      topicOffsets.map((topicOffset) =>
+        this.seekWithRetry(
           topic,
-          partition,
-          offset,
-        });
+          topicOffset.partition,
+          this.resolveSeekOffset(seekPoint, topicOffset),
+        ),
+      ),
+    );
+  }
+
+  /** Offset para un seek: `earliest` es el offset más bajo; una fecha, su timestamp. */
+  private resolveSeekOffset(
+    seekPoint: number | 'earliest' | Date,
+    topicOffset: SeekEntry & { low: string },
+  ): string {
+    if (seekPoint === 'earliest') return topicOffset.low;
+    if (typeof seekPoint === 'object') return seekPoint.getTime().toString();
+    return String(seekPoint);
+  }
+
+  private seekWithRetry(topic: string, partition: number, offset: string): Promise<void> {
+    return this.withRetry(
+      (attempt) => {
+        this.debugLog(`seek:attempt:${topic}:${partition}:${attempt}:${offset}`);
+        this.consumer.seek({ topic, partition, offset });
         this.debugLog(`seek:done:${topic}:${partition}:${offset}`);
-        return;
-      } catch (error) {
-        lastError = error as Error;
-        this.debugLog(`seek:error:${topic}:${partition}:${attempt}:${lastError.message}`);
-
-        if (attempt === ConsumerService.SEEK_RETRY_ATTEMPTS) {
-          break;
-        }
-
-        await new Promise((resolve) => setTimeout(resolve, ConsumerService.SEEK_RETRY_DELAY_MS));
-      }
-    }
-
-    throw lastError;
+      },
+      ConsumerService.SEEK_RETRY_ATTEMPTS,
+      ConsumerService.SEEK_RETRY_DELAY_MS,
+      (error, attempt) =>
+        this.debugLog(`seek:error:${topic}:${partition}:${attempt}:${error.message}`),
+    );
   }
 }

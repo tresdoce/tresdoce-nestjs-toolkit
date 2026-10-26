@@ -44,9 +44,9 @@ export class KafkaAvroRequestSerializer implements Serializer<
   protected schemas: Map<string, KafkaSchemaMap> = new Map();
   protected separator: string;
   protected config: KafkaAvroRequestSerializerConfig;
-  private lastSchemaFetchInterval: Map<string, number> = new Map();
-  /** Registro inicial de esquemas (en background); `serialize()` lo espera antes de codificar. */
-  private readonly initialization: Promise<void>;
+  private readonly lastSchemaFetchInterval: Map<string, number> = new Map();
+  /** Registro inicial de esquemas; arranca en el primer `serialize()`, que lo espera antes de codificar. */
+  private initialization?: Promise<void>;
 
   private debugLog(message: string): void {
     if (process.env.KAFKA_TEST_DEBUG === 'true') {
@@ -65,15 +65,18 @@ export class KafkaAvroRequestSerializer implements Serializer<
       schemaFetchIntervalSeconds: 3600,
       ...options,
     };
+  }
 
-    this.debugLog('constructor:initializeSchemas');
-    // Constructors can't be async; schema initialization runs in the background. A failure here
-    // (e.g. registry not reachable at boot) must not become an unhandled rejection: the topic is
-    // registered again lazily on the first `serialize()` call.
-    // `registerSchema` always rejects with an `Error`.
-    this.initialization = this.initializeSchemas().catch((error: Error) => {
+  /**
+   * Starts the initial schema registration once and returns it. A failure (e.g. registry not
+   * reachable) is only logged: the topic is registered again by `updateSchemas()`.
+   * `registerSchema` always rejects with an `Error`.
+   */
+  private ensureInitialized(): Promise<void> {
+    this.initialization ??= this.initializeSchemas().catch((error: Error) => {
       this.debugLog(`initializeSchemas:error:${error.message}`);
     });
+    return this.initialization;
   }
 
   /**
@@ -81,10 +84,12 @@ export class KafkaAvroRequestSerializer implements Serializer<
    */
   private async initializeSchemas(): Promise<void> {
     this.debugLog('initializeSchemas:start');
-    for (const schema of this.config.schemas.values()) {
-      this.debugLog(`initializeSchemas:register:${schema.topic}`);
-      await this.registerSchema(schema);
-    }
+    await Promise.all(
+      [...this.config.schemas.values()].map((schema) => {
+        this.debugLog(`initializeSchemas:register:${schema.topic}`);
+        return this.registerSchema(schema);
+      }),
+    );
     this.debugLog('initializeSchemas:done');
   }
 
@@ -196,6 +201,16 @@ export class KafkaAvroRequestSerializer implements Serializer<
   }
 
   /**
+   * Encodes a key or value with its schema. Without a schema id the field goes out as is;
+   * an empty field stays `null`.
+   */
+  private async encodeField<T>(schemaId: number | null, field: T): Promise<T | Buffer | null> {
+    if (!schemaId) return field;
+    if (!field) return null;
+    return this.registry.encode(schemaId, field);
+  }
+
+  /**
    * Serializa los mensajes utilizando los esquemas Avro registrados.
    * Encapsula los detalles de codificación, asegurando que los mensajes estén listos para ser enviados a Kafka.
    *
@@ -208,25 +223,15 @@ export class KafkaAvroRequestSerializer implements Serializer<
       : [data.messages];
 
     try {
-      await this.initialization;
+      await this.ensureInitialized();
       await this.updateSchemas(data.topic);
       const { keyId, valueId } = this.schemas.get(data.topic);
 
       const messages: Promise<KafkaMessage>[] = incomingMessages.map(
         async (origMessage: KafkaMessage) => {
-          /* istanbul ignore next */
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- origMessage.key is intentionally `any` (see KafkaMessage.key).
-          const encodedKey = keyId
-            ? origMessage.key
-              ? await this.registry.encode(keyId, origMessage.key)
-              : null
-            : origMessage.key;
-          /* istanbul ignore next */
-          const encodedValue = valueId
-            ? origMessage.value
-              ? await this.registry.encode(valueId, origMessage.value)
-              : null
-            : origMessage.value;
+          const encodedKey = await this.encodeField(keyId, origMessage.key);
+          const encodedValue = await this.encodeField(valueId, origMessage.value);
 
           return {
             ...origMessage,

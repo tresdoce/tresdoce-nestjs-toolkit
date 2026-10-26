@@ -5,7 +5,7 @@ import { EAppStage, ESkipHealthChecks } from '../typings/index.js';
 export const validateSchemaJoi = (validationSchema: object, input: any) => {
   const result = Joi.object(validationSchema).validate(input);
   if (result.error) {
-    throw Error(result.error.message);
+    throw new Error(result.error.message);
   }
   return result.value;
 };
@@ -27,8 +27,7 @@ const validateSkipHealthChecksType = (_skipHealthChecks: string, _helpers: any) 
   return _skipHealthChecks;
 };
 
-/** @deprecated Usá la versión Zod sin sufijo `Joi` (`baseValidationSchema`); Joi se quitará en una próxima major. */
-export const baseValidationSchemaJoi = {
+const joiBaseShape = {
   NODE_ENV: Joi.string().required(),
   APP_STAGE: Joi.any().required().custom(validateAdditionType, 'APP_STAGE validation'),
   PORT: Joi.number().required(),
@@ -71,18 +70,23 @@ export const validationSchemaCsrfJoi = {
   }),
 };
 
-/** @deprecated Usá la versión Zod sin sufijo `Joi` (`baseValidationSchemaApp`); Joi se quitará en una próxima major. */
-export const baseValidationSchemaAppJoi = {
-  ...baseValidationSchemaJoi,
+/** @deprecated Usá la versión Zod sin sufijo `Joi` (`baseValidationSchema`); Joi se quitará en una próxima major. */
+export const baseValidationSchemaJoi = joiBaseShape;
+
+const joiBaseAppShape = {
+  ...joiBaseShape,
   TRACING_ENDPOINT: Joi.string().optional(),
   TRACING_AUTH_TOKEN: Joi.string().optional(),
   TRACING_IGNORE_PATHS: Joi.string().optional(),
 };
 
+/** @deprecated Usá la versión Zod sin sufijo `Joi` (`baseValidationSchemaApp`); Joi se quitará en una próxima major. */
+export const baseValidationSchemaAppJoi = joiBaseAppShape;
+
 /** @deprecated Usá la versión Zod sin sufijo `Joi` (`validateSchemaForApp`); Joi se quitará en una próxima major. */
 export const validateSchemaForAppJoi = (_validationSchema: object = {}) => {
   return Joi.object({
-    ...baseValidationSchemaAppJoi,
+    ...joiBaseAppShape,
     ..._validationSchema,
   });
 };
