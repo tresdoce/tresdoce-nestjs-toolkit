@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/database",
-  "version": "0.0.0",
+  "version": "1.0.0-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo de conexión a MongoDB.",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -48,8 +48,8 @@
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.5",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.3"
+    "@tresdoce-nestjs-toolkit/config": "^1.0.0-beta.0",
+    "@types/tresdoce-nestjs-toolkit": "^1.0.0-beta.0"
   },
   "type": "module"
 }

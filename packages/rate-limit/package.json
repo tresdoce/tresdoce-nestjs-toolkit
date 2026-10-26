@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/rate-limit",
-  "version": "0.2.13",
+  "version": "1.0.0-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo para limitar los requests por segundo a los controllers",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -47,8 +47,8 @@
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.5",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.3"
+    "@tresdoce-nestjs-toolkit/config": "^1.0.0-beta.0",
+    "@types/tresdoce-nestjs-toolkit": "^1.0.0-beta.0"
   },
   "type": "module"
 }

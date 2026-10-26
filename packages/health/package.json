@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/health",
-  "version": "2.0.14",
+  "version": "3.0.0-beta.0",
   "description": "Tresdoce NestJS Toolkit - Módulo health checks liveness y readiness",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -47,8 +47,8 @@
     "@nestjs/swagger": "^12.0.4",
     "@nestjs/terminus": "^12.1.0",
     "@nestjs/typeorm": "^12.0.2",
-    "@tresdoce-nestjs-toolkit/core": "^2.1.0",
-    "@tresdoce-nestjs-toolkit/tracing": "^2.0.13",
+    "@tresdoce-nestjs-toolkit/core": "^3.0.0-beta.0",
+    "@tresdoce-nestjs-toolkit/tracing": "^3.0.0-beta.0",
     "ioredis": "^6.0.0",
     "lodash": "^4.18.1",
     "reflect-metadata": "^0.2.2",
@@ -56,8 +56,8 @@
     "typeorm": "^1.1.2"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.5",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.3"
+    "@tresdoce-nestjs-toolkit/config": "^1.0.0-beta.0",
+    "@types/tresdoce-nestjs-toolkit": "^1.0.0-beta.0"
   },
   "type": "module"
 }

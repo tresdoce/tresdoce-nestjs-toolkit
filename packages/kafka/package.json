@@ -1,7 +1,7 @@
 {
   "name": "@tresdoce-nestjs-toolkit/kafka",
   "description": "Tresdoce NestJS Toolkit - Módulo de mensajería y streaming de eventos para la transferencia de datos en tiempo real entre aplicaciones y sistemas distribuidos.",
-  "version": "0.0.0",
+  "version": "1.0.0-beta.0",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
     "email": "mdelgado@tresdoce.com.ar",
@@ -50,8 +50,8 @@
   },
   "devDependencies": {
     "@testcontainers/kafka": "^12.2.1",
-    "@tresdoce-nestjs-toolkit/config": "^0.5.5",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.3"
+    "@tresdoce-nestjs-toolkit/config": "^1.0.0-beta.0",
+    "@types/tresdoce-nestjs-toolkit": "^1.0.0-beta.0"
   },
   "type": "module"
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tresdoce-nestjs-toolkit/commons",
-  "version": "1.4.6",
+  "version": "2.0.0-beta.0",
   "description": "Tresdoce NestJS Toolkit - Configuraciones compartidas (Vitest y oxlint)",
   "author": {
     "name": "Maximiliano \"Mex\" Delgado",
@@ -43,14 +43,14 @@
     "vitest-sonar-reporter": "^3.0.0"
   },
   "devDependencies": {
-    "@tresdoce-nestjs-toolkit/config": "^0.5.5",
-    "@types/tresdoce-nestjs-toolkit": "^0.3.3"
+    "@tresdoce-nestjs-toolkit/config": "^1.0.0-beta.0",
+    "@types/tresdoce-nestjs-toolkit": "^1.0.0-beta.0"
   },
   "type": "module",
   "peerDependencies": {
-    "vitest": "^5.0.0",
     "oxlint": ">=1.0.0",
-    "oxlint-tsgolint": ">=7.0.0"
+    "oxlint-tsgolint": ">=7.0.0",
+    "vitest": "^5.0.0"
   },
   "peerDependenciesMeta": {
     "oxlint": {
