@@ -1,7 +1,7 @@
 import * as DynamoDB from '@aws-sdk/client-dynamodb';
-import { Condition, ConditionFunction, ConditionInitializer } from 'dynamoose/dist/Condition';
-import { SortOrder } from 'dynamoose/dist/General';
-import { PopulateSettings } from 'dynamoose/dist/Populate';
+import { Condition, ConditionFunction, ConditionInitializer } from 'dynamoose/dist/Condition.js';
+import { SortOrder } from 'dynamoose/dist/General.js';
+import { PopulateSettings } from 'dynamoose/dist/Populate.js';
 
 type OptionalOmit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>> &
   Partial<Pick<T, Extract<keyof T, K>>>;
@@ -419,7 +419,7 @@ export type ConditionTransaction<Key> = (
 ) => ConditionTransactionResult;
 
 type TransactionType<Data, Key> = {
-  get: GetTransaction<Data>;
+  get: GetTransaction<Key>;
   create: CreateTransaction<Data>;
   delete: DeleteTransaction<Key>;
   update: UpdateTransaction<Key, Data>;

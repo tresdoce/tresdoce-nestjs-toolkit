@@ -1,40 +1,59 @@
 import { Inject, Injectable } from '@nestjs/common';
-import {
+import type {
   Snowflake,
   SnowFlakeOptions,
   SnowflakeParseResult,
-} from '../interfaces/snowflake.interface';
+} from '../interfaces/snowflake.interface.js';
 import {
-  MAX_WORKER_ID,
+  DEFAULT_EPOCH,
+  DEFAULT_TO_STRING,
   MAX_PROCESS_ID,
+  MAX_TIMESTAMP_OFFSET,
+  MAX_WORKER_ID,
+  PROCESS_ID_BITS,
+  SEQUENCE_BITS,
   SEQUENCE_MASK,
   SNOWFLAKE_MODULE_OPTIONS,
-} from '../constants/snowflake.constant';
+} from '../constants/snowflake.constant.js';
+
+const PROCESS_ID_SHIFT = BigInt(SEQUENCE_BITS); // 12
+const WORKER_ID_SHIFT = BigInt(SEQUENCE_BITS + PROCESS_ID_BITS); // 17
+const TIMESTAMP_SHIFT = WORKER_ID_SHIFT + 5n; // 22
+const NODE_MASK = 0x1fn;
 
 @Injectable()
 export class SnowflakeService {
   private readonly EPOCH: bigint;
   private readonly workerId: number;
   private readonly processId: number;
-  private readonly toString: boolean;
+  // Not named `toString`: an own boolean `toString` property shadows Object.prototype.toString
+  // and makes `String(service)` / template literals throw.
+  private readonly asString: boolean;
+  // Shared by every instance in the process so two instances never emit the same ID.
   private static lastTimestamp: bigint = -1n;
   private static sequence: number = 0;
 
   constructor(@Inject(SNOWFLAKE_MODULE_OPTIONS) private readonly options: SnowFlakeOptions) {
-    const { epoch, workerId, processId, toString } = this.options;
+    const { epoch = DEFAULT_EPOCH, workerId, processId, asString, toString } = this.options;
 
-    if (workerId === undefined || workerId < 0 || workerId > MAX_WORKER_ID) {
+    if (!SnowflakeService.isInRange(workerId, MAX_WORKER_ID)) {
       throw new Error(`Worker ID must be between 0 and ${MAX_WORKER_ID}`);
     }
 
-    if (processId === undefined || processId < 0 || processId > MAX_PROCESS_ID) {
+    if (!SnowflakeService.isInRange(processId, MAX_PROCESS_ID)) {
       throw new Error(`Process ID must be between 0 and ${MAX_PROCESS_ID}`);
     }
 
-    this.EPOCH = epoch;
+    this.EPOCH = SnowflakeService.toEpoch(epoch);
     this.workerId = workerId;
     this.processId = processId;
-    this.toString = toString;
+    // `toString` is inherited from Object.prototype when omitted: only a real boolean counts.
+    this.asString =
+      typeof asString === 'boolean'
+        ? asString
+        : typeof toString === 'boolean'
+          ? toString
+          : DEFAULT_TO_STRING;
   }
 
   generate(date: Date = new Date()): string | bigint {
@@ -45,12 +64,13 @@ export class SnowflakeService {
     }
 
     if (timestamp < SnowflakeService.lastTimestamp) {
-      throw new Error('Invalid system clock');
+      throw new Error(
+        `Invalid system clock: clock moved backwards ${SnowflakeService.lastTimestamp - timestamp}ms`,
+      );
     }
 
     if (timestamp === SnowflakeService.lastTimestamp) {
       SnowflakeService.sequence = (SnowflakeService.sequence + 1) & SEQUENCE_MASK;
-      /* istanbul ignore next */
       if (SnowflakeService.sequence === 0) {
         timestamp = this.waitUntilNextMillis(SnowflakeService.lastTimestamp);
       }
@@ -58,63 +78,71 @@ export class SnowflakeService {
       SnowflakeService.sequence = 0;
     }
 
+    const timestampOffset: bigint = timestamp - this.EPOCH;
+    if (timestampOffset > MAX_TIMESTAMP_OFFSET) {
+      throw new Error('Invalid system clock: timestamp exceeds the 41-bit range of the epoch');
+    }
+
     SnowflakeService.lastTimestamp = timestamp;
 
-    const timestampOffset: bigint = timestamp - this.EPOCH;
     const id: bigint =
-      (timestampOffset << 22n) |
-      (BigInt(this.workerId) << 17n) |
-      (BigInt(this.processId) << 12n) |
+      (timestampOffset << TIMESTAMP_SHIFT) |
+      (BigInt(this.workerId) << WORKER_ID_SHIFT) |
+      (BigInt(this.processId) << PROCESS_ID_SHIFT) |
       BigInt(SnowflakeService.sequence);
 
-    return this.toString ? id.toString() : id;
+    return this.asString ? id.toString() : id;
   }
 
+  /**
+   * Checks that the value is a positive integer whose timestamp is after the epoch and not in the future.
+   * Worker, process and sequence are fixed-width bit fields, so any value they hold is valid.
+   */
   isSnowflake(id: string | bigint): id is Snowflake {
     try {
-      const idBigInt = BigInt(id.toString());
-
-      const timestamp = (idBigInt >> 22n) + this.EPOCH;
-      if (timestamp <= this.EPOCH || timestamp > BigInt(Date.now())) {
-        return false;
-      }
-
-      const workerId = Number((idBigInt >> 17n) & 0x1fn);
-      /* istanbul ignore next */
-      if (workerId < 0 || workerId > MAX_WORKER_ID) {
-        return false;
-      }
-
-      const processId = Number((idBigInt >> 12n) & 0x1fn);
-      /* istanbul ignore next */
-      if (processId < 0 || processId > MAX_PROCESS_ID) {
-        return false;
-      }
-
-      const sequence = Number(idBigInt & BigInt(SEQUENCE_MASK));
-      return sequence >= 0 && sequence <= SEQUENCE_MASK;
+      const timestamp = (BigInt(id) >> TIMESTAMP_SHIFT) + this.EPOCH;
+      return timestamp > this.EPOCH && timestamp <= BigInt(Date.now());
     } catch {
-      /* istanbul ignore next */
       return false;
     }
   }
 
   parse(snowflake: string | bigint): SnowflakeParseResult {
     const id = BigInt(snowflake);
-    const timestamp: number = Number((id >> 22n) + this.EPOCH);
-    const workerId: number = Number((id & 0x3e0000n) >> 17n);
-    const processId: number = Number((id & 0x1f000n) >> 12n);
-    const increment: number = Number(id & 0xfffn);
+    const timestamp: number = Number((id >> TIMESTAMP_SHIFT) + this.EPOCH);
+    const workerId: number = Number((id >> WORKER_ID_SHIFT) & NODE_MASK);
+    const processId: number = Number((id >> PROCESS_ID_SHIFT) & NODE_MASK);
+    const increment: number = Number(id & BigInt(SEQUENCE_MASK));
 
     return { timestamp, workerId, processId, increment };
   }
 
   private waitUntilNextMillis(lastTimestamp: bigint): bigint {
     let timestamp: bigint = BigInt(Date.now());
+    // The ms was given explicitly and is ahead of the clock: spinning would block until then.
+    if (timestamp < lastTimestamp) {
+      return lastTimestamp + 1n;
+    }
     while (timestamp <= lastTimestamp) {
-      /* istanbul ignore next */
       timestamp = BigInt(Date.now());
     }
     return timestamp;
+  }
+
+  private static isInRange(value: number | undefined, max: number): value is number {
+    return value !== undefined && Number.isInteger(value) && value >= 0 && value <= max;
+  }
+
+  private static toEpoch(epoch: bigint | number | string): bigint {
+    let value: bigint;
+    try {
+      value = BigInt(epoch);
+    } catch {
+      value = -1n;
+    }
+    if (value < 0n) {
+      throw new Error('Epoch must be a non-negative integer number of milliseconds');
+    }
+    return value;
   }
 }

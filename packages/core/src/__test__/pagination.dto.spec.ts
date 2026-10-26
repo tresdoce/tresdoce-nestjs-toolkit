@@ -1,7 +1,11 @@
-import { PaginationParamsDto } from '../decorators';
+import { PaginationParamsDto } from '../decorators/index.js';
 import { validate } from '@nestjs/class-validator';
 import { plainToClass } from '@nestjs/class-transformer';
-import { DEFAULT_SIZE, DEFAULT_PAGE, MAX_SIZE } from '../decorators/constants/pagination.constant';
+import {
+  DEFAULT_SIZE,
+  DEFAULT_PAGE,
+  MAX_SIZE,
+} from '../decorators/constants/pagination.constant.js';
 
 describe('PaginationParamsDto', () => {
   it('should validate a valid DTO', async () => {

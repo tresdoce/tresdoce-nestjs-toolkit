@@ -1,21 +1,22 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { RedisService } from '@tresdoce-nestjs-toolkit/redis';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'node:crypto';
 
 import {
   AUTH_MODULE_OPTIONS,
+  DEFAULT_ACCESS_TOKEN_TTL,
+  DEFAULT_JWT_ALGORITHM,
   REFRESH_TOKEN_PREFIX,
   REFRESH_TOKEN_USER_INDEX_PREFIX,
-} from '../constants/auth.constants';
-import {
+} from '../constants/auth.constants.js';
+import type {
   AuthModuleOptions,
   IAuthTokens,
   IAuthenticatedUser,
   IJwtPayload,
-} from '../interfaces/auth.interface';
+} from '../interfaces/auth.interface.js';
 
-const DEFAULT_ACCESS_TOKEN_TTL = '15m';
 const DEFAULT_REFRESH_TOKEN_TTL_SECONDS = 60 * 60 * 24 * 7;
 
 interface IStoredRefreshToken {
@@ -50,6 +51,7 @@ export class TokenService {
       secret: this.options.jwtSecret,
       expiresIn: (this.options.accessTokenTtl ??
         DEFAULT_ACCESS_TOKEN_TTL) as JwtSignOptions['expiresIn'],
+      algorithm: this.options.algorithm ?? DEFAULT_JWT_ALGORITHM,
     });
   }
 
@@ -59,7 +61,7 @@ export class TokenService {
    */
   public async generateTokens(user: IAuthenticatedUser): Promise<IAuthTokens> {
     const accessToken = this.signAccessToken(user);
-    const refreshToken = uuidv4();
+    const refreshToken = randomUUID();
     const stored: IStoredRefreshToken = { userId: user.id, email: user.email, roles: user.roles };
 
     await this.redisService.set(
@@ -67,7 +69,10 @@ export class TokenService {
       stored,
       this.refreshTokenTtlSeconds,
     );
-    await this.redisService.clientRef.sAdd(this.userIndexKey(user.id), refreshToken);
+    const indexKey = this.userIndexKey(user.id);
+    await this.redisService.clientRef.sAdd(indexKey, refreshToken);
+    // El índice vive lo mismo que el refresh token más reciente, así no queda huérfano en Redis.
+    await this.redisService.clientRef.expire(indexKey, this.refreshTokenTtlSeconds);
 
     return { accessToken, refreshToken };
   }
@@ -75,16 +80,17 @@ export class TokenService {
   /**
    * Rota el refresh token: el token presentado se invalida (uso único) y se
    * emite un par nuevo. Si el token no existe o ya fue usado/revocado, rechaza.
+   * Solo el request que efectivamente borra la key gana la rotación: dos canjes
+   * concurrentes del mismo token no emiten dos pares.
    */
   public async refreshTokens(refreshToken: string): Promise<IAuthTokens> {
-    const stored = (await this.redisService.get(
-      this.refreshTokenKey(refreshToken),
-    )) as IStoredRefreshToken | null;
-    if (!stored) {
+    const key = this.refreshTokenKey(refreshToken);
+    const stored = (await this.redisService.get(key)) as IStoredRefreshToken | null;
+    if (!stored || !(await this.redisService.del(key))) {
       throw new UnauthorizedException('Invalid or expired refresh token');
     }
 
-    await this.revokeRefreshToken(refreshToken, stored.userId);
+    await this.redisService.clientRef.sRem(this.userIndexKey(stored.userId), refreshToken);
 
     return this.generateTokens({ id: stored.userId, email: stored.email, roles: stored.roles });
   }

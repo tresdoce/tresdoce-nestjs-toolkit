@@ -2,8 +2,18 @@
   "name": "@tresdoce-nestjs-toolkit/config",
   "private": true,
   "version": "0.5.5",
+  "type": "module",
+  "exports": {
+    ".": "./tsconfig.json",
+    "./tsconfig.json": "./tsconfig.json",
+    "./vitest": "./vitest.config.base.ts",
+    "./vitest.setup": "./vitest.setup.ts"
+  },
   "scripts": {
     "tests": "echo \"Error: no test specified\"",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
+  },
+  "devDependencies": {
+    "magic-string": "^1.4.3"
   }
 }

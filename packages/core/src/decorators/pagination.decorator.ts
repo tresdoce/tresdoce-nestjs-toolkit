@@ -1,7 +1,8 @@
 import { createParamDecorator, ExecutionContext, BadRequestException } from '@nestjs/common';
-import { Request } from 'express';
-import { MAX_SIZE, DEFAULT_SIZE, DEFAULT_PAGE } from './constants/pagination.constant';
-import { HttpArgumentsHost } from '@nestjs/common/interfaces';
+import type { Request } from 'express';
+import { MAX_SIZE, DEFAULT_SIZE, DEFAULT_PAGE } from './constants/pagination.constant.js';
+
+type HttpArgumentsHost = ReturnType<import('@nestjs/common').ExecutionContext['switchToHttp']>;
 
 /**
  * Interface representing pagination parameters.

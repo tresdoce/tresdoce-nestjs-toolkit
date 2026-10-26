@@ -1,35 +1,30 @@
-import { LoggerService } from '@nestjs/common';
+import type { LoggerService } from '@nestjs/common';
 
-type Message = {
+export type DynamooseLogMessage = {
   level: 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace';
-  category: string;
+  category?: string;
   message: string;
 };
 
 export class LoggerProvider {
   constructor(private readonly logger: LoggerService) {}
-  /* istanbul ignore next */
-  log(message: Message): void {
-    let method: (message: string) => void;
+
+  log(message: DynamooseLogMessage): void {
+    const text = message.category ? `${message.category} - ${message.message}` : message.message;
+
     switch (message.level) {
       case 'fatal':
+        return this.logger.fatal ? this.logger.fatal(text) : this.logger.error(text);
       case 'error':
-        method = this.logger.error;
-        break;
+        return this.logger.error(text);
       case 'warn':
-        method = this.logger.warn;
-        break;
-      case 'info':
-        method = this.logger.log;
-        break;
+        return this.logger.warn(text);
       case 'debug':
+        return this.logger.debug ? this.logger.debug(text) : this.logger.log(text);
       case 'trace':
-        method = this.logger.log;
-        break;
+        return this.logger.verbose ? this.logger.verbose(text) : this.logger.log(text);
+      default:
+        return this.logger.log(text);
     }
-
-    method.bind(this.logger)(
-      message.category ? `${message.category} - ${message.message}` : message.message,
-    );
   }
 }

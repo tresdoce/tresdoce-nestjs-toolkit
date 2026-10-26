@@ -1,32 +1,50 @@
 import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
-import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { ConfigService } from '@nestjs/config';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Request, Response } from 'express';
-import _ from 'lodash';
+import type { Request, Response } from 'express';
+
+/**
+ * Respuesta transformada por el interceptor: los arrays se envuelven en `{ data }`,
+ * cualquier otro valor se devuelve sin cambios.
+ */
+export type ParsedResponse<T> = T extends readonly unknown[] ? { data: T } : T;
 
 @Injectable()
-export class ResponseInterceptor<T> implements NestInterceptor<T, any> {
-  constructor(private configService: ConfigService) {}
+export class ResponseInterceptor<T = any> implements NestInterceptor<T, ParsedResponse<T>> {
+  constructor(private readonly configService: ConfigService) {}
 
-  intercept(_context: ExecutionContext, _next: CallHandler): Observable<any> {
-    const ctx: HttpArgumentsHost = _context.switchToHttp();
-    const request: Request = ctx.getRequest<Request>();
-    const response: Response = ctx.getResponse<Response>();
-    const propagateHeadersList = this.configService.get('config.server.propagateHeaders') || [];
-
-    for (const propagateHeader of propagateHeadersList) {
-      const headerName = propagateHeader.trim().toLowerCase();
-      if (request.headers[headerName]) {
-        response.setHeader(headerName, request.headers[headerName]);
-      }
+  intercept(context: ExecutionContext, next: CallHandler<T>): Observable<ParsedResponse<T>> {
+    // Los headers sólo existen en contextos HTTP (en RPC/WS/GraphQL no hay request de Express).
+    if (context.getType() === 'http') {
+      this.propagateHeaders(context);
     }
 
-    return _next.handle().pipe(
-      map((_res) => {
-        return _.isArray(_res) ? { data: _res } : _res;
-      }),
-    );
+    return next
+      .handle()
+      .pipe(map((res) => (Array.isArray(res) ? { data: res } : res) as ParsedResponse<T>));
+  }
+
+  private getPropagateHeaders(): string[] {
+    const value = this.configService.get<string[] | string>('config.server.propagateHeaders');
+    if (typeof value === 'string') return value.split(',');
+    return Array.isArray(value) ? value : [];
+  }
+
+  private propagateHeaders(context: ExecutionContext): void {
+    const propagateHeadersList = this.getPropagateHeaders();
+    if (propagateHeadersList.length === 0) return;
+
+    const ctx = context.switchToHttp();
+    const request = ctx.getRequest<Request>();
+    const response = ctx.getResponse<Response>();
+
+    for (const propagateHeader of propagateHeadersList) {
+      const headerName = `${propagateHeader}`.trim().toLowerCase();
+      const headerValue = headerName ? request.headers[headerName] : undefined;
+      if (headerValue) {
+        response.setHeader(headerName, headerValue);
+      }
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { corePathsExcludes, excludePaths, corePathsExcludesGlobs } from '../index';
+import { corePathsExcludes, excludePaths, corePathsExcludesGlobs } from '../index.js';
 import { RequestMethod } from '@nestjs/common';
 
 describe('commons', () => {

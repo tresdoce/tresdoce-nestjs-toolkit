@@ -6,14 +6,23 @@ import {
   DEFAULT_LOCALE,
   DEFAULT_OPTIONS_CALCULATE_TIMESTAMP_DIFF,
   DEFAULT_TIMEZONE,
-} from '../constants/format.constant';
+} from '../constants/format.constant.js';
 import {
   CalculateTimestampDiffOptions,
   FormatDateOptions,
   FormatNumberOptions,
   ISOFormatDateOptions,
   TimeSuffixes,
-} from '../interfaces/format.interface';
+  type TimestampDiffOptions,
+} from '../interfaces/format.interface.js';
+
+/**
+ * ICU (Node 20+/22+) usa espacios especiales: NO-BREAK SPACE (U+00A0) y NARROW NO-BREAK SPACE
+ * (U+202F) en separadores de miles, monedas y meridianos (`a. m.`, `12:00 AM`).
+ * Se normalizan a un espacio común para que la salida sea estable entre versiones de Node/ICU.
+ */
+const ICU_SPACES_REGEX = /[\u00A0\u202F]/g;
+const normalizeSpaces = (value: string): string => value.replace(ICU_SPACES_REGEX, ' ');
 
 @Injectable()
 export class FormatService {
@@ -24,14 +33,14 @@ export class FormatService {
    */
   public formatNumber(_options: FormatNumberOptions): string {
     const { num, locale = DEFAULT_LOCALE, formatOptions } = _options;
-    return new Intl.NumberFormat(locale, formatOptions).format(num).replace(/\u00A0/g, ' ');
+    return normalizeSpaces(new Intl.NumberFormat(locale, formatOptions).format(num));
   }
 
   /**
    * @Descripción: Return luxon DateTime instance
    * @return: DateTime
    */
-  public dateTimeRef() {
+  public dateTimeRef(): typeof DateTime {
     return DateTime;
   }
 
@@ -47,10 +56,12 @@ export class FormatService {
       timezone = DEFAULT_TIMEZONE,
       locale = DEFAULT_LOCALE,
     } = _options;
-    return this.dateTimeRef()
-      .fromJSDate(date, { zone: timezone })
-      .setLocale(locale)
-      .toFormat(formatDate);
+    return normalizeSpaces(
+      this.dateTimeRef()
+        .fromJSDate(date, { zone: timezone })
+        .setLocale(locale)
+        .toFormat(formatDate),
+    );
   }
 
   /**
@@ -70,11 +81,14 @@ export class FormatService {
    */
   public calculateTimestampDiff(_options: CalculateTimestampDiffOptions): number | string {
     const { startTime, endTime, options } = _options;
-    const diffOptions = { ...DEFAULT_OPTIONS_CALCULATE_TIMESTAMP_DIFF, ...options };
+    const diffOptions: Required<TimestampDiffOptions> = {
+      unit: options?.unit ?? DEFAULT_OPTIONS_CALCULATE_TIMESTAMP_DIFF.unit,
+      addSuffix: options?.addSuffix ?? DEFAULT_OPTIONS_CALCULATE_TIMESTAMP_DIFF.addSuffix,
+    };
 
     const start = this.dateTimeRef().fromMillis(startTime);
     const end = this.dateTimeRef().fromMillis(endTime);
-    const duration = end.diff(start).as(diffOptions.unit as any);
+    const duration = end.diff(start).as(diffOptions.unit);
     return diffOptions.addSuffix ? `${duration}${TimeSuffixes[diffOptions.unit]}` : duration;
   }
 }

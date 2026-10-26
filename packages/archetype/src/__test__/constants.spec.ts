@@ -1,5 +1,5 @@
 import { RequestMethod } from '@nestjs/common';
-import { manifestControllerExcludes } from '../archetype/constants/archetype.constants';
+import { manifestControllerExcludes } from '../archetype/constants/archetype.constants.js';
 
 describe('Constants', () => {
   it('should be return exclude to prefix global', async () => {

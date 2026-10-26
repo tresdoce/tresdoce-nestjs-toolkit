@@ -1,9 +1,10 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor, Scope } from '@nestjs/common';
-import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { Observable } from 'rxjs';
-import { Request } from 'express';
+import type { Request } from 'express';
 
-import { HttpClientService } from '../services/httpClient.service';
+import { HttpClientService } from '../services/httpClient.service.js';
+
+type HttpArgumentsHost = ReturnType<ExecutionContext['switchToHttp']>;
 
 @Injectable({ scope: Scope.REQUEST })
 export class HttpClientInterceptor<T> implements NestInterceptor<T, any> {

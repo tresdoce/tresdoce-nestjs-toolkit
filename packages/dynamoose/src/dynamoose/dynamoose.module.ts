@@ -1,19 +1,19 @@
 import { DynamicModule, flatten, Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-import { DynamooseCoreModule } from './dynamoose-core.module';
+import { DynamooseCoreModule } from './dynamoose-core.module.js';
 import {
   createDynamooseAsyncProviders,
   createDynamooseProviders,
-} from './providers/dynamoose.provider';
+} from './providers/dynamoose.provider.js';
 import {
   ModelDefinition,
   AsyncModelFactory,
   DynamooseModuleAsyncOptions,
   DynamooseModuleOptions,
-} from './interfaces';
+} from './interfaces/index.js';
 
-import { DYNAMOOSE_OPTIONS } from './constants/dynamoose.constant';
+import { DYNAMOOSE_OPTIONS } from './constants/dynamoose.constant.js';
 
 @Global()
 @Module({

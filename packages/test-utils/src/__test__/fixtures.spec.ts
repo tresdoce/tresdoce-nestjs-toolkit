@@ -7,7 +7,7 @@ import {
   TCPostgresOptions,
   TCElasticSearchOptions,
   TCDynamoDBOptions,
-} from '../fixtures';
+} from '../fixtures/index.js';
 
 const containerName_prefix = 'tresdoce-test-container';
 describe('Fixtures', () => {

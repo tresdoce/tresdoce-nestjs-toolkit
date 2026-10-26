@@ -1,8 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
-import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { NodeSDK } from '@opentelemetry/sdk-node';
-import { Resource, resourceFromAttributes } from '@opentelemetry/resources';
+import { resourceFromAttributes } from '@opentelemetry/resources';
 import { ATTR_SERVICE_NAME, ATTR_SERVICE_VERSION } from '@opentelemetry/semantic-conventions';
 import { AWSXRayIdGenerator } from '@opentelemetry/id-generator-aws-xray';
 import {
@@ -10,47 +9,47 @@ import {
   W3CBaggagePropagator,
   W3CTraceContextPropagator,
 } from '@opentelemetry/core';
-import { JaegerPropagator } from '@opentelemetry/propagator-jaeger';
 import { AWSXRayPropagator } from '@opentelemetry/propagator-aws-xray';
 import { B3InjectEncoding, B3Propagator } from '@opentelemetry/propagator-b3';
 import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
-import { minimatch } from 'minimatch';
-import _ from 'lodash';
 
-import { TracingOptions } from '../interfaces/tracing.interface';
-import { DEFAULT_IGNORE_PATHS } from '../constants/tracing.constant';
+import type { TracingOptions } from '../interfaces/tracing.interface.js';
+import { buildIgnorePaths, createIgnoreIncomingRequestHook } from '../utils/tracing.util.js';
 
-export const otelProvider = (_options: TracingOptions): void => {
+/** `deployment.environment.name` (semconv incubating, reemplaza a `deployment.environment`). */
+const ATTR_DEPLOYMENT_ENVIRONMENT_NAME = 'deployment.environment.name';
+
+/**
+ * Inicializa y arranca el SDK de OpenTelemetry (exporter OTLP HTTP/protobuf,
+ * instrumentación HTTP y propagadores W3C, Baggage, B3 y AWS X-Ray).
+ *
+ * Debe llamarse antes de crear la app de Nest para que la instrumentación HTTP
+ * pueda parchear los módulos `http`/`https`.
+ *
+ * @returns la instancia de `NodeSDK` iniciada (para llamar a `shutdown()` al
+ * cerrar la app) o `undefined` si no se pudo inicializar.
+ */
+export const otelProvider = (_options: TracingOptions): NodeSDK | undefined => {
   try {
-    const {
-      exporter,
-      resourceAttributes,
-      httpInstrumentation = { requireParentforIncomingSpans: false },
-      ignorePaths = [],
-    } = _options;
+    const { exporter, resourceAttributes, httpInstrumentation, ignorePaths } = _options;
+    const { serviceName, version, ...attributes } = resourceAttributes;
+    const ignorePathsToTracing = buildIgnorePaths(ignorePaths);
 
-    const ignorePathsToTracing = _.union(DEFAULT_IGNORE_PATHS, ignorePaths);
-
-    const traceExporter = new OTLPTraceExporter({
-      ...exporter,
+    const resource = resourceFromAttributes({
+      [ATTR_SERVICE_NAME]: serviceName,
+      [ATTR_SERVICE_VERSION]: version,
+      [ATTR_DEPLOYMENT_ENVIRONMENT_NAME]: attributes['deployment.environment'],
+      ...attributes,
     });
 
-    const spanProcessor = new BatchSpanProcessor(traceExporter);
-
-    const resource: Resource = resourceFromAttributes({
-      [ATTR_SERVICE_NAME]: resourceAttributes.serviceName,
-      [ATTR_SERVICE_VERSION]: resourceAttributes.version,
-      ...resourceAttributes,
-    });
-
-    new NodeSDK({
+    const sdk = new NodeSDK({
       resource,
       idGenerator: new AWSXRayIdGenerator(),
-      spanProcessors: [spanProcessor],
+      // NodeSDK envuelve el exporter en un BatchSpanProcessor.
+      traceExporter: new OTLPTraceExporter({ ...exporter }),
       textMapPropagator: new CompositePropagator({
         propagators: [
           new AWSXRayPropagator(),
-          new JaegerPropagator(),
           new W3CTraceContextPropagator(),
           new W3CBaggagePropagator(),
           new B3Propagator(),
@@ -59,18 +58,21 @@ export const otelProvider = (_options: TracingOptions): void => {
       }),
       instrumentations: [
         new HttpInstrumentation({
-          /* istanbul ignore next */
-          ignoreIncomingRequestHook(req) {
-            /* istanbul ignore next */
-            return ignorePathsToTracing.some((ignorePath) => minimatch(req.url, ignorePath));
-          },
+          requireParentforIncomingSpans: false,
+          ignoreIncomingRequestHook: createIgnoreIncomingRequestHook(ignorePathsToTracing),
           ...httpInstrumentation,
         }),
       ],
-    }).start();
+    });
+    sdk.start();
     Logger.log('Creating OpenTelemetry provider successfully!', 'TracingModule');
+    return sdk;
   } catch (_error) {
-    /* istanbul ignore next */
-    Logger.error('Error creating OpenTelemetry provider: ', _error, 'TracingModule');
+    Logger.error(
+      'Error creating OpenTelemetry provider',
+      _error instanceof Error ? _error.stack : String(_error),
+      'TracingModule',
+    );
+    return undefined;
   }
 };

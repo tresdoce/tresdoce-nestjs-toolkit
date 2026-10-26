@@ -1,2 +1,2 @@
-export * from './app.config.schema';
-export * from './app.config.schema.zod';
+export * from './app.config.schema.js';
+export * from './app.config.schema.joi.js';

@@ -1,6 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FormatService } from '../format/services/format.service';
-import { DEFAULT_FORMAT_DATE, DEFAULT_TIMEZONE_LOCALE } from '../format/constants/format.constant';
+import { FormatService } from '../format/services/format.service.js';
+import {
+  DEFAULT_FORMAT_DATE,
+  DEFAULT_TIMEZONE_LOCALE,
+} from '../format/constants/format.constant.js';
 
 describe('FormatService', () => {
   let service: FormatService;
@@ -70,6 +73,12 @@ describe('FormatService', () => {
       };
       expect(service.formatNumber({ num: 16, formatOptions })).toBe('16 litros');
     });
+
+    it('should normalize ICU narrow no-break spaces (U+202F) to regular spaces', () => {
+      const formatted = service.formatNumber({ num: 1234567.5, locale: 'fr-FR' });
+      expect(formatted).toBe('1 234 567,5');
+      expect(formatted).not.toMatch(/[\u00A0\u202F]/);
+    });
   });
 
   describe('formatDate', () => {
@@ -131,6 +140,15 @@ describe('FormatService', () => {
       ).toBe('20/12/2022 09:37:17.020');
     });
 
+    it('should normalize ICU special spaces in meridiem formats', () => {
+      const date = new Date(mockDate);
+      const enFormatted = service.formatDate({ date, formatDate: 't', locale: 'en-US' });
+      const esFormatted = service.formatDate({ date, formatDate: 'hh:mm a' });
+      expect(enFormatted).toBe('2:37 PM');
+      expect(esFormatted).toMatch(/^02:37 p\. ?m\.$/);
+      expect(`${enFormatted}${esFormatted}`).not.toMatch(/[\u00A0\u202F]/);
+    });
+
     it('should format date correctly to ISO with default configs', () => {
       const date = new Date(mockTimeStamp);
       expect(service.dateToISO({ date })).toBe('2023-07-12T12:06:29.957Z');
@@ -177,6 +195,26 @@ describe('FormatService', () => {
           options: { unit: 'seconds', addSuffix: true },
         }),
       ).toBe('0.015s');
+    });
+
+    it('should fallback to default unit when unit is explicitly undefined', () => {
+      expect(
+        service.calculateTimestampDiff({
+          startTime: 1689208308510,
+          endTime: 1689208310510,
+          options: { unit: undefined, addSuffix: true },
+        }),
+      ).toBe('2000ms');
+    });
+
+    it('should calculate diff between two timestamps in minutes with suffix', () => {
+      expect(
+        service.calculateTimestampDiff({
+          startTime: 0,
+          endTime: 90_000,
+          options: { unit: 'minutes', addSuffix: true },
+        }),
+      ).toBe('1.5min');
     });
   });
 });

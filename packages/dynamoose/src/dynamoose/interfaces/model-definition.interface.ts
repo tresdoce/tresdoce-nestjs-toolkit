@@ -1,6 +1,6 @@
-import { ModelTableOptions } from 'dynamoose/dist/Model';
-import { Schema, SchemaDefinition } from 'dynamoose/dist/Schema';
-import { SerializerOptions } from 'dynamoose/dist/Serializer';
+import { ModelTableOptions } from 'dynamoose/dist/Model/index.js';
+import { Schema, SchemaDefinition } from 'dynamoose/dist/Schema.js';
+import { SerializerOptions } from 'dynamoose/dist/Serializer.js';
 
 export type ModelDefinition = {
   name: string;

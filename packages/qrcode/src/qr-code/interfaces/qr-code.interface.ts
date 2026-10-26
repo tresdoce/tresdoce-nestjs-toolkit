@@ -14,8 +14,12 @@ export interface URLQR {
 export interface WiFiQR {
   type: 'wifi';
   ssid: string;
-  password: string;
-  encryption: 'WEP' | 'WPA' | 'WPA2';
+  /** Contraseña de la red. Se ignora cuando `encryption` es `'nopass'`. */
+  password?: string;
+  /** `'nopass'` para redes abiertas. */
+  encryption: 'WEP' | 'WPA' | 'WPA2' | 'nopass';
+  /** Indica si la red está oculta (agrega `H:true`). */
+  hidden?: boolean;
 }
 
 // VCard

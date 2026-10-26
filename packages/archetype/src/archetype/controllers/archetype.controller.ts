@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
-import { ArchetypeService } from '../services/archetype.service';
+import { ArchetypeService } from '../services/archetype.service.js';
 import { ApiExcludeEndpoint } from '@nestjs/swagger';
+import type { IArchetypeManifest } from '../interfaces/archetype.interface.js';
 
 @Controller()
 export class ArchetypeController {
@@ -8,7 +9,7 @@ export class ArchetypeController {
 
   @Get('info')
   @ApiExcludeEndpoint()
-  async getArchetypeInfo() {
+  async getArchetypeInfo(): Promise<IArchetypeManifest> {
     return this.archetypeService.generateManifest();
   }
 }

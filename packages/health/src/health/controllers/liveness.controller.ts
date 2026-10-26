@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SkipTrace } from '@tresdoce-nestjs-toolkit/tracing';
 
-import { LivenessResponse } from '../entities/liveness.entity';
+import { LivenessResponse } from '../entities/liveness.entity.js';
 import { Public } from '@tresdoce-nestjs-toolkit/core';
 
 @Controller('health')

@@ -1,4 +1,4 @@
-import { Roles, ROLES_KEY } from '../index';
+import { Roles, ROLES_KEY } from '../index.js';
 
 describe('Roles decorator', () => {
   it('should be defined', async () => {

@@ -1,4 +1,4 @@
-import { ExcludeFilter, EXCLUDE_FILTER_KEY } from '../index';
+import { ExcludeFilter, EXCLUDE_FILTER_KEY } from '../index.js';
 
 describe('ExcludeFilter decorator', () => {
   it('should be defined', async () => {

@@ -3,12 +3,12 @@ import { INestApplication } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { dynamicConfig } from '@tresdoce-nestjs-toolkit/test-utils';
 
-import { HttpClientModule } from '../http/httpClient.module';
+import { HttpClientModule } from '../http/httpClient.module.js';
 import {
   HttpModuleAsyncOptions,
   HttpModuleOptions,
   HttpModuleOptionsFactory,
-} from '../http/interfaces/http-module.interface';
+} from '../http/interfaces/http-module.interface.js';
 
 class MockedClass implements HttpModuleOptionsFactory {
   createHttpOptions(): HttpModuleOptions {

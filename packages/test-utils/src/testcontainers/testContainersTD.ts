@@ -1,14 +1,14 @@
 import {
   GenericContainer,
   RandomUuid,
-  StartedTestContainer,
-  StopOptions,
-  TestContainer,
+  type StartedTestContainer,
+  type StopOptions,
+  type TestContainer,
   Wait,
 } from 'testcontainers';
 import _ from 'lodash';
 
-import { ITestContainerOptions, Env } from './types';
+import type { ITestContainerOptions, Env } from './types.js';
 
 export default class TestContainersTD {
   private static _instance?: TestContainersTD;
@@ -17,12 +17,14 @@ export default class TestContainersTD {
   /* istanbul ignore next */
   constructor(
     private _image: string = 'postgres:13',
-    private _options?: ITestContainerOptions,
+    private _options: ITestContainerOptions = {},
     private _isSingleton: boolean = false,
   ) {
-    if (_isSingleton && TestContainersTD._instance)
-      throw new Error('Use testContainers.getInstance() instead of new.');
-    TestContainersTD._instance = this;
+    if (_isSingleton) {
+      if (TestContainersTD._instance)
+        throw new Error('Use testContainers.getInstance() instead of new.');
+      TestContainersTD._instance = this;
+    }
   }
 
   /**
@@ -100,11 +102,13 @@ export default class TestContainersTD {
   public async start(): Promise<void> {
     try {
       this._container = await this.prepareContainer(this._options).start();
-      global.hostContainer = this._container.getHost();
+      globalThis.hostContainer = this._container.getHost();
       console.info(`✨ Container initialized: ${this.getName()}`);
     } catch (e) {
       /* istanbul ignore next */
-      console.error(`😰 [${this._options.containerName}] Error initializing container: ${e}`);
+      console.error(
+        `😰 [${this._options?.containerName ?? this._image}] Error initializing container: ${e}`,
+      );
     }
   }
 
@@ -119,7 +123,9 @@ export default class TestContainersTD {
       console.info(`👌 Container stopped successfully: ${containerName}`);
     } catch (e) {
       /* istanbul ignore next */
-      console.error(`😒 [${this._options.containerName}] Container not initialized`);
+      console.error(
+        `😒 [${this._options?.containerName ?? this._image}] Container not initialized`,
+      );
     }
   }
 
@@ -130,7 +136,7 @@ export default class TestContainersTD {
    */
 
   /* istanbul ignore next */
-  public getEnvs(): Env {
+  public getEnvs(): Env | null {
     return _.has(this._options, 'envs') ? this._options.envs : null;
   }
 

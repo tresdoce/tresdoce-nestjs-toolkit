@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import _ from 'lodash';
-import { ExceptionResponse } from '../types';
+import type { ExceptionResponse, IErrorPayload } from '../types.js';
 
 /**
  *
@@ -14,7 +14,7 @@ export const getCode = (exResponse: ExceptionResponse | string): string => {
     return formatErrorCode(exResponse);
   }
 
-  if ('error' in exResponse && typeof exResponse.error === 'string') {
+  if (exResponse && typeof exResponse === 'object' && typeof exResponse.error === 'string') {
     return formatErrorCode(exResponse.error);
   }
 
@@ -39,27 +39,38 @@ export const buildErrorPayload = (
   apiPrefix: string,
   method: string,
   url: string,
-  exception: any,
-): { error: { status: number; instance: string; code: string; message: any; detail: any } } => {
+  exception: unknown,
+): IErrorPayload => {
   const instance = `${_.toUpper(method)} ${url}`;
-  let status: number = HttpStatus.INTERNAL_SERVER_ERROR;
+  const status: number =
+    exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
   let message: any;
   let detail: any;
 
+  // Custom status codes (e.g. 499) are not part of the HttpStatus enum: fall back to the numeric code.
+  const statusName: string = HttpStatus[status] ?? String(status);
+
   if (exception instanceof HttpException) {
-    status = exception.getStatus();
-    const exceptionResponse = getErrorMessage(exception.getResponse(), HttpStatus[status]);
+    const exceptionResponse = getErrorMessage(
+      exception.getResponse() as ExceptionResponse | string,
+      statusName,
+    );
     message = exceptionResponse.message;
     detail = exceptionResponse.detail;
+  } else if (typeof exception === 'string') {
+    message = exception;
   } else {
-    message = exception.message;
+    // Non-HttpException values (Error, plain objects, null/undefined) must never break the filter.
+    message =
+      (exception as { message?: unknown } | null | undefined)?.message ??
+      _.startCase(_.toLower(statusName));
   }
 
   return {
     error: {
       status,
       instance,
-      code: `${apiPrefix}-${getCode(HttpStatus[status])}`,
+      code: `${apiPrefix}-${getCode(statusName)}`,
       message,
       detail,
     },
@@ -80,7 +91,7 @@ export const getErrorMessage = (
 
   if (typeof exceptionResponse === 'string') {
     message = exceptionResponse;
-  } else {
+  } else if (exceptionResponse) {
     if (_.isArray(exceptionResponse.message)) {
       message = exceptionResponse.error;
       detail = _.map(exceptionResponse.message, (_message) => ({ message: _message }));

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { {{constantCase moduleName}}_MODULE_OPTIONS } from '../constants/{{camelCase moduleName}}.constant';
-import { {{pascalCase moduleName}}ModuleOptions } from '../interfaces/{{camelCase moduleName}}.interface';
+import { {{constantCase moduleName}}_MODULE_OPTIONS } from '../constants/{{camelCase moduleName}}.constant.js';
+import type { {{pascalCase moduleName}}ModuleOptions } from '../interfaces/{{camelCase moduleName}}.interface.js';
 
 @Injectable()
 export class {{pascalCase moduleName}}Service {

@@ -1,2 +1,2 @@
-export * from './csrf.guard';
-export * from './roles.guard';
+export * from './csrf.guard.js';
+export * from './roles.guard.js';

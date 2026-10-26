@@ -3,9 +3,10 @@
   "version": "0.3.3",
   "license": "MIT",
   "main": "",
-  "types": "index",
-  "dependencies": {
-    "jest-extended": "^7.0.0"
+  "types": "index.d.ts",
+  "type": "module",
+  "peerDependencies": {
+    "vitest": ">=4.0.0"
   },
   "scripts": {
     "tests": "echo \"Error: no test specified\"",

@@ -1,0 +1,56 @@
+{
+  "name": "@tresdoce-nestjs-toolkit/kafka",
+  "description": "Tresdoce NestJS Toolkit - Módulo de mensajería y streaming de eventos para la transferencia de datos en tiempo real entre aplicaciones y sistemas distribuidos.",
+  "version": "0.0.0",
+  "author": {
+    "name": "Maximiliano \"Mex\" Delgado",
+    "email": "mdelgado@tresdoce.com.ar",
+    "url": "https://rudemex.github.io/"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "keywords": [
+    "nestjs",
+    "kafka"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tresdoce/tresdoce-nestjs-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tresdoce/tresdoce-nestjs-toolkit/issues"
+  },
+  "homepage": "https://github.com/tresdoce/tresdoce-nestjs-toolkit#readme",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf ../../dist/kafka",
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/build-dist-package.mjs",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
+    "lint": "oxlint --type-aware src",
+    "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "../../dist/kafka"
+  },
+  "dependencies": {
+    "@kafkajs/confluent-schema-registry": "^4.1.0",
+    "@nestjs/common": "^12.2.0",
+    "@nestjs/config": "^12.0.1",
+    "@nestjs/core": "^12.2.0",
+    "@nestjs/microservices": "^12.2.0",
+    "@nestjs/platform-express": "^12.2.0",
+    "kafkajs": "^2.2.4",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@tresdoce-nestjs-toolkit/config": "^0.5.5",
+    "@types/tresdoce-nestjs-toolkit": "^0.3.3"
+  },
+  "type": "module"
+}

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   description: '✨ Generate new Package',
   prompts: [
     {
@@ -42,18 +42,8 @@ module.exports = {
       },
       {
         type: 'add',
-        path: 'packages/{{kebabCase packageName}}/jest.config.js',
-        templateFile: 'plops-templates/packages/basic/jest.config.js.hbs',
-      },
-      {
-        type: 'add',
-        path: 'packages/{{kebabCase packageName}}/jest.globalSetup.ts',
-        templateFile: 'plops-templates/packages/basic/jest.globalSetup.ts.hbs',
-      },
-      {
-        type: 'add',
-        path: 'packages/{{kebabCase packageName}}/jest.globalTeardown.ts',
-        templateFile: 'plops-templates/packages/basic/jest.globalTeardown.ts.hbs',
+        path: 'packages/{{kebabCase packageName}}/vitest.config.ts',
+        templateFile: 'plops-templates/packages/basic/vitest.config.ts.hbs',
       },
       {
         type: 'add',

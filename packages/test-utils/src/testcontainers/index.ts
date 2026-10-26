@@ -1,3 +1,3 @@
-export { default as testContainers } from './testContainersTD';
-export * from './globalTestContainersTD';
-export * from './types';
+export { default as testContainers } from './testContainersTD.js';
+export * from './globalTestContainersTD.js';
+export type * from './types.js';

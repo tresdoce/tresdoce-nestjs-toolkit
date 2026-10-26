@@ -1,27 +1,28 @@
-import { Injectable, Inject, Logger } from '@nestjs/common';
+import { Injectable, Inject, Logger, OnModuleDestroy } from '@nestjs/common';
 import {
   SQSClient,
   SendMessageCommand,
   ReceiveMessageCommand,
   DeleteMessageCommand,
   SendMessageCommandInput,
+  SendMessageCommandOutput,
   ReceiveMessageCommandInput,
   DeleteMessageCommandInput,
   Message,
 } from '@aws-sdk/client-sqs';
 
-import { AWS_SQS_MODULE_OPTIONS } from '../constants/aws-sqs.constant';
+import { AWS_SQS_MODULE_OPTIONS } from '../constants/aws-sqs.constant.js';
 import {
-  AwsSqsModuleOptions,
+  type AwsSqsModuleOptions,
   QueueConfig,
   SendMessageOptions,
-} from '../interfaces/aws-sqs.interface';
+} from '../interfaces/aws-sqs.interface.js';
 
 /**
  * Service to interact with AWS SQS, providing methods to send, receive, and delete messages.
  */
 @Injectable()
-export class AwsSqsService {
+export class AwsSqsService implements OnModuleDestroy {
   private readonly sqsClient: SQSClient;
   private readonly logger: Logger = new Logger(AwsSqsService.name);
 
@@ -30,13 +31,23 @@ export class AwsSqsService {
    * @param options Configuration options for AWS SQS.
    */
   constructor(@Inject(AWS_SQS_MODULE_OPTIONS) private readonly options: AwsSqsModuleOptions) {
-    this.sqsClient = new SQSClient(options);
+    // `queues` is a toolkit-only option; the rest is forwarded to the AWS SDK client.
+    const { queues: _queues, ...clientConfig } = options ?? ({} as AwsSqsModuleOptions);
+    this.sqsClient = new SQSClient(clientConfig);
+  }
+
+  /**
+   * Releases the underlying HTTP resources of the SQS client when the module is destroyed.
+   */
+  onModuleDestroy(): void {
+    this.sqsClient.destroy();
   }
 
   /**
    * Sends a message to the specified SQS queue.
    * If the message body is an object, it will be serialized to a string.
    * @param options Message options to send.
+   * @returns The `SendMessage` output from AWS (includes `MessageId`).
    * @throws Error if the specified queue is not found.
    * @example
    * await this.sqsService.sendMessage({
@@ -48,7 +59,7 @@ export class AwsSqsService {
    *   },
    * });
    */
-  async sendMessage(options: SendMessageOptions): Promise<void> {
+  async sendMessage(options: SendMessageOptions): Promise<SendMessageCommandOutput> {
     const queue: QueueConfig = this.getQueue(options.queueName);
     const body: string = this.serializeMessageBody(options.messageBody);
 
@@ -61,8 +72,9 @@ export class AwsSqsService {
       MessageDeduplicationId: options.deduplicationId,
     };
 
-    await this.sqsClient.send(new SendMessageCommand(commandInput));
-    this.logger.log(`Message sent to queue "${queue.name}": ${body}`);
+    const response = await this.sqsClient.send(new SendMessageCommand(commandInput));
+    this.logger.log(`Message sent to queue "${queue.name}" (MessageId: ${response?.MessageId}).`);
+    return response;
   }
 
   /**
@@ -98,7 +110,7 @@ export class AwsSqsService {
       return response.Messages;
     }
 
-    this.logger.log(`No messages available in queue "${queueName}".`);
+    this.logger.debug(`No messages available in queue "${queueName}".`);
     return [];
   }
 
@@ -129,7 +141,7 @@ export class AwsSqsService {
    * @throws Error if the queue is not found.
    */
   private getQueue(queueName: string): QueueConfig {
-    const queue: QueueConfig = this.options.queues.find(
+    const queue: QueueConfig | undefined = (this.options?.queues ?? []).find(
       (q: QueueConfig): boolean => q.name === queueName,
     );
     if (!queue) throw new Error(`Queue "${queueName}" not found`);

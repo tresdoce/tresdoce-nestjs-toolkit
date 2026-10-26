@@ -1,11 +1,12 @@
+import type { Mocked } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CallHandler, ExecutionContext, INestApplication } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { HttpClientService } from '../http/services/httpClient.service';
-import { HttpClientInterceptor } from '../http/interceptors/httpClient.interceptor';
-import { HttpClientModule } from '../http/httpClient.module';
-import { config } from './utils';
+import { HttpClientService } from '../http/services/httpClient.service.js';
+import { HttpClientInterceptor } from '../http/interceptors/httpClient.interceptor.js';
+import { HttpClientModule } from '../http/httpClient.module.js';
+import { config } from './utils/index.js';
 
 const mockRequestHeaders = {
   'some-header': 'header-value',
@@ -15,18 +16,18 @@ const mockRequest = {
   headers: mockRequestHeaders,
 };
 
-const executionContext: jest.Mocked<ExecutionContext> = {
-  switchToHttp: jest.fn().mockReturnValue({
-    getRequest: jest.fn().mockReturnValue(mockRequest),
-    getResponse: jest.fn().mockReturnThis(),
-    getType: jest.fn().mockReturnThis(),
-    getClass: jest.fn().mockReturnThis(),
-    getHandler: jest.fn().mockReturnThis(),
+const executionContext: Mocked<ExecutionContext> = {
+  switchToHttp: vi.fn().mockReturnValue({
+    getRequest: vi.fn().mockReturnValue(mockRequest),
+    getResponse: vi.fn().mockReturnThis(),
+    getType: vi.fn().mockReturnThis(),
+    getClass: vi.fn().mockReturnThis(),
+    getHandler: vi.fn().mockReturnThis(),
   }),
 } as any;
 
-const callHandler: jest.Mocked<CallHandler> = {
-  handle: jest.fn(),
+const callHandler: Mocked<CallHandler> = {
+  handle: vi.fn(),
 };
 
 describe('HttpInterceptor', () => {
@@ -49,6 +50,10 @@ describe('HttpInterceptor', () => {
 
     service = module.get<HttpClientService>(HttpClientService);
     interceptor = new HttpClientInterceptor(service);
+  });
+
+  afterEach(async () => {
+    await app.close();
   });
 
   it('should be defined', () => {

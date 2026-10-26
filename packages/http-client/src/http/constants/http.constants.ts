@@ -1,8 +1,7 @@
 import https from 'https';
-import { HttpModuleOptions } from '../interfaces/http-module.interface';
+import type { HttpModuleOptions } from '../interfaces/http-module.interface.js';
 
 export const AXIOS_INSTANCE_TOKEN = Symbol('AXIOS_INSTANCE_TOKEN');
-export const HTTP_MODULE_ID = Symbol('HTTP_MODULE_ID');
 export const HTTP_MODULE_OPTIONS = Symbol('HTTP_MODULE_OPTIONS');
 export const HTTP_MODULE_CONFIG = Symbol('HTTP_MODULE_CONFIG');
 export const HTTP_MODULE_PROPAGATE_HEADERS = Symbol('HTTP_MODULE_PROPAGATE_HEADERS');

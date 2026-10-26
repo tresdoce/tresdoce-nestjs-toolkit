@@ -1,9 +1,9 @@
-export { corePathsExcludes, excludePaths, corePathsExcludesGlobs } from './corePaths';
+export { corePathsExcludes, excludePaths, corePathsExcludesGlobs } from './corePaths.js';
 export {
-  ICsrfRequest,
+  type ICsrfRequest,
   getCsrfFromRequest,
   getSecretFromRequest,
   verify,
   csrfToken,
-  CsrfCookieOptions,
-} from './csrf-token';
+  type CsrfCookieOptions,
+} from './csrf-token.js';

@@ -1,19 +1,18 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
-import { SentMessageInfo, Transporter } from 'nodemailer';
-import _ from 'lodash';
+import type { SentMessageInfo, Transporter } from 'nodemailer';
 
-import { MAILER_OPTIONS, MAILER_TRANSPORT_FACTORY } from '../constants/mailer.constant';
-import { MailerTransportFactory } from '../factories/mailer-transport.factory';
+import { MAILER_OPTIONS, MAILER_TRANSPORT_FACTORY } from '../constants/mailer.constant.js';
+import { MailerTransportFactory } from '../factories/mailer-transport.factory.js';
 
-import { MailerOptions } from '../interfaces/mailer-options.interface';
-import { TemplateAdapter } from '../interfaces/template-adapter.interface';
-import { ISendMailOptions } from '../interfaces/send-mail-options.interface';
-import { MailerTransportFactory as IMailerTransportFactory } from '../interfaces/mailer-transport-factory.interface';
+import type { MailerOptions } from '../interfaces/mailer-options.interface.js';
+import type { TemplateAdapter } from '../interfaces/template-adapter.interface.js';
+import type { ISendMailOptions } from '../interfaces/send-mail-options.interface.js';
+import type { MailerTransportFactory as IMailerTransportFactory } from '../interfaces/mailer-transport-factory.interface.js';
 
 @Injectable()
 export class MailerService {
   private readonly transporter!: Transporter;
-  private transporters = new Map<string, Transporter>();
+  private readonly transporters = new Map<string, Transporter>();
 
   constructor(
     @Inject(MAILER_OPTIONS) private readonly mailerOptions: MailerOptions,
@@ -25,26 +24,23 @@ export class MailerService {
       this.transportFactory = new MailerTransportFactory(mailerOptions);
     }
 
-    if (
-      (!mailerOptions.transport || Object.keys(mailerOptions.transport).length <= 0) &&
-      !mailerOptions.transports
-    ) {
+    const hasTransport =
+      !!mailerOptions?.transport && Object.keys(mailerOptions.transport).length > 0;
+    if (!hasTransport && !mailerOptions?.transports) {
       throw new Error(
         'Make sure to provide a nodemailer transport configuration object, connection url or a transport plugin instance.',
       );
     }
 
     /** Adapter setup **/
-    const templateAdapter: TemplateAdapter = _.get(this.mailerOptions, 'template.adapter');
+    const templateAdapter: TemplateAdapter | undefined = this.mailerOptions.template?.adapter;
 
     /** Transporters setup **/
     if (mailerOptions.transports) {
       Object.keys(mailerOptions.transports).forEach((name) => {
-        this.transporters.set(
-          name,
-          this.transportFactory.createTransport(this.mailerOptions.transports[name]),
-        );
-        this.initTemplateAdapter(templateAdapter, this.transporters.get(name)!);
+        const transporter = this.transportFactory.createTransport(mailerOptions.transports[name]);
+        this.transporters.set(name, transporter);
+        this.initTemplateAdapter(templateAdapter, transporter);
       });
     }
 
@@ -58,7 +54,6 @@ export class MailerService {
   private initTemplateAdapter(templateAdapter: TemplateAdapter, transporter: Transporter): void {
     if (templateAdapter) {
       transporter.use('compile', (mail, callback) => {
-        /* istanbul ignore next */
         if (mail.data.html) {
           return callback();
         }
@@ -70,19 +65,18 @@ export class MailerService {
 
   public async sendMail(sendMailOptions: ISendMailOptions): Promise<SentMessageInfo> {
     if (sendMailOptions.transporterName) {
-      if (this.transporters?.get(sendMailOptions.transporterName)) {
-        return this.transporters.get(sendMailOptions.transporterName).sendMail(sendMailOptions);
-      } else {
+      const transporter = this.transporters.get(sendMailOptions.transporterName);
+      if (!transporter) {
         throw new ReferenceError(
           `Transporters object doesn't have ${sendMailOptions.transporterName} key`,
         );
       }
-    } else {
-      if (this.transporter) {
-        return this.transporter.sendMail(sendMailOptions);
-      } else {
-        throw new ReferenceError(`Transporter object undefined`);
-      }
+      return transporter.sendMail(sendMailOptions);
     }
+
+    if (!this.transporter) {
+      throw new ReferenceError(`Transporter object undefined`);
+    }
+    return this.transporter.sendMail(sendMailOptions);
   }
 }

@@ -1,24 +1,22 @@
 import { DynamicModule, Module, Provider, Global, Type } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
-import { Typings } from '@tresdoce-nestjs-toolkit/core';
 import Axios, { AxiosInstance } from 'axios';
 import axiosRetry from 'axios-retry';
 import _ from 'lodash';
 import {
   AXIOS_INSTANCE_TOKEN,
-  HTTP_MODULE_ID,
   HTTP_MODULE_OPTIONS,
   defaultConfigInstanceAxios,
   HTTP_MODULE_CONFIG,
   HTTP_MODULE_PROPAGATE_HEADERS,
-} from './constants/http.constants';
-import { HttpClientService } from './services/httpClient.service';
-import {
+} from './constants/http.constants.js';
+import { HttpClientService } from './services/httpClient.service.js';
+import type {
+  HttpClientConfig,
   HttpModuleAsyncOptions,
   HttpModuleOptions,
   HttpModuleOptionsFactory,
-} from './interfaces/http-module.interface';
+} from './interfaces/http-module.interface.js';
 
 const createAxiosRetry = (config: HttpModuleOptions = {}) => {
   const axiosInstanceConfig: HttpModuleOptions = _.merge({}, defaultConfigInstanceAxios, config);
@@ -37,19 +35,19 @@ const createAxiosRetry = (config: HttpModuleOptions = {}) => {
     HttpClientService,
     {
       provide: HTTP_MODULE_CONFIG,
-      useFactory: async (configService: ConfigService): Promise<Typings.IHttpClientConfig> =>
-        configService.get<Typings.IHttpClientConfig>('config.httpClient') || {},
+      useFactory: async (configService: ConfigService): Promise<HttpClientConfig> =>
+        configService.get<HttpClientConfig>('config.httpClient') || {},
       inject: [ConfigService],
     },
     {
       provide: HTTP_MODULE_PROPAGATE_HEADERS,
-      useFactory: async (httpClient: Typings.IHttpClientConfig): Promise<string[]> =>
+      useFactory: async (httpClient: HttpClientConfig): Promise<string[]> =>
         httpClient.propagateHeaders || [],
       inject: [HTTP_MODULE_CONFIG],
     },
     {
       provide: AXIOS_INSTANCE_TOKEN,
-      useFactory: async (httpClient: Typings.IHttpClientConfig): Promise<AxiosInstance> =>
+      useFactory: async (httpClient: HttpClientConfig): Promise<AxiosInstance> =>
         createAxiosRetry(httpClient.httpOptions),
       inject: [HTTP_MODULE_CONFIG],
     },
@@ -72,10 +70,6 @@ export class HttpClientModule {
           useFactory: async (configService: ConfigService): Promise<string[]> =>
             configService.get('config.httpClient.propagateHeaders') || [],
           inject: [ConfigService],
-        },
-        {
-          provide: HTTP_MODULE_ID,
-          useValue: randomStringGenerator(),
         },
       ],
       exports: [HttpClientService],
@@ -100,10 +94,6 @@ export class HttpClientModule {
           useFactory: async (configService: ConfigService): Promise<string[]> =>
             configService.get('config.httpClient.propagateHeaders') || [],
           inject: [ConfigService],
-        },
-        {
-          provide: HTTP_MODULE_ID,
-          useValue: randomStringGenerator(),
         },
       ],
       exports: [HttpClientService],

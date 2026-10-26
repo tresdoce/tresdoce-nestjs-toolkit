@@ -1,20 +1,21 @@
+import type { Mock } from 'vitest';
 import 'reflect-metadata';
 
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-import { TYPE_ORM_MODULE_OPTIONS } from '../typeorm/constants/typerom.constants';
-import { TypeOrmClientModule } from '../typeorm/typeorm.module';
-import { Post } from './utils/post.entity';
-import { User } from './utils/user.entity';
-import { configMongo, configMySql, configPostgres } from './utils';
+import { TYPE_ORM_MODULE_OPTIONS } from '../typeorm/constants/typeorm.constants.js';
+import { TypeOrmClientModule } from '../typeorm/typeorm.module.js';
+import { Post } from './utils/post.entity.js';
+import { User } from './utils/user.entity.js';
+import { configMongo, configMySql, configPostgres } from './utils/index.js';
 
-jest.mock('@nestjs/typeorm', () => ({
+vi.mock('@nestjs/typeorm', () => ({
   TypeOrmModule: {
-    forRootAsync: jest.fn(() => ({
+    forRootAsync: vi.fn(() => ({
       module: class MockTypeOrmRootModule {},
     })),
-    forFeature: jest.fn((features) => ({
+    forFeature: vi.fn((features) => ({
       module: class MockTypeOrmFeatureModule {},
       providers: [{ provide: 'FEATURES', useValue: features }],
       exports: ['FEATURES'],
@@ -31,7 +32,7 @@ describe('TypeOrmClientModule', () => {
       port: 5432,
       database: 'test_db',
     };
-    const rootAsyncOptions = (TypeOrmModule.forRootAsync as jest.Mock).mock.calls[0][0];
+    const rootAsyncOptions = (TypeOrmModule.forRootAsync as Mock).mock.calls[0][0];
 
     expect(typeOrmImports).toEqual(
       expect.arrayContaining([
@@ -59,7 +60,7 @@ describe('TypeOrmClientModule', () => {
       (provider) => provider.provide === TYPE_ORM_MODULE_OPTIONS,
     );
     const configService = {
-      get: jest.fn().mockReturnValue(options),
+      get: vi.fn().mockReturnValue(options),
     } as unknown as ConfigService;
 
     await expect(optionsProvider.useFactory(configService)).resolves.toEqual(options);
@@ -69,12 +70,18 @@ describe('TypeOrmClientModule', () => {
   it('should delegate forFeature to Nest TypeOrmModule', () => {
     const featureModule = TypeOrmClientModule.forFeature([Post, User]);
 
-    expect(TypeOrmModule.forFeature).toHaveBeenCalledWith([Post, User]);
+    expect(TypeOrmModule.forFeature).toHaveBeenCalledWith([Post, User], undefined);
     expect(featureModule).toEqual(
       expect.objectContaining({
         module: expect.any(Function),
       }),
     );
+  });
+
+  it('should forward the dataSource to Nest TypeOrmModule.forFeature', () => {
+    TypeOrmClientModule.forFeature([Post], 'secondary');
+
+    expect(TypeOrmModule.forFeature).toHaveBeenLastCalledWith([Post], 'secondary');
   });
 
   it('should expose database configs and test entities', () => {

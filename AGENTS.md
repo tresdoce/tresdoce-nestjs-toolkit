@@ -6,17 +6,20 @@ This file is machine-readable context for AI assistants working in this codebase
 
 ## 1. Project overview
 
-A NestJS monorepo that publishes ~22 independent packages to npm under the `@tresdoce-nestjs-toolkit` scope. All packages are designed to be consumed by [nestjs-starter](https://github.com/rudemex/nestjs-starter) or any project that follows its centralized-config architecture.
+A NestJS monorepo that publishes ~25 independent **ESM-only** packages to npm under the `@tresdoce-nestjs-toolkit` scope. All packages are designed to be consumed by [nestjs-starter](https://github.com/rudemex/nestjs-starter) or any project that follows its centralized-config architecture.
 
-| Dimension              | Detail                                                                    |
-| ---------------------- | ------------------------------------------------------------------------- |
-| Runtime                | Node.js v22.21.1                                                          |
-| Framework              | NestJS 11.x (`@nestjs/common`, `@nestjs/core`, etc.)                      |
-| Language               | TypeScript 6.x                                                            |
-| Package manager        | Yarn 1.22.22 (classic workspaces)                                         |
-| Monorepo orchestration | Lerna 9 + Turbo 2                                                         |
-| Build tool             | `@pika/pack` (NOT `tsc` directly)                                         |
-| Commit style           | Conventional Commits (`feat`, `fix`, `chore`, `docs`, `refactor`, `test`) |
+| Dimension              | Detail                                                                                                                                        |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| Runtime                | Node.js 22 (>= 22.22), 24 (default) and 26 — CI matrix and gulpfile.js. OpenTelemetry 3 needs >= 22.15 and testcontainers 12.2 needs >= 22.22 |
+| Module system          | ESM only (`"type": "module"`, TS `module: nodenext`)                                                                                          |
+| Framework              | NestJS 12.x (`@nestjs/common`, `@nestjs/core`, etc.)                                                                                          |
+| Language               | TypeScript 6.x                                                                                                                                |
+| Package manager        | Yarn 1.22.22 (classic workspaces)                                                                                                             |
+| Monorepo orchestration | Lerna 10 + Turbo 2                                                                                                                            |
+| Build tool             | `tsc` + `scripts/build-dist-package.mjs`                                                                                                      |
+| Tests / lint           | Vitest 5 (coverage: istanbul) / oxlint                                                                                                        |
+| Env validation         | Zod (default) via Standard Schema; Joi kept as deprecated `*Joi` exports                                                                      |
+| Commit style           | Conventional Commits (`feat`, `fix`, `chore`, `docs`, `refactor`, `test`)                                                                     |
 
 Packages live under `packages/<name>/src/`. Published artifacts are placed at `dist/<name>/` from the repo root.
 
@@ -102,28 +105,32 @@ Internal dependencies only (excludes NestJS peer deps and third-party libs):
 core         ← base (no internal deps)
 utils        ← base (no internal deps; contains RedactModule, FormatModule, BcryptModule)
 filters      ← core
-tracing      ← utils (FormatService)
-elk          ← utils (RedactModule, FormatService, RedactService)
+tracing      ← core (Typings), utils (FormatService); OpenTelemetry 3.x
+elk          ← core (excludePaths), filters (buildErrorPayload), utils (RedactModule, FormatService, RedactService)
 archetype    ← core (Typings.AppConfig)
-health       ← core (Typings), uses @nestjs/terminus (does NOT add internal deps)
+health       ← core (Public, Typings), tracing (SkipTrace); uses @nestjs/terminus 12 and ioredis (Redis ping)
 http-client  ← core (Typings.IHttpClientConfig)
 response-parser ← (no internal deps)
 rate-limit   ← (no internal deps; re-exports @nestjs/throttler)
 redis        ← (no internal deps)
 typeorm      ← (no internal deps; wraps @nestjs/typeorm)
-paas         ← core, filters, health, rate-limit, response-parser, tracing, utils
+logger       ← core (excludePaths), utils (RedactModule, FormatService); pino
+auth         ← core (IS_PUBLIC_KEY), redis (refresh tokens)
+paas         ← core, filters, health, logger, rate-limit, response-parser, tracing, utils
 
 Standalone (no internal deps):
-  aws-sqs, camunda, commons, dynamoose, mailer, qrcode, snowflake-uid, test-utils
+  aws-sqs, camunda, commons, database (Mongo), dynamoose, kafka, mailer, qrcode, snowflake-uid, test-utils
 ```
 
 Key facts:
 
 - `paas` depends on `rate-limit` but does **not** re-export it. Consuming apps must import `RateLimitModule` separately if needed standalone.
-- `elk` imports `filters` indirectly via `buildErrorPayload` from `@tresdoce-nestjs-toolkit/filters` in `ElkService`. The `elk/package.json` only lists `utils` as a direct dependency; `filters` is a transitive dep.
+- `elk` declares `core`, `filters` and `utils` as direct dependencies (it imports `excludePaths` and `buildErrorPayload` at runtime).
+- Every package must declare every module its `src` imports at runtime (including `@nestjs/config`); type-only imports of sibling packages from `core/src/typings` are the accepted exception.
+- `ExceptionsFilter` can be registered with `{ provide: APP_FILTER, useClass: ExceptionsFilter }` (it optionally injects `ConfigService` and reads `'config'`), or instantiated with `new ExceptionsFilter(appConfig)`.
 - `health` does NOT internally depend on `tracing`; `paas` depends on both independently.
-- `commons` is a dev-tooling package (ESLint config, build config, `jestConfig()` helper) — it is not a runtime dep.
-- `config` is a dev-tooling package (shared `tsconfig.json`) — it is only in `devDependencies`.
+- `commons` is a dev-tooling package for apps: `vitestConfig()` and an oxlint preset (`oxlint/oxlintrc.json`) — it is not a runtime dep.
+- `config` is a dev-tooling package (shared `tsconfig.json`, Vitest base config/setup/plugins) — it is only in `devDependencies`.
 - `tresdoce-types` is a global TypeScript types package — only in `devDependencies` as `@types/tresdoce-nestjs-toolkit`.
 
 ---
@@ -193,21 +200,53 @@ All `@Global()` modules need to be imported only once in `AppModule`. Importing 
 
 Several packages (archetype, health) use `CONFIG_OPTIONS = Symbol('CONFIG_OPTIONS')` to inject the full `Typings.AppConfig` into controllers/services. This is distinct from the `MODULE_OPTIONS` tokens used by data-source modules (redis, elk, typeorm).
 
+### Environment validation (Zod)
+
+`@nestjs/config` 12 validates `validationSchema` through Standard Schema (`schema['~standard'].validate`), so a Zod schema plugs in directly. `core` exports:
+
+```typescript
+import { z } from 'zod';
+import { validateSchemaForApp, validationSchemaCsrf } from '@tresdoce-nestjs-toolkit/paas';
+
+ConfigModule.forRoot({
+  isGlobal: true,
+  validationSchema: validateSchemaForApp({
+    ...validationSchemaCsrf, // CSRF_SECRET: optional, required + format-checked when APP_STAGE=prod
+    RICK_AND_MORTY_API_URL: z.url(),
+  }),
+});
+```
+
+- `baseValidationSchema` / `baseValidationSchemaApp` are `z.ZodRawShape`s (spread them).
+- Use `zBooleanFromEnv()` for env booleans (`'false'` → `false`; `z.coerce.boolean()` would return `true`) and `zNumberFromEnv()` for numbers.
+- The Joi versions are still exported with a `Joi` suffix (`validateSchemaForAppJoi`, ...) and marked `@deprecated`. Joi 18 also implements Standard Schema, so they keep working.
+
 ### Build output
 
 Each package builds to `../../dist/<name>` relative to its own directory, i.e., `<repo-root>/dist/<name>/`. The `publishConfig.directory` field in each `package.json` points to the same path. Consumers should never import from `dist/` — they import from the npm package name.
 
 ### TypeScript config
 
-Every package extends `@tresdoce-nestjs-toolkit/config` (i.e., `packages/config/tsconfig.json`). The tsconfig includes `"ignoreDeprecations": "6.0"` which is required for TypeScript 6.x compatibility. Key flags: `experimentalDecorators: true`, `emitDecoratorMetadata: true`, `strictNullChecks: false`, `strict: false`.
+Every package extends `@tresdoce-nestjs-toolkit/config` (i.e., `packages/config/tsconfig.json`). Key flags: `module`/`moduleResolution: nodenext`, `isolatedModules: true`, `experimentalDecorators: true`, `emitDecoratorMetadata: true`, `strictNullChecks: false`, `strict: false`. Each package has `tsconfig.json` (IDE + tests) and `tsconfig.build.json` (excludes tests, emits to `../../dist/<name>`).
+
+### ESM rules (enforced by tsc / Node at runtime)
+
+- Relative imports need the `.js` extension (`'./foo.js'`, `'./dir/index.js'`).
+- Types re-exported from an index must use `export type { ... }` (TS1205).
+- Types used in a decorated constructor (`@Inject(TOKEN) opts: SomeOptions`) must be imported with `import type` (TS1272). The same applies to `Typings` from core: always `import type { Typings }` (or `{ type Typings }`), otherwise Vite/oxc emits a runtime reference to it.
+- CommonJS dependencies: Node only exposes the named exports its lexer detects. When a named import fails at runtime (e.g. `ejs.compile`, `dynamoose.aws`, `camunda.Variables`), use the default import. `dist/` can be smoke-tested in plain Node (see section 6).
+- Deep imports into packages without an `exports` map need the file extension (`'dynamoose/dist/General.js'`). Nest 12 packages expose `./*`; types not exported from the root (e.g. `HttpArgumentsHost`) live in `@nestjs/common/internal` — prefer `ReturnType<ExecutionContext['switchToHttp']>`.
+- No `__dirname`/`require`: use `import.meta.dirname` and `import`.
 
 ### Test file locations
 
 - Unit/integration tests live in `src/__test__/` with `.spec.ts` extension.
-- Jest config is produced by `jestConfig()` from `@tresdoce-nestjs-toolkit/commons` (see `packages/commons/src/testing-library/index.ts`).
-- Test regex: `.*\.(spec|it|test|e2e|e2e-spec)\.(t|j)s$`
-- Roots searched: `<rootDir>/test/` and `<rootDir>/src/`
-- Coverage threshold: 80% for branches, functions, lines, and statements.
+- Each package has a `vitest.config.ts` that merges `@tresdoce-nestjs-toolkit/config/vitest` (`packages/config/vitest.config.base.ts`).
+- Included files: `src/**/*.{spec,it,test,e2e,e2e-spec}.ts`. Globals (`describe`, `it`, `vi`) are enabled.
+- Coverage threshold: 100% for branches, functions, lines, and statements (istanbul provider).
+- `packages/config/vitest.plugins.ts` excludes the decorator helpers emitted by oxc (`_decorate(...)`) from coverage; without it every decorated class reports an uncovered `typeof X === "undefined"` branch.
+- Vitest differences that bit during the migration: `clearMocks` is forced to `false` (Vitest 5 defaults to `true`); `vi.fn()` used with `new` needs a `function` implementation (not an arrow); variables used inside `vi.mock` factories must come from `vi.hoisted`; no `done()` callbacks; assertions must live inside `it`.
+- Vitest keeps a transform cache in `node_modules/.vitest-cache`; delete it after changing Vite plugins.
 
 ---
 
@@ -218,16 +257,12 @@ yarn build
   └─ prebuild: rimraf ./dist        (root-level)
   └─ turbo run build --concurrency=1
        └─ per-package: prebuild: rimraf ../../dist/<name>
-                       build: pika build --out ../../dist/<name>
+                       build: tsc -p tsconfig.build.json && node ../../scripts/build-dist-package.mjs
 ```
 
-`@pika/pack` pipeline per package (in package.json under `"@pika/pack"`):
+`tsc` emits ESM `.js` + `.d.ts` into `dist/<name>` (tests excluded by `tsconfig.build.json`). `scripts/build-dist-package.mjs` then writes the published `package.json` (`"type": "module"`, `exports` with `types`/`default`), copies README/CHANGELOG/license and any non-TS asset under `src/` (e.g. `test-utils` docker-compose.yml).
 
-1. `@pika/plugin-ts-standard-pkg` — compiles TypeScript to ESM dist
-2. `@pika/plugin-build-node` — builds CJS dist for Node.js
-3. `pika-plugin-package.json` — trims and adjusts the output `package.json`
-
-Tests from `src/__test__/` are excluded from the build pipeline via `"exclude"` in each plugin config.
+To smoke-test the published output in plain Node (no TS, no Vitest): symlink `dist/node_modules/@tresdoce-nestjs-toolkit/<name>` → `dist/<name>` and `import()` every package from a script inside `dist/`. This catches CommonJS named-import errors that tsc and Vitest do not.
 
 ---
 
@@ -242,18 +277,19 @@ yarn test   # turbo run test --concurrency=1 across all packages
 ### Per-package
 
 ```bash
-jest --runInBand --coverage --forceExit
+yarn test          # vitest run --coverage
+yarn test:watch    # vitest
 ```
 
 ### Integration tests with testcontainers
 
-Tests that require real infrastructure (Redis, PostgreSQL, DynamoDB, Elasticsearch) use the `testcontainers` library. Docker must be running.
+Tests that require real infrastructure (Redis, PostgreSQL, DynamoDB, Elasticsearch, Kafka) use the `testcontainers` library. Docker must be running. `kafka` starts `kafka` + `schema-registry` from the root `docker-compose.yml` through `packages/kafka/vitest.globalSetup.ts` (`initDockerCompose` / `closeDockerCompose` from test-utils).
 
 The `test-utils` package provides:
 
 - `config` — a pre-built `registerAs('config', ...)` fixture (`appConfigBase`) conforming to `Typings.AppConfig`
 - `testContainers` — helpers to start/stop containers in tests (`ITestContainerOptions`)
-- `JestFN` — jest mock helpers
+- `VitestFN` — Vitest mock helpers (`JestFN` is kept as a deprecated alias)
 - `createMock(options)` — creates a `nock` HTTP interceptor for unit testing HTTP calls
 - `cleanAllMock()` — clears all nock interceptors
 
@@ -261,7 +297,7 @@ The `test-utils` package provides:
 import {
   config,
   testContainers,
-  JestFN,
+  VitestFN,
   createMock,
   cleanAllMock,
 } from '@tresdoce-nestjs-toolkit/test-utils';
@@ -294,11 +330,11 @@ export * from '@tresdoce-nestjs-toolkit/utils';
 
 ### TerminusModule and health indicators
 
-`@nestjs/terminus` v11.1.x provides and exports all built-in health indicators (`HttpHealthIndicator`, `TypeOrmHealthIndicator`, `MicroserviceHealthIndicator`, etc.) directly from `TerminusModule`. Do NOT add them as explicit providers in `HealthModule` or application modules — they are already provided by `TerminusModule`.
+`@nestjs/terminus` v12 provides and exports all built-in health indicators (`HttpHealthIndicator`, `TypeOrmHealthIndicator`, `MicroserviceHealthIndicator`, etc.) directly from `TerminusModule`. Do NOT add them as explicit providers in `HealthModule` or application modules — they are already provided by `TerminusModule`.
 
 ### REQUEST-scoped interceptors
 
-Both `TracingInterceptor` (`@Injectable({ scope: Scope.REQUEST })`) and `HttpClientInterceptor` (`@Injectable({ scope: Scope.REQUEST })`) are request-scoped. This means any provider that injects them will also become request-scoped, propagating up the dependency tree. Be aware of this when adding these interceptors as providers.
+Both `TracingInterceptor` (`@Injectable({ scope: Scope.REQUEST })`, keeps no per-request state on the instance; `otelProvider()` returns the `NodeSDK` so apps can call `sdk.shutdown()`) and `HttpClientInterceptor` (`@Injectable({ scope: Scope.REQUEST })`) are request-scoped. This means any provider that injects them will also become request-scoped, propagating up the dependency tree. Be aware of this when adding these interceptors as providers.
 
 ### ElkService static config caching
 
@@ -382,14 +418,18 @@ Check individual `packages/<name>/package.json` for authoritative versions. The 
 │   ├── archetype/      — app info endpoint (@Global, bare @Module)
 │   ├── aws-sqs/        — AWS SQS client (standalone)
 │   ├── camunda/        — Camunda BPMN worker (standalone)
-│   ├── commons/        — dev tooling: ESLint config, jestConfig(), build config
-│   ├── config/         — shared tsconfig.json (devDep only)
-│   ├── core/           — Typings.AppConfig, decorators, guards, validators, utils
+│   ├── auth/           — JWT auth (AuthModule.register/registerAsync, TokenService, JwtAuthGuard)
+│   ├── commons/        — app tooling: vitestConfig(), oxlint preset
+│   ├── config/         — shared tsconfig.json + Vitest base config (devDep only)
+│   ├── core/           — Typings.AppConfig, decorators, guards (RolesGuard, CsrfGuard), Zod env schemas
+│   ├── database/       — MongoDB via @nestjs/mongoose (MongoModule)
 │   ├── dynamoose/      — DynamoDB via Dynamoose (standalone)
 │   ├── elk/            — Elasticsearch client + logging interceptor
 │   ├── filters/        — ExceptionsFilter (HTTP exception formatting)
 │   ├── health/         — /liveness and /readiness endpoints
 │   ├── http-client/    — Axios + axios-retry HttpClientService
+│   ├── kafka/          — Kafka producer/consumer, @SubscribeTo, Avro serializers
+│   ├── logger/         — pino LoggingService + LoggingInterceptor (structured logs)
 │   ├── mailer/         — NodeMailer wrapper (standalone)
 │   ├── paas/           — umbrella re-export of cross-cutting packages
 │   ├── qrcode/         — QR code generation (standalone)
@@ -403,7 +443,8 @@ Check individual `packages/<name>/package.json` for authoritative versions. The 
 │   ├── typeorm/        — TypeORM wrapper (TypeOrmClientModule)
 │   └── utils/          — RedactModule, FormatModule, BcryptModule
 ├── dist/               — build output (gitignored)
-├── plopfile.js         — package scaffolding templates
+├── scripts/            — build-dist-package.mjs (published package.json)
+├── plopfile.js         — package scaffolding templates (ESM)
 ├── turbo.json          — Turbo pipeline config
 ├── lerna.json          — Lerna versioning/publishing config
 └── package.json        — root workspaces, scripts, shared devDependencies

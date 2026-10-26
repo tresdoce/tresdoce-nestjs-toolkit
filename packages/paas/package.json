@@ -28,8 +28,10 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf ../../dist/paas",
-    "build": "pika build --out ../../dist/paas",
-    "test": "jest --runInBand --coverage --passWithNoTests",
+    "build": "tsc -p tsconfig.build.json && node ../../scripts/build-dist-package.mjs",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
+    "lint": "oxlint --type-aware src",
     "clean": "rimraf .turbo coverage test-results reports node_modules test-report.xml junit.xml debug.json"
   },
   "publishConfig": {
@@ -40,6 +42,7 @@
     "@tresdoce-nestjs-toolkit/core": "^2.1.0",
     "@tresdoce-nestjs-toolkit/filters": "^2.0.13",
     "@tresdoce-nestjs-toolkit/health": "^2.0.14",
+    "@tresdoce-nestjs-toolkit/logger": "^0.0.0",
     "@tresdoce-nestjs-toolkit/rate-limit": "^0.2.13",
     "@tresdoce-nestjs-toolkit/response-parser": "^2.0.13",
     "@tresdoce-nestjs-toolkit/tracing": "^2.0.13",
@@ -49,45 +52,5 @@
     "@tresdoce-nestjs-toolkit/config": "^0.5.5",
     "@types/tresdoce-nestjs-toolkit": "^0.3.3"
   },
-  "prettier": {
-    "semi": true,
-    "tabWidth": 2,
-    "singleQuote": true,
-    "printWidth": 100,
-    "trailingComma": "all"
-  },
-  "@pika/pack": {
-    "pipeline": [
-      [
-        "@pika/plugin-ts-standard-pkg",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "@pika/plugin-build-node",
-        {
-          "exclude": [
-            "**/__test__/*"
-          ]
-        }
-      ],
-      [
-        "pika-plugin-package.json",
-        {
-          "*files": [
-            "-bin/",
-            "-dist-*/",
-            "+dist-*/*",
-            "+CHANGELOG.md",
-            "+LICENSE.md",
-            "+package.json",
-            "+README.md"
-          ]
-        }
-      ]
-    ]
-  }
+  "type": "module"
 }

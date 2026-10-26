@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsString, IsArray, IsOptional } from '@nestjs/class-validator';
-import { FilterRule } from '../filtering.decorator';
+import { FilterRule } from '../filtering.decorator.js';
 
 export class FilteringCriteriaDto {
   @IsString()

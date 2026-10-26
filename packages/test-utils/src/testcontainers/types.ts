@@ -1,9 +1,9 @@
-import { StartedDockerComposeEnvironment } from 'testcontainers';
-import { PortWithOptionalBinding } from 'testcontainers/build/utils/port';
+import type { PortWithOptionalBinding, StartedDockerComposeEnvironment } from 'testcontainers';
 
 declare global {
-  // eslint-disable-next-line no-var
   var __TESTCONTAINERS__: StartedDockerComposeEnvironment | undefined;
+  /** Host of the last container started with `testContainers#start()`. */
+  var hostContainer: string | undefined;
 }
 
 export declare type Env = {

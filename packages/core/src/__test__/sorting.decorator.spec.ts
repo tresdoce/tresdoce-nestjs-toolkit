@@ -1,4 +1,4 @@
-import { Sorting, SortCriteria } from '../decorators';
+import { Sorting, type SortCriteria } from '../decorators/index.js';
 import { BadRequestException } from '@nestjs/common';
 import { ROUTE_ARGS_METADATA } from '@nestjs/common/constants';
 
@@ -42,6 +42,21 @@ describe('Sorting Decorator', () => {
     expect(result).toEqual([
       { field: 'user_id', order: 'asc' },
       { field: 'first_name', order: 'desc' },
+    ]);
+  });
+
+  it('should accept repeated sort query params (array)', () => {
+    const factory = getParamDecoratorFactory(Sorting);
+    const mockSorting = {
+      switchToHttp: () => ({
+        getRequest: () => ({
+          query: { sort: ['user_id:desc', 'first_name'] },
+        }),
+      }),
+    };
+    expect(factory(['user_id', 'first_name'], mockSorting)).toEqual([
+      { field: 'user_id', order: 'desc' },
+      { field: 'first_name', order: 'asc' },
     ]);
   });
 

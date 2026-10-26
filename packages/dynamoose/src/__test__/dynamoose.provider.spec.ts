@@ -1,19 +1,20 @@
-import * as dynamoose from 'dynamoose';
+import dynamoose from 'dynamoose';
 import {
   createDynamooseAsyncProviders,
   createDynamooseProviders,
-} from '../dynamoose/providers/dynamoose.provider';
-import { getModelToken } from '../dynamoose/common/index';
-import { AsyncModelFactory, ModelDefinition } from '../dynamoose/interfaces';
-import { DYNAMOOSE_INITIALIZATION } from '../dynamoose/constants/dynamoose.constant';
+} from '../dynamoose/providers/dynamoose.provider.js';
+import { getModelToken } from '../dynamoose/common/index.js';
+import { AsyncModelFactory, ModelDefinition } from '../dynamoose/interfaces/index.js';
+import { DYNAMOOSE_INITIALIZATION } from '../dynamoose/constants/dynamoose.constant.js';
 
-jest.mock('dynamoose', () => ({
-  model: jest.fn().mockImplementation((name, schema, options) => ({
+vi.mock('dynamoose', () => {
+  const model = vi.fn().mockImplementation((name, schema, options) => ({
     serializer: {
-      add: jest.fn(),
+      add: vi.fn(),
     },
-  })),
-}));
+  }));
+  return { default: { model }, model };
+});
 
 describe('Providers', () => {
   describe('createDynamooseProviders', () => {
@@ -123,7 +124,7 @@ describe('Providers', () => {
       const modelFactories: AsyncModelFactory[] = [
         {
           name: 'TestModel',
-          useFactory: jest.fn().mockReturnValue({
+          useFactory: vi.fn().mockReturnValue({
             id: String,
           }),
         },
@@ -154,7 +155,7 @@ describe('Providers', () => {
       const modelFactories: AsyncModelFactory[] = [
         {
           name: 'TestModel',
-          useFactory: jest.fn().mockReturnValue({
+          useFactory: vi.fn().mockReturnValue({
             schema: {
               id: String,
             },

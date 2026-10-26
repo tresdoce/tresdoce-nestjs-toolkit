@@ -1,5 +1,5 @@
 import { Global, Module } from '@nestjs/common';
-import { FormatService } from './services/format.service';
+import { FormatService } from './services/format.service.js';
 
 @Global()
 @Module({

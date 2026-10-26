@@ -1,4 +1,4 @@
-import { SortingParamsDto, SortCriteriaDto } from '../decorators';
+import { SortingParamsDto, SortCriteriaDto } from '../decorators/index.js';
 import { validate } from '@nestjs/class-validator';
 import { plainToClass } from '@nestjs/class-transformer';
 

@@ -1,5 +1,7 @@
-const path = require('path');
-const fs = require('fs');
+import path from 'node:path';
+import fs from 'node:fs';
+
+const __dirname = import.meta.dirname;
 
 const organizationName = 'tresdoce';
 const projectName = 'tresdoce-nestjs-toolkit';
@@ -15,7 +17,7 @@ fs.readdir(directoryPath, (err, files) => {
 
     const packages = listOfPackages.map((pkgName) => `${pkgName}`);
     console.log('• Packages: ', packages.join(', '));
-    console.log(`• Total packages: ${packages.length}`)
+    console.log(`• Total packages: ${packages.length}`);
 
     const sonarSources = listOfPackages.map((pkgName) => `./packages/${pkgName}/src`);
     const sonarTestExecutionReportPaths = listOfPackages.map(

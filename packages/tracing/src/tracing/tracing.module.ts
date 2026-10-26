@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
-import { TracingService } from './services/tracing.service';
-import { TracingInterceptor } from './interceptors/tracing.interceptor';
+import { TracingService } from './services/tracing.service.js';
+import { TracingInterceptor } from './interceptors/tracing.interceptor.js';
 import { FormatService } from '@tresdoce-nestjs-toolkit/utils';
 
 @Global()

@@ -9,35 +9,39 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        node: ['24.15.0']
+        # 24 is the default version (DEFAULT_NODE); keep in sync with gulpfile.js.
+        node: ['22', '24', '26']
     env:
+      DEFAULT_NODE: '24'
       DO_NOT_TRACK: 1
       TURBO_TELEMETRY_DISABLED: 1
-    name: 'Build'
+    name: 'Build (Node ${{ matrix.node }})'
     steps:
       - name: '⚙ Setup NodeJS v${{ matrix.node }}'
-        uses: actions/setup-node@v4.2.0
+        uses: actions/setup-node@v7.1.0
         with:
           node-version: ${{ matrix.node }}
 
       - name: '✅ Checkout repository'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
 
       - name: '💾 Restore Dependencies from cache'
-        uses: actions/cache@v4.2.2
+        uses: actions/cache@v6.1.0
         with:
           path: |
             node_modules
             */*/node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node${{ matrix.node }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-node${{ matrix.node }}-yarn-
 
       - name: '🦉 GitGuardian scan'
-        uses: GitGuardian/ggshield-action@v1.37.0
+        if: ${{ matrix.node == env.DEFAULT_NODE }}
+        uses: GitGuardian/ggshield-action@v1.56.0
         env:
           GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
           GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
@@ -49,6 +53,7 @@ jobs:
         run: yarn install
 
       - name: '💅 Lint'
+        if: ${{ matrix.node == env.DEFAULT_NODE }}
         run: yarn lint:format:check
 
       - name: '🔨 Build'
@@ -60,20 +65,22 @@ jobs:
           NODE_ENV: 'test'
 
       - name: '📊 Publish Test Report'
-        uses: dorny/test-reporter@v2
+        uses: dorny/test-reporter@v3.0.0
         if: ${{ !cancelled() }}
         with:
           name: 'Test Report (${{ matrix.node }})'
           path: 'packages/**/junit.xml'
-          reporter: jest-junit
+          reporter: java-junit
 
       - name: '📊 Upload coverage report to Codecov'
-        uses: codecov/codecov-action@v5.4.0
+        if: ${{ matrix.node == env.DEFAULT_NODE }}
+        uses: codecov/codecov-action@v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: '📊 SonarCloud Scan'
-        uses: sonarsource/sonarqube-scan-action@v5.0.0
+        if: ${{ matrix.node == env.DEFAULT_NODE }}
+        uses: sonarsource/sonarqube-scan-action@v8.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

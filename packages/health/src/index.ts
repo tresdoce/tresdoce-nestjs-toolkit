@@ -1,2 +1,2 @@
-export { HealthModule } from './health/health.module';
-export * from './health/constants';
+export { HealthModule } from './health/health.module.js';
+export * from './health/constants.js';

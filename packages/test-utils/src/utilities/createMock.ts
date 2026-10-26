@@ -1,15 +1,14 @@
-import nock, { Interceptor, Options, RequestHeaderMatcher } from 'nock';
-import { URL } from 'url';
+import nock, { type Interceptor, type Options, type RequestHeaderMatcher } from 'nock';
 
 /**
  * Supported HTTP methods for the mock.
  */
-type HttpMethod = 'get' | 'post' | 'put' | 'head' | 'patch' | 'delete' | 'options';
+export type HttpMethod = 'get' | 'post' | 'put' | 'head' | 'patch' | 'delete' | 'options';
 
 /**
  * Structure for expected query parameters.
  */
-type QueryParams = {
+export type QueryParams = {
   [key: string]: string | number | boolean | string[] | number[] | boolean[] | null | undefined;
 };
 
@@ -27,9 +26,10 @@ type RequestHeaderMatcherType = RequestHeaderMatcher | string;
  * @property {string | Record<string, unknown> | unknown[] | Buffer | (() => Record<string, unknown> | unknown[])} responseBody - The response body. Can be a string, object, array, Buffer, or function returning an object or array.
  * @property {Options & { reqheaders?: Record<string, RequestHeaderMatcherType> }} [options] - Optional nock configuration options.
  * @property {string | Record<string, unknown> | Buffer} [reqBody] - Optional expected request body.
- * @property {QueryParams} [queryParams] - Optional expected query parameters.
+ * @property {QueryParams} [queryParams] - Optional expected query parameters. When omitted, the query
+ * string of `url` (if any) is used as the expected query.
  */
-interface CreateMock {
+export interface CreateMock {
   url: string;
   method: HttpMethod;
   statusCode: number;
@@ -128,6 +128,8 @@ export const createMock = (_options: CreateMock): Interceptor => {
 
   if (queryParams) {
     interceptor.query(queryParams);
+  } else if (parsedUrl.search) {
+    interceptor.query(parsedUrl.searchParams);
   }
 
   interceptor.reply(statusCode, responseBody);

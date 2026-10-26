@@ -1,64 +1,48 @@
-import { AsyncTemplateFunction, ClientFunction, compile, TemplateFunction } from 'ejs';
-import _ from 'lodash';
-import * as fs from 'fs';
-import * as path from 'path';
-import { inline } from '@css-inline/css-inline';
+import ejs from 'ejs';
+import type { AsyncTemplateFunction, ClientFunction, TemplateFunction } from 'ejs';
+import * as fs from 'node:fs';
 
-import { MailerOptions } from '../interfaces/mailer-options.interface';
-import { TemplateAdapter } from '../interfaces/template-adapter.interface';
-import { TemplateAdapterConfig } from '../interfaces/template-adapter-config.interface';
-import { defaultConfigMailer, getTemplatePath } from '../utils/utils';
+import type { MailerOptions } from '../interfaces/mailer-options.interface.js';
+import type { TemplateAdapter } from '../interfaces/template-adapter.interface.js';
+import type { TemplateAdapterConfig } from '../interfaces/template-adapter-config.interface.js';
+import { applyRenderedHtml, buildAdapterConfig, getTemplatePath } from '../utils/utils.js';
 
 export class EjsAdapter implements TemplateAdapter {
   private precompiledTemplates: {
-    [name: string]: TemplateFunction | AsyncTemplateFunction | ClientFunction;
+    [templatePath: string]: TemplateFunction | AsyncTemplateFunction | ClientFunction;
   } = {};
 
-  private config: TemplateAdapterConfig = defaultConfigMailer;
+  private readonly config: TemplateAdapterConfig;
 
   constructor(config?: TemplateAdapterConfig) {
-    Object.assign(this.config, config);
+    this.config = buildAdapterConfig(config);
   }
 
-  public compile(mail: any, callback: any, mailerOptions: MailerOptions): void {
+  public compile(mail: any, callback: (err?: any) => any, mailerOptions: MailerOptions): void {
     const { context, template } = mail.data;
-    const templateName = path.basename(template, path.extname(template));
-    const templatePath = getTemplatePath(template, mailerOptions, '.ejs');
-    /* istanbul ignore next */
-    if (!this.precompiledTemplates[templateName]) {
-      try {
-        const templateEmail = fs.readFileSync(templatePath, 'utf-8');
+    const templatePath = getTemplatePath(template, mailerOptions?.template?.dir, '.ejs');
 
-        this.precompiledTemplates[templateName] = compile(templateEmail, {
-          ..._.get(mailerOptions, 'template.options', {}),
+    let rendered: string | Promise<string>;
+    try {
+      if (!this.precompiledTemplates[templatePath]) {
+        const templateEmail = fs.readFileSync(templatePath, 'utf-8');
+        this.precompiledTemplates[templatePath] = ejs.compile(templateEmail, {
+          ...mailerOptions?.template?.options,
           filename: templatePath,
         });
-      } catch (err) {
-        throw new Error(err);
       }
+      rendered = this.precompiledTemplates[templatePath](context);
+    } catch (error) {
+      return callback(error);
     }
 
-    const rendered = this.precompiledTemplates[templateName](context);
-
-    const render = (html: string) => {
-      if (this.config.inlineCssEnabled) {
-        try {
-          mail.data.html = inline(html, this.config.inlineCssOptions);
-        } catch (_error) {
-          /* istanbul ignore next */
-          callback(_error);
-        }
-      } else {
-        mail.data.html = html;
-      }
-      return callback();
-    };
-
-    /* istanbul ignore next */
     if (typeof rendered === 'string') {
-      render(rendered);
+      applyRenderedHtml(mail, rendered, this.config, callback);
     } else {
-      rendered.then(render).catch((_error) => _error);
+      rendered.then(
+        (html) => applyRenderedHtml(mail, html, this.config, callback),
+        (error) => callback(error),
+      );
     }
   }
 }

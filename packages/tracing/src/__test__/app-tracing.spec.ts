@@ -3,15 +3,16 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
 import { config } from '@tresdoce-nestjs-toolkit/test-utils';
-import { IncomingHttpHeaders } from 'http';
+import type { IncomingHttpHeaders } from 'node:http';
 import { lastValueFrom, of } from 'rxjs';
+import type { NodeSDK } from '@opentelemetry/sdk-node';
 
-import { AppModule } from './app/app.module';
-import { CatsController } from './app/cats/cats.controller';
-import { CatsService } from './app/cats/cats.service';
-import { TracingInterceptor } from '../tracing/interceptors/tracing.interceptor';
-import { otelProvider } from '../tracing/providers/otel.provider';
-import { TracingService } from '../tracing/services/tracing.service';
+import { AppModule } from './app/app.module.js';
+import { CatsController } from './app/cats/cats.controller.js';
+import { CatsService } from './app/cats/cats.service.js';
+import { TracingInterceptor } from '../tracing/interceptors/tracing.interceptor.js';
+import { otelProvider } from '../tracing/providers/otel.provider.js';
+import { TracingService } from '../tracing/services/tracing.service.js';
 
 const configOtel = {
   resourceAttributes: {
@@ -22,6 +23,7 @@ const configOtel = {
   },
   exporter: {
     url: 'http://localhost:4318/v1/traces',
+    timeoutMillis: 500,
   },
 };
 
@@ -32,14 +34,14 @@ const createExecutionContext = (
   response: Record<string, any>,
 ) =>
   ({
-    switchToHttp: jest.fn(() => ({
-      getRequest: jest.fn(() => request),
-      getResponse: jest.fn(() => response),
+    switchToHttp: vi.fn(() => ({
+      getRequest: vi.fn(() => request),
+      getResponse: vi.fn(() => response),
     })),
-    getType: jest.fn(() => 'http'),
-    getClass: jest.fn(() => CatsController),
-    getHandler: jest.fn(() => handler),
-    set: jest.fn().mockReturnThis(),
+    getType: vi.fn(() => 'http'),
+    getClass: vi.fn(() => CatsController),
+    getHandler: vi.fn(() => handler),
+    set: vi.fn().mockReturnThis(),
   }) as any;
 
 describe('Tracing', () => {
@@ -49,6 +51,7 @@ describe('Tracing', () => {
   let tracingService: TracingService;
   let configService: ConfigService;
   let interceptor: TracingInterceptor;
+  let sdk: NodeSDK | undefined;
 
   beforeAll(async () => {
     moduleFixture = await Test.createTestingModule({
@@ -61,7 +64,7 @@ describe('Tracing', () => {
       ],
     }).compile();
 
-    await otelProvider(configOtel);
+    sdk = otelProvider(configOtel);
 
     catsController = await moduleFixture.resolve<CatsController>(CatsController);
     catsService = await moduleFixture.resolve<CatsService>(CatsService);
@@ -72,6 +75,8 @@ describe('Tracing', () => {
 
   afterAll(async () => {
     await moduleFixture.close();
+    // Sin collector local el flush final falla con ECONNREFUSED.
+    await sdk?.shutdown().catch(() => undefined);
   });
 
   it('should be defined', () => {
@@ -79,6 +84,7 @@ describe('Tracing', () => {
     expect(catsService).toBeDefined();
     expect(tracingService).toBeDefined();
     expect(interceptor).toBeDefined();
+    expect(sdk).toBeDefined();
   });
 
   it('should intercept requests and add tracing headers', async () => {
@@ -92,7 +98,7 @@ describe('Tracing', () => {
     };
     const response = {
       statusCode: 200,
-      set: jest.fn(),
+      set: vi.fn(),
     };
     const context = createExecutionContext(
       catsController,
@@ -101,11 +107,11 @@ describe('Tracing', () => {
       response,
     );
     const callHandler = {
-      handle: jest.fn(() => of(catsService.findAll())),
+      handle: vi.fn(() => of(catsService.findAll())),
     };
 
-    const result = await interceptor.intercept(context, callHandler);
-    await lastValueFrom(result as any);
+    const result = interceptor.intercept(context, callHandler);
+    await lastValueFrom(result);
 
     expect(callHandler.handle).toHaveBeenCalledTimes(1);
     expect(response.set).toHaveBeenCalledWith(expect.any(Object));
@@ -115,7 +121,7 @@ describe('Tracing', () => {
   it('should skip tracing when the route handler is decorated with SkipTrace', async () => {
     const response = {
       statusCode: 200,
-      set: jest.fn(),
+      set: vi.fn(),
     };
     const context = createExecutionContext(
       catsController,
@@ -130,11 +136,11 @@ describe('Tracing', () => {
       response,
     );
     const callHandler = {
-      handle: jest.fn(() => of(catsService.findOne(1))),
+      handle: vi.fn(() => of(catsService.findOne(1))),
     };
 
-    const result = await interceptor.intercept(context, callHandler);
-    await lastValueFrom(result as any);
+    const result = interceptor.intercept(context, callHandler);
+    await lastValueFrom(result);
 
     expect(callHandler.handle).toHaveBeenCalledTimes(1);
     expect(response.set).not.toHaveBeenCalled();
@@ -155,9 +161,12 @@ describe('Tracing', () => {
       host: 'localhost',
       'tracing-tag': '27',
     };
-    const parentSpanContext = tracingService.getParentSpanOptions(headers);
-    const span = tracingService.startActiveSpan('/cats', parentSpanContext);
-    const setAttributeSpy = jest.spyOn(span, 'setAttribute');
+    const span = tracingService.startActiveSpan(
+      '/cats',
+      {},
+      tracingService.getParentContext(headers),
+    );
+    const setAttributeSpy = vi.spyOn(span, 'setAttribute');
 
     tracingService.setSpanContext(headers);
     tracingService.propagateSpanContext(headers);

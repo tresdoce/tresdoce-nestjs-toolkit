@@ -1,4 +1,4 @@
-import { Typings } from '@tresdoce-nestjs-toolkit/core';
+import type { Typings } from '@tresdoce-nestjs-toolkit/core';
 import { appConfigBase } from '@tresdoce-nestjs-toolkit/test-utils';
 import { registerAs } from '@nestjs/config';
 
@@ -15,7 +15,7 @@ export default registerAs('config', (): Typings.AppConfig => {
         database: encodeURIComponent('test_db'),
         synchronize: true,
         autoLoadEntities: true,
-        entities: [__dirname + '/**/post.entity{.ts,.js}'],
+        entities: [import.meta.dirname + '/**/post.entity{.ts,.js}'],
       },
     },
   };

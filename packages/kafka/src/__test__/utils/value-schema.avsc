@@ -1,0 +1,29 @@
+{
+  "type": "record",
+  "namespace": "testTopic",
+  "name": "value",
+  "fields": [
+    {
+      "name": "id",
+      "type": "int"
+    },
+    {
+      "name": "firstName",
+      "type": "string"
+    },
+    {
+      "name": "lastName",
+      "type": "string"
+    },
+    {
+      "name": "__table",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "__deleted",
+      "type": ["null", "string"],
+      "default": null
+    }
+  ]
+}
