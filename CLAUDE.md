@@ -283,7 +283,7 @@ yarn test:watch    # vitest
 
 ### Integration tests with testcontainers
 
-Tests that require real infrastructure (Redis, PostgreSQL, DynamoDB, Elasticsearch, Kafka) use the `testcontainers` library. Docker must be running. `kafka` starts `kafka` + `schema-registry` from the root `docker-compose.yml` through `packages/kafka/vitest.globalSetup.ts` (`initDockerCompose` / `closeDockerCompose` from test-utils).
+Tests that require real infrastructure (Redis, PostgreSQL, DynamoDB, Elasticsearch, Kafka) use the `testcontainers` library. Docker must be running. `kafka` starts Kafka (KRaft) + Schema Registry with testcontainers (`@testcontainers/kafka`) on a private network in `packages/kafka/vitest.globalSetup.ts`, and passes their real addresses to the tests with Vitest `provide`/`inject` (`kafkaBroker`, `schemaRegistryUrl`). Tests must never rely on a `docker` hostname: it only resolves on machines with a hosts entry, not on CI runners.
 
 The `test-utils` package provides:
 
