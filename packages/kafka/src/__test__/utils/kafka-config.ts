@@ -1,11 +1,23 @@
-import { KafkaModuleOptions } from '../../kafka/interfaces/kafka.interface.js';
+import { inject } from 'vitest';
+import type { KafkaModuleOptions } from '../../kafka/interfaces/kafka.interface.js';
 
-const dockerTestHost = process.env.DOCKER_TEST_HOST || 'docker';
+declare module 'vitest' {
+  export interface ProvidedContext {
+    /** `host:port` of the Kafka broker started by vitest.globalSetup.ts. */
+    kafkaBroker: string;
+    /** Base URL of the Schema Registry started by vitest.globalSetup.ts. */
+    schemaRegistryUrl: string;
+  }
+}
+
+/** Real addresses of the containers started in vitest.globalSetup.ts. */
+export const kafkaBroker = inject('kafkaBroker');
+export const schemaRegistryUrl = inject('schemaRegistryUrl');
 
 export const kafkaTestBaseConfig: KafkaModuleOptions = {
   client: {
     clientId: 'nestjs-test',
-    brokers: [`${dockerTestHost}:9092`],
+    brokers: [kafkaBroker],
     retry: {
       initialRetryTime: 1000,
       retries: 10,

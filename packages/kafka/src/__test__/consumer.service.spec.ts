@@ -7,7 +7,7 @@ import { randomUUID } from 'node:crypto';
 import { join } from 'path';
 
 import { KafkaModule } from '../kafka/kafka.module.js';
-import { kafkaTestBaseConfig } from './utils/kafka-config.js';
+import { kafkaTestBaseConfig, schemaRegistryUrl } from './utils/kafka-config.js';
 import { ConsumerService } from '../kafka/services/consumer.service.js';
 import { ProducerService } from '../kafka/services/producer.service.js';
 import { KafkaMessage, KafkaResponse } from '../kafka/interfaces/kafka.interface.js';
@@ -17,8 +17,7 @@ import { KafkaAvroRequestSerializer } from '../kafka/serializer/kafka-avro-reque
 
 const TOPIC_NAME = 'testTopic';
 const TOPIC_NAME_A = 'testTopicA';
-const dockerTestHost = process.env.DOCKER_TEST_HOST || 'docker';
-const schemaRegistryHost = `http://${dockerTestHost}:8085`;
+const schemaRegistryHost = schemaRegistryUrl;
 const kafkaDebug = process.env.KAFKA_TEST_DEBUG === 'true';
 
 vi.setConfig({ testTimeout: 45000 });
