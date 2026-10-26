@@ -71,6 +71,13 @@ vi.mock('testcontainers', () => ({
   }),
 }));
 
+const { removeContainerByNameMock } = vi.hoisted(() => ({ removeContainerByNameMock: vi.fn() }));
+
+vi.mock('../utilities/docker-retry.js', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../utilities/docker-retry.js')>()),
+  removeContainerByName: removeContainerByNameMock,
+}));
+
 import { Wait } from 'testcontainers';
 
 import { testContainers } from '../testcontainers/index.js';
@@ -232,5 +239,44 @@ describe('TestContainers', () => {
       '😒 [redis:8.2.1-alpine] Container not initialized',
     );
     consoleErrorSpy.mockRestore();
+  });
+
+  describe('transient Docker errors', () => {
+    const epipe = Object.assign(new Error('write EPIPE'), { code: 'EPIPE' });
+
+    beforeEach(() => {
+      vi.useFakeTimers();
+      vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+      vi.restoreAllMocks();
+    });
+
+    it('should retry the start and remove the half-created container with the fixed name', async () => {
+      mockStart.mockRejectedValueOnce(epipe).mockResolvedValue(mockStartedContainer);
+      const container = new testContainers('mongo:8.0', { containerName: 'fixed-name' });
+
+      const started = container.start();
+      await vi.advanceTimersByTimeAsync(2000);
+      await started;
+
+      expect(mockStart).toHaveBeenCalledTimes(2);
+      expect(removeContainerByNameMock).toHaveBeenCalledWith('fixed-name');
+      expect(container.isStarted()).toBe(true);
+    });
+
+    it('should retry without removing anything when the container has no fixed name', async () => {
+      mockStart.mockRejectedValueOnce(epipe).mockResolvedValue(mockStartedContainer);
+      const container = new testContainers('mongo:8.0');
+
+      const started = container.start();
+      await vi.advanceTimersByTimeAsync(2000);
+      await started;
+
+      expect(mockStart).toHaveBeenCalledTimes(2);
+      expect(removeContainerByNameMock).not.toHaveBeenCalled();
+    });
   });
 });

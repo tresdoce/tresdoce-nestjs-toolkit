@@ -9,6 +9,7 @@ import {
 import _ from 'lodash';
 
 import type { ITestContainerOptions, Env } from './types.js';
+import { removeContainerByName, retryOnTransientDockerError } from '../utilities/docker-retry.js';
 
 export default class TestContainersTD {
   private static _instance?: TestContainersTD;
@@ -101,7 +102,12 @@ export default class TestContainersTD {
    */
   public async start(): Promise<void> {
     try {
-      this._container = await this.prepareContainer(this._options).start();
+      const containerName = this._options?.containerName;
+      this._container = await retryOnTransientDockerError(
+        () => this.prepareContainer(this._options).start(),
+        // A failed attempt may leave a container with the fixed name behind.
+        { onRetry: () => (containerName ? removeContainerByName(containerName) : undefined) },
+      );
       globalThis.hostContainer = this._container.getHost();
       console.info(`✨ Container initialized: ${this.getName()}`);
     } catch (e) {
